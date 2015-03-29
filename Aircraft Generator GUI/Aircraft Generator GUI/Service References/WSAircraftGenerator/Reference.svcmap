@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="ef2252e8-a267-4863-b876-b2e7158ab72e" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="17761186-b3b9-4ecf-91c3-02d3ec4373c6" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
   <ClientOptions>
     <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
     <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
@@ -22,8 +22,8 @@
     <MetadataSource Address="http://airport-dko-aircraft-generator.azurewebsites.net/aircraftgenerator.asmx" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="aircraftgenerator.disco" MetadataType="Disco" ID="5d9a1940-9186-450b-b56c-1cb5336756a4" SourceId="1" SourceUrl="http://airport-dko-aircraft-generator.azurewebsites.net/aircraftgenerator.asmx?disco" />
-    <MetadataFile FileName="aircraftgenerator.wsdl" MetadataType="Wsdl" ID="996891d5-5a0e-47a9-b38e-c01fdee23891" SourceId="1" SourceUrl="http://airport-dko-aircraft-generator.azurewebsites.net/aircraftgenerator.asmx?wsdl" />
+    <MetadataFile FileName="aircraftgenerator.disco" MetadataType="Disco" ID="ec41d909-e110-409e-ae2f-b5a80a0a025f" SourceId="1" SourceUrl="http://airport-dko-aircraft-generator.azurewebsites.net/aircraftgenerator.asmx?disco" />
+    <MetadataFile FileName="aircraftgenerator.wsdl" MetadataType="Wsdl" ID="1c9820a0-f818-496d-aa1e-d774b97fd316" SourceId="1" SourceUrl="http://airport-dko-aircraft-generator.azurewebsites.net/aircraftgenerator.asmx?wsdl" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

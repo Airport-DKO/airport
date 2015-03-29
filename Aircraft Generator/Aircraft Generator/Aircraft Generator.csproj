@@ -74,6 +74,8 @@
       <DependentUpon>AircraftGenerator.asmx</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Commons\City.cs" />
+    <Compile Include="Commons\Flight.cs" />
     <Compile Include="Commons\Plane.cs" />
     <Compile Include="Commons\PlaneState.cs" />
     <Compile Include="Commons\PlaneType.cs" />

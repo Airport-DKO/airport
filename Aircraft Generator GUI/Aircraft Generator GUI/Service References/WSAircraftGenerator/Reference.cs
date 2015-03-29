@@ -38,6 +38,9 @@ namespace Aircraft_Generator_GUI.WSAircraftGenerator {
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string NameField;
         
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private Aircraft_Generator_GUI.WSAircraftGenerator.Flight FlightField;
+        
         private Aircraft_Generator_GUI.WSAircraftGenerator.PlaneState StateField;
         
         private Aircraft_Generator_GUI.WSAircraftGenerator.PlaneType TypeField;
@@ -86,7 +89,20 @@ namespace Aircraft_Generator_GUI.WSAircraftGenerator {
             }
         }
         
-        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true)]
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=2)]
+        public Aircraft_Generator_GUI.WSAircraftGenerator.Flight Flight {
+            get {
+                return this.FlightField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.FlightField, value) != true)) {
+                    this.FlightField = value;
+                    this.RaisePropertyChanged("Flight");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true, Order=3)]
         public Aircraft_Generator_GUI.WSAircraftGenerator.PlaneState State {
             get {
                 return this.StateField;
@@ -99,7 +115,7 @@ namespace Aircraft_Generator_GUI.WSAircraftGenerator {
             }
         }
         
-        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true)]
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true, Order=4)]
         public Aircraft_Generator_GUI.WSAircraftGenerator.PlaneType Type {
             get {
                 return this.TypeField;
@@ -112,7 +128,7 @@ namespace Aircraft_Generator_GUI.WSAircraftGenerator {
             }
         }
         
-        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true, Order=4)]
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true, Order=5)]
         public int FuelNeed {
             get {
                 return this.FuelNeedField;
@@ -125,7 +141,7 @@ namespace Aircraft_Generator_GUI.WSAircraftGenerator {
             }
         }
         
-        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true, Order=5)]
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true, Order=6)]
         public int MaxStandartPassengers {
             get {
                 return this.MaxStandartPassengersField;
@@ -138,7 +154,7 @@ namespace Aircraft_Generator_GUI.WSAircraftGenerator {
             }
         }
         
-        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true, Order=6)]
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true, Order=7)]
         public int MaxVipPassengers {
             get {
                 return this.MaxVipPassengersField;
@@ -151,7 +167,7 @@ namespace Aircraft_Generator_GUI.WSAircraftGenerator {
             }
         }
         
-        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true, Order=7)]
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true, Order=8)]
         public bool HasArrivalPassengers {
             get {
                 return this.HasArrivalPassengersField;
@@ -160,6 +176,95 @@ namespace Aircraft_Generator_GUI.WSAircraftGenerator {
                 if ((this.HasArrivalPassengersField.Equals(value) != true)) {
                     this.HasArrivalPassengersField = value;
                     this.RaisePropertyChanged("HasArrivalPassengers");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="Flight", Namespace="DKO-Ariport-Aircraft-Generator")]
+    [System.SerializableAttribute()]
+    public partial class Flight : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        private int FlightNumberField;
+        
+        private Aircraft_Generator_GUI.WSAircraftGenerator.City CityField;
+        
+        private System.DateTime ArrivalTimeField;
+        
+        private System.DateTime DepartureTimeField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true)]
+        public int FlightNumber {
+            get {
+                return this.FlightNumberField;
+            }
+            set {
+                if ((this.FlightNumberField.Equals(value) != true)) {
+                    this.FlightNumberField = value;
+                    this.RaisePropertyChanged("FlightNumber");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true, Order=1)]
+        public Aircraft_Generator_GUI.WSAircraftGenerator.City City {
+            get {
+                return this.CityField;
+            }
+            set {
+                if ((this.CityField.Equals(value) != true)) {
+                    this.CityField = value;
+                    this.RaisePropertyChanged("City");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true, Order=2)]
+        public System.DateTime ArrivalTime {
+            get {
+                return this.ArrivalTimeField;
+            }
+            set {
+                if ((this.ArrivalTimeField.Equals(value) != true)) {
+                    this.ArrivalTimeField = value;
+                    this.RaisePropertyChanged("ArrivalTime");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true, Order=3)]
+        public System.DateTime DepartureTime {
+            get {
+                return this.DepartureTimeField;
+            }
+            set {
+                if ((this.DepartureTimeField.Equals(value) != true)) {
+                    this.DepartureTimeField = value;
+                    this.RaisePropertyChanged("DepartureTime");
                 }
             }
         }
@@ -195,6 +300,32 @@ namespace Aircraft_Generator_GUI.WSAircraftGenerator {
         
         [System.Runtime.Serialization.EnumMemberAttribute()]
         Departed = 5,
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="City", Namespace="DKO-Ariport-Aircraft-Generator")]
+    public enum City : int {
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        Tokyo = 0,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        Paris = 1,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        Rome = 2,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        NewYork = 3,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        Sydney = 4,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        Brasilia = 5,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        Antananarivo = 6,
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]

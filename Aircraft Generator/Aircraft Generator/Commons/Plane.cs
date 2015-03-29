@@ -15,6 +15,12 @@ namespace Aircraft_Generator.Commons
             MaxStandartPassengers = maxStandartPassengers;
             MaxVipPassengers = maxVipPassengers;
             HasArrivalPassengers = hasArrivalPassengers;
+
+            // Отправка запроса в Табло и получение номера рейса
+
+            // Начало заглушки
+            Flight=new Flight(1488,City.Sydney,DateTime.Now.AddMinutes(5),DateTime.Now.AddMinutes(40));
+            // Конец заглушки
         }
 
         public Plane()
@@ -23,6 +29,7 @@ namespace Aircraft_Generator.Commons
 
         public Guid Id { get; set; }
         public String Name { get; set; }
+        public Flight Flight { get; set; }
         public PlaneState State { get; set; }
         public PlaneType Type { get; set; }
         public Int32 FuelNeed { get; set; }
