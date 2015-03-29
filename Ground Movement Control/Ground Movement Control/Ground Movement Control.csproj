@@ -57,6 +57,7 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Properties\PublishProfiles\airport-dko-gmc.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -65,9 +66,23 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="GMC.asmx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commons\CoordinateTuple.cs" />
+    <Compile Include="Commons\Location.cs" />
+    <Compile Include="Commons\MapObject.cs" />
+    <Compile Include="Commons\MapObjectType.cs" />
+    <Compile Include="Commons\MapPoint.cs" />
+    <Compile Include="Commons\MapPointState.cs" />
+    <Compile Include="Commons\MoveObjectType.cs" />
+    <Compile Include="Commons\Route.cs" />
+    <Compile Include="Core.cs" />
+    <Compile Include="GMC.asmx.cs">
+      <DependentUpon>GMC.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <PropertyGroup>
