@@ -20,6 +20,8 @@ namespace Aircraft_Generator
 
         private readonly List<Plane> _createdPlanes;
 
+        public List<Plane> Planes { get { return _createdPlanes; } }
+
         private Core()
         {
             _createdPlanes = new List<Plane>();

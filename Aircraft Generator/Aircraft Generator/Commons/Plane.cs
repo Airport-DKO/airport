@@ -7,6 +7,7 @@ namespace Aircraft_Generator.Commons
         public Plane(string name, PlaneState state, PlaneType type, int fuelNeed, int maxStandartPassengers,
             int maxVipPassengers, bool hasArrivalPassengers)
         {
+            Id = Guid.NewGuid();
             Name = name;
             State = state;
             Type = type;
@@ -14,6 +15,10 @@ namespace Aircraft_Generator.Commons
             MaxStandartPassengers = maxStandartPassengers;
             MaxVipPassengers = maxVipPassengers;
             HasArrivalPassengers = hasArrivalPassengers;
+        }
+
+        public Plane()
+        {
         }
 
         public Guid Id { get; set; }

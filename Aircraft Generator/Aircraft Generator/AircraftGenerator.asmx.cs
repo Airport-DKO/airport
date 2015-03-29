@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.Web.Services;
 using Aircraft_Generator.Commons;
 
@@ -20,6 +21,12 @@ namespace Aircraft_Generator
         {
             return Core.Instance.CreateNewPlane(name, type, fuelNeed, maxStandartPassengers, maxVipPassengers,
                 hasArrivalPassengers);
+        }
+
+        [WebMethod]
+        public List<Plane> GetAllPlanes()
+        {
+            return Core.Instance.Planes;
         }
     }
 }
