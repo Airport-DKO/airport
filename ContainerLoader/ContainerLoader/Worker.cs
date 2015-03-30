@@ -26,7 +26,7 @@ namespace ContainerLoader
 
         public static void GoToGarage(MapObject place)
         {
-            var route = getRoute(Garage, place); //запрашиваем маршрут
+            var route = getRoute(place, Garage); //запрашиваем маршрут
             go(route); //едем
         }
 
@@ -34,7 +34,7 @@ namespace ContainerLoader
         private static List<CoordinateTuple> getRoute(MapObject from, MapObject to)
         {
             var route = new List<CoordinateTuple>();
-            var gmc = new GMCSoapClient();
+            var gmc = new GMC();
 
             while (true)
             {
@@ -55,7 +55,7 @@ namespace ContainerLoader
         private static void go(List<CoordinateTuple> route)
         {
             var myId = Guid.NewGuid();
-            var gmc = new GMCSoapClient();
+            var gmc = new GMC();
 
             //едем
             int stepNumber = 0;
