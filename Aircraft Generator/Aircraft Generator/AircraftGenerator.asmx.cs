@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Web.Services;
 using Aircraft_Generator.Commons;
@@ -27,6 +28,12 @@ namespace Aircraft_Generator
         public List<Plane> GetAllPlanes()
         {
             return Core.Instance.Planes;
+        }
+
+        [WebMethod]
+        public bool CheckInPassengers(List<Guid> passengersList)
+        {
+            return Core.Instance.CheckInPassengers(passengersList);
         }
     }
 }

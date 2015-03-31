@@ -33,5 +33,11 @@ namespace Aircraft_Generator
             _createdPlanes.Add(new Plane(name, PlaneState.Arrival, type, fuelNeed, maxStandartPassengers, maxVipPassengers, hasArrivalPassengers));
             return true;
         }
+
+        public bool CheckInPassengers(List<Guid> passengersGuids)
+        {
+            //TODO Needed realization
+            return true;
+        }
     }
 }
