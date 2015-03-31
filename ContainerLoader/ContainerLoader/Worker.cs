@@ -1,73 +1,51 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Threading;
-using ContainerLoader.GmcReference;
+using ContainerLoader.GmcVS;
 
 namespace ContainerLoader
 {
     public static class Worker
     {
+        private static List<Tuple<Guid, MapObject>> WhoWhere;
+
         private static readonly MapObject Garage;
 
         static Worker()
         {
             Garage = new MapObject();
             Garage.MapObjectType = MapObjectType.Garage;
+
+            WhoWhere = new List<Tuple<Guid, MapObject>>();
         }
 
         public static void GoToServiceZone(MapObject place, int taskId)
         {
-            var route = getRoute(Garage, place); //запрашиваем маршрут
-            go(route); //едем
+            var car = new Car();
+            car.GoTo(Garage, place);
+
+            WhoWhere.Add(new Tuple<Guid, MapObject>(car.id, place));
+
+            //TODO: РАССКОММЕНТИТЬ, КОГДА УНО БУДЕТ ГОТОВ
             //Done(taskId); //возвращаем УНО сообщение о выполненном задании
         }
 
         public static void GoToGarage(MapObject place)
         {
-            var route = getRoute(place, Garage); //запрашиваем маршрут
-            go(route); //едем
-        }
-
-
-        private static List<CoordinateTuple> getRoute(MapObject from, MapObject to)
-        {
-            var route = new List<CoordinateTuple>();
-            var gmc = new GMC();
-
-            while (true)
+            //пытаемся найти машинку на стоянке в списке и достать ее id
+            Guid id = Guid.Empty;
+            foreach (var tuple in WhoWhere)
             {
-                route = gmc.GetRoute(from, to).ToList(); //УНД принимает объект, к которому планирует направиться машинка, возвращает список координат, по которым надо проехать
-                if (route.Count == 0)
+                if (tuple.Item2 == place)
                 {
-                    Thread.Sleep(100000);
-                }
-                else
-                {
+                    id = tuple.Item1;
                     break;
                 }
             }
 
-            return route;
-        }
+            //создаем машинку либо со старым id, либо с новым
+            Car car = (id == Guid.Empty ? new Car() : new Car(id));
 
-        private static void go(List<CoordinateTuple> route)
-        {
-            var myId = Guid.NewGuid();
-            var gmc = new GMC();
-
-            //едем
-            int stepNumber = 0;
-            while (stepNumber < route.Count)
-            {
-                if (gmc.Step(route[stepNumber], MoveObjectType.ContainerLoader, myId)) //УНД принимает пару чисел-координат,возвращает разрешение на движение на переданную координату или запрет 
-                {
-                    stepNumber++;
-                    //TODO
-                    //между интервалами посылки таких запросов необходимо делать Sleep(N/Speed), где N-число, полученное от Метрологической службы(Время)
-                }
-            }
+            car.GoTo(place, Garage);
         }
     }
 }

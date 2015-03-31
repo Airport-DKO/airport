@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web;
+﻿using System.Threading.Tasks;
 using System.Web.Services;
-using ContainerLoader.GmcReference;
+using ContainerLoader.GmcVS;
 
 namespace ContainerLoader
 {
@@ -35,14 +31,5 @@ namespace ContainerLoader
             return true;
         }
 
-        [WebMethod]
-        public void Test()
-        {
-            int a = 5;
-            // var her = new MapObject();
-            // her.MapObjectType=MapObjectType.ServiceArea;
-            // her.Number = 1;
-            //// ToGarage(her);
-        }
     }
 }

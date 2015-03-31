@@ -59,16 +59,15 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Properties\PublishProfiles\airport-dko-services.pubxml" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <Content Include="Web References\GmcReference\CoordinateTuple.datasource">
+    <Content Include="Web References\GmcVS\CoordinateTuple.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </Content>
-    <None Include="Web References\GmcReference\gmc.wsdl" />
-    <Content Include="Web References\GmcReference\Reference.map">
+    <None Include="Web References\GmcVS\gmc.wsdl" />
+    <Content Include="Web References\GmcVS\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </Content>
@@ -81,22 +80,22 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ContainerLoader.asmx" />
-    <None Include="Web References\GmcReference\gmc.disco" />
+    <None Include="Web References\GmcVS\gmc.disco" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Car.cs" />
     <Compile Include="ContainerLoader.asmx.cs">
       <DependentUpon>ContainerLoader.asmx</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="MapObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="Web References\GmcReference\Reference.cs">
+    <Compile Include="Web References\GmcVS\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.map</DependentUpon>
@@ -112,14 +111,14 @@
   <ItemGroup>
     <WebReferenceUrl Include="http://airport-dko-gmc.azurewebsites.net/gmc.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
-      <RelPath>Web References\GmcReference\</RelPath>
+      <RelPath>Web References\GmcVS\</RelPath>
       <UpdateFromURL>http://airport-dko-gmc.azurewebsites.net/gmc.asmx</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>
       </CachedDynamicPropName>
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
-      <CachedSettingsPropName>ContainerLoader_GmcReference_GMC</CachedSettingsPropName>
+      <CachedSettingsPropName>ContainerLoader_GmcVS_GMC</CachedSettingsPropName>
     </WebReferenceUrl>
   </ItemGroup>
   <PropertyGroup>
