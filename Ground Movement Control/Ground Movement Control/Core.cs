@@ -116,6 +116,50 @@ namespace Ground_Movement_Control
 
         public bool Step(Int32 x, Int32 y, MoveObjectType type, Guid id)
         {
+            return CheckVacantPosition(x, y, type, id);
+        }
+
+        public MapObject CheckRunwayAwailability(Guid planeGuid)
+        {
+            var runwayLocation = GetActualRunway();
+            if (runwayLocation == null)
+            {
+                return null;
+            }
+
+            if (!WeatherCheck())
+            {
+                return null;
+            }
+
+            var result = CheckVacantPosition(runwayLocation.Position.X, runwayLocation.Position.Y, MoveObjectType.Plane,
+                planeGuid);
+            if (result)
+            {
+                return runwayLocation.MapObject;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        private Location GetActualRunway()
+        {
+            // TODO: Продумать реализацию нахождения рабочей взлетной полосы
+            return _locations.FirstOrDefault(l => l.MapObject.MapObjectType == MapObjectType.Runway);
+
+        }
+
+        private bool WeatherCheck()
+        {
+            // TODO Проверка погоды на возможность посадки самолета
+            return true;
+        }
+
+
+        private bool CheckVacantPosition(Int32 x, Int32 y, MoveObjectType type, Guid id)
+        {
             MapPoint mapPoint = _map.FirstOrDefault(m => m.X == x && m.Y == y);
             if (mapPoint == null)
             {
@@ -136,6 +180,5 @@ namespace Ground_Movement_Control
             }
             return false;
         }
-
     }
 }

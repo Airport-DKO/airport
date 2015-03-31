@@ -27,5 +27,11 @@ namespace Ground_Movement_Control
         {
             return Core.Instance.Step(coordinate.X, coordinate.Y, type, id);
         }
+
+        [WebMethod]
+        public MapObject CheckRunwayAwailability(Guid planeGuid)
+        {
+            return Core.Instance.CheckRunwayAwailability(planeGuid);
+        }
     }
 }
