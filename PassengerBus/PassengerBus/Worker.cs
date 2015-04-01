@@ -27,7 +27,11 @@ namespace PassengerBus
                 var bus = new Bus();
                 buses.Add(bus);
 
-                var t = new Task(() => bus.CarryPassengers(Garage, place, Airport));
+                var t = new Task(() =>
+                {
+                    bus.GoTo(Garage, place);
+                    bus.GoTo(place, Airport);
+                });
                 t.Start();
                 tasks.Add(t);
 
@@ -62,7 +66,13 @@ namespace PassengerBus
                 var bus = new Bus();
                 buses.Add(bus);
 
-                var t = new Task(() => bus.CarryPassengers(Garage, Airport, place, passengers.GetRange(busNumber * bus.Capacity, bus.Capacity)));
+                var t = new Task(() =>
+                {
+                    bus.GoTo(Garage, Airport);
+                    bus.GoTo(Airport, place);
+                    bus.CarryPassengers(flightNumber, passengers.GetRange(busNumber * bus.Capacity, bus.Capacity));
+                });
+
                 t.Start();
                 tasks.Add(t);
 

@@ -20,14 +20,8 @@ namespace PassengerBus
             _capacity = 25;
         }
 
-        public void CarryPassengers(MapObject garage, MapObject from, MapObject to, List<Guid> passengers = null)
+        public void CarryPassengers(int flightNumber, List<Guid> passengers = null)
         {
-            var route = getRoute(garage, from);
-            go(route);
-
-            route = getRoute(from, to);
-            go(route);
-
             //TODO: ПЕРЕДАТЬ ПАССАЖИРОВ ГС
         }
 
