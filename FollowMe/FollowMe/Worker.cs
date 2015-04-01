@@ -19,8 +19,15 @@ namespace FollowMe
         public static void LeadPlane(MapObject from, MapObject to)
         {
             var car = new Car();
-            car.GoTo(Garage,from);
-            car.GoAndLeadTo(from, to);
+            car.GoTo(Garage,from); //подъезжаем к месту встречи самолета
+            var planeId = WaitForPlane(); //ждем контакт с самолетом
+            car.GoAndLeadTo(from, to, planeId); //едем и ведем самолет за собой
+        }
+
+        private static Guid WaitForPlane()
+        {
+            //TODO: запрашиваем у Генератора Самолета контакт FollowMe();
+            return Guid.NewGuid();
         }
     }
 }

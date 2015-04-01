@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web;
+﻿using System.Threading.Tasks;
 using System.Web.Services;
 using CateringTruck.GmcVS;
 
@@ -18,12 +14,19 @@ namespace CateringTruck
     // [System.Web.Script.Services.ScriptService]
     public class CateringTruck : System.Web.Services.WebService
     {
-
+        /// <summary>
+        /// Метод, который доставляет питание на борт
+        /// </summary>
+        /// <param name="serviseZone">площадка, на которой стоит самолет</param>
+        /// <param name="flightNumber">номер рейса, багаж пассажиров которого следует погрузить</param>
+        /// <param name="taskId">номер задания</param>
+        /// <returns></returns>
         [WebMethod]
-        public bool LoadFood(MapObject place, int flightNumber, int taskId)
+        public bool LoadFood(MapObject serviseZone, int flightNumber, int taskId)
         {
-            var t = new Task(() => Worker.CateringToPlain(place, flightNumber, taskId));
-            t.Start();
+            var t = new Task(() => Worker.CateringToPlain(serviseZone, flightNumber, taskId));
+            t.Start(); //запускаем асинхронно
+
             return true;
         }
     }

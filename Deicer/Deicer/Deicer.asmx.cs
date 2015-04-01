@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web;
+﻿using System.Threading.Tasks;
 using System.Web.Services;
 using Deicer.GmcVS;
 
@@ -18,12 +14,18 @@ namespace Deicer
     // [System.Web.Script.Services.ScriptService]
     public class Deicer : System.Web.Services.WebService
     {
-
+        /// <summary>
+        /// Метод, который вызывает машину с душем из антиобледенительной жидкости
+        /// </summary>
+        /// <param name="serviceZone">площадка, на которой находится обслуживаемый самолет</param>
+        /// <param name="taskId">номер задания</param>
+        /// <returns></returns>
         [WebMethod]
-        bool DoWork(MapObject place, int taskId)
+        bool DouchePlane(MapObject serviceZone, int taskId)
         {
-            var t = new Task(() => Worker.DouchePlane(place, taskId));
-            t.Start();
+            var t = new Task(() => Worker.DouchePlane(serviceZone, taskId));
+            t.Start(); //вызываем асинхронно
+
             return true;
         }
     }

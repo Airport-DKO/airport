@@ -1,34 +1,38 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web;
-using CateringTruck.GmcVS;
+﻿using CateringTruck.GmcVS;
 
 namespace CateringTruck
 {
     public static class Worker
     {
         private static readonly MapObject Garage;
-        private static readonly MapObject Airport;
 
         static Worker()
         {
             Garage = new MapObject { MapObjectType = MapObjectType.Garage };
-            Airport = new MapObject { MapObjectType = MapObjectType.Airport };
         }
 
-        public static void CateringToPlain(MapObject place, int flightNumber, int taskId)
+        /// <summary>
+        /// Метод, который доставляет питание на борт
+        /// </summary>
+        /// <param name="serviseZone">площадка, на которой стоит самолет</param>
+        /// <param name="flightNumber">номер рейса, багаж пассажиров которого следует погрузить</param>
+        /// <param name="taskId">номер задания</param>
+        /// <returns></returns>
+        public static void CateringToPlain(MapObject serviseZone, int flightNumber, int taskId)
         {
-            //TODO: ВЗЯТЬ ЕДУ У РЕГИСТРАЦИИ
-            var car = new Car();
-            car.GoTo(Garage,place);
+            //TODO: запрашиваем питание у Регистрации var catering = GetCatering(flightNumber);
 
-            //TODO: ПЕРЕДАТЬ ЕДУ ГС
-            //TODO: РАССКОМЕНТИТЬ, КОГДА БУДЕТ УНО
-            //Done(taskId);
+            if (true) //TODO: проверить, что вернулся не пустой объект, т.е. что питание есть
+            {
+                var car = new Car();
+                car.GoTo(Garage, serviseZone); //подъезжаем к самолету
 
-            car.GoTo(place, Garage);
+                //TODO: передаем питание Генератору Самолетов LoadCatering(catering);
+
+                //TODO: сообщаем Управлению Наземным Обслуживанием, что задание выполнено Done(taskId);
+
+                car.GoTo(serviseZone, Garage); //возвращаемся в гараж
+            }
         }
     }
 }

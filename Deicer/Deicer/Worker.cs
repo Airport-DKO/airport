@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web;
-using Deicer.GmcVS;
+﻿using Deicer.GmcVS;
 
 namespace Deicer
 {
@@ -16,15 +11,23 @@ namespace Deicer
             Garage = new MapObject { MapObjectType = MapObjectType.Garage };
         }
 
-        public static void DouchePlane(MapObject place, int taskId)
+        /// <summary>
+        /// Метод, который отправляет машину с душем из антиобледенительной жидкости
+        /// </summary>
+        /// <param name="serviсeZone">площадка, на которой находится обслуживаемый самолет</param>
+        /// <param name="taskId">номер задания</param>
+        /// <returns></returns>
+        public static void DouchePlane(MapObject serviсeZone, int taskId)
         {
             var car = new Car();
-            car.GoTo(Garage, place);
 
-            //TODO: РАССКОМЕНТИТЬ, КОГДА БУДЕТ УНО
-            //Done(taskId);
+            car.GoTo(Garage, serviсeZone); //подъезжаем к самолету
 
-            car.GoTo(place, Garage);
+            //будем считать, что, подъехав к самолету, мы окропили его специальной жидкостью
+
+            //TODO: сообщаем Управлению Наземным Обслуживанием, что задание выполнено Done(taskId);
+
+            car.GoTo(serviсeZone, Garage); //возвращаемся в гараж
         }
     }
 }

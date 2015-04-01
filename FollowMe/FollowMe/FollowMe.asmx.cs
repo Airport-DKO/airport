@@ -17,9 +17,14 @@ namespace FollowMe
     // [System.Web.Script.Services.ScriptService]
     public class FollowMe : System.Web.Services.WebService
     {
-
+        /// <summary>
+        /// Метод, который вызывает машину Follow Me
+        /// </summary>
+        /// <param name="from">место, где необходимо встретить самолет</param>
+        /// <param name="to">место, куда необходимо привести самолет</param>
+        /// <returns></returns>
         [WebMethod]
-        public bool DoWork(MapObject from, MapObject to)
+        public bool LeadPlane(MapObject from, MapObject to)
         {
             Worker.LeadPlane(from,to);
             //TODO: В КОНЦЕ СООБЩИТЬ ГС ИЛИ УНД, ЧТОБ САМОЛЕТ ЗНАЛ, ЧТО ОН ПРИБЫЛ НА ТОЧКУ?
