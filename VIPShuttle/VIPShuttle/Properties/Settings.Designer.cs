@@ -32,5 +32,15 @@ namespace VIPShuttle.Properties {
                 return ((string)(this["VIPShuttle_GmcVS_GMC"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://airport-dko-aircraft-generator.azurewebsites.net/aircraftgenerator.asmx")]
+        public string VIPShuttle_AircraftgeneratorVS_AircraftGenerator {
+            get {
+                return ((string)(this["VIPShuttle_AircraftgeneratorVS_AircraftGenerator"]));
+            }
+        }
     }
 }

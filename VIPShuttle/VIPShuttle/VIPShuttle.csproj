@@ -61,8 +61,17 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <None Include="Web References\AircraftgeneratorVS\aircraftgenerator.disco" />
     <Content Include="Web References\GmcVS\CoordinateTuple.datasource">
       <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <None Include="Web References\AircraftgeneratorVS\aircraftgenerator.wsdl" />
+    <Content Include="Web References\AircraftgeneratorVS\Plane.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\AircraftgeneratorVS\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
     </Content>
     <None Include="Web References\GmcVS\gmc.wsdl" />
     <Content Include="Web References\GmcVS\Reference.map">
@@ -93,6 +102,11 @@
       <DependentUpon>VIPShuttle.asmx</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Web References\AircraftgeneratorVS\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
     <Compile Include="Web References\GmcVS\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -107,6 +121,17 @@
     <WebReferences Include="Web References\" />
   </ItemGroup>
   <ItemGroup>
+    <WebReferenceUrl Include="http://airport-dko-aircraft-generator.azurewebsites.net/aircraftgenerator.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\AircraftgeneratorVS\</RelPath>
+      <UpdateFromURL>http://airport-dko-aircraft-generator.azurewebsites.net/aircraftgenerator.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>VIPShuttle_AircraftgeneratorVS_AircraftGenerator</CachedSettingsPropName>
+    </WebReferenceUrl>
     <WebReferenceUrl Include="http://airport-dko-gmc.azurewebsites.net/gmc.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\GmcVS\</RelPath>

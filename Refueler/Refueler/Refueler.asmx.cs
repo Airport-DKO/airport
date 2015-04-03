@@ -18,11 +18,17 @@ namespace Refueler
     // [System.Web.Script.Services.ScriptService]
     public class Refueler : System.Web.Services.WebService
     {
-
+        /// <summary>
+        /// Метод, который вызывает топливозаправщик и заправляет самолет
+        /// </summary>
+        /// <param name="serviceZone">площадка, на которой находится обслуживаемый самолет</param>
+        /// <param name="litersOfFuel">количество требуемого топлива в литрах</param>
+        /// <param name="taskId">номер задания</param>
+        /// <returns></returns>
         [WebMethod]
-        public bool Fill(MapObject place, int litersOfFuel, int taskId)
+        public bool Fill(MapObject serviceZone, int litersOfFuel, int taskId)
         {
-            var t = new Task(() => Worker.FillPlane(place, litersOfFuel, taskId));
+            var t = new Task(() => Worker.FillPlane(serviceZone, litersOfFuel, taskId));
             t.Start();
             return true;
         }

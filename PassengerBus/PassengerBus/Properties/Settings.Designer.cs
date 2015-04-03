@@ -32,5 +32,15 @@ namespace PassengerBus.Properties {
                 return ((string)(this["PassengerBus_GmcVS_GMC"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://airport-dko-aircraft-generator.azurewebsites.net/aircraftgenerator.asmx")]
+        public string PassengerBus_AircraftgeneratorVS_AircraftGenerator {
+            get {
+                return ((string)(this["PassengerBus_AircraftgeneratorVS_AircraftGenerator"]));
+            }
+        }
     }
 }

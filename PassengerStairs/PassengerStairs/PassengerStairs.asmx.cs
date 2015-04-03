@@ -14,21 +14,34 @@ namespace PassengerStairs
     // [System.Web.Script.Services.ScriptService]
     public class PassengerStairs : System.Web.Services.WebService
     {
-
+        /// <summary>
+        /// Метод, который вызывает трап на площадку обслуживания самолета
+        /// </summary>
+        /// <param name="serviceZone">площадка, на которой находится обслуживаемый самолет</param>
+        /// <param name="taskId">номер задания</param>
+        /// <returns></returns>
         [WebMethod]
-        public bool ToServiceZone(MapObject place, int taskId)
+        public bool ToServiceZone(MapObject serviceZone, int taskId)
         {
-            var t = new Task(()=>Worker.GoToServiceZone(place,taskId));
-            t.Start();
+            var t = new Task(() => Worker.GoToServiceZone(serviceZone, taskId));
+            t.Start(); //запускаем асинхронно
+
             return true;
         }
 
+        /// <summary>
+        /// Метод, который отправляет трап в гараж, когда тот становится не нужен на площадке
+        /// </summary>
+        /// <param name="serviceZone">площадка, на которой находится обслуженный самолет и, соответственно, сам погрузчик багажа</param>
+        /// <returns></returns>
         [WebMethod]
-        public bool ToGarage(MapObject place)
+        public bool ToGarage(MapObject serviceZone)
         {
-            var t = new Task(() => Worker.GoToGarage(place));
-            t.Start();
+            var t = new Task(() => Worker.GoToGarage(serviceZone));
+            t.Start(); //запускаем асинхронно
+
             return true;
         }
+
     }
 }

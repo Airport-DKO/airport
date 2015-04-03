@@ -16,17 +16,17 @@ namespace Refueler
             Garage = new MapObject { MapObjectType = MapObjectType.Garage };
         }
 
-        public static void FillPlane(MapObject place, int litersOfFuel, int taskId)
+        public static void FillPlane(MapObject serviceZone, int litersOfFuel, int taskId)
         {
             var cars = new List<Car>();
             var tasks = new List<Task>();
 
-            while (litersOfFuel > 0)
+            while (litersOfFuel > 0) //генерируем машин столько, сколько требуется для доставки топлива на борт
             {
                 var car = new Car();
                 cars.Add(car);
 
-                var t = new Task(() => car.GoTo(Garage, place));
+                var t = new Task(() => car.GoTo(Garage, serviceZone));
                 t.Start();
                 tasks.Add(t);
 
@@ -35,12 +35,11 @@ namespace Refueler
 
             Task.WaitAll(tasks.ToArray());
 
-            //TODO: РАССКОМЕНТИТЬ, КОГДА БУДЕТ УНО
-            //Done(taskId);
+            //TODO: сообщаем Управлению Наземным Обслуживанием, что задание выполнено Done(taskId);
 
             foreach (var car in cars)
             {
-                var t = new Task(() => car.GoTo(place, Garage));
+                var t = new Task(() => car.GoTo(serviceZone, Garage));
                 t.Start();
             }
         }

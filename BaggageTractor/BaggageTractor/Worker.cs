@@ -42,7 +42,7 @@ namespace BaggageTractor
                 });
                 t.Start();
 
-                //краним коллекцию тасков, чтоб в дальнейшем отслеживать их выполнение
+                //храним коллекцию тасков, чтоб в дальнейшем отслеживать их выполнение
                 tasks.Add(t);
 
                 //уменьшаем количество оставшегося багажа(считаем, что машинка, сгенерированная на этой итерации, увезла столько, сколько смогла погрузить)
@@ -87,7 +87,7 @@ namespace BaggageTractor
                 {
                     car.GoTo(Garage, Airport);
                     car.GoTo(Airport, serviseZone);
-                    //TODO: загружаем багаж у Генератору Самолетов LoadBaggage(serviseZone,weightOfBaggage);
+                    //TODO: загружаем багаж в Генератору Самолетов LoadBaggage(serviseZone,weightOfBaggage);
                 });
                 t.Start();
 
