@@ -30,6 +30,17 @@ namespace Ground_Service_Control
         }
 
         /// <summary>
+        /// УНД сообщает УНО, что самолёт улетел.
+        /// </summary>
+        /// <param name="plane">Самолёт, который улетел</param>
+        /// <returns>true</returns>
+        [WebMethod]
+        public bool SetFreePlace(Guid plane)
+        {
+            return GSC_impl.self().SetFreePlace(plane);
+        }
+
+        /// <summary>
         /// Г.С. передает перечень необходимых самолету услуг + рейс (самолёт прилетел)
         /// </summary>
         /// <param name="plane">Самолёт</param>

@@ -22,6 +22,16 @@ namespace Ground_Service_Control
             return m_self;
         }
 
+        public bool SetFreePlace(Guid plane)
+        {
+            Debug.Assert(m_planes.Contains(plane));
+            m_planes.Remove(plane);
+
+            //FIXME: освободить площадку
+
+            return true;
+        }
+
         public MapObject GetFreePlace(Guid plane)
         {
             lock (m_lock)
