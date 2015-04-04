@@ -12,6 +12,10 @@ namespace Ground_Service_Control
     {
         public bool free = true;
         public MapObject zone = null;
+        /// <summary>
+        /// Самолёт, который обслуживаются или заходят на посадку
+        /// </summary>
+        public Guid plane;
     };
 
  
@@ -24,12 +28,22 @@ namespace Ground_Service_Control
 
         public bool SetFreePlace(Guid plane)
         {
-            Debug.Assert(m_planes.Contains(plane));
-            m_planes.Remove(plane);
+            lock (m_lock)
+            {
+                foreach (var zone in m_serviceZones.Where(zone => zone.plane == plane))
+                {
+                    Debug.Assert(!zone.free);
 
-            //FIXME: освободить площадку
+                    zone.free = true;
+                    zone.plane = Guid.Empty;
 
-            return true;
+                    return true;
+                }
+
+                Debug.Assert(false);
+
+                return true;
+            }
         }
 
         public MapObject GetFreePlace(Guid plane)
@@ -38,15 +52,11 @@ namespace Ground_Service_Control
             {
                 Debug.Assert(m_serviceZones != null);
 
-                //FIXME: Как узнать, что площадка освободилась.
-                foreach (var zone in m_serviceZones)
+                foreach (var zone in m_serviceZones.Where(zone => zone.free))
                 {
-                    if (!zone.free) continue;
-
                     zone.free = false;
+                    zone.plane = plane;
 
-                    Debug.Assert(!m_planes.Contains(plane));
-                    m_planes.Add(plane);
                     return zone.zone;
                 }
 
@@ -59,8 +69,13 @@ namespace Ground_Service_Control
         {
             lock (m_lock)
             {
-                Debug.Assert(m_planes.Contains(plane));
+                var tmp = m_serviceZones.Where(z => z.plane == plane).ToList();
 
+                Debug.Assert(tmp.Count() == 1);
+
+                var zone = tmp.First();
+
+                Debug.Assert(!zone.free);
 
                 //FIXME: Отправить все службы на обслуживание самолёта.
                 return true;
@@ -71,7 +86,10 @@ namespace Ground_Service_Control
         {
             lock (m_lock)
             {
-                //FIXME:
+                Debug.Assert(m_tasks.Contains(TaskNumber));
+
+                //FIXME: проверить, если все задачи для заданного самолёта выполнены (и антиобледенение произведено), то сообщить, что готов к взлёту.
+                m_tasks.Remove(TaskNumber);
                 return true;
             }
         }
@@ -83,14 +101,7 @@ namespace Ground_Service_Control
                 m_gmc = new GMC.GMC();
 
                 //FIXME:
-                return;
-                List<MapObject> zones = null;
-                //zones = m_gmc.GetServiceZones(); 
-                foreach (var zone in zones)
-                {
-                    m_serviceZones.Add(new ServiceZone {zone = zone, free = true});
-                }
-
+                //m_gmc.GetServiceZones(); 
             }
         }
 
@@ -101,17 +112,12 @@ namespace Ground_Service_Control
         /// <summary>
         /// Список площадок под обслуживание самолётов.
         /// </summary>
-        private List<ServiceZone> m_serviceZones = null;
-
-        /// <summary>
-        /// Список самолётов, которые обслуживаются или заходят на посадку
-        /// </summary>
-        private readonly List<Guid> m_planes = new List<Guid>();
+        private readonly List<ServiceZone> m_serviceZones = null;
 
         /// <summary>
         /// Список служб, которые выполняются в данный момент
         /// </summary>
-        private List<int> m_task = new List<int>(); 
+        private readonly List<ServiceTaskId> m_tasks = new List<ServiceTaskId>(); 
 
         private static readonly GSC_impl m_self = new GSC_impl();
     }
