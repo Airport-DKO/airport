@@ -207,10 +207,10 @@
   </wsdl:binding>
   <wsdl:service name="AircraftGenerator">
     <wsdl:port name="AircraftGeneratorSoap" binding="tns:AircraftGeneratorSoap">
-      <soap:address location="http://airport-dko-aircraft-generator.azurewebsites.net/aircraftgenerator.asmx" />
+      <soap:address location="http://airport-dko-aircraft-generator.azurewebsites.net/AircraftGenerator.asmx" />
     </wsdl:port>
     <wsdl:port name="AircraftGeneratorSoap12" binding="tns:AircraftGeneratorSoap12">
-      <soap12:address location="http://airport-dko-aircraft-generator.azurewebsites.net/aircraftgenerator.asmx" />
+      <soap12:address location="http://airport-dko-aircraft-generator.azurewebsites.net/AircraftGenerator.asmx" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>
