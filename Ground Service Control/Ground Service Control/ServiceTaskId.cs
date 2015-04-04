@@ -10,8 +10,21 @@ namespace Ground_Service_Control
     /// </summary>
     public class ServiceTaskId
     {
-        public Guid plane;
-        public string data;
-        public int id;
+        internal Guid plane;
+        internal ServiceTaskType type;
     };
+
+    internal enum ServiceTaskType
+    {
+        None,
+
+        BaggageTractor, //< Перевозчик багажа
+        CateringTruck, //< Питание
+        ContainerLoader, //< Погрузчик багажа (типа трапа?)
+        Deicer,
+        PassengerBus,
+        PassengerStairs, //< Трап
+        Refueler,  //< Топливо
+        VIPShuttle
+    }
 }
