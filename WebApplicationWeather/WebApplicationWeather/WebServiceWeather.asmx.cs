@@ -18,7 +18,7 @@ namespace WebApplicationWeather
     // [System.Web.Script.Services.ScriptService]
     public class WebServiceWeather : System.Web.Services.WebService
     {
-        static double AirportTemperature;
+        static double AirportTemperature = 4;
 
         [WebMethod]
         public double GetTemperature()
