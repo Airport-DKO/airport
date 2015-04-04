@@ -24,7 +24,7 @@ namespace Ground_Service_Control
         /// <param name="plane">Самолёт, который хочет призtмлиться</param>
         /// <returns>Площадку для приземления или null</returns>
         [WebMethod]
-        MapObject GetFreePlace(Guid plane)
+        public MapObject GetFreePlace(Guid plane)
         {
             return GSC_impl.self().GetFreePlace(plane);
         }
@@ -41,7 +41,7 @@ namespace Ground_Service_Control
         /// <param name="fuelingNeeds">Сколько нужно дозаправить топлива</param>
         /// <returns>true</returns>
         [WebMethod]
-        bool SetNeeds(Guid plane, Flight flight, bool ladder, int economPassengers, int VIPPassengers,
+       public bool SetNeeds(Guid plane, Flight flight, bool ladder, int economPassengers, int VIPPassengers,
             int baggage, int fuelingNeeds)
         {
             return GSC_impl.self()
@@ -54,7 +54,7 @@ namespace Ground_Service_Control
         /// <param name="TaskNumber">Номер задачи, которая была назначена УНО</param>
         /// <returns>true</returns>
         [WebMethod]
-        bool Done(int TaskNumber)
+        public bool Done(ServiceTaskId TaskNumber)
         {
             return GSC_impl.self().Done(TaskNumber);
         }

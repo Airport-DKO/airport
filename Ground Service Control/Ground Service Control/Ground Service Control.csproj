@@ -107,6 +107,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="ServiceTaskId.cs" />
     <Compile Include="Web References\AircraftGenerator\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
