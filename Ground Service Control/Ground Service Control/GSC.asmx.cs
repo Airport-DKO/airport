@@ -26,8 +26,7 @@ namespace Ground_Service_Control
         [WebMethod]
         MapObject GetFreePlace(Guid plane)
         {
-            //FIXME:
-            return null;
+            return GSC_impl.self().GetFreePlace(plane);
         }
 
         /// <summary>
@@ -45,8 +44,8 @@ namespace Ground_Service_Control
         bool SetNeeds(Guid plane, Flight flight, bool ladder, int economPassengers, int VIPPassengers,
             int baggage, int fuelingNeeds)
         {
-            //FIXME:
-            return true;
+            return GSC_impl.self()
+                .SetNeeds(plane, flight, ladder, economPassengers, VIPPassengers, baggage, fuelingNeeds);
         }
 
         /// <summary>
@@ -57,8 +56,7 @@ namespace Ground_Service_Control
         [WebMethod]
         bool Done(int TaskNumber)
         {
-            //FIXME:
-            return true;
+            return GSC_impl.self().Done(TaskNumber);
         }
     }
 }
