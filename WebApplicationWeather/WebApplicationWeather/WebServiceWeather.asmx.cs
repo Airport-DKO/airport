@@ -33,10 +33,10 @@ namespace WebApplicationWeather
         }
 
         [WebMethod]
-        public bool GetTempFromCity(string city, ref double temp)
+        public double GetTempFromCity(string city)
         {
             System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US");
-            if (city.Length == 0) return false;
+            if (city.Length == 0) return 0;
             WebServiceGlobalWeather.GlobalWeatherSoap ws = new WebServiceGlobalWeather.GlobalWeatherSoapClient();
             string xmlCodeString;
             while (true)
@@ -53,7 +53,7 @@ namespace WebApplicationWeather
             }
             
             if (xmlCodeString == "Data Not Found")
-                return false;
+                return 0;
             XDocument xmlCode = XDocument.Parse(xmlCodeString);
             XElement valueElement = xmlCode.Element("CurrentWeather").Element("Temperature");
             string valueString = valueElement.Value;
@@ -66,8 +66,8 @@ namespace WebApplicationWeather
             text = match.ToString();
             newReg = new Regex(pattern, option);
             match = newReg.Match(text);
-            temp = Double.Parse(match.Value);
-            return true;
+            double temp = Double.Parse(match.Value);
+            return temp;
         }
         
         [WebMethod]
