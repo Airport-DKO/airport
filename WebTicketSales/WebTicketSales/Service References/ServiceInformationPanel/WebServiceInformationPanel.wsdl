@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:s1="http://microsoft.com/wsdl/types/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:import namespace="http://microsoft.com/wsdl/types/" />
+      <s:element name="GetFlightForPlane">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetFlightForPlaneResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetFlightForPlaneResult" type="tns:Flight" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="Flight">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="number" type="s1:guid" />
+          <s:element minOccurs="1" maxOccurs="1" name="city" type="tns:Cities" />
+          <s:element minOccurs="1" maxOccurs="1" name="arrivalTime" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="takeoffTime" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="StartRegistrationTime" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="EndRegistrationTime" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="EconomPassengersCount" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="VipPassengersCount" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:simpleType name="Cities">
+        <s:restriction base="s:string">
+          <s:enumeration value="Tokyo" />
+          <s:enumeration value="Paris" />
+          <s:enumeration value="Rome" />
+          <s:enumeration value="NewYork" />
+          <s:enumeration value="Sydney" />
+          <s:enumeration value="Brasilia" />
+          <s:enumeration value="Antananarivo" />
+        </s:restriction>
+      </s:simpleType>
+      <s:element name="GetFlightsForRegistration">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetFlightsForRegistrationResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetFlightsForRegistrationResult" type="tns:ArrayOfFlight" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfFlight">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Flight" nillable="true" type="tns:Flight" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetFlightsForSales">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetFlightsForSalesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetFlightsForSalesResult" type="tns:ArrayOfFlight" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="IsFlightSoon">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="flightNumber" type="s1:guid" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="IsFlightSoonResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="IsFlightSoonResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="IsCheckInFinished">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="flightNumber" type="s1:guid" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="IsCheckInFinishedResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="IsCheckInFinishedResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CreateFlight">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="takeoffTime" type="s:dateTime" />
+            <s:element minOccurs="1" maxOccurs="1" name="city" type="tns:Cities" />
+            <s:element minOccurs="1" maxOccurs="1" name="economPassengers" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="vipPassengers" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CreateFlightResponse">
+        <s:complexType />
+      </s:element>
+    </s:schema>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://microsoft.com/wsdl/types/">
+      <s:simpleType name="guid">
+        <s:restriction base="s:string">
+          <s:pattern value="[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}" />
+        </s:restriction>
+      </s:simpleType>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="GetFlightForPlaneSoapIn">
+    <wsdl:part name="parameters" element="tns:GetFlightForPlane" />
+  </wsdl:message>
+  <wsdl:message name="GetFlightForPlaneSoapOut">
+    <wsdl:part name="parameters" element="tns:GetFlightForPlaneResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetFlightsForRegistrationSoapIn">
+    <wsdl:part name="parameters" element="tns:GetFlightsForRegistration" />
+  </wsdl:message>
+  <wsdl:message name="GetFlightsForRegistrationSoapOut">
+    <wsdl:part name="parameters" element="tns:GetFlightsForRegistrationResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetFlightsForSalesSoapIn">
+    <wsdl:part name="parameters" element="tns:GetFlightsForSales" />
+  </wsdl:message>
+  <wsdl:message name="GetFlightsForSalesSoapOut">
+    <wsdl:part name="parameters" element="tns:GetFlightsForSalesResponse" />
+  </wsdl:message>
+  <wsdl:message name="IsFlightSoonSoapIn">
+    <wsdl:part name="parameters" element="tns:IsFlightSoon" />
+  </wsdl:message>
+  <wsdl:message name="IsFlightSoonSoapOut">
+    <wsdl:part name="parameters" element="tns:IsFlightSoonResponse" />
+  </wsdl:message>
+  <wsdl:message name="IsCheckInFinishedSoapIn">
+    <wsdl:part name="parameters" element="tns:IsCheckInFinished" />
+  </wsdl:message>
+  <wsdl:message name="IsCheckInFinishedSoapOut">
+    <wsdl:part name="parameters" element="tns:IsCheckInFinishedResponse" />
+  </wsdl:message>
+  <wsdl:message name="CreateFlightSoapIn">
+    <wsdl:part name="parameters" element="tns:CreateFlight" />
+  </wsdl:message>
+  <wsdl:message name="CreateFlightSoapOut">
+    <wsdl:part name="parameters" element="tns:CreateFlightResponse" />
+  </wsdl:message>
+  <wsdl:portType name="WebServiceInformationPanelSoap">
+    <wsdl:operation name="GetFlightForPlane">
+      <wsdl:input message="tns:GetFlightForPlaneSoapIn" />
+      <wsdl:output message="tns:GetFlightForPlaneSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetFlightsForRegistration">
+      <wsdl:input message="tns:GetFlightsForRegistrationSoapIn" />
+      <wsdl:output message="tns:GetFlightsForRegistrationSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetFlightsForSales">
+      <wsdl:input message="tns:GetFlightsForSalesSoapIn" />
+      <wsdl:output message="tns:GetFlightsForSalesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="IsFlightSoon">
+      <wsdl:input message="tns:IsFlightSoonSoapIn" />
+      <wsdl:output message="tns:IsFlightSoonSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="IsCheckInFinished">
+      <wsdl:input message="tns:IsCheckInFinishedSoapIn" />
+      <wsdl:output message="tns:IsCheckInFinishedSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CreateFlight">
+      <wsdl:input message="tns:CreateFlightSoapIn" />
+      <wsdl:output message="tns:CreateFlightSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="WebServiceInformationPanelSoap" type="tns:WebServiceInformationPanelSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetFlightForPlane">
+      <soap:operation soapAction="http://tempuri.org/GetFlightForPlane" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFlightsForRegistration">
+      <soap:operation soapAction="http://tempuri.org/GetFlightsForRegistration" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFlightsForSales">
+      <soap:operation soapAction="http://tempuri.org/GetFlightsForSales" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="IsFlightSoon">
+      <soap:operation soapAction="http://tempuri.org/IsFlightSoon" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="IsCheckInFinished">
+      <soap:operation soapAction="http://tempuri.org/IsCheckInFinished" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateFlight">
+      <soap:operation soapAction="http://tempuri.org/CreateFlight" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="WebServiceInformationPanelSoap12" type="tns:WebServiceInformationPanelSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetFlightForPlane">
+      <soap12:operation soapAction="http://tempuri.org/GetFlightForPlane" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFlightsForRegistration">
+      <soap12:operation soapAction="http://tempuri.org/GetFlightsForRegistration" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFlightsForSales">
+      <soap12:operation soapAction="http://tempuri.org/GetFlightsForSales" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="IsFlightSoon">
+      <soap12:operation soapAction="http://tempuri.org/IsFlightSoon" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="IsCheckInFinished">
+      <soap12:operation soapAction="http://tempuri.org/IsCheckInFinished" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateFlight">
+      <soap12:operation soapAction="http://tempuri.org/CreateFlight" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="WebServiceInformationPanel">
+    <wsdl:port name="WebServiceInformationPanelSoap" binding="tns:WebServiceInformationPanelSoap">
+      <soap:address location="http://localhost:14069/WebServiceInformationPanel.asmx" />
+    </wsdl:port>
+    <wsdl:port name="WebServiceInformationPanelSoap12" binding="tns:WebServiceInformationPanelSoap12">
+      <soap12:address location="http://localhost:14069/WebServiceInformationPanel.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
