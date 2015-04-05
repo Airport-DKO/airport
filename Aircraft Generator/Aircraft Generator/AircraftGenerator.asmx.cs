@@ -31,6 +31,18 @@ namespace Aircraft_Generator
         }
 
         [WebMethod]
+        public bool UnloadBaggage(MapObject serviseZone, int weightOfBaggage)
+        {
+            return true;
+        }
+
+        [WebMethod]
+        public bool LoadBaggage(MapObject serviseZone, int weightOfBaggage)
+        {
+            return true;
+        }
+
+        [WebMethod]
         public bool CheckInPassengers(List<Guid> passengersList)
         {
             return Core.Instance.CheckInPassengers(passengersList);
