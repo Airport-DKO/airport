@@ -44,9 +44,15 @@ namespace Aircraft_Generator
         }
 
         [WebMethod]
-        public bool CheckInPassengers(List<Guid> passengersList)
+        public bool LoadPassengers(MapObject serviseZone, List<Guid> passengers)
         {
-            return Core.Instance.CheckInPassengers(passengersList);
+            return Core.Instance.LoadPassangers(serviseZone,passengers);
+        }
+
+        [WebMethod]
+        public bool UnloadPassengers(MapObject serviseZone, int countOfPassengers)
+        {
+            return Core.Instance.UnloadPassangers(serviseZone, countOfPassengers);
         }
     }
 }

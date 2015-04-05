@@ -35,7 +35,13 @@ namespace Aircraft_Generator
             return true;
         }
 
-        public bool CheckInPassengers(List<Guid> passengersGuids)
+        public bool LoadPassangers(MapObject serviceZone, List<Guid> passengersGuids)
+        {
+            //TODO Needed realization
+            return true;
+        }
+
+        public bool UnloadPassangers(MapObject serviceZone, int countOfPassengers)
         {
             //TODO Needed realization
             return true;
