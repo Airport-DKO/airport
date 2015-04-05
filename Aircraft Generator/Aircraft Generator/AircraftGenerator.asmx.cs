@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Web.Services;
 using Aircraft_Generator.Commons;
+using Aircraft_Generator.TowerControl;
 
 namespace Aircraft_Generator
 {
@@ -33,13 +34,13 @@ namespace Aircraft_Generator
         [WebMethod]
         public bool UnloadBaggage(MapObject serviseZone, int weightOfBaggage)
         {
-            return true;
+            return Core.Instance.UnloadBaggage(serviseZone, weightOfBaggage);
         }
 
         [WebMethod]
         public bool LoadBaggage(MapObject serviseZone, int weightOfBaggage)
         {
-            return true;
+            return Core.Instance.LoadBaggage(serviseZone, weightOfBaggage);
         }
 
         [WebMethod]

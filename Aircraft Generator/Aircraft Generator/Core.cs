@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Aircraft_Generator.Commons;
+using Aircraft_Generator.TowerControl;
 
 namespace Aircraft_Generator
 {
@@ -37,6 +38,18 @@ namespace Aircraft_Generator
         public bool CheckInPassengers(List<Guid> passengersGuids)
         {
             //TODO Needed realization
+            return true;
+        }
+
+        public bool LoadBaggage(MapObject serviseZone, int weightOfBaggage)
+        {
+            // TODO: Needed realization
+            return true;
+        }
+
+        public bool UnloadBaggage(MapObject serviseZone, int weightOfBaggage)
+        {
+            // TODO: Needed realization
             return true;
         }
     }
