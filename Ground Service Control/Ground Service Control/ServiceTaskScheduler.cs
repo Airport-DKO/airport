@@ -21,15 +21,6 @@ namespace Ground_Service_Control
         public int fuelingNeeds;
     };
 
-    /// <summary>
-    /// Одна конкретная задача для самолёта и список задач, зависящих от неё.
-    /// </summary>
-    internal class ServiceTask
-    {
-        public ServiceTaskId taskId = new ServiceTaskId();
-        public List<ServiceTask> nextTasks = new List<ServiceTask>();
-    };
-
     internal class TasksGenerator
     {
         //Приблизительный порядок наземного обслуживания:
@@ -50,20 +41,20 @@ namespace Ground_Service_Control
             //TODO: не добавлять трап, если ненужен и т.д.
             var task = new PlaneTask(plane);
 
-            var luggageTrap = new ServiceTask {taskId = {plane = plane.plane, type = ServiceTaskType.ContainerLoader}};
-            var luggageUnload = new ServiceTask { taskId = { plane = plane.plane, type = ServiceTaskType.BaggageTractor}};
-            var luggageLoad = new ServiceTask { taskId = { plane = plane.plane, type = ServiceTaskType.BaggageTractor } };
+            var luggageTrap = new ContainerLoaderServiceTask(plane.plane);
+            var luggageUnload = new BaggageTractorServiceTask(plane.plane);
+            var luggageLoad = new BaggageTractorServiceTask(plane.plane);
 
             luggageUnload.nextTasks.Add(luggageLoad);
             luggageTrap.nextTasks.Add(luggageUnload);
 
-            var trap = new ServiceTask { taskId = { plane = plane.plane, type = ServiceTaskType.PassengerStairs } };
-            var vipPassangersOut = new ServiceTask { taskId = { plane = plane.plane, type = ServiceTaskType.VIPShuttle } };
-            var passangersOut = new ServiceTask { taskId = { plane = plane.plane, type = ServiceTaskType.PassengerBus } };
-            var food = new ServiceTask { taskId = { plane = plane.plane, type = ServiceTaskType.CateringTruck } };
-            var fuel = new ServiceTask { taskId = { plane = plane.plane, type = ServiceTaskType.Refueler } };
-            var vipPassangersIn = new ServiceTask { taskId = { plane = plane.plane, type = ServiceTaskType.VIPShuttle } };
-            var passangersIn = new ServiceTask { taskId = { plane = plane.plane, type = ServiceTaskType.PassengerBus } };
+            var trap = new PassengerStairsServiceTask(plane.plane);
+            var vipPassangersOut = new VIPShuttleServiceTask(plane.plane);
+            var passangersOut = new PassengerBusServiceTask(plane.plane);
+            var food = new CateringTruckServiceTask(plane.plane);
+            var fuel = new RefuelerServiceTask(plane.plane);
+            var vipPassangersIn = new VIPShuttleServiceTask(plane.plane);
+            var passangersIn = new PassengerBusServiceTask(plane.plane);
 
 
             fuel.nextTasks.Add(vipPassangersIn);

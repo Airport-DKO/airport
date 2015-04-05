@@ -60,7 +60,7 @@ namespace Ground_Service_Control
 
             foreach (var task in finishedTask.nextTasks)
             {
-                //TODO: Выполнить задание
+                task.execute();
                 m_tasks.Add(task);
             }
         }
