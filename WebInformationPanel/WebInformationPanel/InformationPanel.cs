@@ -21,6 +21,7 @@ namespace WebInformationPanel
         public void CreateFlight(DateTime takeoffTime, Cities city, int economPassengers, int vipPassengers)
         {
             Flight f = new Flight();
+            f.number = Guid.NewGuid();
             f.takeoffTime = takeoffTime;
             f.city = city;
             f.EconomPassengersCount = economPassengers;
