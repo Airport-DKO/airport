@@ -1,4 +1,6 @@
 ﻿using System;
+using Aircraft_Generator.GscWs;
+using MapObject = Aircraft_Generator.GmcVs.MapObject;
 
 namespace Aircraft_Generator.Commons
 {
@@ -19,7 +21,7 @@ namespace Aircraft_Generator.Commons
             // Отправка запроса в Табло и получение номера рейса
 
             // Начало заглушки
-            Flight=new Flight(1488,City.Sydney,DateTime.Now.AddMinutes(5),DateTime.Now.AddMinutes(40));
+            Flight = new Flight();
             // Конец заглушки
         }
 
@@ -36,5 +38,7 @@ namespace Aircraft_Generator.Commons
         public Int32 MaxStandartPassengers { get; set; }
         public Int32 MaxVipPassengers { get; set; }
         public bool HasArrivalPassengers { get; set; }
+
+        public MapObject ServiceZone { get; set; }
     }
 }

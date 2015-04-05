@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Web.Services;
 using Aircraft_Generator.Commons;
+using Aircraft_Generator.GmcVs;
+using MapObject = Aircraft_Generator.TowerControl.MapObject;
 
 namespace Aircraft_Generator
 {
@@ -31,9 +33,46 @@ namespace Aircraft_Generator
         }
 
         [WebMethod]
-        public bool CheckInPassengers(List<Guid> passengersList)
+        public bool UnloadBaggage(MapObject serviseZone, int weightOfBaggage)
         {
-            return Core.Instance.CheckInPassengers(passengersList);
+            return Core.Instance.UnloadBaggage(serviseZone, weightOfBaggage);
         }
+
+        [WebMethod]
+        public bool LoadBaggage(MapObject serviseZone, int weightOfBaggage)
+        {
+            return Core.Instance.LoadBaggage(serviseZone, weightOfBaggage);
+        }
+
+        [WebMethod]
+        public bool LoadPassengers(MapObject serviseZone, List<Guid> passengers)
+        {
+            return Core.Instance.LoadPassangers(serviseZone,passengers);
+        }
+
+        [WebMethod]
+        public bool UnloadPassengers(MapObject serviseZone, int countOfPassengers)
+        {
+            return Core.Instance.UnloadPassangers(serviseZone, countOfPassengers);
+        }
+
+        [WebMethod]
+        public bool FollowMe(Guid planeId)
+        {
+            return Core.Instance.FollowMe(planeId);
+        }
+
+        [WebMethod]
+        public bool DoStep(Guid planeId, CoordinateTuple step)
+        {
+            return Core.Instance.DoStep(planeId, step);
+        }
+
+        [WebMethod]
+        public bool FollowMeComplete(Guid planeId)
+        {
+            return Core.Instance.FollowMeComplete(planeId);
+        }
+
     }
 }

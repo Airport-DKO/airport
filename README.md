@@ -20,6 +20,8 @@
 
 Перевозка Vip пассажиров - http://airport-dko-services.azurewebsites.net/VIPShuttle.asmx
 
-Управление воздушным движением - пока нет
+Управление воздушным движением - http://airport-dko-gmc.azurewebsites.net/tower.asmx
+
+Управление наземным обслуживанием - http://airport-dko-gsc.azurewebsites.net/gsc.asmx
 
 

@@ -69,12 +69,48 @@ namespace WebApplicationWeather
             double temp = Double.Parse(match.Value);
             return temp;
         }
+
+        [WebMethod]
+        public int GetWindFromCity(string city)
+        {
+            if (city.Length == 0) return 0;
+            WebServiceGlobalWeather.GlobalWeatherSoap ws = new WebServiceGlobalWeather.GlobalWeatherSoapClient();
+            string xmlCodeString;
+            while (true)
+            {
+                try
+                {
+                    xmlCodeString = ws.GetWeather(city, "");
+                    break;
+                }
+                catch
+                {
+                    continue;
+                }
+            }
+
+            if (xmlCodeString == "Data Not Found")
+                return 0;
+            XDocument xmlCode = XDocument.Parse(xmlCodeString);
+            XElement valueElement = xmlCode.Element("CurrentWeather").Element("Wind");
+            string valueString = valueElement.Value;
+            string pattern = @"[-,0-9,.]+ MPH";
+            string text = valueString;
+            RegexOptions option = RegexOptions.Singleline;
+            Regex newReg = new Regex(pattern, option);
+            Match match = newReg.Match(text);
+            pattern = @"[-,0-9,.]+";
+            text = match.ToString();
+            newReg = new Regex(pattern, option);
+            match = newReg.Match(text);
+            int wind = (int)Math.Round(Double.Parse(match.Value) * 0.45);
+            return wind;
+        }
         
         [WebMethod]
-        public bool CrapSnow(string s)
+        public void CrapSnow()
         {
 
-            return true;
         }
     }
 }
