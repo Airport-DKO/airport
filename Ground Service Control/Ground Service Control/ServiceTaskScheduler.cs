@@ -108,7 +108,13 @@ namespace Ground_Service_Control
         {
             foreach (var task in m_tasks.Where(task => task.plane.plane == previousTask.plane))
             {
-                return !task.nextTasks(previousTask);
+                if (!task.nextTasks(previousTask))
+                {
+                    m_tasks.Remove(task);
+                    return false;
+                }
+
+                return true;
             }
 
             Debug.Assert(false);
