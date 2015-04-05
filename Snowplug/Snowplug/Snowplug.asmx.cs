@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Services;
 using Snowplug.GMC;
@@ -25,7 +26,9 @@ namespace Snowplug
         [WebMethod]
         public bool Clean(List<CoordinateTuple> coordinates)
         {
-            //FIXME:
+            var t = new Task(() => SnowplugTask.Clean(coordinates));
+            t.Start();
+
             return true;
         }
 
