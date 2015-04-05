@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Aircraft_Generator.Commons;
-using Aircraft_Generator.TowerControl;
+using Aircraft_Generator.GmcVs;
+using MapObject = Aircraft_Generator.TowerControl.MapObject;
 
 namespace Aircraft_Generator
 {
@@ -54,6 +55,24 @@ namespace Aircraft_Generator
         }
 
         public bool UnloadBaggage(MapObject serviseZone, int weightOfBaggage)
+        {
+            // TODO: Needed realization
+            return true;
+        }
+
+        public bool FollowMe(Guid planeId)
+        {
+            //TODO: Needed realization
+            return true;
+        }
+
+        public bool DoStep(Guid planeId, CoordinateTuple step)
+        {
+            // TODO: Needed realization
+            return true;
+        }
+
+        public bool FollowMeComplete(Guid planeId)
         {
             // TODO: Needed realization
             return true;

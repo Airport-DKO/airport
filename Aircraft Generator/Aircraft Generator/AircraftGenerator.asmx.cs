@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Web.Services;
 using Aircraft_Generator.Commons;
-using Aircraft_Generator.TowerControl;
+using Aircraft_Generator.GmcVs;
+using MapObject = Aircraft_Generator.TowerControl.MapObject;
 
 namespace Aircraft_Generator
 {
@@ -54,5 +55,24 @@ namespace Aircraft_Generator
         {
             return Core.Instance.UnloadPassangers(serviseZone, countOfPassengers);
         }
+
+        [WebMethod]
+        public bool FollowMe(Guid planeId)
+        {
+            return Core.Instance.FollowMe(planeId);
+        }
+
+        [WebMethod]
+        public bool DoStep(Guid planeId, CoordinateTuple step)
+        {
+            return Core.Instance.DoStep(planeId, step);
+        }
+
+        [WebMethod]
+        public bool FollowMeComplete(Guid planeId)
+        {
+            return Core.Instance.FollowMeComplete(planeId);
+        }
+
     }
 }

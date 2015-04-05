@@ -32,5 +32,15 @@ namespace Aircraft_Generator.Properties {
                 return ((string)(this["Aircraft_Generator_TowerControl_Tower"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://airport-dko-gmc.azurewebsites.net/gmc.asmx")]
+        public string Aircraft_Generator_GmcVs_GMC {
+            get {
+                return ((string)(this["Aircraft_Generator_GmcVs_GMC"]));
+            }
+        }
     }
 }
