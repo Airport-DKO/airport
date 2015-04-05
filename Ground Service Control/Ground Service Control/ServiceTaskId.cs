@@ -17,14 +17,25 @@ namespace Ground_Service_Control
     internal enum ServiceTaskType
     {
         None,
-
-        BaggageTractor, //< Перевозчик багажа
-        CateringTruck, //< Питание
-        ContainerLoader, //< Погрузчик багажа (типа трапа?)
+        /// <summary>
+        /// Перевозчик багажа
+        /// </summary>
+        BaggageTractor,
+        /// <summary>
+        /// Питание
+        /// </summary>
+        CateringTruck,
+        /// <summary>
+        /// Погрузчик багажа (типа трапа?)
+        /// </summary>
+        ContainerLoader, 
         Deicer,
         PassengerBus,
-        PassengerStairs, //< Трап
-        Refueler,  //< Топливо
+        /// <summary>
+        /// Трап
+        /// </summary>
+        PassengerStairs,
+        Refueler,
         VIPShuttle
     }
 }

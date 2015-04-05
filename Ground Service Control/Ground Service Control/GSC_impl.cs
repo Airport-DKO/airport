@@ -18,7 +18,6 @@ namespace Ground_Service_Control
         public Guid plane;
     };
 
- 
     public class GSC_impl
     {
         public static GSC_impl self()
@@ -77,7 +76,8 @@ namespace Ground_Service_Control
 
                 Debug.Assert(!zone.free);
 
-                //FIXME: Отправить все службы на обслуживание самолёта.
+                m_taskScheduler.servicePlane(new PlaneNeeds{ plane = plane, flight = flight, baggage = baggage, economPassengers = economPassengers, fuelingNeeds = fuelingNeeds, ladder = ladder, VIPPassengers = VIPPassengers});
+
                 return true;
             }
         }
@@ -86,10 +86,11 @@ namespace Ground_Service_Control
         {
             lock (m_lock)
             {
-                Debug.Assert(m_tasks.Contains(TaskNumber));
+                if (!m_taskScheduler.nextTask(TaskNumber))
+                {
+                    //FIXME: сообщить, что готов к взлёту.
+                }
 
-                //FIXME: проверить, если все задачи для заданного самолёта выполнены (и антиобледенение произведено), то сообщить, что готов к взлёту.
-                m_tasks.Remove(TaskNumber);
                 return true;
             }
         }
@@ -114,10 +115,7 @@ namespace Ground_Service_Control
         /// </summary>
         private readonly List<ServiceZone> m_serviceZones = null;
 
-        /// <summary>
-        /// Список служб, которые выполняются в данный момент
-        /// </summary>
-        private readonly List<ServiceTaskId> m_tasks = new List<ServiceTaskId>(); 
+        private readonly ServiceTaskScheduler m_taskScheduler = new ServiceTaskScheduler();
 
         private static readonly GSC_impl m_self = new GSC_impl();
     }
