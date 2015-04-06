@@ -10,6 +10,7 @@ namespace Ground_Movement_Control.Commons
         public MapPointState State { get; set; }
         public MoveObjectType OwnerType { get; set; }
         public Guid OwnerGuid { get; set; }
+        public bool IsPublicPlace { get; set; }
 
         public MapPoint(int x, int y)
         {
@@ -18,6 +19,7 @@ namespace Ground_Movement_Control.Commons
             State = MapPointState.Vacant;
             OwnerType=MoveObjectType.None;
             OwnerGuid = Guid.Empty;
+            IsPublicPlace = false;
             _lockObject=new object();
         }
 
@@ -30,6 +32,10 @@ namespace Ground_Movement_Control.Commons
 
         public bool TryMove(MoveObjectType ownersType, Guid ownersGuid)
         {
+            if (IsPublicPlace)
+            {
+                return true;
+            }
             lock (_lockObject)
             {
                 if (State == MapPointState.Vacant)
