@@ -59,19 +59,15 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Service References\ServiceInformationPanel\WebServiceInformationPanel.wsdl" />
-    <Content Include="Service References\ServiceInformationPanel\WebTicketSales.ServiceInformationPanel.Flight.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
+    <Content Include="Web References\InformationPanelService\Flight.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
     </Content>
-    <Content Include="Service References\ServiceInformationPanel\WebTicketSales.ServiceInformationPanel.GetFlightForPlaneResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
+    <Content Include="Web References\InformationPanelService\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
     </Content>
-    <Content Include="Service References\ServiceInformationPanel\WebTicketSales.ServiceInformationPanel.GetFlightsForRegistrationResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Content>
-    <Content Include="Service References\ServiceInformationPanel\WebTicketSales.ServiceInformationPanel.GetFlightsForSalesResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Content>
+    <None Include="Properties\PublishProfiles\airport-dko-passengers.pubxml" />
+    <None Include="Web References\InformationPanelService\WebServiceInformationPanel.wsdl" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -80,13 +76,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Service References\ServiceInformationPanel\WebServiceInformationPanel.disco" />
-    <None Include="Service References\ServiceInformationPanel\configuration91.svcinfo" />
-    <None Include="Service References\ServiceInformationPanel\configuration.svcinfo" />
-    <None Include="Service References\ServiceInformationPanel\Reference.svcmap">
-      <Generator>WCF Proxy Generator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
+    <None Include="Web References\InformationPanelService\WebServiceInformationPanel.disco" />
     <Content Include="WebServiceTicketSales.asmx" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -101,13 +91,13 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="Service References\ServiceInformationPanel\Reference.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Compile>
     <Compile Include="Ticket.cs" />
     <Compile Include="TicketSales.cs" />
+    <Compile Include="Web References\InformationPanelService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
     <Compile Include="WebServiceTicketSales.asmx.cs">
       <DependentUpon>WebServiceTicketSales.asmx</DependentUpon>
       <SubType>Component</SubType>
@@ -120,7 +110,17 @@
     <WebReferences Include="Web References\" />
   </ItemGroup>
   <ItemGroup>
-    <WCFMetadataStorage Include="Service References\ServiceInformationPanel\" />
+    <WebReferenceUrl Include="http://localhost:14069/WebServiceInformationPanel.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\InformationPanelService\</RelPath>
+      <UpdateFromURL>http://localhost:14069/WebServiceInformationPanel.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>WebTicketSales_InformationPanelService_WebServiceInformationPanel</CachedSettingsPropName>
+    </WebReferenceUrl>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

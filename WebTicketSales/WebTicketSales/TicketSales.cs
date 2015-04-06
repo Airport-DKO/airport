@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using WebTicketSales.ServiceInformationPanel;
+using WebTicketSales.InformationPanelService;
 
 
 namespace WebTicketSales
 {
     public class TicketSales
     {
-        WebServiceInformationPanelSoapClient informationPanel = new WebServiceInformationPanelSoapClient();
-        //WebServiceInformationPanel informationPanel = new WebServiceInformationPanel();
+        
+        WebServiceInformationPanel informationPanel = new WebServiceInformationPanel();
         private Random random = new Random();
         private List<Ticket> ticketsBase = new List<Ticket>();
 

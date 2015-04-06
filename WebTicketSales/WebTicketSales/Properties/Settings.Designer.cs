@@ -22,5 +22,15 @@ namespace WebTicketSales.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://localhost:14069/WebServiceInformationPanel.asmx")]
+        public string WebTicketSales_InformationPanelService_WebServiceInformationPanel {
+            get {
+                return ((string)(this["WebTicketSales_InformationPanelService_WebServiceInformationPanel"]));
+            }
+        }
     }
 }
