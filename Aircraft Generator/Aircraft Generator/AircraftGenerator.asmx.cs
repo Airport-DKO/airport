@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Web.Services;
 using Aircraft_Generator.Commons;
 using Aircraft_Generator.GmcVs;
-using MapObject = Aircraft_Generator.TowerControl.MapObject;
+using MapObject = Aircraft_Generator.GmcVs.MapObject;
 
 namespace Aircraft_Generator
 {

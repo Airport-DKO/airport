@@ -9,7 +9,7 @@ namespace Ground_Movement_Control
     /// <summary>
     ///     Summary description for GMC
     /// </summary>
-    [WebService(Namespace = "DKO-Airport-Ground-Movement-Control")]
+    [WebService(Namespace = "Airport")]
     [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
     [ToolboxItem(false)]
     // To allow this Web Service to be called from script, using ASP.NET AJAX, uncomment the following line. 

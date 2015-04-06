@@ -10,7 +10,7 @@ namespace Tower_Control
     /// <summary>
     /// Summary description for Tower
     /// </summary>
-    [WebService(Namespace = "Airport-Dko-Tower-Control")]
+    [WebService(Namespace = "Airport")]
     [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
     [System.ComponentModel.ToolboxItem(false)]
     // To allow this Web Service to be called from script, using ASP.NET AJAX, uncomment the following line. 

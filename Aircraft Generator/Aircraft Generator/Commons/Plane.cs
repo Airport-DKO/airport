@@ -1,5 +1,5 @@
 ﻿using System;
-using Aircraft_Generator.GscWs;
+using Aircraft_Generator.GscWs2;
 using MapObject = Aircraft_Generator.GmcVs.MapObject;
 
 namespace Aircraft_Generator.Commons

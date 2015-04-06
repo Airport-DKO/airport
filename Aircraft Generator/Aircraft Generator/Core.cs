@@ -5,9 +5,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using Aircraft_Generator.Commons;
 using Aircraft_Generator.GmcVs;
-using Aircraft_Generator.GscWs;
-using Aircraft_Generator.TowerControl;
-using MapObject = Aircraft_Generator.TowerControl.MapObject;
+using Aircraft_Generator.GscWs2;
+using Aircraft_Generator.TowerService;
+using MapObject = Aircraft_Generator.GmcVs.MapObject;
 
 namespace Aircraft_Generator
 {
@@ -26,18 +26,21 @@ namespace Aircraft_Generator
         #endregion
 
         private readonly List<Plane> _createdPlanes;
-        private readonly Tower _tower;
         private readonly GMC _gmc;
         private readonly GSC _gsc;
-
-        public List<Plane> Planes { get { return _createdPlanes; } }
+        private readonly Tower _tower;
 
         private Core()
         {
             _createdPlanes = new List<Plane>();
-            _tower= new Tower();
+            _tower = new Tower();
             _gmc = new GMC();
-            _gsc=new GSC();
+            _gsc = new GSC();
+        }
+
+        public List<Plane> Planes
+        {
+            get { return _createdPlanes; }
         }
 
         public bool CreateNewPlane(String name, PlaneType type, int fuelNeed,
@@ -46,7 +49,7 @@ namespace Aircraft_Generator
             var plane = new Plane(name, PlaneState.Arrival, type, fuelNeed, maxStandartPassengers, maxVipPassengers,
                 hasArrivalPassengers);
             _createdPlanes.Add(plane);
-            var task = new Task(()=>PlaneLanding(plane));
+            var task = new Task(() => PlaneLanding(plane));
             task.Start();
             return true;
         }
@@ -85,15 +88,12 @@ namespace Aircraft_Generator
         {
             while (true)
             {
-                var result = _gmc.Step(step, MoveObjectType.Plane, planeId);
+                bool result = _gmc.Step(step, MoveObjectType.Plane, planeId);
                 if (result)
                 {
                     break;
                 }
-                else
-                {
-                    Sleep(1000);
-                }
+                Sleep(1000);
             }
             return true;
         }
@@ -113,7 +113,7 @@ namespace Aircraft_Generator
 
         private void Sleep(int time)
         {
-            int sleepTime = Convert.ToInt32(time * GetTimeCoef());
+            int sleepTime = Convert.ToInt32(time*GetTimeCoef());
             Thread.Sleep(sleepTime);
         }
 
@@ -138,21 +138,20 @@ namespace Aircraft_Generator
                 }
             }
 
-            plane.State=PlaneState.Landing;
+            plane.State = PlaneState.Landing;
         }
 
         private void PlaneTaxingToServiceZone(Guid planeGuid)
         {
-            var plane = _createdPlanes.First(p => p.Id == planeGuid);
-            plane.State=PlaneState.TaxingToRunway;
+            Plane plane = _createdPlanes.First(p => p.Id == planeGuid);
+            plane.State = PlaneState.TaxingToRunway;
             // TODO: Сообщить GMC о том, что полоса освободилась
-
         }
 
         private void PlaneIsReadyToService(Guid planeGuid)
         {
-            var plane = _createdPlanes.First(p => p.Id == planeGuid);
-            plane.State=PlaneState.OnService;
+            Plane plane = _createdPlanes.First(p => p.Id == planeGuid);
+            plane.State = PlaneState.OnService;
             _gsc.SetNeeds(plane.Id, plane.Flight, (plane.Type == PlaneType.Airbus), plane.MaxStandartPassengers,
                 plane.MaxVipPassengers, 10, plane.FuelNeed);
         }

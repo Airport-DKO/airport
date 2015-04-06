@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="Airport-Dko-Tower-Control" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:s1="http://microsoft.com/wsdl/types/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:s2="DKO-Airport-Ground-Movement-Control" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="Airport-Dko-Tower-Control" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="Airport" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:s1="http://microsoft.com/wsdl/types/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="Airport" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
   <wsdl:types>
-    <s:schema elementFormDefault="qualified" targetNamespace="Airport-Dko-Tower-Control">
+    <s:schema elementFormDefault="qualified" targetNamespace="Airport">
       <s:import namespace="http://microsoft.com/wsdl/types/" />
-      <s:import namespace="DKO-Airport-Ground-Movement-Control" />
       <s:element name="LandingRequest">
         <s:complexType>
           <s:sequence>
@@ -14,22 +13,13 @@
       <s:element name="LandingRequestResponse">
         <s:complexType>
           <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="LandingRequestResult" type="s2:MapObject" />
+            <s:element minOccurs="0" maxOccurs="1" name="LandingRequestResult" type="tns:MapObject" />
           </s:sequence>
         </s:complexType>
       </s:element>
-    </s:schema>
-    <s:schema elementFormDefault="qualified" targetNamespace="http://microsoft.com/wsdl/types/">
-      <s:simpleType name="guid">
-        <s:restriction base="s:string">
-          <s:pattern value="[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}" />
-        </s:restriction>
-      </s:simpleType>
-    </s:schema>
-    <s:schema elementFormDefault="qualified" targetNamespace="DKO-Airport-Ground-Movement-Control">
       <s:complexType name="MapObject">
         <s:sequence>
-          <s:element minOccurs="1" maxOccurs="1" name="MapObjectType" type="s2:MapObjectType" />
+          <s:element minOccurs="1" maxOccurs="1" name="MapObjectType" type="tns:MapObjectType" />
           <s:element minOccurs="1" maxOccurs="1" name="Number" type="s:int" />
         </s:sequence>
       </s:complexType>
@@ -39,6 +29,13 @@
           <s:enumeration value="Garage" />
           <s:enumeration value="ServiceArea" />
           <s:enumeration value="Airport" />
+        </s:restriction>
+      </s:simpleType>
+    </s:schema>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://microsoft.com/wsdl/types/">
+      <s:simpleType name="guid">
+        <s:restriction base="s:string">
+          <s:pattern value="[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}" />
         </s:restriction>
       </s:simpleType>
     </s:schema>
@@ -58,7 +55,7 @@
   <wsdl:binding name="TowerSoap" type="tns:TowerSoap">
     <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
     <wsdl:operation name="LandingRequest">
-      <soap:operation soapAction="Airport-Dko-Tower-Control/LandingRequest" style="document" />
+      <soap:operation soapAction="Airport/LandingRequest" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -70,7 +67,7 @@
   <wsdl:binding name="TowerSoap12" type="tns:TowerSoap">
     <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
     <wsdl:operation name="LandingRequest">
-      <soap12:operation soapAction="Airport-Dko-Tower-Control/LandingRequest" style="document" />
+      <soap12:operation soapAction="Airport/LandingRequest" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -81,10 +78,10 @@
   </wsdl:binding>
   <wsdl:service name="Tower">
     <wsdl:port name="TowerSoap" binding="tns:TowerSoap">
-      <soap:address location="http://airport-dko-gmc.azurewebsites.net/tower.asmx" />
+      <soap:address location="http://airport-dko-gmc.azurewebsites.net/Tower.asmx" />
     </wsdl:port>
     <wsdl:port name="TowerSoap12" binding="tns:TowerSoap12">
-      <soap12:address location="http://airport-dko-gmc.azurewebsites.net/tower.asmx" />
+      <soap12:address location="http://airport-dko-gmc.azurewebsites.net/Tower.asmx" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>
