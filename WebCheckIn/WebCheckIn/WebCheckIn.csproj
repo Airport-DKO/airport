@@ -59,26 +59,23 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Service References\ServiceReferenceInformationPanel\WebCheckIn.ServiceReferenceInformationPanel.Flight.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
+    <Content Include="Web References\InformationPanelService\Flight.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
     </Content>
-    <Content Include="Service References\ServiceReferenceInformationPanel\WebCheckIn.ServiceReferenceInformationPanel.GetFlightForPlaneResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
+    <Content Include="Web References\InformationPanelService\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
     </Content>
-    <Content Include="Service References\ServiceReferenceInformationPanel\WebCheckIn.ServiceReferenceInformationPanel.GetFlightsForRegistrationResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
+    <None Include="Properties\PublishProfiles\airport-dko-passengers.pubxml" />
+    <None Include="Web References\InformationPanelService\WebServiceInformationPanel.wsdl" />
+    <Content Include="Web References\TicketSalesService\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
     </Content>
-    <Content Include="Service References\ServiceReferenceInformationPanel\WebCheckIn.ServiceReferenceInformationPanel.GetFlightsForSalesResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
+    <Content Include="Web References\TicketSalesService\Ticket.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
     </Content>
-    <None Include="Service References\ServiceReferenceInformationPanel\WebServiceInformationPanel.wsdl" />
-    <Content Include="Service References\ServiceReferenceTicketSales\WebCheckIn.ServiceReferenceTicketSales.BuyTicketResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Content>
-    <Content Include="Service References\ServiceReferenceTicketSales\WebCheckIn.ServiceReferenceTicketSales.Ticket.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Content>
-    <None Include="Service References\ServiceReferenceTicketSales\WebServiceTicketSales.wsdl" />
+    <None Include="Web References\TicketSalesService\WebServiceTicketSales.wsdl" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -87,20 +84,8 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Service References\ServiceReferenceInformationPanel\WebServiceInformationPanel.disco" />
-    <None Include="Service References\ServiceReferenceInformationPanel\configuration91.svcinfo" />
-    <None Include="Service References\ServiceReferenceInformationPanel\configuration.svcinfo" />
-    <None Include="Service References\ServiceReferenceInformationPanel\Reference.svcmap">
-      <Generator>WCF Proxy Generator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
-    <None Include="Service References\ServiceReferenceTicketSales\WebServiceTicketSales.disco" />
-    <None Include="Service References\ServiceReferenceTicketSales\configuration91.svcinfo" />
-    <None Include="Service References\ServiceReferenceTicketSales\configuration.svcinfo" />
-    <None Include="Service References\ServiceReferenceTicketSales\Reference.svcmap">
-      <Generator>WCF Proxy Generator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
+    <None Include="Web References\InformationPanelService\WebServiceInformationPanel.disco" />
+    <None Include="Web References\TicketSalesService\WebServiceTicketSales.disco" />
     <Content Include="WebServiceCheckIn.asmx" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -117,15 +102,15 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="Service References\ServiceReferenceInformationPanel\Reference.cs">
+    <Compile Include="Web References\InformationPanelService\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Reference.svcmap</DependentUpon>
+      <DependentUpon>Reference.map</DependentUpon>
     </Compile>
-    <Compile Include="Service References\ServiceReferenceTicketSales\Reference.cs">
+    <Compile Include="Web References\TicketSalesService\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Reference.svcmap</DependentUpon>
+      <DependentUpon>Reference.map</DependentUpon>
     </Compile>
     <Compile Include="WebServiceCheckIn.asmx.cs">
       <DependentUpon>WebServiceCheckIn.asmx</DependentUpon>
@@ -139,8 +124,28 @@
     <WebReferences Include="Web References\" />
   </ItemGroup>
   <ItemGroup>
-    <WCFMetadataStorage Include="Service References\ServiceReferenceInformationPanel\" />
-    <WCFMetadataStorage Include="Service References\ServiceReferenceTicketSales\" />
+    <WebReferenceUrl Include="http://localhost:14069/WebServiceInformationPanel.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\InformationPanelService\</RelPath>
+      <UpdateFromURL>http://localhost:14069/WebServiceInformationPanel.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>WebCheckIn_InformationPanelService_WebServiceInformationPanel</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://localhost:22401/WebServiceTicketSales.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\TicketSalesService\</RelPath>
+      <UpdateFromURL>http://localhost:22401/WebServiceTicketSales.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>WebCheckIn_TicketSalesService_WebServiceTicketSales</CachedSettingsPropName>
+    </WebReferenceUrl>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

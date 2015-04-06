@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WebCheckIn.ServiceReferenceInformationPanel;
-using WebCheckIn.ServiceReferenceTicketSales;
+using WebCheckIn.TicketSalesService;
 using WebTicketSales;
 
 
@@ -27,10 +26,9 @@ namespace WebCheckIn
 
     class CheckIn
     {
-        ServiceReferenceInformationPanel.WebServiceInformationPanelSoapClient informationPanel = new WebServiceInformationPanelSoapClient();
-        ServiceReferenceTicketSales.WebServiceTicketSalesSoapClient ticketSales = new WebServiceTicketSalesSoapClient();
-        //private WebServiceTicketSales ticketSales = new WebServiceTicketSales();
-        //private InformationPanelReference.WebServiceInformationPanel informationPanel = new InformationPanelReference.WebServiceInformationPanel();
+        
+        private WebServiceTicketSales ticketSales = new WebServiceTicketSales();
+        private InformationPanelService.WebServiceInformationPanel informationPanel = new InformationPanelService.WebServiceInformationPanel();
         private List<RegistrationWriting> RegistrationBase = new List<RegistrationWriting>(); 
         
         /// <summary>
