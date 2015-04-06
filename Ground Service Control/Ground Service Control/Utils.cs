@@ -18,13 +18,13 @@ namespace Ground_Service_Control
         private static readonly Utils m_self = new Utils();
 
         /// <summary>
-        /// Возвращает количество миллесекунд в 1 секунде
+        /// Пеобразует настоящее время во внутреннее время системы
         /// </summary>
         /// <returns></returns>
-        public int msInSecond()
+        public int systemTime(int time)
         {
             //TODO: метрологическая служба.
-            return 1000;
+            return time;
         }
 
         public double temperature()

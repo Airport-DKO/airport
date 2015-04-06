@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 
@@ -54,8 +55,12 @@ namespace Ground_Service_Control
 
         public override void execute()
         {
-            //FIXME:
-            return;
+            var t = new Task(() =>
+            {
+                //FIXME:
+            });
+
+            t.Start();
         }
     };
 
@@ -69,8 +74,12 @@ namespace Ground_Service_Control
 
         public override void execute()
         {
-            //FIXME:
-            return;
+            var t = new Task(() =>
+            {
+                //FIXME:
+            });
+
+            t.Start();
         }
     };
 
@@ -84,7 +93,14 @@ namespace Ground_Service_Control
 
         public override void execute()
         {
-            //FIXME:
+            var t = new Task(() =>
+            {
+                Thread.Sleep(Utils.self().systemTime(5000));
+
+                //FIXME:
+            });
+
+            t.Start();
             return;
         }
     };
@@ -99,8 +115,12 @@ namespace Ground_Service_Control
 
         public override void execute()
         {
-            //FIXME:
-            return;
+            var t = new Task(() =>
+            {
+                //FIXME:
+            });
+
+            t.Start();
         }
     };
 
@@ -114,7 +134,14 @@ namespace Ground_Service_Control
 
         public override void execute()
         {
-            //FIXME:
+            var t = new Task(() =>
+            {
+                Thread.Sleep(Utils.self().systemTime(5000));
+
+                //FIXME:
+            });
+
+            t.Start();
             return;
         }
     };
@@ -129,8 +156,12 @@ namespace Ground_Service_Control
 
         public override void execute()
         {
-            //FIXME:
-            return;
+            var t = new Task(() =>
+            {
+                //FIXME:
+            });
+
+            t.Start();
         }
     };
 
@@ -144,8 +175,12 @@ namespace Ground_Service_Control
 
         public override void execute()
         {
-            //FIXME:
-            return;
+            var t = new Task(() =>
+            {
+                //FIXME:
+            });
+
+            t.Start();
         }
     };
 
@@ -159,8 +194,12 @@ namespace Ground_Service_Control
 
         public override void execute()
         {
-            //FIXME:
-            return;
+            var t = new Task(() =>
+            {
+                //FIXME:
+            });
+
+            t.Start();
         }
     };
 
