@@ -67,9 +67,7 @@ namespace Ground_Service_Control
 
         public ServiceTask createDeicer()
         {
-            //FIXME: узнать температуру
-            const bool needsDeicing = false;
-            return !needsDeicing
+            return Utils.self().temperature() > 4
                 ? new NoServiceTask(m_plane.plane)
                 : (ServiceTask) new DeicerServiceTask(m_plane.plane);
         }

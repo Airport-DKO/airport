@@ -113,6 +113,7 @@
     <Compile Include="ServiceTaskFactory.cs" />
     <Compile Include="ServiceTaskId.cs" />
     <Compile Include="ServiceTaskScheduler.cs" />
+    <Compile Include="Utils.cs" />
     <Compile Include="Web References\AircraftGenerator\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
