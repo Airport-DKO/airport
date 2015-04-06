@@ -18,15 +18,18 @@ namespace WebInformationPanel
 
     public class Flight
     {
-        public Guid number { get; set; }
-        public Cities city { get; set; }
-        public DateTime arrivalTime { get; set; }
-        public DateTime takeoffTime { get; set; }
+        public Guid number { get; set; }                    //id рейса
+        public Cities city { get; set; }                    //город назначения
+        public DateTime arrivalTime { get; set; }           //время прилёта
+        public DateTime takeoffTime { get; set; }           //время отправления
 
-        public DateTime StartRegistrationTime { get; set; }
-        public DateTime EndRegistrationTime { get; set; }
+        public DateTime StartRegistrationTime { get; set; } //начало регистрации
+        public DateTime EndRegistrationTime { get; set; }   //конец регистрации
 
-        public int EconomPassengersCount { get; set; }
-        public int VipPassengersCount { get; set; } 
+        public int EconomPassengersCount { get; set; }      //количество обычных пассажиров
+        public int VipPassengersCount { get; set; }         //количество vip-ов
+
+        public Guid? BindPlaneID { get; set; }               //id самолёта, который полетит этим рейсом
+        public bool IsReadyTakeOff { get; set; }            //готов ли самолёт вылетать
     }
 }

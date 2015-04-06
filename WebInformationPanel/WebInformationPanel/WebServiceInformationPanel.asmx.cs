@@ -18,11 +18,7 @@ namespace WebInformationPanel
     public class WebServiceInformationPanel : System.Web.Services.WebService
     {
         private static InformationPanel infpanel = new InformationPanel();
-        [WebMethod]
-        public Flight GetFlightForPlane()
-        {
-            return infpanel.GetFlightForPlane();
-        }
+        
         [WebMethod]
         public List<Flight> GetFlightsForRegistration()
         {
@@ -50,6 +46,31 @@ namespace WebInformationPanel
         public void CreateFlight(DateTime takeoffTime, Cities city, int economPassengers, int vipPassengers)
         {
             infpanel.CreateFlight(takeoffTime, city, economPassengers, vipPassengers);
+        }
+
+        [WebMethod]
+        public List<Flight> GetAvailableFlights()
+        {
+            return infpanel.GetAvailableFlights();
+        }
+
+        [WebMethod]
+        public bool RegisterPlaneToFlight(Guid planeid, Guid FlightId)
+        {
+            return infpanel.RegisterPlaneToFlight(planeid, FlightId);
+        }
+
+
+        [WebMethod]
+        public bool ReadyToTakeOff(Guid fligthID)
+        {
+            return infpanel.ReadyToTakeOff(fligthID);
+        }
+
+        [WebMethod]
+        public void Reset()
+        {
+            infpanel.Reset();
         }
     }
 }

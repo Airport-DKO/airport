@@ -6,6 +6,7 @@ using System.Web;
 
 namespace WebInformationPanel
 {
+    //TODO написать логику переноса времени вылета!!!!!
     class InformationPanel
     {
         List<Flight> FlightsBase = new List<Flight>();   //собственно, рейсы уже привязанные к самолёту
@@ -26,7 +27,7 @@ namespace WebInformationPanel
             f.city = city;
             f.EconomPassengersCount = economPassengers;
             f.VipPassengersCount = vipPassengers;
-
+            f.IsReadyTakeOff = false;
             //проставляем время начала и окончания регистрации на рейс
             //допустим, что регистрация заканчивается за полчаса до вылета
             //и длится 2 часа
@@ -37,18 +38,46 @@ namespace WebInformationPanel
             FlightsBase.Add(f);
         }
 
-        //TODO Кирилл, есть серьёзный разговор
-        public Flight GetFlightForPlane()
+        /// <summary>
+        /// получение списка свободных рейсов для гс
+        /// </summary>
+        /// <returns></returns>
+        public List< Flight> GetAvailableFlights()
         {
-            //TODO МАША, не забудь переделать, а то я тебя знаю
-            return FlightsBase[0];
+            return FlightsBase.Where(s => s.BindPlaneID == null).ToList();
+        }
+
+        public bool ReadyToTakeOff(Guid fligthID)
+        {
+            var f = FlightsBase.FirstOrDefault(s => s.number == fligthID);
+            if (f != null)
+            {
+                f.IsReadyTakeOff = true;
+                return true;
+            }
+            return false;
+        }
+
+        //TODO нет класса Pline, поэтому пока принимаем тольео id (возможны исправления) 
+        //в принципе, можно с помощью этого метода предусмотреть функционал создания рейса специально под самолёт, но это если скучно будет
+        /// <summary>
+        /// привязка рейса к самолёту
+        /// </summary>
+        /// <param name="planeid">id самолёта</param>
+        /// <param name="FlightId">id рейса</param>
+        /// <returns></returns>
+        public bool RegisterPlaneToFlight(Guid planeid, Guid FlightId)
+        {
+            var f = FlightsBase.FirstOrDefault(s => s.number == FlightId);
+            if (f == null) return false;
+            f.BindPlaneID = planeid;
+            return true;
         }
 
         /// <summary>
         /// получаем рейсы, доступные для регистрации
         /// </summary>
         /// <returns>список рейсов</returns>
-        //TODO подумать над тем, чтобы в этом методе вернуть просто список айдишников
         public List<Flight> GetFlightsForRegistration()
         {
             try
@@ -115,6 +144,11 @@ namespace WebInformationPanel
             if (f == null)//это будет очень странно            
                 return false;
             return time >= f.takeoffTime.AddMinutes(-5);
+        }
+
+        public void Reset()
+        {
+            FlightsBase.Clear();
         }
     }
 }
