@@ -39,6 +39,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -65,14 +67,6 @@
     <Content Include="Web References\GmcVs\CoordinateTuple.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </Content>
-    <None Include="Web References\GmcVs\gmc.disco" />
-    <Content Include="Web References\TowerControl\MapObject.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </Content>
-    <Content Include="Web References\TowerControl\Reference.map">
-      <Generator>MSDiscoCodeGenerator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </Content>
     <None Include="Web References\GmcVs\gmc.wsdl" />
     <Content Include="Web References\GmcVs\MapObject.datasource">
       <DependentUpon>Reference.map</DependentUpon>
@@ -81,7 +75,23 @@
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </Content>
-    <None Include="Web References\TowerControl\tower.wsdl" />
+    <None Include="Web References\GscWs2\gsc.disco" />
+    <Content Include="Web References\TowerService\MapObject.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\TowerService\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </Content>
+    <None Include="Web References\GscWs2\gsc.wsdl" />
+    <Content Include="Web References\GscWs2\MapObject.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\GscWs2\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </Content>
+    <None Include="Web References\TowerService\Tower.wsdl" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -91,8 +101,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="AircraftGenerator.asmx" />
-    <None Include="Web References\TowerControl\tower.disco" />
-    <Content Include="Web.config" />
+    <None Include="Web References\GmcVs\gmc.disco" />
+    <None Include="Web References\TowerService\Tower.disco" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AircraftGenerator.asmx.cs">
@@ -100,7 +113,6 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Commons\City.cs" />
-    <Compile Include="Commons\Flight.cs" />
     <Compile Include="Commons\Plane.cs" />
     <Compile Include="Commons\PlaneState.cs" />
     <Compile Include="Commons\PlaneType.cs" />
@@ -116,14 +128,16 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.map</DependentUpon>
     </Compile>
-    <Compile Include="Web References\TowerControl\Reference.cs">
+    <Compile Include="Web References\GscWs2\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.map</DependentUpon>
     </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Service References\" />
+    <Compile Include="Web References\TowerService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <WebReferences Include="Web References\" />
@@ -140,17 +154,31 @@
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>Aircraft_Generator_GmcVs_GMC</CachedSettingsPropName>
     </WebReferenceUrl>
-    <WebReferenceUrl Include="http://airport-dko-gmc.azurewebsites.net/tower.asmx">
+    <WebReferenceUrl Include="http://airport-dko-gmc.azurewebsites.net/Tower.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
-      <RelPath>Web References\TowerControl\</RelPath>
-      <UpdateFromURL>http://airport-dko-gmc.azurewebsites.net/tower.asmx</UpdateFromURL>
+      <RelPath>Web References\TowerService\</RelPath>
+      <UpdateFromURL>http://airport-dko-gmc.azurewebsites.net/Tower.asmx</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>
       </CachedDynamicPropName>
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
-      <CachedSettingsPropName>Aircraft_Generator_TowerControl_Tower</CachedSettingsPropName>
+      <CachedSettingsPropName>Aircraft_Generator_TowerService_Tower</CachedSettingsPropName>
     </WebReferenceUrl>
+    <WebReferenceUrl Include="http://airport-dko-gsc.azurewebsites.net/gsc.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\GscWs2\</RelPath>
+      <UpdateFromURL>http://airport-dko-gsc.azurewebsites.net/gsc.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Aircraft_Generator_GscWs2_GSC</CachedSettingsPropName>
+    </WebReferenceUrl>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

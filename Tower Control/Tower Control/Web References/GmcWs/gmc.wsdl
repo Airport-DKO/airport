@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="DKO-Airport-Ground-Movement-Control" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:s1="http://microsoft.com/wsdl/types/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="DKO-Airport-Ground-Movement-Control" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="Airport" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:s1="http://microsoft.com/wsdl/types/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="Airport" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
   <wsdl:types>
-    <s:schema elementFormDefault="qualified" targetNamespace="DKO-Airport-Ground-Movement-Control">
+    <s:schema elementFormDefault="qualified" targetNamespace="Airport">
       <s:import namespace="http://microsoft.com/wsdl/types/" />
       <s:element name="GetRoute">
         <s:complexType>
@@ -132,7 +132,7 @@
   <wsdl:binding name="GMCSoap" type="tns:GMCSoap">
     <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
     <wsdl:operation name="GetRoute">
-      <soap:operation soapAction="DKO-Airport-Ground-Movement-Control/GetRoute" style="document" />
+      <soap:operation soapAction="Airport/GetRoute" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -141,7 +141,7 @@
       </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="Step">
-      <soap:operation soapAction="DKO-Airport-Ground-Movement-Control/Step" style="document" />
+      <soap:operation soapAction="Airport/Step" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -150,7 +150,7 @@
       </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="CheckRunwayAwailability">
-      <soap:operation soapAction="DKO-Airport-Ground-Movement-Control/CheckRunwayAwailability" style="document" />
+      <soap:operation soapAction="Airport/CheckRunwayAwailability" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -162,7 +162,7 @@
   <wsdl:binding name="GMCSoap12" type="tns:GMCSoap">
     <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
     <wsdl:operation name="GetRoute">
-      <soap12:operation soapAction="DKO-Airport-Ground-Movement-Control/GetRoute" style="document" />
+      <soap12:operation soapAction="Airport/GetRoute" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -171,7 +171,7 @@
       </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="Step">
-      <soap12:operation soapAction="DKO-Airport-Ground-Movement-Control/Step" style="document" />
+      <soap12:operation soapAction="Airport/Step" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -180,7 +180,7 @@
       </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="CheckRunwayAwailability">
-      <soap12:operation soapAction="DKO-Airport-Ground-Movement-Control/CheckRunwayAwailability" style="document" />
+      <soap12:operation soapAction="Airport/CheckRunwayAwailability" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

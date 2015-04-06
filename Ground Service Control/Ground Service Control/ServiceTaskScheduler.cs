@@ -21,15 +21,6 @@ namespace Ground_Service_Control
         public int fuelingNeeds;
     };
 
-    /// <summary>
-    /// Одна конкретная задача для самолёта и список задач, зависящих от неё.
-    /// </summary>
-    internal class ServiceTask
-    {
-        public ServiceTaskId taskId = new ServiceTaskId();
-        public List<ServiceTask> nextTasks = new List<ServiceTask>();
-    };
-
     internal class TasksGenerator
     {
         //Приблизительный порядок наземного обслуживания:
@@ -47,24 +38,27 @@ namespace Ground_Service_Control
         //    Антиобледенитель и взлёт.
         static public PlaneTask generateListOfTasksForPlane(PlaneNeeds plane)
         {
-            //TODO: не добавлять трап, если ненужен и т.д.
+            var factory = new ServiceTaskFactory(plane);
+
             var task = new PlaneTask(plane);
 
-            var luggageTrap = new ServiceTask {taskId = {plane = plane.plane, type = ServiceTaskType.ContainerLoader}};
-            var luggageUnload = new ServiceTask { taskId = { plane = plane.plane, type = ServiceTaskType.BaggageTractor}};
-            var luggageLoad = new ServiceTask { taskId = { plane = plane.plane, type = ServiceTaskType.BaggageTractor } };
+            var luggageTrap = factory.createContainerLoader();
+            var luggageUnload = factory.createBaggageTractor(false);
+            var luggageLoad = factory.createBaggageTractor(true);
 
             luggageUnload.nextTasks.Add(luggageLoad);
             luggageTrap.nextTasks.Add(luggageUnload);
 
-            var trap = new ServiceTask { taskId = { plane = plane.plane, type = ServiceTaskType.PassengerStairs } };
-            var vipPassangersOut = new ServiceTask { taskId = { plane = plane.plane, type = ServiceTaskType.VIPShuttle } };
-            var passangersOut = new ServiceTask { taskId = { plane = plane.plane, type = ServiceTaskType.PassengerBus } };
-            var food = new ServiceTask { taskId = { plane = plane.plane, type = ServiceTaskType.CateringTruck } };
-            var fuel = new ServiceTask { taskId = { plane = plane.plane, type = ServiceTaskType.Refueler } };
-            var vipPassangersIn = new ServiceTask { taskId = { plane = plane.plane, type = ServiceTaskType.VIPShuttle } };
-            var passangersIn = new ServiceTask { taskId = { plane = plane.plane, type = ServiceTaskType.PassengerBus } };
+            var trap = factory.createPassengerStairs();
+            var vipPassangersOut = factory.createVIPShuttle(false);
+            var passangersOut = factory.createPassengerBus(false);
+            var food = factory.createCateringTruck();
+            var fuel = factory.createRefueler();
+            var vipPassangersIn = factory.createVIPShuttle(true);
+            var passangersIn = factory.createPassengerBus(true);
+            var deicing = factory.createDeicer();
 
+            passangersIn.nextTasks.Add(deicing);
 
             fuel.nextTasks.Add(vipPassangersIn);
             fuel.nextTasks.Add(passangersIn);
@@ -108,7 +102,13 @@ namespace Ground_Service_Control
         {
             foreach (var task in m_tasks.Where(task => task.plane.plane == previousTask.plane))
             {
-                return !task.nextTasks(previousTask);
+                if (!task.nextTasks(previousTask))
+                {
+                    m_tasks.Remove(task);
+                    return false;
+                }
+
+                return true;
             }
 
             Debug.Assert(false);

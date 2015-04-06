@@ -1,0 +1,440 @@
+using UnityEngine;
+using System.Collections;
+using System.IO;
+using System.Collections.Generic;
+using System.Threading;
+public enum MoveObjectType
+{
+    None,
+    Plane,
+    FollowMeVan,
+    ContainerLoader,
+    BaggageTractor,
+    CateringTruck,
+    Deicer,
+    PassengerStairs,
+    PassengerBus,
+    VipShuttle,
+    SnowRemovalVehicle
+}
+public enum Directions
+{
+    North,
+    West,
+    South,
+    East
+}
+public struct TilesPosition
+{
+    public int posX;
+    public int posY;
+
+    public TilesPosition(int x, int y)
+    {
+        posX = x;
+        posY = y;
+    }
+}
+public class Vehicle : MonoBehaviour
+{
+    public int id;
+    public string _name;
+    public TilesPosition tilesPosition;
+    public Vector2 actPosition;
+    public Directions direction;
+    public Vector2 actDestination;
+    public TilesPosition tilesDestination;
+    public TilesPosition prevTilesDestination;
+    public int destinationx;
+    public int destinationy;
+    public float speed;
+    public Vehicle()
+    { }
+    public void InitialParameters(ref Vehicle vehicle, MoveObjectType type, TilesPosition destinationTile, Vector2 actPos, float speed)
+    {
+        vehicle.id = (int)type;
+        vehicle._name = type.ToString();
+        vehicle.actDestination = vehicle.transform.position;
+        vehicle.tilesDestination = destinationTile;
+        vehicle.prevTilesDestination = destinationTile;
+        vehicle.actPosition = vehicle.transform.position;
+        vehicle.tilesPosition = destinationTile;
+        destinationx = destinationTile.posX;
+        destinationy = destinationTile.posY;
+       
+        this.speed = speed;
+    }
+
+    //public Vehicle(int id, string name, TilesPosition tilesPos, Vector2 actPosition, Directions direction, Vector2 actDestination = new Vector2(), TilesPosition tilesDirection = new TilesPosition())
+    //{
+
+    //    this.id = id;
+    //    this.name = name;
+    //    this.tilesPosition = tilesPos;
+    //    this.actPosition = actPosition;
+    //    this.direction = direction;
+    //    this.actDestination = actPosition;
+    //    this.tilesDirection = tilesPos;
+    //}
+
+    //public GameObject InstantiatePlane(KeyValuePair<float,float> coords)
+    //{
+    //    Vector3 posVector = new Vector3(coords.Key, coords.Value, 0);
+    //    Object plane = Resources.Load("plane");
+    //    Object obj =  Instantiate(plane, posVector, UnityEngine.Quaternion.identity);
+    //    GameObject rb2D = obj as GameObject;
+    //    return rb2D;
+
+    //}
+}
+public class Tiles
+{
+
+    public TilesPosition tilesCustPos = new TilesPosition();
+    public Vector2 tilesActPos;
+    public float offset;
+    public char symbol;
+    public Tiles()
+    { }
+    public Tiles(TilesPosition tilePos, Vector2 pixelPos, float _offset, char symbol)
+    {
+        tilesCustPos = tilePos;
+        tilesActPos = pixelPos;
+        offset = _offset;
+        this.symbol = symbol;
+    }
+    public Vector2 TileToPixel(Tiles tile)
+    {
+        return new Vector2(tile.tilesActPos.x, tile.tilesActPos.y);
+    }
+}
+
+
+public class script : MonoBehaviour
+{
+    public int x;
+    public int y;
+    public TilesPosition tp = new TilesPosition();
+    List<Vehicle> vehicleList = new List<Vehicle>();
+    public
+
+    Tiles[,] tiles;
+
+
+
+
+
+    //перевод тектовика в массив чаровC:\Users\Nikita\Documents\Airport\Assets\
+    public char[,] mapTranslator(ref int rowSize, ref int columnSize)
+    {
+        TextAsset textAsset = (TextAsset)Resources.Load("change");
+        string map = textAsset.text;
+        string tempString = map.Replace("\r\n", "");
+        int total = tempString.Length;
+        int m = columnSize = map.IndexOf(System.Environment.NewLine);
+        int n = rowSize = total / m;
+
+        char[,] mapArray = new char[n, m];
+        int count = 0;
+        for (int i = 0; i < n; i++)
+        {
+            for (int j = 0; j < m; j++)
+            {
+                mapArray[i, j] = tempString[count];
+                count++;
+            }
+        }
+        return mapArray;
+    }
+
+    public Vector2 DrawGrass()
+    {
+        //char map
+        int rows = 0;
+        int columns = 0;
+        var map = mapTranslator(ref rows, ref columns);
+
+        Object obj = Resources.Load("grass_tile");
+        Object asphalt = Resources.Load("asphalt");
+        Object runway = Resources.Load("runway");
+        Object glass = Resources.Load("glass");
+        float tileX = 0;
+        float tileY = 0;
+        tiles = new Tiles[rows, columns];
+        for (int i = 0; i < rows; i++)
+        {
+            for (int j = 0; j < columns; j++)
+            {
+
+                tiles[i, j] = new Tiles(new TilesPosition(i, j), new Vector2(tileX, tileY), 12, map[i, j]);
+
+                tileX += 12f;
+            }
+            tileX = 0;
+            tileY -= 12f;
+        }
+
+
+
+        for (int i = 0; i < rows; i++)
+        {
+            for (int j = 0; j < columns; j++)
+            {
+                if (tiles[i, j].symbol == '+')
+                {
+                    Instantiate(runway, new Vector3(tiles[i, j].tilesActPos.x, tiles[i, j].tilesActPos.y), UnityEngine.Quaternion.identity);
+
+                }
+                else if (tiles[i, j].symbol == '.' || tiles[i, j].symbol == '-' || tiles[i, j].symbol == '|')
+                {
+                    Instantiate(asphalt, new Vector3(tiles[i, j].tilesActPos.x, tiles[i, j].tilesActPos.y), UnityEngine.Quaternion.identity);
+                }
+                else if (tiles[i, j].symbol == ' ')
+                {
+                    Instantiate(obj, new Vector3(tiles[i, j].tilesActPos.x, tiles[i, j].tilesActPos.y), UnityEngine.Quaternion.identity);
+                }
+                else if (tiles[i, j].symbol == '#')
+                {
+                    Instantiate(glass, new Vector3(tiles[i, j].tilesActPos.x, tiles[i, j].tilesActPos.y), UnityEngine.Quaternion.identity);
+                }
+
+
+            }
+        }
+        return (new Vector2(rows, columns));
+    }
+
+    public TilesPosition PositionToTile(Vector3 vector, Vector2 mapDimensions)
+    {
+        for (int i = 0; i < mapDimensions.x; i++)
+        {
+            for (int j = 0; j < mapDimensions.y; j++)
+            {
+                if (tiles[i, j].tilesActPos == (Vector2)vector)
+                {
+                    return tiles[i, j].tilesCustPos;
+                }
+            }
+        }
+        return new TilesPosition(0, 0);
+    }
+    public Vector2 TileToPosition(TilesPosition tile)
+    {
+        int vectorX = tile.posX;
+        int vectorY = tile.posY;
+        Vector2 newVector = tiles[vectorX, vectorY].tilesActPos;
+        return newVector;
+    }
+
+    public void AddToList(int count, Vehicle v0 = null, Vehicle v1 = null, Vehicle v2 = null, Vehicle v3 = null, Vehicle v4 = null, Vehicle v5 = null, Vehicle v6 = null, Vehicle v7 = null, Vehicle v8 = null, Vehicle v9 = null)
+    {
+        for (int i = 0; i < count; i++)
+        {
+            vehicleList.Add(v0);
+            vehicleList.Add(v1);
+            vehicleList.Add(v2);
+            vehicleList.Add(v3);
+            vehicleList.Add(v4);
+            vehicleList.Add(v5);
+            vehicleList.Add(v6);
+            vehicleList.Add(v7);
+            vehicleList.Add(v8);
+            vehicleList.Add(v9);
+        }
+    }
+    //void CreateObjects()
+
+    //{
+    //    Vehicle plane = new Vehicle((int)MoveObjectType.Plane, "Plane", new TilesPosition(0, 0), new Vector2(tiles[0, 0].posX, tiles[0, 0].posY), Directions.North);
+    //    Vehicle followMeVan = new Vehicle((int)MoveObjectType.FollowMeVan, "FollowMeVan", new TilesPosition(0, 1), new Vector2(tiles[0, 1].posX, tiles[0, 1].posY), Directions.North);
+    //    Vehicle containerLoader = new Vehicle((int)MoveObjectType.ContainerLoader, "ContainerLoader", new TilesPosition(0, 2), new Vector2(tiles[0, 2].posX, tiles[0, 2].posY), Directions.North);
+    //    Vehicle BaggageTractor = new Vehicle((int)MoveObjectType.BaggageTractor, "BaggageTractor", new TilesPosition(0, 3), new Vector2(tiles[0, 3].posX, tiles[0, 3].posY), Directions.North);
+    //    Vehicle CateringTruck = new Vehicle((int)MoveObjectType.CateringTruck, "CateringTruck", new TilesPosition(0, 4), new Vector2(tiles[0, 4].posX, tiles[0, 4].posY), Directions.North);
+    //    Vehicle deicer = new Vehicle((int)MoveObjectType.Deicer, "Deicer", new TilesPosition(0, 5), new Vector2(tiles[0, 5].posX, tiles[0, 5].posY), Directions.North);
+    //    Vehicle passengerStairs = new Vehicle((int)MoveObjectType.PassengerStairs, "PassengerStairs", new TilesPosition(0, 6), new Vector2(tiles[0, 6].posX, tiles[0, 6].posY), Directions.North);
+    //    Vehicle passengerBus = new Vehicle((int)MoveObjectType.PassengerBus, "PassengerBus", new TilesPosition(0, 7), new Vector2(tiles[0, 7].posX, tiles[0, 7].posY), Directions.North);
+    //    Vehicle vipShuttle = new Vehicle((int)MoveObjectType.VipShuttle, "VipShuttle", new TilesPosition(0, 8), new Vector2(tiles[0, 8].posX, tiles[0, 8].posY), Directions.North);
+    //    Vehicle snowRemovalMachine = new Vehicle((int)MoveObjectType.SnowRemovalVehicle, "SnowRemovalVehicle", new TilesPosition(0, 9), new Vector2(tiles[0, 9].posX, tiles[0, 9].posY), Directions.North);
+    //    AddToList(plane, followMeVan, containerLoader, BaggageTractor, CateringTruck, deicer, passengerStairs, passengerBus, vipShuttle, snowRemovalMachine);
+    //}
+
+    void Start()
+    {
+
+
+        Vector2 dimensions = DrawGrass();
+
+
+        Vehicle plane = ((GameObject)(Instantiate(Resources.Load("plane"), TileToPosition(new TilesPosition(0, 0)), UnityEngine.Quaternion.identity))).AddComponent<Vehicle>();
+        Vehicle bus = ((GameObject)(Instantiate(Resources.Load("bus"), TileToPosition(new TilesPosition(5, 8)), UnityEngine.Quaternion.identity))).AddComponent<Vehicle>();
+        Vehicle vip = ((GameObject)(Instantiate(Resources.Load("vip"), TileToPosition(new TilesPosition(3, 6)), UnityEngine.Quaternion.identity))).AddComponent<Vehicle>();
+
+
+        plane.InitialParameters(ref plane, MoveObjectType.Plane, PositionToTile(plane.transform.position, dimensions), plane.actPosition, 0.2f);
+        bus.InitialParameters(ref bus, MoveObjectType.PassengerBus, PositionToTile(bus.transform.position, dimensions), bus.actPosition, 0.3f);
+        vip.InitialParameters(ref vip, MoveObjectType.VipShuttle, PositionToTile(vip.transform.position, dimensions), vip.actPosition, 0.7f);
+
+        vehicleList.Add(plane);
+        vehicleList.Add(bus);
+        vehicleList.Add(vip);
+        for (int i = 0; i < 100; i++)
+        {
+
+
+        }
+        //MoveObject();
+        //CreateObjects();
+        //vehicleList.ForEach()
+        //foreach (var item in vehicleList)
+        //{
+        //}
+    }
+
+    void LoadObject(Vehicle vehicle)
+    {
+
+        //Object ob = vehicle;
+        //GameObject go = new GameObject()
+        //Object plane = Resources.Load("plane");
+        //Object obj = Instantiate(plane, posVector, UnityEngine.Quaternion.identity);
+        //
+        //GameObject rb2D  = new GameObject(plane, System.Type[] class);
+        //return rb2D;
+    }
+
+    // Update is called once per frame
+    IEnumerator waiting()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(0.2f);
+            yield return new WaitForSeconds(0.3f);
+            yield return new WaitForSeconds(0.5f);
+        }
+
+
+
+    }
+    void Update()
+    {
+
+        List<Vehicle>.Enumerator listEnum = vehicleList.GetEnumerator();
+
+        //vehicleList[0].tilesDestination =  new TilesPosition(10, 0);
+        //vehicleList[1].tilesDestination = new TilesPosition(7, 20);
+        //vehicleList[2].tilesDestination = new TilesPosition(6, 0);
+        //vehicleList[0].actDestination = TileToPosition(vehicleList[0].tilesDestination);
+        //vehicleList[1].actDestination = TileToPosition(vehicleList[1].tilesDestination);
+        //vehicleList[2].actDestination = TileToPosition(vehicleList[2].tilesDestination);
+        MoveObject(listEnum);
+    }
+
+
+    void MoveObject(IEnumerator<Vehicle> enumerator)
+    {
+        while (enumerator.MoveNext())
+        {
+            Quaternion defaultRotation = new Quaternion();
+            enumerator.Current.actDestination = TileToPosition(new TilesPosition(enumerator.Current.destinationx, enumerator.Current.destinationy));
+            //enumerator.Current.actDestination = TileToPosition(enumerator.Current.tilesDestination);
+            //LEFT
+            if (enumerator.Current.actDestination.x - enumerator.Current.actPosition.x < 0)
+            {
+                enumerator.Current.actPosition.x -= enumerator.Current.speed;
+                if (enumerator.Current.actDestination.x - enumerator.Current.actPosition.x >= 0)
+                {
+                    enumerator.Current.actPosition = new Vector2(enumerator.Current.actDestination.x,enumerator.Current.actPosition.y);
+                    
+                }
+
+                else
+                {
+                    if (enumerator.Current.direction != Directions.West)
+                    {
+                        enumerator.Current.direction = Directions.West;
+                        enumerator.Current.transform.rotation = defaultRotation;
+                        enumerator.Current.transform.Rotate(Vector3.forward * -90);
+
+                    }
+                    enumerator.Current.transform.position = enumerator.Current.actPosition;
+                }
+
+                continue;
+            }
+            //RIGHT
+            else if (enumerator.Current.actDestination.x - enumerator.Current.actPosition.x > 0)
+            {
+
+                enumerator.Current.actPosition.x += enumerator.Current.speed;
+
+                if (enumerator.Current.actDestination.x - enumerator.Current.actPosition.x <= 0)
+                {
+                    enumerator.Current.actPosition = new Vector2(enumerator.Current.actDestination.x, enumerator.Current.actPosition.y);
+                }
+                else
+                {
+
+                    if (enumerator.Current.direction != Directions.East)
+                    {
+                        enumerator.Current.direction = Directions.East;
+                        enumerator.Current.transform.rotation = defaultRotation;
+                        enumerator.Current.transform.Rotate(Vector3.forward * +90);
+                    }
+                    enumerator.Current.transform.position = enumerator.Current.actPosition;
+                }
+                continue;
+            }
+
+            else
+            {
+
+
+                //DOWN
+                if (enumerator.Current.actDestination.y - enumerator.Current.actPosition.y < 0)
+                {
+                    enumerator.Current.actPosition.y -= enumerator.Current.speed;
+                    if (enumerator.Current.actDestination.y - enumerator.Current.actPosition.y >= 0)
+                    {
+                        enumerator.Current.actPosition = new Vector2(enumerator.Current.actPosition.x, enumerator.Current.actDestination.y);
+                    }
+
+
+                    else
+                    {
+                        if (enumerator.Current.direction != Directions.South)
+                        {
+                            enumerator.Current.direction = Directions.South;
+                            enumerator.Current.transform.rotation = defaultRotation;
+
+                        }
+                        enumerator.Current.transform.position = enumerator.Current.actPosition;
+
+                    }
+                    continue;
+                }
+                //UP
+                else if (enumerator.Current.actDestination.y - enumerator.Current.actPosition.y > 0)
+                {
+                    enumerator.Current.actPosition.y += enumerator.Current.speed;
+                    if (enumerator.Current.actDestination.y - enumerator.Current.actPosition.y <= 0)
+                    {
+                        enumerator.Current.actPosition = new Vector2(enumerator.Current.actPosition.x, enumerator.Current.actDestination.y);
+                    }
+                    else
+                    {
+
+                        if (enumerator.Current.direction != Directions.North)
+                        {
+                            enumerator.Current.direction = Directions.North;
+                            enumerator.Current.transform.rotation = defaultRotation;
+                            enumerator.Current.transform.Rotate(Vector3.forward * -180);
+                        }
+                        enumerator.Current.transform.position = enumerator.Current.actPosition;
+                    }
+
+                }
+            }
+        }
+    }
+
+}

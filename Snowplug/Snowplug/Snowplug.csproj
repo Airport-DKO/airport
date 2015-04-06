@@ -95,6 +95,7 @@
       <DependentUpon>Snowplug.asmx</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="SnowplugTask.cs" />
     <Compile Include="Web References\GMC\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

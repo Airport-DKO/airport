@@ -57,6 +57,16 @@ namespace Ground_Movement_Control
             _locations.Add(new Location(new CoordinateTuple(25, 0), new MapObject(MapObjectType.Airport, 0)));
             _locations.Add(new Location(new CoordinateTuple(14, 14), new MapObject(MapObjectType.ServiceArea, 1)));
             //Конец заглушки
+
+            foreach (var location in _locations)
+            {
+                if (location.MapObject.MapObjectType != MapObjectType.Runway &&
+                    location.MapObject.MapObjectType != MapObjectType.Airport)
+                {
+                    var mapPoint = _map.First(m => m.X == location.Position.X && m.Y == location.Position.Y);
+                    mapPoint.IsPublicPlace = true;
+                }
+            }
         }
 
         private void GetRoutesFromVizualizator()
