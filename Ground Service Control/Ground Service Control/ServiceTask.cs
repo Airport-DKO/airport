@@ -143,4 +143,16 @@ namespace Ground_Service_Control
             return;
         }
     };
+
+    internal class NoServiceTask : ServiceTask
+    {
+        public NoServiceTask(Guid plane)
+            : base(plane)
+        {
+            taskId.type = ServiceTaskType.VIPShuttle;
+        }
+
+        public override void execute()
+        {}
+    };
 }
