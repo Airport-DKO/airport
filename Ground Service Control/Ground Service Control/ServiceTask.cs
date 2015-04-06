@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 
 namespace Ground_Service_Control
@@ -173,7 +174,8 @@ namespace Ground_Service_Control
 
         public override void execute()
         {
-            //TODO: сообщить о завершении.
+            var t = new Task(() => GSC_impl.self().Done(taskId));
+            t.Start();
         }
     };
 }
