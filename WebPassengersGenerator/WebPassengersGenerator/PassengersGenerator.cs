@@ -4,9 +4,8 @@ using System.Linq;
 using System.Threading;
 using System.Web;
 using System.Web.Services.Configuration;
-
-using WebPassengersGenerator.ServiceCheckIn;
-using WebPassengersGenerator.ServiceTicketSales;
+using WebPassengersGenerator.CheckInService;
+using WebPassengersGenerator.TicketSalesService;
 
 
 namespace WebPassengersGenerator
@@ -25,10 +24,10 @@ namespace WebPassengersGenerator
 
     class PassengersGenerator
     {
-        //WebServiceCheckIn CheckIn= new WebServiceCheckIn();
-        //TicketSalesService.WebServiceTicketSales ticketSales = new WebServiceTicketSales();
-        ServiceTicketSales.WebServiceTicketSalesSoapClient ticketSales = new WebServiceTicketSalesSoapClient();
-        ServiceCheckIn.WebServiceCheckInSoapClient CheckIn = new WebServiceCheckInSoapClient();
+        WebServiceCheckIn CheckIn= new WebServiceCheckIn();
+        TicketSalesService.WebServiceTicketSales ticketSales = new WebServiceTicketSales();
+        //ServiceTicketSales.WebServiceTicketSalesSoapClient ticketSales = new WebServiceTicketSalesSoapClient();
+        //ServiceCheckIn.WebServiceCheckInSoapClient CheckIn = new WebServiceCheckInSoapClient();
         private static Random random = new Random();
         public List<Passenger> passengers = new List<Passenger>();   //база активных пассажиров (тех, которые уже созданы и ещё находятся в нашем аэропорту)
         private PassengersStatistic statistic = new PassengersStatistic();
@@ -42,7 +41,13 @@ namespace WebPassengersGenerator
         {
             for (int i = 0; i < count; i++)
             {
-                passengers.Add(new Passenger());
+                passengers.Add(new Passenger()
+                {
+                    ID = Guid.NewGuid(),
+                    PreferFood = (Food)random.Next(0, 5),
+                    WeightBaggage = random.Next(0, 50),
+                    State = PassengerState.Created
+                });
                 statistic.Created++;
             }
         }
@@ -72,17 +77,14 @@ namespace WebPassengersGenerator
             var p = passengers.Where(s => s.State != PassengerState.Onboard).ToArray();
             foreach (var passenger in p)
             {
-                int behavior = random.Next(0, 4);
+                int behavior = random.Next(0, 3);
                 switch (behavior)
                 {
                     case 0: //купиь билет
                         var ticket = ticketSales.BuyTicket(passenger.ID);
                         if (ticket != null)
                         {
-
-                            //ТВОЮ Ж МАТЬ!!!!!
-                            //passenger.Ticket = ticket;
-                            //..................//TODO говорит, что не может кастить. вспомнить, как исправать
+                            passenger.Ticket = ticket;
 
                             passenger.State = PassengerState.Buy;
                             statistic.Buy++;

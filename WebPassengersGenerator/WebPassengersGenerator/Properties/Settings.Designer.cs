@@ -22,5 +22,25 @@ namespace WebPassengersGenerator.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://localhost:22401/WebServiceTicketSales.asmx")]
+        public string WebPassengersGenerator_TicketSalesService_WebServiceTicketSales {
+            get {
+                return ((string)(this["WebPassengersGenerator_TicketSalesService_WebServiceTicketSales"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://localhost:22542/WebServiceCheckIn.asmx")]
+        public string WebPassengersGenerator_CheckInService_WebServiceCheckIn {
+            get {
+                return ((string)(this["WebPassengersGenerator_CheckInService_WebServiceCheckIn"]));
+            }
+        }
     }
 }

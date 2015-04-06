@@ -38,10 +38,17 @@
       </s:simpleType>
       <s:complexType name="Ticket">
         <s:sequence>
-          <s:element minOccurs="0" maxOccurs="1" name="ExtensionData" type="tns:ExtensionDataObject" />
+          <s:element minOccurs="1" maxOccurs="1" name="PassengerID" type="s1:guid" />
+          <s:element minOccurs="1" maxOccurs="1" name="FlightID" type="s1:guid" />
+          <s:element minOccurs="1" maxOccurs="1" name="TicketClass" type="tns:Class" />
         </s:sequence>
       </s:complexType>
-      <s:complexType name="ExtensionDataObject" />
+      <s:simpleType name="Class">
+        <s:restriction base="s:string">
+          <s:enumeration value="Vip" />
+          <s:enumeration value="Econom" />
+        </s:restriction>
+      </s:simpleType>
       <s:element name="RegistrateResponse">
         <s:complexType>
           <s:sequence>
@@ -105,6 +112,20 @@
           <s:element minOccurs="1" maxOccurs="1" name="Default" type="s:int" />
         </s:sequence>
       </s:complexType>
+      <s:element name="GetBaggage">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="flightNumber" type="s1:guid" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetBaggageResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetBaggageResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
     </s:schema>
     <s:schema elementFormDefault="qualified" targetNamespace="http://microsoft.com/wsdl/types/">
       <s:simpleType name="guid">
@@ -138,6 +159,12 @@
   <wsdl:message name="GetCateringSoapOut">
     <wsdl:part name="parameters" element="tns:GetCateringResponse" />
   </wsdl:message>
+  <wsdl:message name="GetBaggageSoapIn">
+    <wsdl:part name="parameters" element="tns:GetBaggage" />
+  </wsdl:message>
+  <wsdl:message name="GetBaggageSoapOut">
+    <wsdl:part name="parameters" element="tns:GetBaggageResponse" />
+  </wsdl:message>
   <wsdl:portType name="WebServiceCheckInSoap">
     <wsdl:operation name="Registrate">
       <wsdl:input message="tns:RegistrateSoapIn" />
@@ -154,6 +181,10 @@
     <wsdl:operation name="GetCatering">
       <wsdl:input message="tns:GetCateringSoapIn" />
       <wsdl:output message="tns:GetCateringSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetBaggage">
+      <wsdl:input message="tns:GetBaggageSoapIn" />
+      <wsdl:output message="tns:GetBaggageSoapOut" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="WebServiceCheckInSoap" type="tns:WebServiceCheckInSoap">
@@ -194,6 +225,15 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="GetBaggage">
+      <soap:operation soapAction="http://tempuri.org/GetBaggage" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
   </wsdl:binding>
   <wsdl:binding name="WebServiceCheckInSoap12" type="tns:WebServiceCheckInSoap">
     <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
@@ -226,6 +266,15 @@
     </wsdl:operation>
     <wsdl:operation name="GetCatering">
       <soap12:operation soapAction="http://tempuri.org/GetCatering" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBaggage">
+      <soap12:operation soapAction="http://tempuri.org/GetBaggage" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

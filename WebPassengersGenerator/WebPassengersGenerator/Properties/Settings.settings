@@ -1,5 +1,12 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)">
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="WebPassengersGenerator.Properties" GeneratedClassName="Settings">
   <Profiles />
-  <Settings />
+  <Settings>
+    <Setting Name="WebPassengersGenerator_TicketSalesService_WebServiceTicketSales" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://localhost:22401/WebServiceTicketSales.asmx</Value>
+    </Setting>
+    <Setting Name="WebPassengersGenerator_CheckInService_WebServiceCheckIn" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://localhost:22542/WebServiceCheckIn.asmx</Value>
+    </Setting>
+  </Settings>
 </SettingsFile>
