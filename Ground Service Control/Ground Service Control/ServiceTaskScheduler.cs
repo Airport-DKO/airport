@@ -38,24 +38,27 @@ namespace Ground_Service_Control
         //    Антиобледенитель и взлёт.
         static public PlaneTask generateListOfTasksForPlane(PlaneNeeds plane)
         {
-            //TODO: не добавлять трап, если ненужен и т.д.
+            var factory = new ServiceTaskFactory(plane);
+
             var task = new PlaneTask(plane);
 
-            var luggageTrap = new ContainerLoaderServiceTask(plane.plane);
-            var luggageUnload = new BaggageTractorServiceTask(plane.plane);
-            var luggageLoad = new BaggageTractorServiceTask(plane.plane);
+            var luggageTrap = factory.createContainerLoader();
+            var luggageUnload = factory.createBaggageTractor(false);
+            var luggageLoad = factory.createBaggageTractor(true);
 
             luggageUnload.nextTasks.Add(luggageLoad);
             luggageTrap.nextTasks.Add(luggageUnload);
 
-            var trap = new PassengerStairsServiceTask(plane.plane);
-            var vipPassangersOut = new VIPShuttleServiceTask(plane.plane);
-            var passangersOut = new PassengerBusServiceTask(plane.plane);
-            var food = new CateringTruckServiceTask(plane.plane);
-            var fuel = new RefuelerServiceTask(plane.plane);
-            var vipPassangersIn = new VIPShuttleServiceTask(plane.plane);
-            var passangersIn = new PassengerBusServiceTask(plane.plane);
+            var trap = factory.createPassengerStairs();
+            var vipPassangersOut = factory.createVIPShuttle(false);
+            var passangersOut = factory.createPassengerBus(false);
+            var food = factory.createCateringTruck();
+            var fuel = factory.createRefueler();
+            var vipPassangersIn = factory.createVIPShuttle(true);
+            var passangersIn = factory.createPassengerBus(true);
+            var deicing = factory.createDeicer();
 
+            passangersIn.nextTasks.Add(deicing);
 
             fuel.nextTasks.Add(vipPassangersIn);
             fuel.nextTasks.Add(passangersIn);

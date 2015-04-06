@@ -24,10 +24,29 @@ namespace Ground_Service_Control
         public abstract void execute();
     };
 
-    internal class BaggageTractorServiceTask : ServiceTask
+    internal abstract class TransportationServiceTask : ServiceTask
     {
-        public BaggageTractorServiceTask(Guid plane)
+        protected TransportationServiceTask(Guid plane, bool load)
             : base(plane)
+        {
+            taskId.type = ServiceTaskType.VIPShuttle;
+            m_load = load;
+        }
+
+        public bool needToLoad()
+        {
+            return m_load;
+        }
+        /// <summary>
+        /// Показывает, должен ли самолёт быть загружен или разгружен.
+        /// </summary>
+        private readonly bool m_load;
+    };
+
+    internal class BaggageTractorServiceTask : TransportationServiceTask
+    {
+        public BaggageTractorServiceTask(Guid plane, bool load)
+            : base(plane, load)
         {
             taskId.type = ServiceTaskType.BaggageTractor;
         }
@@ -84,10 +103,10 @@ namespace Ground_Service_Control
         }
     };
 
-    internal class PassengerBusServiceTask : ServiceTask
+    internal class PassengerBusServiceTask : TransportationServiceTask
     {
-        public PassengerBusServiceTask(Guid plane)
-            : base(plane)
+        public PassengerBusServiceTask(Guid plane, bool load)
+            : base(plane, load)
         {
             taskId.type = ServiceTaskType.PassengerBus;
         }
@@ -129,10 +148,10 @@ namespace Ground_Service_Control
         }
     };
 
-    internal class VIPShuttleServiceTask : ServiceTask
+    internal class VIPShuttleServiceTask : TransportationServiceTask
     {
-        public VIPShuttleServiceTask(Guid plane)
-            : base(plane)
+        public VIPShuttleServiceTask(Guid plane, bool load)
+            : base(plane, load)
         {
             taskId.type = ServiceTaskType.VIPShuttle;
         }
@@ -153,6 +172,8 @@ namespace Ground_Service_Control
         }
 
         public override void execute()
-        {}
+        {
+            //TODO: сообщить о завершении.
+        }
     };
 }
