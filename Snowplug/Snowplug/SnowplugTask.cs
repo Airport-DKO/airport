@@ -23,8 +23,8 @@ namespace Snowplug
                 }
             }
 
-            //TODO: Как вернуться в гараж? GMC.GetRoute(MapObject from, MapObject to) не подхлдит.
-
+            //TODO:
+            //gmc.SnowCleanFinished();
             return true;
         }
     }

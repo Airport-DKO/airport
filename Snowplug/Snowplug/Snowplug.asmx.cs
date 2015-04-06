@@ -21,7 +21,7 @@ namespace Snowplug
         /// <summary>
         /// УНД командует Снегоочистке убрать снег с карты
         /// </summary>
-        /// <param name="coordinates">Путь, чтобы проехать по всей карте</param>
+        /// <param name="coordinates">Путь, от гаража до гаража, проходяший по всей карте</param>
         /// <returns></returns>
         [WebMethod]
         public bool Clean(List<CoordinateTuple> coordinates)
@@ -31,7 +31,5 @@ namespace Snowplug
 
             return true;
         }
-
-        //FIXME: как сообщить, что операция завершена?
     }
 }
