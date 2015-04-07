@@ -25,7 +25,11 @@
 Управление наземным обслуживанием - http://airport-dko-gsc.azurewebsites.net/gsc.asmx
 
 Табло - http://airport-dko-passengers.azurewebsites.net/WebServiceInformationPanel.asmx
+
 Регистрация - http://airport-dko-passengers.azurewebsites.net/WebServiceCheckIn.asmx
+
 Касса - http://airport-dko-passengers.azurewebsites.net/WebServiceTicketSales.asmx
+
 Генератор пассажиров - http://airport-dko-passengers.azurewebsites.net/WebServicePassengersGenerator.asmx
+
 
