@@ -1,4 +1,4 @@
-Управление наземным движением - http://airport-dko-gmc.azurewebsites.net/gmc.asmx
+﻿Управление наземным движением - http://airport-dko-gmc.azurewebsites.net/gmc.asmx
 
 Генератор самолётов - http://airport-dko-aircraft-generator.azurewebsites.net/AircraftGenerator.asmx
 
@@ -24,4 +24,8 @@
 
 Управление наземным обслуживанием - http://airport-dko-gsc.azurewebsites.net/gsc.asmx
 
+Табло - http://airport-dko-passengers.azurewebsites.net/WebServiceInformationPanel.asmx
+Регистрация - http://airport-dko-passengers.azurewebsites.net/WebServiceCheckIn.asmx
+Касса - http://airport-dko-passengers.azurewebsites.net/WebServiceTicketSales.asmx
+Генератор пассажиров - http://airport-dko-passengers.azurewebsites.net/WebServicePassengersGenerator.asmx
 
