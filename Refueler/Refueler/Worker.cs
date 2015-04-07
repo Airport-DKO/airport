@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Web;
-using Refueler.GmcVS;
+using Refueler.GscVS;
+using MapObject = Refueler.GmcVS.MapObject;
+using MapObjectType = Refueler.GmcVS.MapObjectType;
 
 namespace Refueler
 {
@@ -16,7 +15,7 @@ namespace Refueler
             Garage = new MapObject { MapObjectType = MapObjectType.Garage };
         }
 
-        public static void FillPlane(MapObject serviceZone, int litersOfFuel, int taskId)
+        public static void FillPlane(MapObject serviceZone, int litersOfFuel, ServiceTaskId taskId)
         {
             var cars = new List<Car>();
             var tasks = new List<Task>();
@@ -35,7 +34,7 @@ namespace Refueler
 
             Task.WaitAll(tasks.ToArray());
 
-            //TODO: сообщаем Управлению Наземным Обслуживанием, что задание выполнено Done(taskId);
+            new GSC().Done(taskId);//сообщаем Управлению Наземным Обслуживанием, что задание выполнено
 
             foreach (var car in cars)
             {

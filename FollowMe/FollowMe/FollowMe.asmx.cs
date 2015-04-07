@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+using System.Threading.Tasks;
 using System.Web.Services;
 using FollowMe.GmcVS;
 
@@ -22,12 +20,14 @@ namespace FollowMe
         /// </summary>
         /// <param name="from">место, где необходимо встретить самолет</param>
         /// <param name="to">место, куда необходимо привести самолет</param>
+        /// <param name="planeId">идентификатор самолета</param>
         /// <returns></returns>
         [WebMethod]
-        public bool LeadPlane(MapObject from, MapObject to)
+        public bool LeadPlane(MapObject from, MapObject to, Guid planeId)
         {
-            Worker.LeadPlane(from,to);
-            //TODO: В КОНЦЕ СООБЩИТЬ ГС ИЛИ УНД, ЧТОБ САМОЛЕТ ЗНАЛ, ЧТО ОН ПРИБЫЛ НА ТОЧКУ?
+            Task t = new Task(() => Worker.LeadPlane(from, to, planeId));
+            t.Start();
+
             return true;
         }
     }

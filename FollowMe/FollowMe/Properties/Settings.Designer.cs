@@ -32,5 +32,15 @@ namespace FollowMe.Properties {
                 return ((string)(this["FollowMe_GmcVS_GMC"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://airport-dko-aircraft-generator.azurewebsites.net/AircraftGenerator.asmx")]
+        public string FollowMe_AircraftGeneratorVS_AircraftGenerator {
+            get {
+                return ((string)(this["FollowMe_AircraftGeneratorVS_AircraftGenerator"]));
+            }
+        }
     }
 }

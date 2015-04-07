@@ -1,4 +1,8 @@
-﻿using CateringTruck.GmcVS;
+﻿using System;
+using CateringTruck.AircraftGeneratorVS;
+using CateringTruck.GscVS;
+using MapObject = CateringTruck.GmcVS.MapObject;
+using MapObjectType = CateringTruck.GmcVS.MapObjectType;
 
 namespace CateringTruck
 {
@@ -18,7 +22,7 @@ namespace CateringTruck
         /// <param name="flightNumber">номер рейса, багаж пассажиров которого следует погрузить</param>
         /// <param name="taskId">номер задания</param>
         /// <returns></returns>
-        public static void CateringToPlain(MapObject serviseZone, int flightNumber, int taskId)
+        public static void CateringToPlain(MapObject serviseZone, Guid flightNumber, ServiceTaskId taskId)
         {
             //TODO: запрашиваем питание у Регистрации var catering = GetCatering(flightNumber);
 
@@ -27,9 +31,9 @@ namespace CateringTruck
                 var car = new Car();
                 car.GoTo(Garage, serviseZone); //подъезжаем к самолету
 
-                //TODO: передаем питание Генератору Самолетов LoadCatering(catering);
+                // new AircraftGenerator().LoadCatering(serviseZone, catering); //TODO: передаем питание Генератору Самолетов 
 
-                //TODO: сообщаем Управлению Наземным Обслуживанием, что задание выполнено Done(taskId);
+                new GSC().Done(taskId);//сообщаем Управлению Наземным Обслуживанием, что задание выполнено
 
                 car.GoTo(serviseZone, Garage); //возвращаемся в гараж
             }

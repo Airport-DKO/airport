@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using System.Web.Services;
-using ContainerLoader.GmcVS;
+using ContainerLoader.GscVS;
+using MapObject = ContainerLoader.GmcVS.MapObject;
 
 namespace ContainerLoader
 {
@@ -21,7 +22,7 @@ namespace ContainerLoader
         /// <param name="taskId">номер задания</param>
         /// <returns></returns>
         [WebMethod]
-        public bool ToServiceZone(MapObject serviceZone, int taskId)
+        public bool ToServiceZone(MapObject serviceZone, ServiceTaskId taskId)
         {
             var t = new Task(() => Worker.GoToServiceZone(serviceZone, taskId));
             t.Start(); //запускаем асинхронно

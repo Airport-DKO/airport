@@ -8,5 +8,8 @@
     <Setting Name="VIPShuttle_AircraftgeneratorVS_AircraftGenerator" Type="(Web Service URL)" Scope="Application">
       <Value Profile="(Default)">http://airport-dko-aircraft-generator.azurewebsites.net/aircraftgenerator.asmx</Value>
     </Setting>
+    <Setting Name="VIPShuttle_GscVS_GSC" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://airport-dko-gsc.azurewebsites.net/gsc.asmx</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

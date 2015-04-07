@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using System.Web;
-using VIPShuttle.AircraftgeneratorVS;
 using VIPShuttle.GmcVS;
 
 namespace VIPShuttle

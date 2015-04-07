@@ -32,5 +32,25 @@ namespace BaggageTractor.Properties {
                 return ((string)(this["BaggageTractor_GmcVS_GMC"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://airport-dko-aircraft-generator.azurewebsites.net/AircraftGenerator.asmx")]
+        public string BaggageTractor_AircraftGeneratorVS_AircraftGenerator {
+            get {
+                return ((string)(this["BaggageTractor_AircraftGeneratorVS_AircraftGenerator"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://airport-dko-gsc.azurewebsites.net/gsc.asmx")]
+        public string BaggageTractor_GscVS_GSC {
+            get {
+                return ((string)(this["BaggageTractor_GscVS_GSC"]));
+            }
+        }
     }
 }

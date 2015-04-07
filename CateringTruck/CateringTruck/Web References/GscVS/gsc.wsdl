@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="DKO-Airport-Ground-Service-Control" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:s1="http://microsoft.com/wsdl/types/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:s2="DKO-Airport-Ground-Movement-Control" xmlns:s3="DKO-Ariport-Aircraft-Generator" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="DKO-Airport-Ground-Service-Control" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="DKO-Airport-Ground-Service-Control">
+      <s:import namespace="http://microsoft.com/wsdl/types/" />
+      <s:import namespace="DKO-Airport-Ground-Movement-Control" />
+      <s:import namespace="DKO-Ariport-Aircraft-Generator" />
+      <s:element name="GetFreePlace">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="plane" type="s1:guid" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetFreePlaceResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetFreePlaceResult" type="s2:MapObject" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetFreePlace">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="plane" type="s1:guid" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetFreePlaceResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="SetFreePlaceResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetNeeds">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="plane" type="s1:guid" />
+            <s:element minOccurs="0" maxOccurs="1" name="flight" type="s3:Flight" />
+            <s:element minOccurs="1" maxOccurs="1" name="ladder" type="s:boolean" />
+            <s:element minOccurs="1" maxOccurs="1" name="economPassengers" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="VIPPassengers" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="baggage" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="fuelingNeeds" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetNeedsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="SetNeedsResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Done">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="TaskNumber" type="tns:ServiceTaskId" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ServiceTaskId" />
+      <s:element name="DoneResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="DoneResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://microsoft.com/wsdl/types/">
+      <s:simpleType name="guid">
+        <s:restriction base="s:string">
+          <s:pattern value="[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}" />
+        </s:restriction>
+      </s:simpleType>
+    </s:schema>
+    <s:schema elementFormDefault="qualified" targetNamespace="DKO-Airport-Ground-Movement-Control">
+      <s:complexType name="MapObject">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="MapObjectType" type="s2:MapObjectType" />
+          <s:element minOccurs="1" maxOccurs="1" name="Number" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:simpleType name="MapObjectType">
+        <s:restriction base="s:string">
+          <s:enumeration value="Runway" />
+          <s:enumeration value="Garage" />
+          <s:enumeration value="ServiceArea" />
+          <s:enumeration value="Airport" />
+        </s:restriction>
+      </s:simpleType>
+    </s:schema>
+    <s:schema elementFormDefault="qualified" targetNamespace="DKO-Ariport-Aircraft-Generator">
+      <s:complexType name="Flight">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="FlightNumber" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="City" type="s3:City" />
+          <s:element minOccurs="1" maxOccurs="1" name="ArrivalTime" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="DepartureTime" type="s:dateTime" />
+        </s:sequence>
+      </s:complexType>
+      <s:simpleType name="City">
+        <s:restriction base="s:string">
+          <s:enumeration value="Tokyo" />
+          <s:enumeration value="Paris" />
+          <s:enumeration value="Rome" />
+          <s:enumeration value="NewYork" />
+          <s:enumeration value="Sydney" />
+          <s:enumeration value="Brasilia" />
+          <s:enumeration value="Antananarivo" />
+        </s:restriction>
+      </s:simpleType>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="GetFreePlaceSoapIn">
+    <wsdl:part name="parameters" element="tns:GetFreePlace" />
+  </wsdl:message>
+  <wsdl:message name="GetFreePlaceSoapOut">
+    <wsdl:part name="parameters" element="tns:GetFreePlaceResponse" />
+  </wsdl:message>
+  <wsdl:message name="SetFreePlaceSoapIn">
+    <wsdl:part name="parameters" element="tns:SetFreePlace" />
+  </wsdl:message>
+  <wsdl:message name="SetFreePlaceSoapOut">
+    <wsdl:part name="parameters" element="tns:SetFreePlaceResponse" />
+  </wsdl:message>
+  <wsdl:message name="SetNeedsSoapIn">
+    <wsdl:part name="parameters" element="tns:SetNeeds" />
+  </wsdl:message>
+  <wsdl:message name="SetNeedsSoapOut">
+    <wsdl:part name="parameters" element="tns:SetNeedsResponse" />
+  </wsdl:message>
+  <wsdl:message name="DoneSoapIn">
+    <wsdl:part name="parameters" element="tns:Done" />
+  </wsdl:message>
+  <wsdl:message name="DoneSoapOut">
+    <wsdl:part name="parameters" element="tns:DoneResponse" />
+  </wsdl:message>
+  <wsdl:portType name="GSCSoap">
+    <wsdl:operation name="GetFreePlace">
+      <wsdl:input message="tns:GetFreePlaceSoapIn" />
+      <wsdl:output message="tns:GetFreePlaceSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SetFreePlace">
+      <wsdl:input message="tns:SetFreePlaceSoapIn" />
+      <wsdl:output message="tns:SetFreePlaceSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SetNeeds">
+      <wsdl:input message="tns:SetNeedsSoapIn" />
+      <wsdl:output message="tns:SetNeedsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Done">
+      <wsdl:input message="tns:DoneSoapIn" />
+      <wsdl:output message="tns:DoneSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="GSCSoap" type="tns:GSCSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetFreePlace">
+      <soap:operation soapAction="DKO-Airport-Ground-Service-Control/GetFreePlace" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetFreePlace">
+      <soap:operation soapAction="DKO-Airport-Ground-Service-Control/SetFreePlace" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetNeeds">
+      <soap:operation soapAction="DKO-Airport-Ground-Service-Control/SetNeeds" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Done">
+      <soap:operation soapAction="DKO-Airport-Ground-Service-Control/Done" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="GSCSoap12" type="tns:GSCSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetFreePlace">
+      <soap12:operation soapAction="DKO-Airport-Ground-Service-Control/GetFreePlace" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetFreePlace">
+      <soap12:operation soapAction="DKO-Airport-Ground-Service-Control/SetFreePlace" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetNeeds">
+      <soap12:operation soapAction="DKO-Airport-Ground-Service-Control/SetNeeds" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Done">
+      <soap12:operation soapAction="DKO-Airport-Ground-Service-Control/Done" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="GSC">
+    <wsdl:port name="GSCSoap" binding="tns:GSCSoap">
+      <soap:address location="http://airport-dko-gsc.azurewebsites.net/gsc.asmx" />
+    </wsdl:port>
+    <wsdl:port name="GSCSoap12" binding="tns:GSCSoap12">
+      <soap12:address location="http://airport-dko-gsc.azurewebsites.net/gsc.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

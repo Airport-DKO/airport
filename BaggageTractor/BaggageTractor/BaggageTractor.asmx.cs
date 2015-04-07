@@ -4,7 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Services;
-using BaggageTractor.GmcVS;
+using BaggageTractor.GscVS;
+using MapObject = BaggageTractor.GmcVS.MapObject;
 
 namespace BaggageTractor
 {
@@ -26,7 +27,7 @@ namespace BaggageTractor
         /// <param name="taskId">номер задания</param>
         /// <returns></returns>
         [WebMethod]
-        public bool UnloadBaggage(MapObject serviseZone, int weightOfBaggage, int taskId)
+        public bool UnloadBaggage(MapObject serviseZone, int weightOfBaggage, ServiceTaskId taskId)
         {
             var t = new Task(() => Worker.FromPlane(serviseZone, weightOfBaggage, taskId));
             t.Start();//запускаем выполнение асинхронно
@@ -42,7 +43,7 @@ namespace BaggageTractor
         /// <param name="taskId">номер задания</param>
         /// <returns></returns>
         [WebMethod]
-        public bool LoadBaggage(MapObject serviseZone, int flightNumber, int taskId)
+        public bool LoadBaggage(MapObject serviseZone, Guid flightNumber, ServiceTaskId taskId)
         {
             var t = new Task(() => Worker.ToPlain(serviseZone, flightNumber, taskId));
             t.Start();//запускаем выполнение асинхронно
@@ -56,7 +57,7 @@ namespace BaggageTractor
         /// <param name="flightNumber">номер рейса, наличие багажа пассажиров которого следует проверить</param>
         /// <returns></returns>
         [WebMethod]
-        public bool ToPlain(int flightNumber)
+        public bool ToPlain(Guid flightNumber)
         {
             var count = Worker.GetWeightOfBaggage(flightNumber); //запрашиваем количество багажа
             return count > 0; //возвращаем true, если багаж есть

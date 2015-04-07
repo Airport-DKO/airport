@@ -32,5 +32,25 @@ namespace CateringTruck.Properties {
                 return ((string)(this["CateringTruck_GmcVS_GMC"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://airport-dko-gsc.azurewebsites.net/gsc.asmx")]
+        public string CateringTruck_GscVS_GSC {
+            get {
+                return ((string)(this["CateringTruck_GscVS_GSC"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://airport-dko-aircraft-generator.azurewebsites.net/AircraftGenerator.asmx")]
+        public string CateringTruck_AircraftGeneratorVS_AircraftGenerator {
+            get {
+                return ((string)(this["CateringTruck_AircraftGeneratorVS_AircraftGenerator"]));
+            }
+        }
     }
 }

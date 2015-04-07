@@ -15,9 +15,8 @@ namespace Deicer
         /// Метод, который отправляет машину с душем из антиобледенительной жидкости
         /// </summary>
         /// <param name="serviсeZone">площадка, на которой находится обслуживаемый самолет</param>
-        /// <param name="taskId">номер задания</param>
         /// <returns></returns>
-        public static void DouchePlane(MapObject serviсeZone, int taskId)
+        public static void DouchePlane(MapObject serviсeZone)
         {
             var car = new Car();
 
@@ -25,7 +24,7 @@ namespace Deicer
 
             //будем считать, что, подъехав к самолету, мы окропили его специальной жидкостью
 
-            //TODO: сообщаем Управлению Наземным Обслуживанием, что задание выполнено Done(taskId);
+            //TODO: сообщаем ГС, что задание выполнено Douched(serviсeZone);
 
             car.GoTo(serviсeZone, Garage); //возвращаемся в гараж
         }

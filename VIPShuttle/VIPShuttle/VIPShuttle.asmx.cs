@@ -4,7 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Services;
-using VIPShuttle.GmcVS;
+using VIPShuttle.GscVS;
+using MapObject = VIPShuttle.GmcVS.MapObject;
 
 namespace VIPShuttle
 {
@@ -27,7 +28,7 @@ namespace VIPShuttle
         /// <param name="taskId">номер задания</param>
         /// <returns></returns>
         [WebMethod]
-        public bool UnloadPassengers(MapObject serviseZone, int countOfPassengers, int taskId)
+        public bool UnloadPassengers(MapObject serviseZone, int countOfPassengers, ServiceTaskId taskId)
         {
             var t = new Task(() => Worker.ToAirport(serviseZone, countOfPassengers, taskId));
             t.Start();//запускаем выполнение асинхронно
@@ -43,7 +44,7 @@ namespace VIPShuttle
         /// <param name="taskId">номер задания</param>
         /// <returns></returns>
         [WebMethod]
-        public bool LoadPassengers(MapObject place, int flightNumber, int taskId)
+        public bool LoadPassengers(MapObject place, Guid flightNumber, ServiceTaskId taskId)
         {
             var t = new Task(() => Worker.ToPlain(place, flightNumber, taskId));
             t.Start();//запускаем выполнение асинхронно
@@ -57,7 +58,7 @@ namespace VIPShuttle
         /// <param name="flightNumber">номер рейса</param>
         /// <returns></returns>
         [WebMethod]
-        public bool ToPlain(int flightNumber)
+        public bool ToPlain(Guid flightNumber)
         {
             var count = Worker.GetPassengers(flightNumber).Count; //запрашиваем количество пассажиров
             return count > 0; //возвращаем true, если пассажиры есть

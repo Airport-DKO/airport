@@ -18,12 +18,11 @@ namespace Deicer
         /// Метод, который вызывает машину с душем из антиобледенительной жидкости
         /// </summary>
         /// <param name="serviceZone">площадка, на которой находится обслуживаемый самолет</param>
-        /// <param name="taskId">номер задания</param>
         /// <returns></returns>
         [WebMethod]
-        bool DouchePlane(MapObject serviceZone, int taskId)
+        public bool DouchePlane(MapObject serviceZone)
         {
-            var t = new Task(() => Worker.DouchePlane(serviceZone, taskId));
+            var t = new Task(() => Worker.DouchePlane(serviceZone));
             t.Start(); //вызываем асинхронно
 
             return true;
