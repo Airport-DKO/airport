@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using System.Web;
 using Refueler.GmcVS;
 
 namespace Refueler
@@ -11,6 +10,7 @@ namespace Refueler
     {
         private readonly Guid _id;
         private readonly Int32 _capacity;
+        private readonly MoveObjectType _type;
 
         public Int32 Capacity { get { return _capacity; } }
 
@@ -18,6 +18,7 @@ namespace Refueler
         {
             _id = Guid.NewGuid();
             _capacity = 100;
+            _type = MoveObjectType.None; //TODO:ЗАМЕНИТЬ
         }
 
         /// <summary>
@@ -69,7 +70,7 @@ namespace Refueler
             int stepNumber = 0;
             while (stepNumber < route.Count) //пока не дойдем до конца массива, содержащего маршрут
             {
-                if (gmc.Step(route[stepNumber], MoveObjectType.VipShuttle, _id)) //УНД возвращает разрешение на движение на переданную координату или запрет 
+                if (gmc.Step(route[stepNumber], _type, _id)) //УНД возвращает разрешение на движение на переданную координату или запрет 
                 {
                     //если шаг сделать удалось - передвигаемся на следующий индекс массива, содержащего маршрут
                     stepNumber++;

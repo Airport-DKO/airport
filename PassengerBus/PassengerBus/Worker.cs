@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using PassengerBus.GmcVS;
+using PassengerBus.AircraftgeneratorVS;
+using PassengerBus.GscVS;
+using MapObject = PassengerBus.GmcVS.MapObject;
+using MapObjectType = PassengerBus.GmcVS.MapObjectType;
 
 namespace PassengerBus
 {
@@ -24,7 +27,7 @@ namespace PassengerBus
         /// <param name="countOfPassengers">количество пассажиров для выгрузки</param>
         /// <param name="taskId">номер задания</param>
         /// <returns></returns>
-        public static void ToAirport(MapObject serviceZone, int countOfPassengers, int taskId)
+        public static void ToAirport(MapObject serviceZone, int countOfPassengers, ServiceTaskId taskId)
         {
             var buses = new List<Bus>();
             var tasks = new List<Task>();
@@ -39,7 +42,7 @@ namespace PassengerBus
                 var t = new Task(() =>
                 {
                     bus.GoTo(Garage, serviceZone);
-                    //TODO: забираем пассажиров у Генератора Самолетов UnloadPassengers(serviceZone,countOfPassengers);
+                    new AircraftGenerator().UnloadPassengers(serviceZone, countOfPassengers);  //забираем пассажиров у Генератора Самолетов 
                     bus.GoTo(serviceZone, Airport);
                 });
                 t.Start();
@@ -53,7 +56,7 @@ namespace PassengerBus
 
             Task.WaitAll(tasks.ToArray());
 
-            //TODO: сообщаем Управлению Наземным Обслуживанием, что задание выполнено Done(taskId);
+            new GSC().Done(taskId); //сообщаем Управлению Наземным Обслуживанием, что задание выполнено
 
             foreach (var bus in buses)
             {
@@ -66,11 +69,11 @@ namespace PassengerBus
         /// <summary>
         /// Метод, который служит для перемещения пассажиров из аэропорта на самолет, изменяет свойства пассажиров
         /// </summary>
-        /// <param name="place">площадка, на которой стоит самолет</param>
+        /// <param name="serviceZone">площадка, на которой стоит самолет</param>
         /// <param name="flightNumber">номер рейса</param>
         /// <param name="taskId">номер задания</param>
         /// <returns></returns>
-        public static void ToPlain(MapObject place, int flightNumber, int taskId)
+        public static void ToPlain(MapObject serviceZone, Guid flightNumber, ServiceTaskId taskId)
         {
             //TODO: узнаем у Регистрации идентификаторы пассажиров var passengers = GetSimplePassengers(flightNumber);
             var passengers = GetPassengers(flightNumber);
@@ -90,8 +93,9 @@ namespace PassengerBus
                 var t = new Task(() =>
                 {
                     bus.GoTo(Garage, Airport);
-                    bus.GoTo(Airport, place);
-                    //TODO: загружаем пассажиров в Генератору Самолетов LoadPassengers(serviceZone,passengers.GetRange(busNumber * bus.Capacity, bus.Capacity));
+                    bus.GoTo(Airport, serviceZone);
+                    new AircraftGenerator().LoadPassengers(serviceZone,
+                        passengers.GetRange(busNumber*bus.Capacity, bus.Capacity).ToArray()); //загружаем пассажиров в Генератору Самолетов 
                 });
                 t.Start();
 
@@ -108,7 +112,7 @@ namespace PassengerBus
             //ждем, когда все пассажиры будут поставлены на самолет(все розданные таски выполнятся)
             Task.WaitAll(tasks.ToArray());
 
-            //TODO: сообщаем Управлению Наземным Обслуживанием, что задание выполнено Done(taskId);
+            new GSC().Done(taskId); //сообщаем Управлению Наземным Обслуживанием, что задание выполнено
 
             foreach (var bus in buses)
             {
@@ -123,7 +127,7 @@ namespace PassengerBus
         /// </summary>
         /// <param name="flightNumber">номер рейса</param>
         /// <returns></returns>
-        public static List<Guid> GetPassengers(int flightNumber)
+        public static List<Guid> GetPassengers(Guid flightNumber)
         {
             //TODO: запросить пассажиров у Регистрации return GetSimplePassengers(flightNumber); 
             return new List<Guid>();

@@ -32,5 +32,15 @@ namespace PassengerStairs.Properties {
                 return ((string)(this["PassengerStairs_GmcVS_GMC"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://airport-dko-gsc.azurewebsites.net/gsc.asmx")]
+        public string PassengerStairs_GscVS_GSC {
+            get {
+                return ((string)(this["PassengerStairs_GscVS_GSC"]));
+            }
+        }
     }
 }

@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web;
-using FollowMe.GmcVS;
+using FollowMe.AircraftGeneratorVS;
+using MapObject = FollowMe.GmcVS.MapObject;
+using MapObjectType = FollowMe.GmcVS.MapObjectType;
 
 namespace FollowMe
 {
@@ -16,18 +14,13 @@ namespace FollowMe
             Garage = new MapObject { MapObjectType = MapObjectType.Garage };
         }
 
-        public static void LeadPlane(MapObject from, MapObject to)
+        public static void LeadPlane(MapObject from, MapObject to, Guid planeId)
         {
             var car = new Car();
             car.GoTo(Garage,from); //подъезжаем к месту встречи самолета
-            var planeId = WaitForPlane(); //ждем контакт с самолетом
+            new AircraftGenerator().FollowMe(planeId); //ожидаем самолет
             car.GoAndLeadTo(from, to, planeId); //едем и ведем самолет за собой
-        }
-
-        private static Guid WaitForPlane()
-        {
-            //TODO: запрашиваем у Генератора Самолета контакт FollowMe();
-            return Guid.NewGuid();
+            new AircraftGenerator().FollowMeComplete(planeId); //оповещаем УНД, что сопровождение окончено
         }
     }
 }

@@ -5,5 +5,8 @@
     <Setting Name="Refueler_GmcVS_GMC" Type="(Web Service URL)" Scope="Application">
       <Value Profile="(Default)">http://airport-dko-gmc.azurewebsites.net/gmc.asmx</Value>
     </Setting>
+    <Setting Name="Refueler_GscVS_GSC" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://airport-dko-gsc.azurewebsites.net/gsc.asmx</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

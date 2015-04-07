@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using VIPShuttle.GmcVS;
+using VIPShuttle.AircraftgeneratorVS;
+using VIPShuttle.GscVS;
+using MapObject = VIPShuttle.GmcVS.MapObject;
+using MapObjectType = VIPShuttle.GmcVS.MapObjectType;
 
 namespace VIPShuttle
 {
@@ -16,7 +19,7 @@ namespace VIPShuttle
             Airport = new MapObject {MapObjectType = MapObjectType.Airport};
         }
 
-        public static void ToAirport(MapObject serviceZone, int countOfPassengers, int taskId)
+        public static void ToAirport(MapObject serviceZone, int countOfPassengers, ServiceTaskId taskId)
         {
             var cars = new List<Car>();
             var tasks = new List<Task>();
@@ -31,7 +34,7 @@ namespace VIPShuttle
                 var t = new Task(() =>
                 {
                     car.GoTo(Garage, serviceZone);
-                    //TODO: забираем пассажира у Генератора Самолетов UnloadPassenger(serviseZone,1);
+                    new AircraftGenerator().UnloadPassengers(serviceZone, 1);//забираем пассажира у Генератора Самолетов
                     car.GoTo(serviceZone, Airport);
                 });
                 t.Start();
@@ -46,7 +49,7 @@ namespace VIPShuttle
             //ожидаем выполнения заданий
             Task.WaitAll(tasks.ToArray());
 
-            //TODO: сообщаем Управлению Наземным Обслуживанием, что задание выполнено Done(taskId);
+            new GSC().Done(taskId);//сообщаем Управлению Наземным Обслуживанием, что задание выполнено
 
             foreach (var car in cars)
             {
@@ -56,7 +59,7 @@ namespace VIPShuttle
             }
         }
 
-        public static void ToPlain(MapObject serviceZone, int flightNumber, int taskId)
+        public static void ToPlain(MapObject serviceZone, Guid flightNumber, ServiceTaskId taskId)
         {
             var passengers = GetPassengers(flightNumber);
 
@@ -71,15 +74,16 @@ namespace VIPShuttle
                 {
                     car.GoTo(Garage,Airport);
                     car.GoTo(Airport,serviceZone);
-                    //TODO: сажаем пассажира в Генератор Самолетов LoadPassengers(MapObject serviseZone,new List<Guid> {passengers[i]});
+                    new AircraftGenerator().LoadPassengers(serviceZone, (new List<Guid> {passengers[i]}).ToArray());//сажаем пассажира в Генератор Самолетов 
                 });
                 t.Start();
                 tasks.Add(t);
+
             }
 
             Task.WaitAll(tasks.ToArray());
 
-            //TODO: сообщаем Управлению Наземным Обслуживанием, что задание выполнено Done(taskId);
+            new GSC().Done(taskId);//сообщаем Управлению Наземным Обслуживанием, что задание выполнено
 
             foreach (var car in cars)
             {
@@ -93,7 +97,7 @@ namespace VIPShuttle
         /// </summary>
         /// <param name="flightNumber">номер рейса</param>
         /// <returns></returns>
-        public static List<Guid> GetPassengers(int flightNumber)
+        public static List<Guid> GetPassengers(Guid flightNumber)
         {
             //TODO: запросить пассажиров у Регистрации return GetVips(flightNumber); 
             return new List<Guid>();

@@ -42,5 +42,15 @@ namespace PassengerBus.Properties {
                 return ((string)(this["PassengerBus_AircraftgeneratorVS_AircraftGenerator"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://airport-dko-gsc.azurewebsites.net/gsc.asmx")]
+        public string PassengerBus_GscVS_GSC {
+            get {
+                return ((string)(this["PassengerBus_GscVS_GSC"]));
+            }
+        }
     }
 }

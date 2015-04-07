@@ -32,5 +32,15 @@ namespace ContainerLoader.Properties {
                 return ((string)(this["ContainerLoader_GmcVS_GMC"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://airport-dko-gsc.azurewebsites.net/gsc.asmx")]
+        public string ContainerLoader_GscVS_GSC {
+            get {
+                return ((string)(this["ContainerLoader_GscVS_GSC"]));
+            }
+        }
     }
 }

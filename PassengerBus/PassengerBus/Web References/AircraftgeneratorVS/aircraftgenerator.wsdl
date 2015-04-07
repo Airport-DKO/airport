@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="DKO-Ariport-Aircraft-Generator" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:s1="http://microsoft.com/wsdl/types/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="DKO-Ariport-Aircraft-Generator" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="DKO-Ariport-Aircraft-Generator" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:s1="http://microsoft.com/wsdl/types/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:s2="Airport" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="DKO-Ariport-Aircraft-Generator" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
   <wsdl:types>
     <s:schema elementFormDefault="qualified" targetNamespace="DKO-Ariport-Aircraft-Generator">
       <s:import namespace="http://microsoft.com/wsdl/types/" />
+      <s:import namespace="Airport" />
       <s:element name="CreateNewPlane">
         <s:complexType>
           <s:sequence>
@@ -54,6 +55,7 @@
           <s:element minOccurs="1" maxOccurs="1" name="MaxStandartPassengers" type="s:int" />
           <s:element minOccurs="1" maxOccurs="1" name="MaxVipPassengers" type="s:int" />
           <s:element minOccurs="1" maxOccurs="1" name="HasArrivalPassengers" type="s:boolean" />
+          <s:element minOccurs="0" maxOccurs="1" name="ServiceZone" type="s2:MapObject" />
         </s:sequence>
       </s:complexType>
       <s:complexType name="Flight">
@@ -85,10 +87,41 @@
           <s:enumeration value="Departed" />
         </s:restriction>
       </s:simpleType>
-      <s:element name="CheckInPassengers">
+      <s:element name="UnloadBaggage">
         <s:complexType>
           <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="passengersList" type="tns:ArrayOfGuid" />
+            <s:element minOccurs="0" maxOccurs="1" name="serviseZone" type="s2:MapObject" />
+            <s:element minOccurs="1" maxOccurs="1" name="weightOfBaggage" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UnloadBaggageResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="UnloadBaggageResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="LoadBaggage">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="serviseZone" type="s2:MapObject" />
+            <s:element minOccurs="1" maxOccurs="1" name="weightOfBaggage" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="LoadBaggageResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="LoadBaggageResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="LoadPassengers">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="serviseZone" type="s2:MapObject" />
+            <s:element minOccurs="0" maxOccurs="1" name="passengers" type="tns:ArrayOfGuid" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -97,10 +130,68 @@
           <s:element minOccurs="0" maxOccurs="unbounded" name="guid" type="s1:guid" />
         </s:sequence>
       </s:complexType>
-      <s:element name="CheckInPassengersResponse">
+      <s:element name="LoadPassengersResponse">
         <s:complexType>
           <s:sequence>
-            <s:element minOccurs="1" maxOccurs="1" name="CheckInPassengersResult" type="s:boolean" />
+            <s:element minOccurs="1" maxOccurs="1" name="LoadPassengersResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UnloadPassengers">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="serviseZone" type="s2:MapObject" />
+            <s:element minOccurs="1" maxOccurs="1" name="countOfPassengers" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UnloadPassengersResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="UnloadPassengersResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="FollowMe">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="planeId" type="s1:guid" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="FollowMeResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="FollowMeResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DoStep">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="planeId" type="s1:guid" />
+            <s:element minOccurs="0" maxOccurs="1" name="step" type="s2:CoordinateTuple" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DoStepResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="DoStepResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="FollowMeComplete">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="planeId" type="s1:guid" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="FollowMeCompleteResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="FollowMeCompleteResult" type="s:boolean" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -111,6 +202,28 @@
           <s:pattern value="[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}" />
         </s:restriction>
       </s:simpleType>
+    </s:schema>
+    <s:schema elementFormDefault="qualified" targetNamespace="Airport">
+      <s:complexType name="MapObject">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="MapObjectType" type="s2:MapObjectType" />
+          <s:element minOccurs="1" maxOccurs="1" name="Number" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:simpleType name="MapObjectType">
+        <s:restriction base="s:string">
+          <s:enumeration value="Runway" />
+          <s:enumeration value="Garage" />
+          <s:enumeration value="ServiceArea" />
+          <s:enumeration value="Airport" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="CoordinateTuple">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="X" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="Y" type="s:int" />
+        </s:sequence>
+      </s:complexType>
     </s:schema>
   </wsdl:types>
   <wsdl:message name="CreateNewPlaneSoapIn">
@@ -125,11 +238,47 @@
   <wsdl:message name="GetAllPlanesSoapOut">
     <wsdl:part name="parameters" element="tns:GetAllPlanesResponse" />
   </wsdl:message>
-  <wsdl:message name="CheckInPassengersSoapIn">
-    <wsdl:part name="parameters" element="tns:CheckInPassengers" />
+  <wsdl:message name="UnloadBaggageSoapIn">
+    <wsdl:part name="parameters" element="tns:UnloadBaggage" />
   </wsdl:message>
-  <wsdl:message name="CheckInPassengersSoapOut">
-    <wsdl:part name="parameters" element="tns:CheckInPassengersResponse" />
+  <wsdl:message name="UnloadBaggageSoapOut">
+    <wsdl:part name="parameters" element="tns:UnloadBaggageResponse" />
+  </wsdl:message>
+  <wsdl:message name="LoadBaggageSoapIn">
+    <wsdl:part name="parameters" element="tns:LoadBaggage" />
+  </wsdl:message>
+  <wsdl:message name="LoadBaggageSoapOut">
+    <wsdl:part name="parameters" element="tns:LoadBaggageResponse" />
+  </wsdl:message>
+  <wsdl:message name="LoadPassengersSoapIn">
+    <wsdl:part name="parameters" element="tns:LoadPassengers" />
+  </wsdl:message>
+  <wsdl:message name="LoadPassengersSoapOut">
+    <wsdl:part name="parameters" element="tns:LoadPassengersResponse" />
+  </wsdl:message>
+  <wsdl:message name="UnloadPassengersSoapIn">
+    <wsdl:part name="parameters" element="tns:UnloadPassengers" />
+  </wsdl:message>
+  <wsdl:message name="UnloadPassengersSoapOut">
+    <wsdl:part name="parameters" element="tns:UnloadPassengersResponse" />
+  </wsdl:message>
+  <wsdl:message name="FollowMeSoapIn">
+    <wsdl:part name="parameters" element="tns:FollowMe" />
+  </wsdl:message>
+  <wsdl:message name="FollowMeSoapOut">
+    <wsdl:part name="parameters" element="tns:FollowMeResponse" />
+  </wsdl:message>
+  <wsdl:message name="DoStepSoapIn">
+    <wsdl:part name="parameters" element="tns:DoStep" />
+  </wsdl:message>
+  <wsdl:message name="DoStepSoapOut">
+    <wsdl:part name="parameters" element="tns:DoStepResponse" />
+  </wsdl:message>
+  <wsdl:message name="FollowMeCompleteSoapIn">
+    <wsdl:part name="parameters" element="tns:FollowMeComplete" />
+  </wsdl:message>
+  <wsdl:message name="FollowMeCompleteSoapOut">
+    <wsdl:part name="parameters" element="tns:FollowMeCompleteResponse" />
   </wsdl:message>
   <wsdl:portType name="AircraftGeneratorSoap">
     <wsdl:operation name="CreateNewPlane">
@@ -140,9 +289,33 @@
       <wsdl:input message="tns:GetAllPlanesSoapIn" />
       <wsdl:output message="tns:GetAllPlanesSoapOut" />
     </wsdl:operation>
-    <wsdl:operation name="CheckInPassengers">
-      <wsdl:input message="tns:CheckInPassengersSoapIn" />
-      <wsdl:output message="tns:CheckInPassengersSoapOut" />
+    <wsdl:operation name="UnloadBaggage">
+      <wsdl:input message="tns:UnloadBaggageSoapIn" />
+      <wsdl:output message="tns:UnloadBaggageSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="LoadBaggage">
+      <wsdl:input message="tns:LoadBaggageSoapIn" />
+      <wsdl:output message="tns:LoadBaggageSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="LoadPassengers">
+      <wsdl:input message="tns:LoadPassengersSoapIn" />
+      <wsdl:output message="tns:LoadPassengersSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UnloadPassengers">
+      <wsdl:input message="tns:UnloadPassengersSoapIn" />
+      <wsdl:output message="tns:UnloadPassengersSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="FollowMe">
+      <wsdl:input message="tns:FollowMeSoapIn" />
+      <wsdl:output message="tns:FollowMeSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DoStep">
+      <wsdl:input message="tns:DoStepSoapIn" />
+      <wsdl:output message="tns:DoStepSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="FollowMeComplete">
+      <wsdl:input message="tns:FollowMeCompleteSoapIn" />
+      <wsdl:output message="tns:FollowMeCompleteSoapOut" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="AircraftGeneratorSoap" type="tns:AircraftGeneratorSoap">
@@ -165,8 +338,62 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="CheckInPassengers">
-      <soap:operation soapAction="DKO-Ariport-Aircraft-Generator/CheckInPassengers" style="document" />
+    <wsdl:operation name="UnloadBaggage">
+      <soap:operation soapAction="DKO-Ariport-Aircraft-Generator/UnloadBaggage" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LoadBaggage">
+      <soap:operation soapAction="DKO-Ariport-Aircraft-Generator/LoadBaggage" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LoadPassengers">
+      <soap:operation soapAction="DKO-Ariport-Aircraft-Generator/LoadPassengers" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UnloadPassengers">
+      <soap:operation soapAction="DKO-Ariport-Aircraft-Generator/UnloadPassengers" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="FollowMe">
+      <soap:operation soapAction="DKO-Ariport-Aircraft-Generator/FollowMe" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DoStep">
+      <soap:operation soapAction="DKO-Ariport-Aircraft-Generator/DoStep" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="FollowMeComplete">
+      <soap:operation soapAction="DKO-Ariport-Aircraft-Generator/FollowMeComplete" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -195,8 +422,62 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="CheckInPassengers">
-      <soap12:operation soapAction="DKO-Ariport-Aircraft-Generator/CheckInPassengers" style="document" />
+    <wsdl:operation name="UnloadBaggage">
+      <soap12:operation soapAction="DKO-Ariport-Aircraft-Generator/UnloadBaggage" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LoadBaggage">
+      <soap12:operation soapAction="DKO-Ariport-Aircraft-Generator/LoadBaggage" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LoadPassengers">
+      <soap12:operation soapAction="DKO-Ariport-Aircraft-Generator/LoadPassengers" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UnloadPassengers">
+      <soap12:operation soapAction="DKO-Ariport-Aircraft-Generator/UnloadPassengers" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="FollowMe">
+      <soap12:operation soapAction="DKO-Ariport-Aircraft-Generator/FollowMe" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DoStep">
+      <soap12:operation soapAction="DKO-Ariport-Aircraft-Generator/DoStep" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="FollowMeComplete">
+      <soap12:operation soapAction="DKO-Ariport-Aircraft-Generator/FollowMeComplete" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

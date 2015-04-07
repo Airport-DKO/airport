@@ -1,6 +1,8 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using System.Web.Services;
-using CateringTruck.GmcVS;
+using CateringTruck.GscVS;
+using MapObject = CateringTruck.GmcVS.MapObject;
 
 namespace CateringTruck
 {
@@ -22,7 +24,7 @@ namespace CateringTruck
         /// <param name="taskId">номер задания</param>
         /// <returns></returns>
         [WebMethod]
-        public bool LoadFood(MapObject serviseZone, int flightNumber, int taskId)
+        public bool LoadFood(MapObject serviseZone, Guid flightNumber, ServiceTaskId taskId)
         {
             var t = new Task(() => Worker.CateringToPlain(serviseZone, flightNumber, taskId));
             t.Start(); //запускаем асинхронно

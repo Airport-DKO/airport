@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <discovery xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.xmlsoap.org/disco/">
   <contractRef ref="http://airport-dko-gmc.azurewebsites.net/gmc.asmx?wsdl" docRef="http://airport-dko-gmc.azurewebsites.net/gmc.asmx" xmlns="http://schemas.xmlsoap.org/disco/scl/" />
-  <soap address="http://airport-dko-gmc.azurewebsites.net/gmc.asmx" xmlns:q1="DKO-Airport-Ground-Movement-Control" binding="q1:GMCSoap" xmlns="http://schemas.xmlsoap.org/disco/soap/" />
-  <soap address="http://airport-dko-gmc.azurewebsites.net/gmc.asmx" xmlns:q2="DKO-Airport-Ground-Movement-Control" binding="q2:GMCSoap12" xmlns="http://schemas.xmlsoap.org/disco/soap/" />
+  <soap address="http://airport-dko-gmc.azurewebsites.net/gmc.asmx" xmlns:q1="Airport" binding="q1:GMCSoap" xmlns="http://schemas.xmlsoap.org/disco/soap/" />
+  <soap address="http://airport-dko-gmc.azurewebsites.net/gmc.asmx" xmlns:q2="Airport" binding="q2:GMCSoap12" xmlns="http://schemas.xmlsoap.org/disco/soap/" />
 </discovery>

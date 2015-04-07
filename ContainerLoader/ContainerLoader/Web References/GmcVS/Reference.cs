@@ -26,12 +26,14 @@ namespace ContainerLoader.GmcVS {
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.18408")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Web.Services.WebServiceBindingAttribute(Name="GMCSoap", Namespace="DKO-Airport-Ground-Movement-Control")]
+    [System.Web.Services.WebServiceBindingAttribute(Name="GMCSoap", Namespace="Airport")]
     public partial class GMC : System.Web.Services.Protocols.SoapHttpClientProtocol {
         
         private System.Threading.SendOrPostCallback GetRouteOperationCompleted;
         
         private System.Threading.SendOrPostCallback StepOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback CheckRunwayAwailabilityOperationCompleted;
         
         private bool useDefaultCredentialsSetExplicitly;
         
@@ -78,7 +80,10 @@ namespace ContainerLoader.GmcVS {
         public event StepCompletedEventHandler StepCompleted;
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("DKO-Airport-Ground-Movement-Control/GetRoute", RequestNamespace="DKO-Airport-Ground-Movement-Control", ResponseNamespace="DKO-Airport-Ground-Movement-Control", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public event CheckRunwayAwailabilityCompletedEventHandler CheckRunwayAwailabilityCompleted;
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("Airport/GetRoute", RequestNamespace="Airport", ResponseNamespace="Airport", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public CoordinateTuple[] GetRoute(MapObject from, MapObject to) {
             object[] results = this.Invoke("GetRoute", new object[] {
                         from,
@@ -109,7 +114,7 @@ namespace ContainerLoader.GmcVS {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("DKO-Airport-Ground-Movement-Control/Step", RequestNamespace="DKO-Airport-Ground-Movement-Control", ResponseNamespace="DKO-Airport-Ground-Movement-Control", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("Airport/Step", RequestNamespace="Airport", ResponseNamespace="Airport", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public bool Step(CoordinateTuple coordinate, MoveObjectType type, System.Guid id) {
             object[] results = this.Invoke("Step", new object[] {
                         coordinate,
@@ -142,6 +147,35 @@ namespace ContainerLoader.GmcVS {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("Airport/CheckRunwayAwailability", RequestNamespace="Airport", ResponseNamespace="Airport", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public MapObject CheckRunwayAwailability(System.Guid planeGuid) {
+            object[] results = this.Invoke("CheckRunwayAwailability", new object[] {
+                        planeGuid});
+            return ((MapObject)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void CheckRunwayAwailabilityAsync(System.Guid planeGuid) {
+            this.CheckRunwayAwailabilityAsync(planeGuid, null);
+        }
+        
+        /// <remarks/>
+        public void CheckRunwayAwailabilityAsync(System.Guid planeGuid, object userState) {
+            if ((this.CheckRunwayAwailabilityOperationCompleted == null)) {
+                this.CheckRunwayAwailabilityOperationCompleted = new System.Threading.SendOrPostCallback(this.OnCheckRunwayAwailabilityOperationCompleted);
+            }
+            this.InvokeAsync("CheckRunwayAwailability", new object[] {
+                        planeGuid}, this.CheckRunwayAwailabilityOperationCompleted, userState);
+        }
+        
+        private void OnCheckRunwayAwailabilityOperationCompleted(object arg) {
+            if ((this.CheckRunwayAwailabilityCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.CheckRunwayAwailabilityCompleted(this, new CheckRunwayAwailabilityCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
         public new void CancelAsync(object userState) {
             base.CancelAsync(userState);
         }
@@ -165,7 +199,7 @@ namespace ContainerLoader.GmcVS {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="DKO-Airport-Ground-Movement-Control")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="Airport")]
     public partial class MapObject {
         
         private MapObjectType mapObjectTypeField;
@@ -196,7 +230,7 @@ namespace ContainerLoader.GmcVS {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.0.30319.34234")]
     [System.SerializableAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="DKO-Airport-Ground-Movement-Control")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="Airport")]
     public enum MapObjectType {
         
         /// <remarks/>
@@ -217,7 +251,7 @@ namespace ContainerLoader.GmcVS {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="DKO-Airport-Ground-Movement-Control")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="Airport")]
     public partial class CoordinateTuple {
         
         private int xField;
@@ -248,7 +282,7 @@ namespace ContainerLoader.GmcVS {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.0.30319.34234")]
     [System.SerializableAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="DKO-Airport-Ground-Movement-Control")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="Airport")]
     public enum MoveObjectType {
         
         /// <remarks/>
@@ -333,6 +367,32 @@ namespace ContainerLoader.GmcVS {
             get {
                 this.RaiseExceptionIfNecessary();
                 return ((bool)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.18408")]
+    public delegate void CheckRunwayAwailabilityCompletedEventHandler(object sender, CheckRunwayAwailabilityCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.18408")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class CheckRunwayAwailabilityCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal CheckRunwayAwailabilityCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public MapObject Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((MapObject)(this.results[0]));
             }
         }
     }

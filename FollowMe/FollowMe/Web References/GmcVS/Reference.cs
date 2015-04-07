@@ -26,7 +26,7 @@ namespace FollowMe.GmcVS {
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.18408")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Web.Services.WebServiceBindingAttribute(Name="GMCSoap", Namespace="DKO-Airport-Ground-Movement-Control")]
+    [System.Web.Services.WebServiceBindingAttribute(Name="GMCSoap", Namespace="Airport")]
     public partial class GMC : System.Web.Services.Protocols.SoapHttpClientProtocol {
         
         private System.Threading.SendOrPostCallback GetRouteOperationCompleted;
@@ -83,7 +83,7 @@ namespace FollowMe.GmcVS {
         public event CheckRunwayAwailabilityCompletedEventHandler CheckRunwayAwailabilityCompleted;
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("DKO-Airport-Ground-Movement-Control/GetRoute", RequestNamespace="DKO-Airport-Ground-Movement-Control", ResponseNamespace="DKO-Airport-Ground-Movement-Control", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("Airport/GetRoute", RequestNamespace="Airport", ResponseNamespace="Airport", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public CoordinateTuple[] GetRoute(MapObject from, MapObject to) {
             object[] results = this.Invoke("GetRoute", new object[] {
                         from,
@@ -114,7 +114,7 @@ namespace FollowMe.GmcVS {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("DKO-Airport-Ground-Movement-Control/Step", RequestNamespace="DKO-Airport-Ground-Movement-Control", ResponseNamespace="DKO-Airport-Ground-Movement-Control", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("Airport/Step", RequestNamespace="Airport", ResponseNamespace="Airport", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public bool Step(CoordinateTuple coordinate, MoveObjectType type, System.Guid id) {
             object[] results = this.Invoke("Step", new object[] {
                         coordinate,
@@ -147,7 +147,7 @@ namespace FollowMe.GmcVS {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("DKO-Airport-Ground-Movement-Control/CheckRunwayAwailability", RequestNamespace="DKO-Airport-Ground-Movement-Control", ResponseNamespace="DKO-Airport-Ground-Movement-Control", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("Airport/CheckRunwayAwailability", RequestNamespace="Airport", ResponseNamespace="Airport", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public MapObject CheckRunwayAwailability(System.Guid planeGuid) {
             object[] results = this.Invoke("CheckRunwayAwailability", new object[] {
                         planeGuid});
@@ -199,7 +199,7 @@ namespace FollowMe.GmcVS {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="DKO-Airport-Ground-Movement-Control")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="Airport")]
     public partial class MapObject {
         
         private MapObjectType mapObjectTypeField;
@@ -230,7 +230,7 @@ namespace FollowMe.GmcVS {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.0.30319.34234")]
     [System.SerializableAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="DKO-Airport-Ground-Movement-Control")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="Airport")]
     public enum MapObjectType {
         
         /// <remarks/>
@@ -251,7 +251,7 @@ namespace FollowMe.GmcVS {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="DKO-Airport-Ground-Movement-Control")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="Airport")]
     public partial class CoordinateTuple {
         
         private int xField;
@@ -282,7 +282,7 @@ namespace FollowMe.GmcVS {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.0.30319.34234")]
     [System.SerializableAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="DKO-Airport-Ground-Movement-Control")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="Airport")]
     public enum MoveObjectType {
         
         /// <remarks/>

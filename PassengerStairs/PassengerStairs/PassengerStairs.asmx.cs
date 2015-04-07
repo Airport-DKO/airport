@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using System.Web.Services;
-using PassengerStairs.GmcVS;
+using PassengerStairs.GscVS;
+using MapObject = PassengerStairs.GmcVS.MapObject;
 
 namespace PassengerStairs
 {
@@ -21,7 +22,7 @@ namespace PassengerStairs
         /// <param name="taskId">номер задания</param>
         /// <returns></returns>
         [WebMethod]
-        public bool ToServiceZone(MapObject serviceZone, int taskId)
+        public bool ToServiceZone(MapObject serviceZone, ServiceTaskId taskId)
         {
             var t = new Task(() => Worker.GoToServiceZone(serviceZone, taskId));
             t.Start(); //запускаем асинхронно

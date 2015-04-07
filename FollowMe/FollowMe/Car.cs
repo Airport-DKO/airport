@@ -2,24 +2,22 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using System.Web;
+using FollowMe.AircraftGeneratorVS;
 using FollowMe.GmcVS;
+using CoordinateTuple = FollowMe.GmcVS.CoordinateTuple;
+using MapObject = FollowMe.GmcVS.MapObject;
 
 namespace FollowMe
 {
     public class Car
     {
         private readonly Guid _id; //идентификатор машины, чтобы ее могли отличить среди других Управление Наземным Движением и Визуализатор
-
-        public Guid Id { get { return _id; } }
+        private readonly MoveObjectType _type;
 
         public Car()
         {
             _id = Guid.NewGuid();
-        }
-        public Car(Guid id)
-        {
-            _id = id;
+            _type = MoveObjectType.FollowMeVan;
         }
 
         /// <summary>
@@ -71,7 +69,7 @@ namespace FollowMe
             int stepNumber = 0;
             while (stepNumber < route.Count) //пока не дойдем до конца массива, содержащего маршрут
             {
-                if (gmc.Step(route[stepNumber], MoveObjectType.VipShuttle, _id)) //УНД возвращает разрешение на движение на переданную координату или запрет 
+                if (gmc.Step(route[stepNumber], _type, _id)) //УНД возвращает разрешение на движение на переданную координату или запрет 
                 {
                     //если шаг сделать удалось - передвигаемся на следующий индекс массива, содержащего маршрут
                     stepNumber++;
@@ -99,15 +97,16 @@ namespace FollowMe
         private void goAndLead(List<CoordinateTuple> route, Guid who)
         {
             var gmc = new GMC(); //объект для связи с Управлением Наземным Движением (чтобы вызвать веб-сервис этой компоненты)
+            var airplane = new AircraftGenerator();
 
             int stepNumber = 0;
             while (stepNumber < route.Count) //пока не дойдем до конца массива, содержащего маршрут
             {
-                if (gmc.Step(route[stepNumber], MoveObjectType.VipShuttle, _id)) //УНД возвращает разрешение на движение на переданную координату или запрет 
+                if (gmc.Step(route[stepNumber], _type, _id)) //УНД возвращает разрешение на движение на переданную координату или запрет 
                 {
                     if (stepNumber > 0)
                     {
-                        //TODO: передаем Генератору Самолетов координаты(для машины - предыдушего места положения, для самолета - следующего места) DoStep(who, route[stepNumber-1]);
+                        airplane.DoStep(who, route[stepNumber - 1]);//передаем Генератору Самолетов координаты(для машины - предыдушего места положения, для самолета - следующего места)
                     }
                     //если шаг сделать удалось - передвигаемся на следующий индекс массива, содержащего маршрут
                     stepNumber++;
@@ -115,8 +114,9 @@ namespace FollowMe
                 }
             }
 
-            //чтобы самолет оказался ровно на площадке обслуживания
-            //TODO: передаем Генератору Самолетов последние две координаты DoStep(who, route[route.Count-2]); DoStep(who, route[route.Count-1]);
+            //чтобы самолет оказался ровно на площадке обслуживания передаем Генератору Самолетов последние две координаты 
+            airplane.DoStep(who, route[route.Count - 2]);
+            airplane.DoStep(who, route[route.Count - 1]); 
         }
     }
 }

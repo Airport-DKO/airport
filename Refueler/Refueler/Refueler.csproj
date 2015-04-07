@@ -57,6 +57,15 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Properties\PublishProfiles\airport-dko-services.pubxml" />
+    <None Include="Web References\GscVS\gsc.wsdl" />
+    <Content Include="Web References\GscVS\MapObject.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\GscVS\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </Content>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -74,6 +83,7 @@
       <DependentUpon>Reference.map</DependentUpon>
     </Content>
     <None Include="Web References\GmcVS\gmc.disco" />
+    <None Include="Web References\GscVS\gsc.disco" />
     <Content Include="Web.config" />
     <None Include="Web References\GmcVS\gmc.wsdl" />
     <Content Include="Web References\GmcVS\Reference.map">
@@ -98,6 +108,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.map</DependentUpon>
     </Compile>
+    <Compile Include="Web References\GscVS\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
     <Compile Include="Worker.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -117,6 +132,17 @@
       </CachedDynamicPropName>
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>Refueler_GmcVS_GMC</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://airport-dko-gsc.azurewebsites.net/gsc.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\GscVS\</RelPath>
+      <UpdateFromURL>http://airport-dko-gsc.azurewebsites.net/gsc.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Refueler_GscVS_GSC</CachedSettingsPropName>
     </WebReferenceUrl>
   </ItemGroup>
   <PropertyGroup>

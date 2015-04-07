@@ -10,10 +10,12 @@ namespace CateringTruck
     public class Car
     {
         private readonly Guid _id; //идентификатор машины, чтобы ее могли отличить среди других Управление Наземным Движением и Визуализатор
+        private readonly MoveObjectType _type; 
 
         public Car()
         {
             _id = Guid.NewGuid();
+            _type = MoveObjectType.CateringTruck;
         }
 
         /// <summary>
@@ -65,7 +67,7 @@ namespace CateringTruck
             int stepNumber = 0;
             while (stepNumber < route.Count) //пока не дойдем до конца массива, содержащего маршрут
             {
-                if (gmc.Step(route[stepNumber], MoveObjectType.VipShuttle, _id)) //УНД возвращает разрешение на движение на переданную координату или запрет 
+                if (gmc.Step(route[stepNumber], _type, _id)) //УНД возвращает разрешение на движение на переданную координату или запрет 
                 {
                     //если шаг сделать удалось - передвигаемся на следующий индекс массива, содержащего маршрут
                     stepNumber++;

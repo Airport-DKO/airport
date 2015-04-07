@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using ContainerLoader.GmcVS;
+using ContainerLoader.GscVS;
+using MapObject = ContainerLoader.GmcVS.MapObject;
+using MapObjectType = ContainerLoader.GmcVS.MapObjectType;
 
 namespace ContainerLoader
 {
@@ -22,14 +24,14 @@ namespace ContainerLoader
         /// <param name="serviceZone">площадка, на которой находится обслуживаемый самолет</param>
         /// <param name="taskId">номер задания</param>
         /// <returns></returns>
-        public static void GoToServiceZone(MapObject serviceZone, int taskId)
+        public static void GoToServiceZone(MapObject serviceZone, ServiceTaskId taskId)
         {
             var car = new Car();
             car.GoTo(Garage, serviceZone);
 
             WhoWhere.Add(new Tuple<Guid, MapObject>(car.Id, serviceZone)); //запоминаем, что на этой площадке находится погрузчик с некоторым идентификатором
 
-            //TODO: сообщаем Управлению Наземным Обслуживанием, что задание выполнено Done(taskId);
+            new GSC().Done(taskId); //сообщаем Управлению Наземным Обслуживанием, что задание выполнено
         }
 
         /// <summary>

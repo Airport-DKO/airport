@@ -1,6 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
-using BaggageTractor.GmcVS;
+using BaggageTractor.AircraftGeneratorVS;
+using BaggageTractor.GscVS;
+using MapObject = BaggageTractor.GmcVS.MapObject;
+using MapObjectType = BaggageTractor.GmcVS.MapObjectType;
 
 namespace BaggageTractor
 {
@@ -22,7 +26,7 @@ namespace BaggageTractor
         /// <param name="weightOfBaggage">Количество багажа для выгрузки</param>
         /// <param name="taskId">Номер задания</param>
         /// <returns></returns>
-        public static void FromPlane(MapObject serviseZone, int weightOfBaggage, int taskId)
+        public static void FromPlane(MapObject serviseZone, int weightOfBaggage, ServiceTaskId taskId)
         {
             var cars = new List<Car>();
             var tasks = new List<Task>();
@@ -37,7 +41,7 @@ namespace BaggageTractor
                 var t = new Task(() =>
                 {
                     car.GoTo(Garage, serviseZone);
-                    //TODO: забираем багаж у Генератора Самолетов UnloadBaggage(serviseZone,weightOfBaggage);
+                    new AircraftGenerator().UnloadBaggage(serviseZone, weightOfBaggage);//забираем багаж у Генератора Самолетов
                     car.GoTo(serviseZone, Airport);
                 });
                 t.Start();
@@ -51,7 +55,7 @@ namespace BaggageTractor
 
             Task.WaitAll(tasks.ToArray());
 
-            //TODO: сообщаем Управлению Наземным Обслуживанием, что задание выполнено Done(taskId);
+            new GSC().Done(taskId);//сообщаем Управлению Наземным Обслуживанием, что задание выполнено 
 
             foreach (var car in cars)
             {
@@ -68,7 +72,7 @@ namespace BaggageTractor
         /// <param name="flightNumber">номер рейса, багаж пассажиров которого следует погрузить</param>
         /// <param name="taskId">номер задания</param>
         /// <returns></returns>
-        public static void ToPlain(MapObject serviseZone, int flightNumber, int taskId)
+        public static void ToPlain(MapObject serviseZone, Guid flightNumber, ServiceTaskId taskId)
         {
             var cars = new List<Car>();
             var tasks = new List<Task>();
@@ -87,7 +91,7 @@ namespace BaggageTractor
                 {
                     car.GoTo(Garage, Airport);
                     car.GoTo(Airport, serviseZone);
-                    //TODO: загружаем багаж в Генератору Самолетов LoadBaggage(serviseZone,weightOfBaggage);
+                    new AircraftGenerator().LoadBaggage(serviseZone, weightOfBaggage);//загружаем багаж в Генератору Самолетов
                 });
                 t.Start();
 
@@ -100,7 +104,7 @@ namespace BaggageTractor
 
             Task.WaitAll(tasks.ToArray());
 
-            //TODO: сообщаем Управлению Наземным Обслуживанием, что задание выполнено Done(taskId);
+            new GSC().Done(taskId); //cообщаем Управлению Наземным Обслуживанием, что задание выполнено
 
             foreach (var car in cars)
             {
@@ -115,7 +119,7 @@ namespace BaggageTractor
         /// </summary>
         /// <param name="flightNumber">номер рейса, о багаже пассажиров которого необходимо получить информацию</param>
         /// <returns></returns>
-        public static int GetWeightOfBaggage(int flightNumber)
+        public static int GetWeightOfBaggage(Guid flightNumber)
         {
             //TODO: запрашиваем вес у Регистрации GetBaggage(flightNumber)
             return 150;

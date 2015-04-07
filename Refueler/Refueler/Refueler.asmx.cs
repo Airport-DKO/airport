@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web;
+﻿using System.Threading.Tasks;
 using System.Web.Services;
-using Refueler.GmcVS;
+using Refueler.GscVS;
+using MapObject = Refueler.GmcVS.MapObject;
 
 namespace Refueler
 {
@@ -26,7 +23,7 @@ namespace Refueler
         /// <param name="taskId">номер задания</param>
         /// <returns></returns>
         [WebMethod]
-        public bool Fill(MapObject serviceZone, int litersOfFuel, int taskId)
+        public bool Fill(MapObject serviceZone, int litersOfFuel, ServiceTaskId taskId)
         {
             var t = new Task(() => Worker.FillPlane(serviceZone, litersOfFuel, taskId));
             t.Start();
