@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Services;
 using VIPShuttle.GscVS;
 using MapObject = VIPShuttle.GmcVS.MapObject;

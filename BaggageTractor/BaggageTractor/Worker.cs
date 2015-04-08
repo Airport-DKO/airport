@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using BaggageTractor.AircraftGeneratorVS;
+using BaggageTractor.CheckinVS;
 using BaggageTractor.GscVS;
 using MapObject = BaggageTractor.GmcVS.MapObject;
 using MapObjectType = BaggageTractor.GmcVS.MapObjectType;
@@ -121,7 +122,7 @@ namespace BaggageTractor
         /// <returns></returns>
         public static int GetWeightOfBaggage(Guid flightNumber)
         {
-            //TODO: запрашиваем вес у Регистрации GetBaggage(flightNumber)
+            new WebServiceCheckIn().GetBaggage(flightNumber); //запрашиваем вес у Регистрации
             return 150;
         }
     }

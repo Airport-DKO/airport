@@ -52,5 +52,15 @@ namespace CateringTruck.Properties {
                 return ((string)(this["CateringTruck_AircraftGeneratorVS_AircraftGenerator"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://airport-dko-passengers.azurewebsites.net/WebServiceCheckIn.asmx")]
+        public string CateringTruck_ChechinVS_WebServiceCheckIn {
+            get {
+                return ((string)(this["CateringTruck_ChechinVS_WebServiceCheckIn"]));
+            }
+        }
     }
 }

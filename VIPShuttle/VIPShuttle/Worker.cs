@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using VIPShuttle.AircraftgeneratorVS;
+using VIPShuttle.CheckinVS;
 using VIPShuttle.GscVS;
 using MapObject = VIPShuttle.GmcVS.MapObject;
 using MapObjectType = VIPShuttle.GmcVS.MapObjectType;
@@ -99,8 +101,7 @@ namespace VIPShuttle
         /// <returns></returns>
         public static List<Guid> GetPassengers(Guid flightNumber)
         {
-            //TODO: запросить пассажиров у Регистрации return GetVips(flightNumber); 
-            return new List<Guid>();
+            return new WebServiceCheckIn().GetVips(flightNumber).ToList(); //запросить пассажиров у Регистрации
         }
     }
 }

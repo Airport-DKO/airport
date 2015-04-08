@@ -63,6 +63,14 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <None Include="Web References\AircraftgeneratorVS\aircraftgenerator.disco" />
+    <Content Include="Web References\CheckinVS\Catering.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\CheckinVS\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </Content>
+    <None Include="Web References\CheckinVS\WebServiceCheckIn.disco" />
     <Content Include="Web References\GmcVS\CoordinateTuple.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </Content>
@@ -74,6 +82,7 @@
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
+    <None Include="Web References\CheckinVS\WebServiceCheckIn.wsdl" />
     <None Include="Web References\GmcVS\gmc.wsdl" />
     <Content Include="Web References\GmcVS\MapObject.datasource">
       <DependentUpon>Reference.map</DependentUpon>
@@ -117,6 +126,11 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Web References\AircraftgeneratorVS\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\CheckinVS\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.map</DependentUpon>
@@ -172,6 +186,17 @@
       </CachedDynamicPropName>
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>VIPShuttle_GscVS_GSC</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://airport-dko-passengers.azurewebsites.net/WebServiceCheckIn.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\CheckinVS\</RelPath>
+      <UpdateFromURL>http://airport-dko-passengers.azurewebsites.net/WebServiceCheckIn.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>VIPShuttle_CheckinVS_WebServiceCheckIn</CachedSettingsPropName>
     </WebReferenceUrl>
   </ItemGroup>
   <PropertyGroup>

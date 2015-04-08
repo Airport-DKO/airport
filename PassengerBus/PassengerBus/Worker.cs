@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using PassengerBus.AircraftgeneratorVS;
+using PassengerBus.CheckInVS;
 using PassengerBus.GscVS;
 using MapObject = PassengerBus.GmcVS.MapObject;
 using MapObjectType = PassengerBus.GmcVS.MapObjectType;
@@ -75,7 +77,6 @@ namespace PassengerBus
         /// <returns></returns>
         public static void ToPlain(MapObject serviceZone, Guid flightNumber, ServiceTaskId taskId)
         {
-            //TODO: узнаем у Регистрации идентификаторы пассажиров var passengers = GetSimplePassengers(flightNumber);
             var passengers = GetPassengers(flightNumber);
             var countOfPassengers = passengers.Count;
 
@@ -129,8 +130,7 @@ namespace PassengerBus
         /// <returns></returns>
         public static List<Guid> GetPassengers(Guid flightNumber)
         {
-            //TODO: запросить пассажиров у Регистрации return GetSimplePassengers(flightNumber); 
-            return new List<Guid>();
+            return new WebServiceCheckIn().GetSimplePassengers(flightNumber).ToList(); //запросить пассажиров у Регистрации
         }
     }
 }

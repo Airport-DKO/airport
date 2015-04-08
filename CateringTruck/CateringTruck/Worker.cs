@@ -1,5 +1,5 @@
 ﻿using System;
-using CateringTruck.AircraftGeneratorVS;
+using CateringTruck.ChechinVS;
 using CateringTruck.GscVS;
 using MapObject = CateringTruck.GmcVS.MapObject;
 using MapObjectType = CateringTruck.GmcVS.MapObjectType;
@@ -24,9 +24,9 @@ namespace CateringTruck
         /// <returns></returns>
         public static void CateringToPlain(MapObject serviseZone, Guid flightNumber, ServiceTaskId taskId)
         {
-            //TODO: запрашиваем питание у Регистрации var catering = GetCatering(flightNumber);
-
-            if (true) //TODO: проверить, что вернулся не пустой объект, т.е. что питание есть
+            var catering = new WebServiceCheckIn().GetCatering(flightNumber); //запрашиваем питание у Регистрации
+            
+            if (catering != null) //проверить, что вернулся не пустой объект, т.е. что питание есть
             {
                 var car = new Car();
                 car.GoTo(Garage, serviseZone); //подъезжаем к самолету
