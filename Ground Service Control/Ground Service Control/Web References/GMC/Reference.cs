@@ -225,6 +225,146 @@ namespace Ground_Service_Control.GMC {
                 this.numberField = value;
             }
         }
+
+        public static implicit operator BaggageTractor.MapObject(MapObject d)
+        {
+            var mo = new BaggageTractor.MapObject()
+            {
+                MapObjectType = (BaggageTractor.MapObjectType)d.MapObjectType,
+                Number = d.Number
+            };
+            return mo;
+        }
+
+        public static implicit operator MapObject(BaggageTractor.MapObject d)
+        {
+            var mo = new MapObject()
+            {
+                MapObjectType = (MapObjectType)d.MapObjectType,
+                Number = d.Number
+            };
+            return mo;
+        }
+
+        public static implicit operator CateringTruck.MapObject(MapObject d)
+        {
+            var mo = new CateringTruck.MapObject()
+            {
+                MapObjectType = (CateringTruck.MapObjectType)d.MapObjectType,
+                Number = d.Number
+            };
+            return mo;
+        }
+
+        public static implicit operator MapObject(CateringTruck.MapObject d)
+        {
+            var mo = new MapObject()
+            {
+                MapObjectType = (MapObjectType)d.MapObjectType,
+                Number = d.Number
+            };
+            return mo;
+        }
+
+        public static implicit operator ContainerLoader.MapObject(MapObject d)
+        {
+            var mo = new ContainerLoader.MapObject()
+            {
+                MapObjectType = (ContainerLoader.MapObjectType)d.MapObjectType,
+                Number = d.Number
+            };
+            return mo;
+        }
+
+        public static implicit operator MapObject(ContainerLoader.MapObject d)
+        {
+            var mo = new MapObject()
+            {
+                MapObjectType = (MapObjectType)d.MapObjectType,
+                Number = d.Number
+            };
+            return mo;
+        }
+
+        public static implicit operator PassengerBus.MapObject(MapObject d)
+        {
+            var mo = new PassengerBus.MapObject()
+            {
+                MapObjectType = (PassengerBus.MapObjectType)d.MapObjectType,
+                Number = d.Number
+            };
+            return mo;
+        }
+
+        public static implicit operator MapObject(PassengerBus.MapObject d)
+        {
+            var mo = new MapObject()
+            {
+                MapObjectType = (MapObjectType)d.MapObjectType,
+                Number = d.Number
+            };
+            return mo;
+        }
+
+        public static implicit operator PassengerStairs.MapObject(MapObject d)
+        {
+            var mo = new PassengerStairs.MapObject()
+            {
+                MapObjectType = (PassengerStairs.MapObjectType)d.MapObjectType,
+                Number = d.Number
+            };
+            return mo;
+        }
+
+        public static implicit operator MapObject(PassengerStairs.MapObject d)
+        {
+            var mo = new MapObject()
+            {
+                MapObjectType = (MapObjectType)d.MapObjectType,
+                Number = d.Number
+            };
+            return mo;
+        }
+
+        public static implicit operator Refueler.MapObject(MapObject d)
+        {
+            var mo = new Refueler.MapObject()
+            {
+                MapObjectType = (Refueler.MapObjectType)d.MapObjectType,
+                Number = d.Number
+            };
+            return mo;
+        }
+
+        public static implicit operator MapObject(Refueler.MapObject d)
+        {
+            var mo = new MapObject()
+            {
+                MapObjectType = (MapObjectType)d.MapObjectType,
+                Number = d.Number
+            };
+            return mo;
+        }
+
+        public static implicit operator VIPShuttle.MapObject(MapObject d)
+        {
+            var mo = new VIPShuttle.MapObject()
+            {
+                MapObjectType = (VIPShuttle.MapObjectType)d.MapObjectType,
+                Number = d.Number
+            };
+            return mo;
+        }
+
+        public static implicit operator MapObject(VIPShuttle.MapObject d)
+        {
+            var mo = new MapObject()
+            {
+                MapObjectType = (MapObjectType)d.MapObjectType,
+                Number = d.Number
+            };
+            return mo;
+        }
     }
     
     /// <remarks/>

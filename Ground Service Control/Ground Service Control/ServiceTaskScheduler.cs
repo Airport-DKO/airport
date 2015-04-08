@@ -19,6 +19,7 @@ namespace Ground_Service_Control
         public int VIPPassengers;
         public int baggage;
         public int fuelingNeeds;
+        public GMC.MapObject serviceZone;
     };
 
     internal class TasksGenerator

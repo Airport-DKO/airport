@@ -58,7 +58,15 @@ namespace Ground_Service_Control
         {
             var t = new Task(() =>
             {
-                //FIXME:
+                var bt = new BaggageTractor.BaggageTractor();
+
+                if (needToLoad())
+                {
+                    bt.LoadBaggage(context.serviceZone, context.plane, taskId);
+                    return;
+                }
+
+                bt.UnloadBaggage(context.serviceZone, context.baggage, taskId);
             });
 
             t.Start();
@@ -77,7 +85,8 @@ namespace Ground_Service_Control
         {
             var t = new Task(() =>
             {
-                //FIXME:
+                var ct = new CateringTruck.CateringTruck();
+                ct.LoadFood(context.serviceZone, context.plane, taskId);
             });
 
             t.Start();
@@ -98,7 +107,9 @@ namespace Ground_Service_Control
             {
                 Thread.Sleep(Utils.self().systemTime(5000));
 
-                //FIXME:
+                var cl = new ContainerLoader.ContainerLoader();
+                cl.ToServiceZone(context.serviceZone, taskId);
+                //TODO: убрать трап когда не нужен.
             });
 
             t.Start();
@@ -120,7 +131,15 @@ namespace Ground_Service_Control
             {
                 Thread.Sleep(Utils.self().systemTime(5000));
 
-                //FIXME:
+                var pb = new PassengerBus.PassengerBus();
+
+                if (needToLoad())
+                {
+                    pb.LoadPassengers(context.serviceZone, context.plane, taskId);
+                    return;
+                }
+
+                pb.UnloadPassengers(context.serviceZone, context.economPassengers, taskId);
             });
 
             t.Start();
@@ -140,7 +159,9 @@ namespace Ground_Service_Control
         {
             var t = new Task(() =>
             {
-                //FIXME:
+                var ps = new PassengerStairs.PassengerStairs();
+                ps.ToServiceZone(context.serviceZone, taskId);
+                //TODO: убрать трап пока не нужен.
             });
 
             t.Start();
@@ -159,7 +180,8 @@ namespace Ground_Service_Control
         {
             var t = new Task(() =>
             {
-                //FIXME:
+                var rf = new Refueler.Refueler();
+                rf.Fill(context.serviceZone, context.fuelingNeeds, taskId);
             });
 
             t.Start();
@@ -178,7 +200,13 @@ namespace Ground_Service_Control
         {
             var t = new Task(() =>
             {
-                //FIXME:
+                var vip = new VIPShuttle.VIPShuttle();
+                if (needToLoad())
+                {
+                    vip.LoadPassengers(context.serviceZone, context.plane, taskId);
+                    return;
+                }
+                vip.UnloadPassengers(context.serviceZone, context.VIPPassengers, taskId);
             });
 
             t.Start();

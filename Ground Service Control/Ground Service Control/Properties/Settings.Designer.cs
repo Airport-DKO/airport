@@ -46,16 +46,6 @@ namespace Ground_Service_Control.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://airport-dko-services.azurewebsites.net/BaggageTractor.asmx")]
-        public string Ground_Service_Control_BaggageTractor_BaggageTractor {
-            get {
-                return ((string)(this["Ground_Service_Control_BaggageTractor_BaggageTractor"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
         [global::System.Configuration.DefaultSettingValueAttribute("http://airport-dko-services.azurewebsites.net/CateringTruck.asmx")]
         public string Ground_Service_Control_CateringTruck_CateringTruck {
             get {
@@ -120,6 +110,16 @@ namespace Ground_Service_Control.Properties {
         public string Ground_Service_Control_WebServiceInformationPanel_WebServiceInformationPanel {
             get {
                 return ((string)(this["Ground_Service_Control_WebServiceInformationPanel_WebServiceInformationPanel"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://airport-dko-services.azurewebsites.net/BaggageTractor.asmx")]
+        public string Ground_Service_Control_BaggageTractor_BaggageTractor {
+            get {
+                return ((string)(this["Ground_Service_Control_BaggageTractor_BaggageTractor"]));
             }
         }
     }

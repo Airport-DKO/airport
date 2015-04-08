@@ -8,9 +8,6 @@
     <Setting Name="Ground_Service_Control_AircraftGenerator_AircraftGenerator" Type="(Web Service URL)" Scope="Application">
       <Value Profile="(Default)">http://airport-dko-aircraft-generator.azurewebsites.net/AircraftGenerator.asmx</Value>
     </Setting>
-    <Setting Name="Ground_Service_Control_BaggageTractor_BaggageTractor" Type="(Web Service URL)" Scope="Application">
-      <Value Profile="(Default)">http://airport-dko-services.azurewebsites.net/BaggageTractor.asmx</Value>
-    </Setting>
     <Setting Name="Ground_Service_Control_CateringTruck_CateringTruck" Type="(Web Service URL)" Scope="Application">
       <Value Profile="(Default)">http://airport-dko-services.azurewebsites.net/CateringTruck.asmx</Value>
     </Setting>
@@ -31,6 +28,9 @@
     </Setting>
     <Setting Name="Ground_Service_Control_WebServiceInformationPanel_WebServiceInformationPanel" Type="(Web Service URL)" Scope="Application">
       <Value Profile="(Default)">http://airport-dko-passengers.azurewebsites.net/WebServiceInformationPanel.asmx</Value>
+    </Setting>
+    <Setting Name="Ground_Service_Control_BaggageTractor_BaggageTractor" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://airport-dko-services.azurewebsites.net/BaggageTractor.asmx</Value>
     </Setting>
   </Settings>
 </SettingsFile>

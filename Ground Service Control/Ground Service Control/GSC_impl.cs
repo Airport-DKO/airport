@@ -76,7 +76,7 @@ namespace Ground_Service_Control
 
                 Debug.Assert(!zone.free);
 
-                m_taskScheduler.servicePlane(new PlaneNeeds{ plane = plane, flight = flight, baggage = baggage, economPassengers = economPassengers, fuelingNeeds = fuelingNeeds, ladder = ladder, VIPPassengers = VIPPassengers});
+                m_taskScheduler.servicePlane(new PlaneNeeds{ plane = plane, flight = flight, baggage = baggage, economPassengers = economPassengers, fuelingNeeds = fuelingNeeds, ladder = ladder, VIPPassengers = VIPPassengers, serviceZone =  zone.zone});
 
                 return true;
             }
