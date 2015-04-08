@@ -8,5 +8,8 @@
     <Setting Name="PassengerStairs_GscVS_GSC" Type="(Web Service URL)" Scope="Application">
       <Value Profile="(Default)">http://airport-dko-gsc.azurewebsites.net/gsc.asmx</Value>
     </Setting>
+    <Setting Name="PassengerStairs_CheckinVS_WebServiceCheckIn" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://airport-dko-passengers.azurewebsites.net/WebServiceCheckIn.asmx</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

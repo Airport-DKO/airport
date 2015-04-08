@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using PassengerStairs.CheckinVS;
 using PassengerStairs.GscVS;
 using MapObject = PassengerStairs.GmcVS.MapObject;
 using MapObjectType = PassengerStairs.GmcVS.MapObjectType;
@@ -22,14 +23,21 @@ namespace PassengerStairs
         /// Метод, который вызывает трап на площадку обслуживания самолета
         /// </summary>
         /// <param name="serviceZone">площадка, на которой находится обслуживаемый самолет</param>
+        /// <param name="flightNumber">номер рейса</param>
         /// <param name="taskId">номер задания</param>
         /// <returns></returns>
-        public static void GoToServiceZone(MapObject serviceZone, ServiceTaskId taskId)
+        public static void GoToServiceZone(MapObject serviceZone, Guid flightNumber, ServiceTaskId taskId)
         {
-            var car = new Car();
-            car.GoTo(Garage, serviceZone);
+            var passangersCount =
+                new WebServiceCheckIn().GetSimplePassengers(flightNumber).Length +
+                new WebServiceCheckIn().GetVips(flightNumber).Length;
 
-            WhoWhere.Add(new Tuple<Guid, MapObject>(car.Id, serviceZone)); //запоминаем, что на этой площадке находится погрузчик с некоторым идентификатором
+            if (passangersCount > 0) //если пассажиры есть - что-то делаем
+            {
+                var car = new Car();
+                car.GoTo(Garage, serviceZone);
+                WhoWhere.Add(new Tuple<Guid, MapObject>(car.Id, serviceZone)); //запоминаем, что на этой площадке находится погрузчик с некоторым идентификатором
+            } //если пассажиров нет - считаем, что все сделано
 
             new GSC().Done(taskId); //сообщаем Управлению Наземным Обслуживанием, что задание выполнено
         }
@@ -52,8 +60,12 @@ namespace PassengerStairs
                 }
             }
 
-            //создаем машину либо со старым id, либо с новым
-            Car car = (id == Guid.Empty ? new Car() : new Car(id));
+            //если машины на площадке нет - ничего не делаем
+            if (id == Guid.Empty) 
+                return;
+
+            //создаем машину со старым id
+            Car car = new Car(id);
 
             //удаляем машину из списка 
             WhoWhere.Remove(new Tuple<Guid, MapObject>(id, serviceZone));

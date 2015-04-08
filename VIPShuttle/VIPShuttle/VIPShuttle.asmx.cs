@@ -49,6 +49,7 @@ namespace VIPShuttle
             return true;
         }
 
+        /*
         /// <summary>
         /// Метод, который позволяет определить, есть ли пассажиры на данный рейс
         /// </summary>
@@ -60,5 +61,6 @@ namespace VIPShuttle
             var count = Worker.GetPassengers(flightNumber).Count; //запрашиваем количество пассажиров
             return count > 0; //возвращаем true, если пассажиры есть
         }
+        */
     }
 }

@@ -42,5 +42,15 @@ namespace PassengerStairs.Properties {
                 return ((string)(this["PassengerStairs_GscVS_GSC"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://airport-dko-passengers.azurewebsites.net/WebServiceCheckIn.asmx")]
+        public string PassengerStairs_CheckinVS_WebServiceCheckIn {
+            get {
+                return ((string)(this["PassengerStairs_CheckinVS_WebServiceCheckIn"]));
+            }
+        }
     }
 }

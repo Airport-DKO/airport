@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:s1="http://microsoft.com/wsdl/types/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:import namespace="http://microsoft.com/wsdl/types/" />
+      <s:element name="Registrate">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="passenger" type="tns:Passenger" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="Passenger">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="ID" type="s1:guid" />
+          <s:element minOccurs="1" maxOccurs="1" name="State" type="tns:PassengerState" />
+          <s:element minOccurs="1" maxOccurs="1" name="PreferFood" type="tns:Food" />
+          <s:element minOccurs="1" maxOccurs="1" name="WeightBaggage" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Ticket" type="tns:Ticket" />
+        </s:sequence>
+      </s:complexType>
+      <s:simpleType name="PassengerState">
+        <s:restriction base="s:string">
+          <s:enumeration value="Created" />
+          <s:enumeration value="Buy" />
+          <s:enumeration value="Registered" />
+          <s:enumeration value="Onboard" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="Food">
+        <s:restriction base="s:string">
+          <s:enumeration value="Diabetic" />
+          <s:enumeration value="Vegetarian" />
+          <s:enumeration value="Children" />
+          <s:enumeration value="LowCalorie" />
+          <s:enumeration value="Default" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="Ticket">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="PassengerID" type="s1:guid" />
+          <s:element minOccurs="1" maxOccurs="1" name="FlightID" type="s1:guid" />
+          <s:element minOccurs="1" maxOccurs="1" name="TicketClass" type="tns:Class" />
+        </s:sequence>
+      </s:complexType>
+      <s:simpleType name="Class">
+        <s:restriction base="s:string">
+          <s:enumeration value="Vip" />
+          <s:enumeration value="Econom" />
+        </s:restriction>
+      </s:simpleType>
+      <s:element name="RegistrateResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="RegistrateResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetVips">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="flightNumber" type="s1:guid" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetVipsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetVipsResult" type="tns:ArrayOfGuid" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfGuid">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="guid" type="s1:guid" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetSimplePassengers">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="flightNumber" type="s1:guid" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetSimplePassengersResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetSimplePassengersResult" type="tns:ArrayOfGuid" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCatering">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="flightNumber" type="s1:guid" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCateringResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetCateringResult" type="tns:Catering" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="Catering">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Diabetic" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="Vegetarian" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="Children" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="LowCalorie" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="Default" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetBaggage">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="flightNumber" type="s1:guid" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetBaggageResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetBaggageResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://microsoft.com/wsdl/types/">
+      <s:simpleType name="guid">
+        <s:restriction base="s:string">
+          <s:pattern value="[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}" />
+        </s:restriction>
+      </s:simpleType>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="RegistrateSoapIn">
+    <wsdl:part name="parameters" element="tns:Registrate" />
+  </wsdl:message>
+  <wsdl:message name="RegistrateSoapOut">
+    <wsdl:part name="parameters" element="tns:RegistrateResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetVipsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetVips" />
+  </wsdl:message>
+  <wsdl:message name="GetVipsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetVipsResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetSimplePassengersSoapIn">
+    <wsdl:part name="parameters" element="tns:GetSimplePassengers" />
+  </wsdl:message>
+  <wsdl:message name="GetSimplePassengersSoapOut">
+    <wsdl:part name="parameters" element="tns:GetSimplePassengersResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetCateringSoapIn">
+    <wsdl:part name="parameters" element="tns:GetCatering" />
+  </wsdl:message>
+  <wsdl:message name="GetCateringSoapOut">
+    <wsdl:part name="parameters" element="tns:GetCateringResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetBaggageSoapIn">
+    <wsdl:part name="parameters" element="tns:GetBaggage" />
+  </wsdl:message>
+  <wsdl:message name="GetBaggageSoapOut">
+    <wsdl:part name="parameters" element="tns:GetBaggageResponse" />
+  </wsdl:message>
+  <wsdl:portType name="WebServiceCheckInSoap">
+    <wsdl:operation name="Registrate">
+      <wsdl:input message="tns:RegistrateSoapIn" />
+      <wsdl:output message="tns:RegistrateSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetVips">
+      <wsdl:input message="tns:GetVipsSoapIn" />
+      <wsdl:output message="tns:GetVipsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetSimplePassengers">
+      <wsdl:input message="tns:GetSimplePassengersSoapIn" />
+      <wsdl:output message="tns:GetSimplePassengersSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCatering">
+      <wsdl:input message="tns:GetCateringSoapIn" />
+      <wsdl:output message="tns:GetCateringSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetBaggage">
+      <wsdl:input message="tns:GetBaggageSoapIn" />
+      <wsdl:output message="tns:GetBaggageSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="WebServiceCheckInSoap" type="tns:WebServiceCheckInSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="Registrate">
+      <soap:operation soapAction="http://tempuri.org/Registrate" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetVips">
+      <soap:operation soapAction="http://tempuri.org/GetVips" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSimplePassengers">
+      <soap:operation soapAction="http://tempuri.org/GetSimplePassengers" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCatering">
+      <soap:operation soapAction="http://tempuri.org/GetCatering" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBaggage">
+      <soap:operation soapAction="http://tempuri.org/GetBaggage" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="WebServiceCheckInSoap12" type="tns:WebServiceCheckInSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="Registrate">
+      <soap12:operation soapAction="http://tempuri.org/Registrate" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetVips">
+      <soap12:operation soapAction="http://tempuri.org/GetVips" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSimplePassengers">
+      <soap12:operation soapAction="http://tempuri.org/GetSimplePassengers" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCatering">
+      <soap12:operation soapAction="http://tempuri.org/GetCatering" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBaggage">
+      <soap12:operation soapAction="http://tempuri.org/GetBaggage" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="WebServiceCheckIn">
+    <wsdl:port name="WebServiceCheckInSoap" binding="tns:WebServiceCheckInSoap">
+      <soap:address location="http://airport-dko-passengers.azurewebsites.net/WebServiceCheckIn.asmx" />
+    </wsdl:port>
+    <wsdl:port name="WebServiceCheckInSoap12" binding="tns:WebServiceCheckInSoap12">
+      <soap12:address location="http://airport-dko-passengers.azurewebsites.net/WebServiceCheckIn.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
