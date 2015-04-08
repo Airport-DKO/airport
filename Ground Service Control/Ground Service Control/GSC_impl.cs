@@ -11,7 +11,7 @@ namespace Ground_Service_Control
     internal class ServiceZone
     {
         public bool free = true;
-        public MapObject zone = null;
+        public GMC.MapObject zone = null;
         /// <summary>
         /// Самолёт, который обслуживаются или заходят на посадку
         /// </summary>
@@ -45,7 +45,7 @@ namespace Ground_Service_Control
             }
         }
 
-        public MapObject GetFreePlace(Guid plane)
+        public GMC.MapObject GetFreePlace(Guid plane)
         {
             lock (m_lock)
             {

@@ -24,7 +24,7 @@ namespace Ground_Service_Control
         /// <param name="plane">Самолёт, который хочет призtмлиться</param>
         /// <returns>Площадку для приземления или null</returns>
         [WebMethod]
-        public MapObject GetFreePlace(Guid plane)
+        public GMC.MapObject GetFreePlace(Guid plane)
         {
             return GSC_impl.self().GetFreePlace(plane);
         }
