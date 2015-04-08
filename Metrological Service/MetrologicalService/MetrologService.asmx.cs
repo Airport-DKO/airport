@@ -30,5 +30,13 @@ namespace MetrologicalService
             Core.Instance.Rabb(coeff);
             Core.Instance.ModelingSpeed = coeff;
         }
+
+        [WebMethod]
+        public void Reset()
+        {
+            Core.Instance.timer = DateTime.Now;
+            Core.Instance.ModelingSpeed = 1;
+            RefreshTick(1);
+        }
     }
 }
