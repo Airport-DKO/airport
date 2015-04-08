@@ -43,34 +43,36 @@ namespace Ground_Service_Control
 
             var task = new PlaneTask(plane);
 
-            //TODO: ещё один трап для погрузки
-            var luggageTrap = factory.createContainerLoader(false);
+            var luggageTrapOut = factory.createContainerLoader(false);
             var luggageUnload = factory.createBaggageTractor(false);
+            var luggageTrapIn = factory.createContainerLoader(false);
             var luggageLoad = factory.createBaggageTractor(true);
 
-            luggageUnload.nextTasks.Add(luggageLoad);
-            luggageTrap.nextTasks.Add(luggageUnload);
+            luggageTrapIn.nextTasks.Add(luggageLoad);
+            luggageUnload.nextTasks.Add(luggageTrapIn);
+            luggageTrapOut.nextTasks.Add(luggageUnload);
 
-            //TODO: ...
-            var trap = factory.createPassengerStairs(false);
+            var trapOut = factory.createPassengerStairs(false);
             var vipPassangersOut = factory.createVIPShuttle(false);
             var passangersOut = factory.createPassengerBus(false);
             var food = factory.createCateringTruck();
             var fuel = factory.createRefueler();
+            var trapIn = factory.createPassengerStairs(true);
             var vipPassangersIn = factory.createVIPShuttle(true);
             var passangersIn = factory.createPassengerBus(true);
 
-            fuel.nextTasks.Add(vipPassangersIn);
-            fuel.nextTasks.Add(passangersIn);
+            fuel.nextTasks.Add(trapIn);
+            trapIn.nextTasks.Add(vipPassangersIn);
+            trapIn.nextTasks.Add(passangersIn);
 
             passangersOut.nextTasks.Add(food);
             passangersOut.nextTasks.Add(fuel);
 
-            trap.nextTasks.Add(vipPassangersOut);
-            trap.nextTasks.Add(passangersOut);
+            trapOut.nextTasks.Add(vipPassangersOut);
+            trapOut.nextTasks.Add(passangersOut);
 
-            task.AddTask(luggageTrap);
-            task.AddTask(trap);
+            task.AddTask(luggageTrapOut);
+            task.AddTask(trapOut);
 
             return task;
         }
