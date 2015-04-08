@@ -33,6 +33,8 @@ namespace MetrologicalService.MetrologWebService {
         
         private System.Threading.SendOrPostCallback RefreshTickOperationCompleted;
         
+        private System.Threading.SendOrPostCallback ResetOperationCompleted;
+        
         private bool useDefaultCredentialsSetExplicitly;
         
         /// <remarks/>
@@ -78,6 +80,9 @@ namespace MetrologicalService.MetrologWebService {
         public event RefreshTickCompletedEventHandler RefreshTickCompleted;
         
         /// <remarks/>
+        public event ResetCompletedEventHandler ResetCompleted;
+        
+        /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("Airport-Metrological-Service/GetCurrentTime", RequestNamespace="Airport-Metrological-Service", ResponseNamespace="Airport-Metrological-Service", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public System.DateTime GetCurrentTime() {
             object[] results = this.Invoke("GetCurrentTime", new object[0]);
@@ -106,10 +111,9 @@ namespace MetrologicalService.MetrologWebService {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("Airport-Metrological-Service/RefreshTick", RequestNamespace="Airport-Metrological-Service", ResponseNamespace="Airport-Metrological-Service", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public System.DateTime RefreshTick(double coeff) {
-            object[] results = this.Invoke("RefreshTick", new object[] {
+        public void RefreshTick(double coeff) {
+            this.Invoke("RefreshTick", new object[] {
                         coeff});
-            return ((System.DateTime)(results[0]));
         }
         
         /// <remarks/>
@@ -129,7 +133,33 @@ namespace MetrologicalService.MetrologWebService {
         private void OnRefreshTickOperationCompleted(object arg) {
             if ((this.RefreshTickCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
-                this.RefreshTickCompleted(this, new RefreshTickCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+                this.RefreshTickCompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("Airport-Metrological-Service/Reset", RequestNamespace="Airport-Metrological-Service", ResponseNamespace="Airport-Metrological-Service", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public void Reset() {
+            this.Invoke("Reset", new object[0]);
+        }
+        
+        /// <remarks/>
+        public void ResetAsync() {
+            this.ResetAsync(null);
+        }
+        
+        /// <remarks/>
+        public void ResetAsync(object userState) {
+            if ((this.ResetOperationCompleted == null)) {
+                this.ResetOperationCompleted = new System.Threading.SendOrPostCallback(this.OnResetOperationCompleted);
+            }
+            this.InvokeAsync("Reset", new object[0], this.ResetOperationCompleted, userState);
+        }
+        
+        private void OnResetOperationCompleted(object arg) {
+            if ((this.ResetCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.ResetCompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -180,29 +210,11 @@ namespace MetrologicalService.MetrologWebService {
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.34209")]
-    public delegate void RefreshTickCompletedEventHandler(object sender, RefreshTickCompletedEventArgs e);
+    public delegate void RefreshTickCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.34209")]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    public partial class RefreshTickCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
-        
-        private object[] results;
-        
-        internal RefreshTickCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
-                base(exception, cancelled, userState) {
-            this.results = results;
-        }
-        
-        /// <remarks/>
-        public System.DateTime Result {
-            get {
-                this.RaiseExceptionIfNecessary();
-                return ((System.DateTime)(this.results[0]));
-            }
-        }
-    }
+    public delegate void ResetCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
 }
 
 #pragma warning restore 1591

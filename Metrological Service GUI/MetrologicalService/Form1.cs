@@ -94,5 +94,15 @@ namespace MetrologicalService
                 e.Handled = true;
             }
         }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            ModelingSpeed = 1;
+            a.Reset();
+            timer = DateTime.Now;
+            timeLabel.Text = timer.ToString("HH:mm:ss");
+            dateLabel.Text = timer.ToString("dd.MM.yyyy");
+            textBoxSpeed.Text = "1";
+        }
     }
 }
