@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Web;
 
 namespace Ground_Service_Control
@@ -25,6 +26,19 @@ namespace Ground_Service_Control
         {
             //TODO: метрологическая служба.
             return time;
+        }
+
+        /// <summary>
+        /// Ждёт, покарегистрация на самолёт не завершится
+        /// </summary>
+        /// <param name="plane"></param>
+        public void waitTillCheckInFinished(Guid plane)
+        {
+            var tablo = new WebServiceInformationPanel.WebServiceInformationPanel();
+            while (!tablo.IsCheckInFinished(plane))
+            {
+                Thread.Sleep(Utils.self().systemTime(1000));
+            }
         }
 
         public void log(string message)

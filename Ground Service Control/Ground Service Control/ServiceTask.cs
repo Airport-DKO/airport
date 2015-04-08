@@ -93,10 +93,10 @@ namespace Ground_Service_Control
         }
     };
 
-    internal class ContainerLoaderServiceTask : ServiceTask
+    internal class ContainerLoaderServiceTask : TransportationServiceTask
     {
-        public ContainerLoaderServiceTask(PlaneNeeds plane)
-            : base(plane)
+        public ContainerLoaderServiceTask(PlaneNeeds plane, bool load)
+            : base(plane, load)
         {
             taskId.type = ServiceTaskType.ContainerLoader;
         }
@@ -108,6 +108,11 @@ namespace Ground_Service_Control
                 Thread.Sleep(Utils.self().systemTime(5000));
 
                 var cl = new ContainerLoader.ContainerLoader();
+                if (needToLoad())
+                {
+                    Utils.self().waitTillCheckInFinished(context.plane);
+                }
+
                 cl.ToServiceZone(context.serviceZone, taskId);
                 //TODO: убрать трап когда не нужен.
             });
@@ -135,6 +140,7 @@ namespace Ground_Service_Control
 
                 if (needToLoad())
                 {
+                    Utils.self().waitTillCheckInFinished(context.plane);
                     pb.LoadPassengers(context.serviceZone, context.plane, taskId);
                     return;
                 }
@@ -147,10 +153,10 @@ namespace Ground_Service_Control
         }
     };
 
-    internal class PassengerStairsServiceTask : ServiceTask
+    internal class PassengerStairsServiceTask : TransportationServiceTask
     {
-        public PassengerStairsServiceTask(PlaneNeeds plane)
-            : base(plane)
+        public PassengerStairsServiceTask(PlaneNeeds plane, bool load)
+            : base(plane, load)
         {
             taskId.type = ServiceTaskType.PassengerStairs;
         }
@@ -160,6 +166,11 @@ namespace Ground_Service_Control
             var t = new Task(() =>
             {
                 var ps = new PassengerStairs.PassengerStairs();
+
+                if (needToLoad())
+                {
+                    Utils.self().waitTillCheckInFinished(context.plane);
+                }
                 ps.ToServiceZone(context.serviceZone, taskId);
                 //TODO: убрать трап пока не нужен.
             });
@@ -203,6 +214,7 @@ namespace Ground_Service_Control
                 var vip = new VIPShuttle.VIPShuttle();
                 if (needToLoad())
                 {
+                    Utils.self().waitTillCheckInFinished(context.plane);
                     vip.LoadPassengers(context.serviceZone, context.plane, taskId);
                     return;
                 }

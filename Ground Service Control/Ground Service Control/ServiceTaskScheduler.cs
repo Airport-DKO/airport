@@ -43,14 +43,16 @@ namespace Ground_Service_Control
 
             var task = new PlaneTask(plane);
 
-            var luggageTrap = factory.createContainerLoader();
+            //TODO: ещё один трап для погрузки
+            var luggageTrap = factory.createContainerLoader(false);
             var luggageUnload = factory.createBaggageTractor(false);
             var luggageLoad = factory.createBaggageTractor(true);
 
             luggageUnload.nextTasks.Add(luggageLoad);
             luggageTrap.nextTasks.Add(luggageUnload);
 
-            var trap = factory.createPassengerStairs();
+            //TODO: ...
+            var trap = factory.createPassengerStairs(false);
             var vipPassangersOut = factory.createVIPShuttle(false);
             var passangersOut = factory.createPassengerBus(false);
             var food = factory.createCateringTruck();

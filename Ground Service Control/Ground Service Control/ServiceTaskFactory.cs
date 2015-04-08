@@ -16,11 +16,11 @@ namespace Ground_Service_Control
             m_plane = plane;
         }
 
-        public ServiceTask createContainerLoader()
+        public ServiceTask createContainerLoader(bool load)
         {
             return m_plane.baggage <= 0
                 ? (ServiceTask) new NoServiceTask(m_plane)
-                : new ContainerLoaderServiceTask(m_plane);
+                : new ContainerLoaderServiceTask(m_plane, load);
         }
 
         public ServiceTask createBaggageTractor(bool load)
@@ -30,11 +30,11 @@ namespace Ground_Service_Control
                 : (ServiceTask)new BaggageTractorServiceTask(m_plane, load);
         }
 
-        public ServiceTask createPassengerStairs()
+        public ServiceTask createPassengerStairs(bool load)
         {
             return !m_plane.ladder
                 ? new NoServiceTask(m_plane)
-                : (ServiceTask)new PassengerStairsServiceTask(m_plane);
+                : (ServiceTask)new PassengerStairsServiceTask(m_plane, load);
         }
 
         public ServiceTask createVIPShuttle(bool load)
