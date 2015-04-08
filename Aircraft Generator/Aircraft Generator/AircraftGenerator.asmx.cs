@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Web.Services;
 using Aircraft_Generator.Commons;
 using Aircraft_Generator.GmcVs;
+using Aircraft_Generator.InformationPanelWS;
 using MapObject = Aircraft_Generator.GmcVs.MapObject;
 
 namespace Aircraft_Generator
@@ -30,6 +31,12 @@ namespace Aircraft_Generator
         public List<Plane> GetAllPlanes()
         {
             return Core.Instance.Planes;
+        }
+
+        [WebMethod]
+        public Flight[] GetActualFlights()
+        {
+            return Core.Instance.GetActualFlights();
         }
 
         [WebMethod]

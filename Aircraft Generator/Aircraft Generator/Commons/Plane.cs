@@ -1,6 +1,7 @@
 ﻿using System;
 using Aircraft_Generator.GscWs2;
 using MapObject = Aircraft_Generator.GmcVs.MapObject;
+using Flight=Aircraft_Generator.InformationPanelWS.Flight;
 
 namespace Aircraft_Generator.Commons
 {
@@ -19,10 +20,6 @@ namespace Aircraft_Generator.Commons
             HasArrivalPassengers = hasArrivalPassengers;
 
             // Отправка запроса в Табло и получение номера рейса
-
-            // Начало заглушки
-            Flight = new Flight();
-            // Конец заглушки
         }
 
         public Plane()

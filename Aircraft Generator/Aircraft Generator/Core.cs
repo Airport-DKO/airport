@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Aircraft_Generator.Commons;
 using Aircraft_Generator.GmcVs;
 using Aircraft_Generator.GscWs2;
+using Aircraft_Generator.InformationPanelWS;
 using Aircraft_Generator.TowerService;
 using MapObject = Aircraft_Generator.GmcVs.MapObject;
 
@@ -29,6 +30,7 @@ namespace Aircraft_Generator
         private readonly GMC _gmc;
         private readonly GSC _gsc;
         private readonly Tower _tower;
+        private readonly WebServiceInformationPanel _panel;
 
         private Core()
         {
@@ -36,6 +38,7 @@ namespace Aircraft_Generator
             _tower = new Tower();
             _gmc = new GMC();
             _gsc = new GSC();
+            _panel=new WebServiceInformationPanel();
         }
 
         public List<Plane> Planes
@@ -52,6 +55,13 @@ namespace Aircraft_Generator
             var task = new Task(() => PlaneLanding(plane));
             task.Start();
             return true;
+        }
+
+        public InformationPanelWS.Flight[] GetActualFlights()
+        {
+            _panel.CreateFlight(DateTime.Now,Cities.Brasilia, 545,40);
+            var test = _panel.GetAvailableFlights();
+            return test;
         }
 
         public bool LoadPassangers(MapObject serviceZone, List<Guid> passengersGuids)
@@ -119,7 +129,7 @@ namespace Aircraft_Generator
 
         private void PlaneLanding(Plane plane)
         {
-            while (!CheckTime(plane.Flight.ArrivalTime))
+            while (!CheckTime(plane.Flight.arrivalTime))
             {
                 Sleep(5000);
             }
