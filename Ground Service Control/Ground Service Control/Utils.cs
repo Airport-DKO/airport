@@ -27,12 +27,6 @@ namespace Ground_Service_Control
             return time;
         }
 
-        public double temperature()
-        {
-            //TODO: метеорологическая служба.
-            return 20;
-        }
-
         public void log(string message)
         {
             //TODO: логгер

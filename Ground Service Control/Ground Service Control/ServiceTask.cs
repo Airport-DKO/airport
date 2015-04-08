@@ -105,25 +105,6 @@ namespace Ground_Service_Control
         }
     };
 
-    internal class DeicerServiceTask : ServiceTask
-    {
-        public DeicerServiceTask(Guid plane)
-            : base(plane)
-        {
-            taskId.type = ServiceTaskType.Deicer;
-        }
-
-        public override void execute()
-        {
-            var t = new Task(() =>
-            {
-                //FIXME:
-            });
-
-            t.Start();
-        }
-    };
-
     internal class PassengerBusServiceTask : TransportationServiceTask
     {
         public PassengerBusServiceTask(Guid plane, bool load)

@@ -35,7 +35,7 @@ namespace Ground_Service_Control
         //    3. Заправка.
         //       4. Принять пассажиров.
         //5. Все операции завершены:
-        //    Антиобледенитель и взлёт.
+        //    взлёт.
         static public PlaneTask generateListOfTasksForPlane(PlaneNeeds plane)
         {
             var factory = new ServiceTaskFactory(plane);
@@ -56,9 +56,6 @@ namespace Ground_Service_Control
             var fuel = factory.createRefueler();
             var vipPassangersIn = factory.createVIPShuttle(true);
             var passangersIn = factory.createPassengerBus(true);
-            var deicing = factory.createDeicer();
-
-            passangersIn.nextTasks.Add(deicing);
 
             fuel.nextTasks.Add(vipPassangersIn);
             fuel.nextTasks.Add(passangersIn);

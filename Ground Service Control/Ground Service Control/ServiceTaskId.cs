@@ -28,8 +28,7 @@ namespace Ground_Service_Control
         /// <summary>
         /// Погрузчик багажа (типа трапа?)
         /// </summary>
-        ContainerLoader, 
-        Deicer,
+        ContainerLoader,
         PassengerBus,
         /// <summary>
         /// Трап

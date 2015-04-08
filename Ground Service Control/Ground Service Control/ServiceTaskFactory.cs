@@ -65,13 +65,6 @@ namespace Ground_Service_Control
                 : (ServiceTask) new RefuelerServiceTask(m_plane.plane);
         }
 
-        public ServiceTask createDeicer()
-        {
-            return Utils.self().temperature() > 4
-                ? new NoServiceTask(m_plane.plane)
-                : (ServiceTask) new DeicerServiceTask(m_plane.plane);
-        }
-
         private readonly PlaneNeeds m_plane;
     }
 }
