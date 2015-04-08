@@ -12,14 +12,15 @@ namespace Ground_Service_Control
     /// </summary>
     internal abstract class ServiceTask
     {
-        protected ServiceTask(Guid plane)
+        protected ServiceTask(PlaneNeeds plane)
         {
-            taskId.plane = plane;
+            taskId.plane = plane.plane;
+            context = plane;
         }
 
         public ServiceTaskId taskId = new ServiceTaskId();
         public List<ServiceTask> nextTasks = new List<ServiceTask>();
-
+        public PlaneNeeds context = null;
         /// <summary>
         /// Выполняет текущее задание
         /// </summary>
@@ -28,7 +29,7 @@ namespace Ground_Service_Control
 
     internal abstract class TransportationServiceTask : ServiceTask
     {
-        protected TransportationServiceTask(Guid plane, bool load)
+        protected TransportationServiceTask(PlaneNeeds plane, bool load)
             : base(plane)
         {
             taskId.type = ServiceTaskType.VIPShuttle;
@@ -47,7 +48,7 @@ namespace Ground_Service_Control
 
     internal class BaggageTractorServiceTask : TransportationServiceTask
     {
-        public BaggageTractorServiceTask(Guid plane, bool load)
+        public BaggageTractorServiceTask(PlaneNeeds plane, bool load)
             : base(plane, load)
         {
             taskId.type = ServiceTaskType.BaggageTractor;
@@ -66,7 +67,7 @@ namespace Ground_Service_Control
 
     internal class CateringTruckServiceTask : ServiceTask
     {
-        public CateringTruckServiceTask(Guid plane)
+        public CateringTruckServiceTask(PlaneNeeds plane)
             : base(plane)
         {
             taskId.type = ServiceTaskType.CateringTruck;
@@ -85,7 +86,7 @@ namespace Ground_Service_Control
 
     internal class ContainerLoaderServiceTask : ServiceTask
     {
-        public ContainerLoaderServiceTask(Guid plane)
+        public ContainerLoaderServiceTask(PlaneNeeds plane)
             : base(plane)
         {
             taskId.type = ServiceTaskType.ContainerLoader;
@@ -107,7 +108,7 @@ namespace Ground_Service_Control
 
     internal class PassengerBusServiceTask : TransportationServiceTask
     {
-        public PassengerBusServiceTask(Guid plane, bool load)
+        public PassengerBusServiceTask(PlaneNeeds plane, bool load)
             : base(plane, load)
         {
             taskId.type = ServiceTaskType.PassengerBus;
@@ -129,7 +130,7 @@ namespace Ground_Service_Control
 
     internal class PassengerStairsServiceTask : ServiceTask
     {
-        public PassengerStairsServiceTask(Guid plane)
+        public PassengerStairsServiceTask(PlaneNeeds plane)
             : base(plane)
         {
             taskId.type = ServiceTaskType.PassengerStairs;
@@ -148,7 +149,7 @@ namespace Ground_Service_Control
 
     internal class RefuelerServiceTask : ServiceTask
     {
-        public RefuelerServiceTask(Guid plane)
+        public RefuelerServiceTask(PlaneNeeds plane)
             : base(plane)
         {
             taskId.type = ServiceTaskType.Refueler;
@@ -167,7 +168,7 @@ namespace Ground_Service_Control
 
     internal class VIPShuttleServiceTask : TransportationServiceTask
     {
-        public VIPShuttleServiceTask(Guid plane, bool load)
+        public VIPShuttleServiceTask(PlaneNeeds plane, bool load)
             : base(plane, load)
         {
             taskId.type = ServiceTaskType.VIPShuttle;
@@ -186,7 +187,7 @@ namespace Ground_Service_Control
 
     internal class NoServiceTask : ServiceTask
     {
-        public NoServiceTask(Guid plane)
+        public NoServiceTask(PlaneNeeds plane)
             : base(plane)
         {
             taskId.type = ServiceTaskType.VIPShuttle;
