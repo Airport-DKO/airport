@@ -8,5 +8,29 @@
     <Setting Name="Ground_Service_Control_AircraftGenerator_AircraftGenerator" Type="(Web Service URL)" Scope="Application">
       <Value Profile="(Default)">http://airport-dko-aircraft-generator.azurewebsites.net/AircraftGenerator.asmx</Value>
     </Setting>
+    <Setting Name="Ground_Service_Control_BaggageTractor_BaggageTractor" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://airport-dko-services.azurewebsites.net/BaggageTractor.asmx</Value>
+    </Setting>
+    <Setting Name="Ground_Service_Control_CateringTruck_CateringTruck" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://airport-dko-services.azurewebsites.net/CateringTruck.asmx</Value>
+    </Setting>
+    <Setting Name="Ground_Service_Control_ContainerLoader_ContainerLoader" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://airport-dko-services.azurewebsites.net/ContainerLoader.asmx</Value>
+    </Setting>
+    <Setting Name="Ground_Service_Control_PassengerBus_PassengerBus" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://airport-dko-services.azurewebsites.net/PassengerBus.asmx</Value>
+    </Setting>
+    <Setting Name="Ground_Service_Control_PassengerStairs_PassengerStairs" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://airport-dko-services.azurewebsites.net/PassengerStairs.asmx</Value>
+    </Setting>
+    <Setting Name="Ground_Service_Control_Refueler_Refueler" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://airport-dko-services.azurewebsites.net/Refueler.asmx</Value>
+    </Setting>
+    <Setting Name="Ground_Service_Control_VIPShuttle_VIPShuttle" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://airport-dko-services.azurewebsites.net/VIPShuttle.asmx</Value>
+    </Setting>
+    <Setting Name="Ground_Service_Control_WebServiceInformationPanel_WebServiceInformationPanel" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://airport-dko-passengers.azurewebsites.net/WebServiceInformationPanel.asmx</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

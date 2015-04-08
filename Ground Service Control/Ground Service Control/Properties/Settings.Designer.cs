@@ -42,5 +42,85 @@ namespace Ground_Service_Control.Properties {
                 return ((string)(this["Ground_Service_Control_AircraftGenerator_AircraftGenerator"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://airport-dko-services.azurewebsites.net/BaggageTractor.asmx")]
+        public string Ground_Service_Control_BaggageTractor_BaggageTractor {
+            get {
+                return ((string)(this["Ground_Service_Control_BaggageTractor_BaggageTractor"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://airport-dko-services.azurewebsites.net/CateringTruck.asmx")]
+        public string Ground_Service_Control_CateringTruck_CateringTruck {
+            get {
+                return ((string)(this["Ground_Service_Control_CateringTruck_CateringTruck"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://airport-dko-services.azurewebsites.net/ContainerLoader.asmx")]
+        public string Ground_Service_Control_ContainerLoader_ContainerLoader {
+            get {
+                return ((string)(this["Ground_Service_Control_ContainerLoader_ContainerLoader"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://airport-dko-services.azurewebsites.net/PassengerBus.asmx")]
+        public string Ground_Service_Control_PassengerBus_PassengerBus {
+            get {
+                return ((string)(this["Ground_Service_Control_PassengerBus_PassengerBus"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://airport-dko-services.azurewebsites.net/PassengerStairs.asmx")]
+        public string Ground_Service_Control_PassengerStairs_PassengerStairs {
+            get {
+                return ((string)(this["Ground_Service_Control_PassengerStairs_PassengerStairs"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://airport-dko-services.azurewebsites.net/Refueler.asmx")]
+        public string Ground_Service_Control_Refueler_Refueler {
+            get {
+                return ((string)(this["Ground_Service_Control_Refueler_Refueler"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://airport-dko-services.azurewebsites.net/VIPShuttle.asmx")]
+        public string Ground_Service_Control_VIPShuttle_VIPShuttle {
+            get {
+                return ((string)(this["Ground_Service_Control_VIPShuttle_VIPShuttle"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://airport-dko-passengers.azurewebsites.net/WebServiceInformationPanel.asmx")]
+        public string Ground_Service_Control_WebServiceInformationPanel_WebServiceInformationPanel {
+            get {
+                return ((string)(this["Ground_Service_Control_WebServiceInformationPanel_WebServiceInformationPanel"]));
+            }
+        }
     }
 }
