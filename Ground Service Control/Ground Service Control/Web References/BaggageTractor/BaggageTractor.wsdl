@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:s1="Airport" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:s2="DKO-Airport-Ground-Service-Control" xmlns:s3="http://microsoft.com/wsdl/types/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:import namespace="Airport" />
+      <s:import namespace="DKO-Airport-Ground-Service-Control" />
+      <s:import namespace="http://microsoft.com/wsdl/types/" />
+      <s:element name="UnloadBaggage">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="serviseZone" type="s1:MapObject" />
+            <s:element minOccurs="1" maxOccurs="1" name="weightOfBaggage" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="taskId" type="s2:ServiceTaskId" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UnloadBaggageResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="UnloadBaggageResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="LoadBaggage">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="serviseZone" type="s1:MapObject" />
+            <s:element minOccurs="1" maxOccurs="1" name="flightNumber" type="s3:guid" />
+            <s:element minOccurs="0" maxOccurs="1" name="taskId" type="s2:ServiceTaskId" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="LoadBaggageResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="LoadBaggageResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ToPlain">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="flightNumber" type="s3:guid" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ToPlainResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ToPlainResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+    <s:schema elementFormDefault="qualified" targetNamespace="Airport">
+      <s:complexType name="MapObject">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="MapObjectType" type="s1:MapObjectType" />
+          <s:element minOccurs="1" maxOccurs="1" name="Number" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:simpleType name="MapObjectType">
+        <s:restriction base="s:string">
+          <s:enumeration value="Runway" />
+          <s:enumeration value="Garage" />
+          <s:enumeration value="ServiceArea" />
+          <s:enumeration value="Airport" />
+        </s:restriction>
+      </s:simpleType>
+    </s:schema>
+    <s:schema elementFormDefault="qualified" targetNamespace="DKO-Airport-Ground-Service-Control">
+      <s:complexType name="ServiceTaskId" />
+    </s:schema>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://microsoft.com/wsdl/types/">
+      <s:simpleType name="guid">
+        <s:restriction base="s:string">
+          <s:pattern value="[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}" />
+        </s:restriction>
+      </s:simpleType>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="UnloadBaggageSoapIn">
+    <wsdl:part name="parameters" element="tns:UnloadBaggage" />
+  </wsdl:message>
+  <wsdl:message name="UnloadBaggageSoapOut">
+    <wsdl:part name="parameters" element="tns:UnloadBaggageResponse" />
+  </wsdl:message>
+  <wsdl:message name="LoadBaggageSoapIn">
+    <wsdl:part name="parameters" element="tns:LoadBaggage" />
+  </wsdl:message>
+  <wsdl:message name="LoadBaggageSoapOut">
+    <wsdl:part name="parameters" element="tns:LoadBaggageResponse" />
+  </wsdl:message>
+  <wsdl:message name="ToPlainSoapIn">
+    <wsdl:part name="parameters" element="tns:ToPlain" />
+  </wsdl:message>
+  <wsdl:message name="ToPlainSoapOut">
+    <wsdl:part name="parameters" element="tns:ToPlainResponse" />
+  </wsdl:message>
+  <wsdl:portType name="BaggageTractorSoap">
+    <wsdl:operation name="UnloadBaggage">
+      <wsdl:input message="tns:UnloadBaggageSoapIn" />
+      <wsdl:output message="tns:UnloadBaggageSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="LoadBaggage">
+      <wsdl:input message="tns:LoadBaggageSoapIn" />
+      <wsdl:output message="tns:LoadBaggageSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ToPlain">
+      <wsdl:input message="tns:ToPlainSoapIn" />
+      <wsdl:output message="tns:ToPlainSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="BaggageTractorSoap" type="tns:BaggageTractorSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="UnloadBaggage">
+      <soap:operation soapAction="http://tempuri.org/UnloadBaggage" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LoadBaggage">
+      <soap:operation soapAction="http://tempuri.org/LoadBaggage" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ToPlain">
+      <soap:operation soapAction="http://tempuri.org/ToPlain" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="BaggageTractorSoap12" type="tns:BaggageTractorSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="UnloadBaggage">
+      <soap12:operation soapAction="http://tempuri.org/UnloadBaggage" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LoadBaggage">
+      <soap12:operation soapAction="http://tempuri.org/LoadBaggage" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ToPlain">
+      <soap12:operation soapAction="http://tempuri.org/ToPlain" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="BaggageTractor">
+    <wsdl:port name="BaggageTractorSoap" binding="tns:BaggageTractorSoap">
+      <soap:address location="http://airport-dko-services.azurewebsites.net/BaggageTractor.asmx" />
+    </wsdl:port>
+    <wsdl:port name="BaggageTractorSoap12" binding="tns:BaggageTractorSoap12">
+      <soap12:address location="http://airport-dko-services.azurewebsites.net/BaggageTractor.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
