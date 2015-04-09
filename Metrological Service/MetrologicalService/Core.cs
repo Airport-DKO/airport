@@ -26,7 +26,7 @@ namespace MetrologicalService
 
         #endregion
 
-        public Timer modTimer = new System.Timers.Timer(100);
+        public Timer modTimer = new System.Timers.Timer(200);
         public DateTime timer = new DateTime();
         public double ModelingSpeed = 1;
 
@@ -40,7 +40,7 @@ namespace MetrologicalService
 
         private void timer_Elapsed(object sender, ElapsedEventArgs e)
         {
-            timer = timer.AddSeconds(1 * (1/ModelingSpeed) / 10);
+            timer = timer.AddSeconds(1/ModelingSpeed / 5);
         }
 
         public void Rabb(double num)
