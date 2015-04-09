@@ -100,10 +100,10 @@
     <WebReferences Include="Web References\" />
   </ItemGroup>
   <ItemGroup>
-    <WebReferenceUrl Include="http://localhost:54622/MetrologService.asmx">
+    <WebReferenceUrl Include="http://airport-dko-metrological.azurewebsites.net/MetrologService.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\MetrologWebService\</RelPath>
-      <UpdateFromURL>http://localhost:54622/MetrologService.asmx</UpdateFromURL>
+      <UpdateFromURL>http://airport-dko-metrological.azurewebsites.net/MetrologService.asmx</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>

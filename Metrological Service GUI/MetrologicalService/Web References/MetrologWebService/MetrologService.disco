@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <discovery xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.xmlsoap.org/disco/">
-  <contractRef ref="http://localhost:54622/MetrologService.asmx?wsdl" docRef="http://localhost:54622/MetrologService.asmx" xmlns="http://schemas.xmlsoap.org/disco/scl/" />
-  <soap address="http://localhost:54622/MetrologService.asmx" xmlns:q1="Airport-Metrological-Service" binding="q1:MetrologServiceSoap" xmlns="http://schemas.xmlsoap.org/disco/soap/" />
-  <soap address="http://localhost:54622/MetrologService.asmx" xmlns:q2="Airport-Metrological-Service" binding="q2:MetrologServiceSoap12" xmlns="http://schemas.xmlsoap.org/disco/soap/" />
+  <contractRef ref="http://airport-dko-metrological.azurewebsites.net/MetrologService.asmx?wsdl" docRef="http://airport-dko-metrological.azurewebsites.net/MetrologService.asmx" xmlns="http://schemas.xmlsoap.org/disco/scl/" />
+  <soap address="http://airport-dko-metrological.azurewebsites.net/MetrologService.asmx" xmlns:q1="Airport-Metrological-Service" binding="q1:MetrologServiceSoap" xmlns="http://schemas.xmlsoap.org/disco/soap/" />
+  <soap address="http://airport-dko-metrological.azurewebsites.net/MetrologService.asmx" xmlns:q2="Airport-Metrological-Service" binding="q2:MetrologServiceSoap12" xmlns="http://schemas.xmlsoap.org/disco/soap/" />
 </discovery>

@@ -26,7 +26,7 @@ namespace MetrologicalService.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://localhost:54622/MetrologService.asmx")]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://airport-dko-metrological.azurewebsites.net/MetrologService.asmx")]
         public string MetrologicalService_MetrologWebService_MetrologService {
             get {
                 return ((string)(this["MetrologicalService_MetrologWebService_MetrologService"]));

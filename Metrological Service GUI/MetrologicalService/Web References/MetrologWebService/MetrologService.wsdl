@@ -124,10 +124,10 @@
   </wsdl:binding>
   <wsdl:service name="MetrologService">
     <wsdl:port name="MetrologServiceSoap" binding="tns:MetrologServiceSoap">
-      <soap:address location="http://localhost:54622/MetrologService.asmx" />
+      <soap:address location="http://airport-dko-metrological.azurewebsites.net/MetrologService.asmx" />
     </wsdl:port>
     <wsdl:port name="MetrologServiceSoap12" binding="tns:MetrologServiceSoap12">
-      <soap12:address location="http://localhost:54622/MetrologService.asmx" />
+      <soap12:address location="http://airport-dko-metrological.azurewebsites.net/MetrologService.asmx" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>
