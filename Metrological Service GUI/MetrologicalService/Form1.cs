@@ -23,7 +23,7 @@ namespace MetrologicalService
         }
 
 
-        System.Timers.Timer modTimer1 = new System.Timers.Timer(100);
+        System.Timers.Timer modTimer1 = new System.Timers.Timer(200);
         System.Timers.Timer modTimer2 = new System.Timers.Timer(5000);
         DateTime timer = new DateTime();
         double ModelingSpeed = 1;
@@ -48,7 +48,7 @@ namespace MetrologicalService
 
         private void timer_Elapsed1(object sender, ElapsedEventArgs e)
         {
-            timer = timer.AddSeconds(1 * ModelingSpeed / 10);
+            timer = timer.AddSeconds(1 * ModelingSpeed / 5);
             timeLabel.Text = timer.ToString("HH:mm:ss");
             dateLabel.Text = timer.ToString("dd.MM.yyyy");
         }
