@@ -62,5 +62,14 @@ namespace Ground_Movement_Control
         {
             return Core.Instance.GetPlaneServiceZone(planeGuid);
         }
+
+        /// <summary>
+        ///     Освобождаем впп
+        /// </summary>
+        [WebMethod]
+        public void RunwayRelease()
+        {
+            Core.Instance.RunwayRelease();
+        }
     }
 }

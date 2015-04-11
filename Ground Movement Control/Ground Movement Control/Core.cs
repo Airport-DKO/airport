@@ -22,18 +22,17 @@ namespace Ground_Movement_Control
 
         #endregion
 
+        private readonly GSC _gsc;
         private readonly List<Location> _locations;
         private readonly List<MapPoint> _map;
+
+        private readonly List<Tuple<Guid, MapObject>> _planesServiceZones;
         private readonly List<Route> _routes;
-
-        private readonly GscWs.GSC _gsc;
-
-        private readonly List<Tuple<Guid, MapObject>> _planesServiceZones; 
 
         private Core()
         {
-            _gsc=new GSC();
-            _planesServiceZones=new List<Tuple<Guid, MapObject>>();
+            _gsc = new GSC();
+            _planesServiceZones = new List<Tuple<Guid, MapObject>>();
             _map = new List<MapPoint>();
             _routes = new List<Route>();
             _locations = new List<Location>();
@@ -67,12 +66,12 @@ namespace Ground_Movement_Control
             _locations.Add(new Location(new CoordinateTuple(14, 14), new MapObject(MapObjectType.ServiceArea, 1)));
             //Конец заглушки
 
-            foreach (var location in _locations)
+            foreach (Location location in _locations)
             {
                 if (location.MapObject.MapObjectType != MapObjectType.Runway &&
                     location.MapObject.MapObjectType != MapObjectType.Airport)
                 {
-                    var mapPoint = _map.First(m => m.X == location.Position.X && m.Y == location.Position.Y);
+                    MapPoint mapPoint = _map.First(m => m.X == location.Position.X && m.Y == location.Position.Y);
                     mapPoint.IsPublicPlace = true;
                 }
             }
@@ -138,9 +137,17 @@ namespace Ground_Movement_Control
             return CheckVacantPosition(x, y, type, id);
         }
 
+        public void RunwayRelease()
+        {
+            Location runwayLocation = GetActualRunway();
+            MapPoint runwayMapPoint =
+                _map.First(m => m.X == runwayLocation.Position.X && m.Y == runwayLocation.Position.Y);
+            runwayMapPoint.MakeVacant();
+        }
+
         public MapObject CheckRunwayAwailability(Guid planeGuid)
         {
-            var runwayLocation = GetActualRunway();
+            Location runwayLocation = GetActualRunway();
             if (runwayLocation == null)
             {
                 return null;
@@ -151,18 +158,18 @@ namespace Ground_Movement_Control
                 return null;
             }
 
-            var result = CheckVacantPosition(runwayLocation.Position.X, runwayLocation.Position.Y, MoveObjectType.Plane,
+            bool result = CheckVacantPosition(runwayLocation.Position.X, runwayLocation.Position.Y, MoveObjectType.Plane,
                 planeGuid, true);
             if (!result)
             {
                 return null;
             }
-            var serviceZone=_gsc.GetFreePlace(planeGuid);
+            GscWs.MapObject serviceZone = _gsc.GetFreePlace(planeGuid);
             if (serviceZone == null)
             {
                 return null;
             }
-            _planesServiceZones.Add(new Tuple<Guid, MapObject>(planeGuid,serviceZone));
+            _planesServiceZones.Add(new Tuple<Guid, MapObject>(planeGuid, serviceZone));
             result = CheckVacantPosition(runwayLocation.Position.X, runwayLocation.Position.Y, MoveObjectType.Plane,
                 planeGuid);
             if (result)
@@ -174,7 +181,7 @@ namespace Ground_Movement_Control
 
         public MapObject GetPlaneServiceZone(Guid planeGuid)
         {
-            var tuple=_planesServiceZones.First(t => t.Item1 == planeGuid);
+            Tuple<Guid, MapObject> tuple = _planesServiceZones.First(t => t.Item1 == planeGuid);
             if (tuple == null)
                 return null;
             return tuple.Item2;
@@ -184,7 +191,6 @@ namespace Ground_Movement_Control
         {
             // TODO: Продумать реализацию нахождения рабочей взлетной полосы
             return _locations.FirstOrDefault(l => l.MapObject.MapObjectType == MapObjectType.Runway);
-
         }
 
         private bool WeatherCheck()
@@ -194,7 +200,7 @@ namespace Ground_Movement_Control
         }
 
 
-        private bool CheckVacantPosition(Int32 x, Int32 y, MoveObjectType type, Guid id, bool justTry=false)
+        private bool CheckVacantPosition(Int32 x, Int32 y, MoveObjectType type, Guid id, bool justTry = false)
         {
             MapPoint mapPoint = _map.FirstOrDefault(m => m.X == x && m.Y == y);
             if (mapPoint == null)
@@ -208,7 +214,7 @@ namespace Ground_Movement_Control
                     MapPoint oldPoint = _map.FirstOrDefault(m => m.OwnerGuid == id);
                     if (oldPoint != null)
                     {
-                            oldPoint.MakeVacant();
+                        oldPoint.MakeVacant();
                     }
                     return true;
                 }
