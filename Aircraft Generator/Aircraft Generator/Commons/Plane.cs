@@ -7,11 +7,10 @@ namespace Aircraft_Generator.Commons
 {
     public class Plane
     {
-        public Plane(string name, Flight flight, PlaneState state, PlaneType type, int fuelNeed, int currentStandartPassengers, int currentVipPassengers, int currentBaggage, int currentCatering, bool hasArrivalPassengers)
+        public Plane(string name, PlaneState state, PlaneType type, int fuelNeed, int currentStandartPassengers, int currentVipPassengers, int currentBaggage, int currentCatering, bool hasArrivalPassengers)
         {
             Id = Guid.NewGuid();
             Name = name;
-            Flight = flight;
             State = state;
             Type = type;
             FuelNeed = fuelNeed;

@@ -37,6 +37,8 @@ namespace Aircraft_Generator.GmcVs {
         
         private System.Threading.SendOrPostCallback GetPlaneServiceZoneOperationCompleted;
         
+        private System.Threading.SendOrPostCallback RunwayReleaseOperationCompleted;
+        
         private bool useDefaultCredentialsSetExplicitly;
         
         /// <remarks/>
@@ -86,6 +88,9 @@ namespace Aircraft_Generator.GmcVs {
         
         /// <remarks/>
         public event GetPlaneServiceZoneCompletedEventHandler GetPlaneServiceZoneCompleted;
+        
+        /// <remarks/>
+        public event RunwayReleaseCompletedEventHandler RunwayReleaseCompleted;
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("Airport/GetRoute", RequestNamespace="Airport", ResponseNamespace="Airport", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
@@ -206,6 +211,32 @@ namespace Aircraft_Generator.GmcVs {
             if ((this.GetPlaneServiceZoneCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.GetPlaneServiceZoneCompleted(this, new GetPlaneServiceZoneCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("Airport/RunwayRelease", RequestNamespace="Airport", ResponseNamespace="Airport", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public void RunwayRelease() {
+            this.Invoke("RunwayRelease", new object[0]);
+        }
+        
+        /// <remarks/>
+        public void RunwayReleaseAsync() {
+            this.RunwayReleaseAsync(null);
+        }
+        
+        /// <remarks/>
+        public void RunwayReleaseAsync(object userState) {
+            if ((this.RunwayReleaseOperationCompleted == null)) {
+                this.RunwayReleaseOperationCompleted = new System.Threading.SendOrPostCallback(this.OnRunwayReleaseOperationCompleted);
+            }
+            this.InvokeAsync("RunwayRelease", new object[0], this.RunwayReleaseOperationCompleted, userState);
+        }
+        
+        private void OnRunwayReleaseOperationCompleted(object arg) {
+            if ((this.RunwayReleaseCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.RunwayReleaseCompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -456,6 +487,10 @@ namespace Aircraft_Generator.GmcVs {
             }
         }
     }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.34209")]
+    public delegate void RunwayReleaseCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
 }
 
 #pragma warning restore 1591

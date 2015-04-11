@@ -45,9 +45,9 @@ namespace Ground_Movement_Control
         {
             _map.Clear();
             //Начало заглушки
-            for (int i = 0; i < 25; i++)
+            for (int i = 0; i < 26; i++)
             {
-                for (int j = 0; j < 25; j++)
+                for (int j = 0; j < 26; j++)
                 {
                     _map.Add(new MapPoint(i, j));
                 }

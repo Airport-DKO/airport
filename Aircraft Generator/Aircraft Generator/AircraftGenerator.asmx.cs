@@ -23,8 +23,7 @@ namespace Aircraft_Generator
         public bool CreateNewPlane(string name, PlaneType type, int fuelNeed, int maxStandartPassengers,
             int maxVipPassengers, bool hasArrivalPassengers)
         {
-            return Core.Instance.CreateNewPlane(name, type, fuelNeed, maxStandartPassengers, maxVipPassengers,
-                hasArrivalPassengers);
+            return Core.Instance.CreateNewPlane(name, type, fuelNeed, maxStandartPassengers, maxVipPassengers, true, 100);
         }
 
         [WebMethod]

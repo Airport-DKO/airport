@@ -7,7 +7,10 @@ using Aircraft_Generator.Commons;
 using Aircraft_Generator.GmcVs;
 using Aircraft_Generator.GscWs2;
 using Aircraft_Generator.InformationPanelWS;
+using Aircraft_Generator.MetrologicalService;
 using Aircraft_Generator.TowerService;
+using Cities = Aircraft_Generator.InformationPanelWS.Cities;
+using Flight = Aircraft_Generator.InformationPanelWS.Flight;
 using MapObject = Aircraft_Generator.GmcVs.MapObject;
 
 namespace Aircraft_Generator
@@ -29,8 +32,9 @@ namespace Aircraft_Generator
         private readonly List<Plane> _createdPlanes;
         private readonly GMC _gmc;
         private readonly GSC _gsc;
-        private readonly Tower _tower;
+        private readonly MetrologService _metrolog;
         private readonly WebServiceInformationPanel _panel;
+        private readonly Tower _tower;
 
         private Core()
         {
@@ -38,7 +42,8 @@ namespace Aircraft_Generator
             _tower = new Tower();
             _gmc = new GMC();
             _gsc = new GSC();
-            _panel=new WebServiceInformationPanel();
+            _panel = new WebServiceInformationPanel();
+            _metrolog = new MetrologService();
         }
 
         public List<Plane> Planes
@@ -47,46 +52,52 @@ namespace Aircraft_Generator
         }
 
         public bool CreateNewPlane(String name, PlaneType type, int fuelNeed,
-            int maxStandartPassengers, int maxVipPassengers, bool hasArrivalPassengers)
+            int currentStandartPassengers, int currentVipPassengers, bool hasArrivalPassengers, int currentBaggage)
         {
+            //DEBUG
+            Flight[] fl = GetActualFlights();
+            Flight f = fl.First();
 
+            var plane = new Plane(name, PlaneState.Arrival, type, fuelNeed, currentStandartPassengers,
+                currentVipPassengers, currentBaggage, 0, hasArrivalPassengers);
+            plane.Flight = _panel.RegisterPlaneToFlight(plane.Id, f.number);
             _createdPlanes.Add(plane);
             var task = new Task(() => PlaneLanding(plane));
             task.Start();
             return true;
         }
 
-        public InformationPanelWS.Flight[] GetActualFlights()
+        public Flight[] GetActualFlights()
         {
-            _panel.CreateFlight(DateTime.Now,Cities.Brasilia, 545,40);
-            var test = _panel.GetAvailableFlights();
+            _panel.CreateFlight(DateTime.Now, DateTime.Now.AddMinutes(60), Cities.Antananarivo, 200, 20);
+            Flight[] test = _panel.GetAvailableFlights();
             return test;
         }
 
         public bool LoadPassangers(MapObject serviceZone, List<Guid> passengersGuids)
         {
-            var plane = Planes.First(p => p.ServiceZone.Number == serviceZone.Number);
+            Plane plane = Planes.First(p => p.ServiceZone.Number == serviceZone.Number);
             plane.CurrentStandartPassengers += passengersGuids.Count;
             return true;
         }
 
         public bool UnloadPassangers(MapObject serviceZone, int countOfPassengers)
         {
-            var plane = Planes.First(p => p.ServiceZone.Number == serviceZone.Number);
+            Plane plane = Planes.First(p => p.ServiceZone.Number == serviceZone.Number);
             plane.CurrentStandartPassengers -= countOfPassengers;
             return true;
         }
 
         public bool LoadBaggage(MapObject serviseZone, int weightOfBaggage)
         {
-            var plane = Planes.First(p => p.ServiceZone.Number == serviseZone.Number);
+            Plane plane = Planes.First(p => p.ServiceZone.Number == serviseZone.Number);
             plane.CurrentBaggage += weightOfBaggage;
             return true;
         }
 
         public bool UnloadBaggage(MapObject serviseZone, int weightOfBaggage)
         {
-            var plane = Planes.First(p => p.ServiceZone.Number == serviseZone.Number);
+            Plane plane = Planes.First(p => p.ServiceZone.Number == serviseZone.Number);
             plane.CurrentBaggage -= weightOfBaggage;
             return true;
         }
@@ -106,7 +117,6 @@ namespace Aircraft_Generator
                 {
                     break;
                 }
-                //TODO TODO
                 Sleep(1000);
             }
             return true;
@@ -153,27 +163,32 @@ namespace Aircraft_Generator
             }
 
             plane.State = PlaneState.Landing;
+            plane.ServiceZone = _gmc.GetPlaneServiceZone(plane.Id);
         }
 
         private void PlaneTaxingToServiceZone(Guid planeGuid)
         {
             Plane plane = _createdPlanes.First(p => p.Id == planeGuid);
             plane.State = PlaneState.TaxingToRunway;
-            // TODO: Сообщить GMC о том, что полоса освободилась
+            _gmc.RunwayRelease();
         }
 
         private void PlaneIsReadyToService(Guid planeGuid)
         {
-            Plane plane = _createdPlanes.First(p => p.Id == planeGuid);
+            var plane = _createdPlanes.First(p => p.Id == planeGuid);
             plane.State = PlaneState.OnService;
-            _gsc.SetNeeds(plane.Id, plane.Flight, (plane.Type == PlaneType.Airbus), plane.MaxStandartPassengers,
-                plane.MaxVipPassengers, 10, plane.FuelNeed);
+            _gsc.SetNeeds(plane.Id, plane.Flight, (plane.Type == PlaneType.Airbus), plane.CurrentStandartPassengers,
+                plane.CurrentVipPassengers, plane.CurrentBaggage, plane.FuelNeed);
         }
 
         private bool CheckTime(DateTime time)
         {
-            // TODO: присоединить к метрологической службе
-            return true;
+            DateTime currentAirportTime = _metrolog.GetCurrentTime();
+            if (currentAirportTime.AddMinutes(2) >= time)
+            {
+                return true;
+            }
+            return false;
         }
     }
 }
