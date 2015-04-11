@@ -72,5 +72,15 @@ namespace Aircraft_Generator.Properties {
                 return ((string)(this["Aircraft_Generator_InformationPanelWS_WebServiceInformationPanel"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://airport-dko-metrological.azurewebsites.net/MetrologService.asmx")]
+        public string Aircraft_Generator_MetrologicalService_MetrologService {
+            get {
+                return ((string)(this["Aircraft_Generator_MetrologicalService_MetrologService"]));
+            }
+        }
     }
 }

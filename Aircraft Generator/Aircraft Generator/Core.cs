@@ -49,8 +49,7 @@ namespace Aircraft_Generator
         public bool CreateNewPlane(String name, PlaneType type, int fuelNeed,
             int maxStandartPassengers, int maxVipPassengers, bool hasArrivalPassengers)
         {
-            var plane = new Plane(name, PlaneState.Arrival, type, fuelNeed, maxStandartPassengers, maxVipPassengers,
-                hasArrivalPassengers);
+
             _createdPlanes.Add(plane);
             var task = new Task(() => PlaneLanding(plane));
             task.Start();
@@ -73,19 +72,22 @@ namespace Aircraft_Generator
 
         public bool UnloadPassangers(MapObject serviceZone, int countOfPassengers)
         {
-            //TODO Needed realization
+            var plane = Planes.First(p => p.ServiceZone.Number == serviceZone.Number);
+            plane.CurrentStandartPassengers -= countOfPassengers;
             return true;
         }
 
         public bool LoadBaggage(MapObject serviseZone, int weightOfBaggage)
         {
-            // TODO: Needed realization
+            var plane = Planes.First(p => p.ServiceZone.Number == serviseZone.Number);
+            plane.CurrentBaggage += weightOfBaggage;
             return true;
         }
 
         public bool UnloadBaggage(MapObject serviseZone, int weightOfBaggage)
         {
-            // TODO: Needed realization
+            var plane = Planes.First(p => p.ServiceZone.Number == serviseZone.Number);
+            plane.CurrentBaggage -= weightOfBaggage;
             return true;
         }
 
@@ -104,6 +106,7 @@ namespace Aircraft_Generator
                 {
                     break;
                 }
+                //TODO TODO
                 Sleep(1000);
             }
             return true;
