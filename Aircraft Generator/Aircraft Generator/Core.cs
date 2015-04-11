@@ -66,7 +66,8 @@ namespace Aircraft_Generator
 
         public bool LoadPassangers(MapObject serviceZone, List<Guid> passengersGuids)
         {
-            //TODO Needed realization
+            var plane = Planes.First(p => p.ServiceZone.Number == serviceZone.Number);
+            plane.CurrentStandartPassengers += passengersGuids.Count;
             return true;
         }
 

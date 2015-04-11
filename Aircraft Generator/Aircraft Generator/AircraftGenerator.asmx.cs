@@ -64,6 +64,14 @@ namespace Aircraft_Generator
         }
 
         [WebMethod]
+        public bool LoadCatering(MapObject serviseZone, Catering catering)
+        {
+
+            //TODO
+            return false;
+        }
+
+        [WebMethod]
         public bool FollowMe(Guid planeId)
         {
             return Core.Instance.FollowMe(planeId);

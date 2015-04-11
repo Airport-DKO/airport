@@ -7,19 +7,19 @@ namespace Aircraft_Generator.Commons
 {
     public class Plane
     {
-        public Plane(string name, PlaneState state, PlaneType type, int fuelNeed, int maxStandartPassengers,
-            int maxVipPassengers, bool hasArrivalPassengers)
+        public Plane(string name, Flight flight, PlaneState state, PlaneType type, int fuelNeed, int currentStandartPassengers, int currentVipPassengers, int currentBaggage, int currentCatering, bool hasArrivalPassengers)
         {
             Id = Guid.NewGuid();
             Name = name;
+            Flight = flight;
             State = state;
             Type = type;
             FuelNeed = fuelNeed;
-            MaxStandartPassengers = maxStandartPassengers;
-            MaxVipPassengers = maxVipPassengers;
+            CurrentStandartPassengers = currentStandartPassengers;
+            CurrentVipPassengers = currentVipPassengers;
+            CurrentBaggage = currentBaggage;
+            CurrentCatering = currentCatering;
             HasArrivalPassengers = hasArrivalPassengers;
-
-            // Отправка запроса в Табло и получение номера рейса
         }
 
         public Plane()
@@ -32,8 +32,10 @@ namespace Aircraft_Generator.Commons
         public PlaneState State { get; set; }
         public PlaneType Type { get; set; }
         public Int32 FuelNeed { get; set; }
-        public Int32 MaxStandartPassengers { get; set; }
-        public Int32 MaxVipPassengers { get; set; }
+        public Int32 CurrentStandartPassengers { get; set; }
+        public Int32 CurrentVipPassengers { get; set; }
+        public Int32 CurrentBaggage { get; set; }
+        public Int32 CurrentCatering { get; set; }
         public bool HasArrivalPassengers { get; set; }
 
         public MapObject ServiceZone { get; set; }
