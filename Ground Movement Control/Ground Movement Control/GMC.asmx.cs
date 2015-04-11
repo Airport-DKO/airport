@@ -71,5 +71,16 @@ namespace Ground_Movement_Control
         {
             Core.Instance.RunwayRelease();
         }
+
+
+        /// <summary>
+        ///     Возвращает список всех зон обслуживания
+        /// </summary>
+        /// <returns>Список MapObject ServiceZone</returns>
+        [WebMethod]
+        public List<MapObject> GetServiceZones()
+        {
+            return Core.Instance.GetServiceZones();
+        }
     }
 }

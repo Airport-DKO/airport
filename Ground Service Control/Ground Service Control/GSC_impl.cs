@@ -102,7 +102,12 @@ namespace Ground_Service_Control
                 m_gmc = new GMC.GMC();
 
                 //FIXME:
-                //m_gmc.GetServiceZones(); 
+                var zones=m_gmc.GetServiceZones();
+                foreach (var mapObject in zones)
+                {
+                    m_serviceZones.Add(new ServiceZone() {zone = mapObject});
+                }
+                
             }
         }
 
@@ -113,7 +118,7 @@ namespace Ground_Service_Control
         /// <summary>
         /// Список площадок под обслуживание самолётов.
         /// </summary>
-        private readonly List<ServiceZone> m_serviceZones = null;
+        private readonly List<ServiceZone> m_serviceZones = new List<ServiceZone>();
 
         private readonly ServiceTaskScheduler m_taskScheduler = new ServiceTaskScheduler();
 

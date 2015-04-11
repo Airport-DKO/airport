@@ -88,6 +88,41 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="GetPlaneServiceZone">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="planeGuid" type="s1:guid" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetPlaneServiceZoneResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetPlaneServiceZoneResult" type="tns:MapObject" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RunwayRelease">
+        <s:complexType />
+      </s:element>
+      <s:element name="RunwayReleaseResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetServiceZones">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetServiceZonesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetServiceZonesResult" type="tns:ArrayOfMapObject" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfMapObject">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="MapObject" nillable="true" type="tns:MapObject" />
+        </s:sequence>
+      </s:complexType>
     </s:schema>
     <s:schema elementFormDefault="qualified" targetNamespace="http://microsoft.com/wsdl/types/">
       <s:simpleType name="guid">
@@ -115,6 +150,24 @@
   <wsdl:message name="CheckRunwayAwailabilitySoapOut">
     <wsdl:part name="parameters" element="tns:CheckRunwayAwailabilityResponse" />
   </wsdl:message>
+  <wsdl:message name="GetPlaneServiceZoneSoapIn">
+    <wsdl:part name="parameters" element="tns:GetPlaneServiceZone" />
+  </wsdl:message>
+  <wsdl:message name="GetPlaneServiceZoneSoapOut">
+    <wsdl:part name="parameters" element="tns:GetPlaneServiceZoneResponse" />
+  </wsdl:message>
+  <wsdl:message name="RunwayReleaseSoapIn">
+    <wsdl:part name="parameters" element="tns:RunwayRelease" />
+  </wsdl:message>
+  <wsdl:message name="RunwayReleaseSoapOut">
+    <wsdl:part name="parameters" element="tns:RunwayReleaseResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetServiceZonesSoapIn">
+    <wsdl:part name="parameters" element="tns:GetServiceZones" />
+  </wsdl:message>
+  <wsdl:message name="GetServiceZonesSoapOut">
+    <wsdl:part name="parameters" element="tns:GetServiceZonesResponse" />
+  </wsdl:message>
   <wsdl:portType name="GMCSoap">
     <wsdl:operation name="GetRoute">
       <wsdl:input message="tns:GetRouteSoapIn" />
@@ -127,6 +180,18 @@
     <wsdl:operation name="CheckRunwayAwailability">
       <wsdl:input message="tns:CheckRunwayAwailabilitySoapIn" />
       <wsdl:output message="tns:CheckRunwayAwailabilitySoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetPlaneServiceZone">
+      <wsdl:input message="tns:GetPlaneServiceZoneSoapIn" />
+      <wsdl:output message="tns:GetPlaneServiceZoneSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RunwayRelease">
+      <wsdl:input message="tns:RunwayReleaseSoapIn" />
+      <wsdl:output message="tns:RunwayReleaseSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetServiceZones">
+      <wsdl:input message="tns:GetServiceZonesSoapIn" />
+      <wsdl:output message="tns:GetServiceZonesSoapOut" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="GMCSoap" type="tns:GMCSoap">
@@ -158,6 +223,33 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="GetPlaneServiceZone">
+      <soap:operation soapAction="Airport/GetPlaneServiceZone" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RunwayRelease">
+      <soap:operation soapAction="Airport/RunwayRelease" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetServiceZones">
+      <soap:operation soapAction="Airport/GetServiceZones" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
   </wsdl:binding>
   <wsdl:binding name="GMCSoap12" type="tns:GMCSoap">
     <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
@@ -181,6 +273,33 @@
     </wsdl:operation>
     <wsdl:operation name="CheckRunwayAwailability">
       <soap12:operation soapAction="Airport/CheckRunwayAwailability" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPlaneServiceZone">
+      <soap12:operation soapAction="Airport/GetPlaneServiceZone" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RunwayRelease">
+      <soap12:operation soapAction="Airport/RunwayRelease" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetServiceZones">
+      <soap12:operation soapAction="Airport/GetServiceZones" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

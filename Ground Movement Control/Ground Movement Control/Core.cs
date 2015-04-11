@@ -222,5 +222,11 @@ namespace Ground_Movement_Control
             }
             return false;
         }
+
+        public List<MapObject> GetServiceZones()
+        {
+            var szones=_locations.Where(l => l.MapObject.MapObjectType == MapObjectType.ServiceArea);
+            return szones.Select(location => location.MapObject).ToList();
+        }
     }
 }
