@@ -79,25 +79,27 @@ namespace Ground_Service_Control.ContainerLoader {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("Airport-DKO-Container-Loader/ToServiceZone", RequestNamespace="Airport-DKO-Container-Loader", ResponseNamespace="Airport-DKO-Container-Loader", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public bool ToServiceZone(MapObject serviceZone, ServiceTaskId taskId) {
+        public bool ToServiceZone(MapObject serviceZone, System.Guid flightNumber, ServiceTaskId taskId) {
             object[] results = this.Invoke("ToServiceZone", new object[] {
                         serviceZone,
+                        flightNumber,
                         taskId});
             return ((bool)(results[0]));
         }
         
         /// <remarks/>
-        public void ToServiceZoneAsync(MapObject serviceZone, ServiceTaskId taskId) {
-            this.ToServiceZoneAsync(serviceZone, taskId, null);
+        public void ToServiceZoneAsync(MapObject serviceZone, System.Guid flightNumber, ServiceTaskId taskId) {
+            this.ToServiceZoneAsync(serviceZone, flightNumber, taskId, null);
         }
         
         /// <remarks/>
-        public void ToServiceZoneAsync(MapObject serviceZone, ServiceTaskId taskId, object userState) {
+        public void ToServiceZoneAsync(MapObject serviceZone, System.Guid flightNumber, ServiceTaskId taskId, object userState) {
             if ((this.ToServiceZoneOperationCompleted == null)) {
                 this.ToServiceZoneOperationCompleted = new System.Threading.SendOrPostCallback(this.OnToServiceZoneOperationCompleted);
             }
             this.InvokeAsync("ToServiceZone", new object[] {
                         serviceZone,
+                        flightNumber,
                         taskId}, this.ToServiceZoneOperationCompleted, userState);
         }
         
@@ -161,7 +163,7 @@ namespace Ground_Service_Control.ContainerLoader {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="DKO-Airport-Ground-Movement-Control")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="Airport")]
     public partial class MapObject {
         
         private MapObjectType mapObjectTypeField;
@@ -192,7 +194,7 @@ namespace Ground_Service_Control.ContainerLoader {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.0.30319.34209")]
     [System.SerializableAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="DKO-Airport-Ground-Movement-Control")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="Airport")]
     public enum MapObjectType {
         
         /// <remarks/>

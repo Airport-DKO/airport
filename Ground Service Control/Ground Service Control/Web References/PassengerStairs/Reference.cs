@@ -79,25 +79,27 @@ namespace Ground_Service_Control.PassengerStairs {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/ToServiceZone", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public bool ToServiceZone(MapObject serviceZone, ServiceTaskId taskId) {
+        public bool ToServiceZone(MapObject serviceZone, System.Guid flightNumber, ServiceTaskId taskId) {
             object[] results = this.Invoke("ToServiceZone", new object[] {
                         serviceZone,
+                        flightNumber,
                         taskId});
             return ((bool)(results[0]));
         }
         
         /// <remarks/>
-        public void ToServiceZoneAsync(MapObject serviceZone, ServiceTaskId taskId) {
-            this.ToServiceZoneAsync(serviceZone, taskId, null);
+        public void ToServiceZoneAsync(MapObject serviceZone, System.Guid flightNumber, ServiceTaskId taskId) {
+            this.ToServiceZoneAsync(serviceZone, flightNumber, taskId, null);
         }
         
         /// <remarks/>
-        public void ToServiceZoneAsync(MapObject serviceZone, ServiceTaskId taskId, object userState) {
+        public void ToServiceZoneAsync(MapObject serviceZone, System.Guid flightNumber, ServiceTaskId taskId, object userState) {
             if ((this.ToServiceZoneOperationCompleted == null)) {
                 this.ToServiceZoneOperationCompleted = new System.Threading.SendOrPostCallback(this.OnToServiceZoneOperationCompleted);
             }
             this.InvokeAsync("ToServiceZone", new object[] {
                         serviceZone,
+                        flightNumber,
                         taskId}, this.ToServiceZoneOperationCompleted, userState);
         }
         

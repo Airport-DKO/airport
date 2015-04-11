@@ -37,20 +37,6 @@
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:element name="ToPlain">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="1" maxOccurs="1" name="flightNumber" type="s3:guid" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="ToPlainResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="1" maxOccurs="1" name="ToPlainResult" type="s:boolean" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
     </s:schema>
     <s:schema elementFormDefault="qualified" targetNamespace="Airport">
       <s:complexType name="MapObject">
@@ -91,12 +77,6 @@
   <wsdl:message name="LoadPassengersSoapOut">
     <wsdl:part name="parameters" element="tns:LoadPassengersResponse" />
   </wsdl:message>
-  <wsdl:message name="ToPlainSoapIn">
-    <wsdl:part name="parameters" element="tns:ToPlain" />
-  </wsdl:message>
-  <wsdl:message name="ToPlainSoapOut">
-    <wsdl:part name="parameters" element="tns:ToPlainResponse" />
-  </wsdl:message>
   <wsdl:portType name="VIPShuttleSoap">
     <wsdl:operation name="UnloadPassengers">
       <wsdl:input message="tns:UnloadPassengersSoapIn" />
@@ -105,10 +85,6 @@
     <wsdl:operation name="LoadPassengers">
       <wsdl:input message="tns:LoadPassengersSoapIn" />
       <wsdl:output message="tns:LoadPassengersSoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="ToPlain">
-      <wsdl:input message="tns:ToPlainSoapIn" />
-      <wsdl:output message="tns:ToPlainSoapOut" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="VIPShuttleSoap" type="tns:VIPShuttleSoap">
@@ -131,15 +107,6 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="ToPlain">
-      <soap:operation soapAction="http://tempuri.org/ToPlain" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
   </wsdl:binding>
   <wsdl:binding name="VIPShuttleSoap12" type="tns:VIPShuttleSoap">
     <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
@@ -154,15 +121,6 @@
     </wsdl:operation>
     <wsdl:operation name="LoadPassengers">
       <soap12:operation soapAction="http://tempuri.org/LoadPassengers" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="ToPlain">
-      <soap12:operation soapAction="http://tempuri.org/ToPlain" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

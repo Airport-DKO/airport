@@ -69,10 +69,10 @@
       <DependentUpon>Reference.map</DependentUpon>
     </Content>
     <None Include="Web References\BaggageTractor\BaggageTractor.wsdl" />
-    <Content Include="Web References\BaggageTractor\Reference.map">
+    <None Include="Web References\BaggageTractor\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
-    </Content>
+    </None>
     <None Include="Web References\CateringTruck\CateringTruck.disco" />
     <None Include="Web References\ContainerLoader\ContainerLoader.disco" />
     <None Include="Web References\BaggageTractor\BaggageTractor.disco" />
@@ -88,15 +88,15 @@
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
     <None Include="Web References\CateringTruck\CateringTruck.wsdl" />
-    <Content Include="Web References\CateringTruck\Reference.map">
+    <None Include="Web References\CateringTruck\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
-    </Content>
+    </None>
     <None Include="Web References\ContainerLoader\ContainerLoader.wsdl" />
-    <Content Include="Web References\ContainerLoader\Reference.map">
+    <None Include="Web References\ContainerLoader\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
-    </Content>
+    </None>
     <None Include="Web References\GMC\gmc.wsdl" />
     <Content Include="Web References\GMC\MapObject.datasource">
       <DependentUpon>Reference.map</DependentUpon>
@@ -106,24 +106,24 @@
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
     <None Include="Web References\PassengerBus\PassengerBus.wsdl" />
-    <Content Include="Web References\PassengerBus\Reference.map">
+    <None Include="Web References\PassengerBus\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
-    </Content>
+    </None>
     <None Include="Web References\PassengerStairs\PassengerStairs.wsdl" />
-    <Content Include="Web References\PassengerStairs\Reference.map">
+    <None Include="Web References\PassengerStairs\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
-    </Content>
-    <Content Include="Web References\Refueler\Reference.map">
+    </None>
+    <None Include="Web References\Refueler\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
-    </Content>
+    </None>
     <None Include="Web References\Refueler\Refueler.wsdl" />
-    <Content Include="Web References\VIPShuttle\Reference.map">
+    <None Include="Web References\VIPShuttle\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
-    </Content>
+    </None>
     <None Include="Web References\VIPShuttle\VIPShuttle.wsdl" />
     <Content Include="Web References\WebServiceInformationPanel\Flight.datasource">
       <DependentUpon>Reference.map</DependentUpon>
@@ -338,6 +338,7 @@
       <CachedSettingsPropName>Ground_Service_Control_VIPShuttle_VIPShuttle</CachedSettingsPropName>
     </WebReferenceUrl>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

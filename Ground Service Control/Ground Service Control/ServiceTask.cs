@@ -113,7 +113,7 @@ namespace Ground_Service_Control
                     Utils.self().waitTillCheckInFinished(context.plane);
                 }
 
-                cl.ToServiceZone(context.serviceZone, taskId);
+                cl.ToServiceZone(context.serviceZone, context.plane, taskId);
                 //TODO: убрать трап когда не нужен.
             });
 
@@ -171,7 +171,7 @@ namespace Ground_Service_Control
                 {
                     Utils.self().waitTillCheckInFinished(context.plane);
                 }
-                ps.ToServiceZone(context.serviceZone, taskId);
+                ps.ToServiceZone(context.serviceZone, context.plane, taskId);
                 //TODO: убрать трап пока не нужен.
             });
 
