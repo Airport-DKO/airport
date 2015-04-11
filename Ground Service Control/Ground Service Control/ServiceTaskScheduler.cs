@@ -36,30 +36,35 @@ namespace Ground_Service_Control
         //    3. Заправка.
         //       4. Принять пассажиров.
         //5. Все операции завершены:
-        //    взлёт.
+        //    Убрать трапы и взлёт.
         static public PlaneTask generateListOfTasksForPlane(PlaneNeeds plane)
         {
             var factory = new ServiceTaskFactory(plane);
 
             var task = new PlaneTask(plane);
 
-            var luggageTrapOut = factory.createContainerLoader(false);
-            var luggageUnload = factory.createBaggageTractor(false);
-            var luggageTrapIn = factory.createContainerLoader(false);
-            var luggageLoad = factory.createBaggageTractor(true);
+            var luggageTrapOut = factory.createContainerLoader(ServiceTaskRole.UnloadPlane);
+            var luggageUnload = factory.createBaggageTractor(ServiceTaskRole.UnloadPlane);
+            var luggageTrapIn = factory.createContainerLoader(ServiceTaskRole.LoadPlane);
+            var luggageLoad = factory.createBaggageTractor(ServiceTaskRole.LoadPlane);
+            var luggageTrapToGarage = factory.createContainerLoader(ServiceTaskRole.MoveToGarage);
 
+            luggageTrapIn.nextTasks.Add(luggageTrapToGarage);
             luggageTrapIn.nextTasks.Add(luggageLoad);
             luggageUnload.nextTasks.Add(luggageTrapIn);
             luggageTrapOut.nextTasks.Add(luggageUnload);
 
-            var trapOut = factory.createPassengerStairs(false);
-            var vipPassangersOut = factory.createVIPShuttle(false);
-            var passangersOut = factory.createPassengerBus(false);
+            var trapOut = factory.createPassengerStairs(ServiceTaskRole.UnloadPlane);
+            var vipPassangersOut = factory.createVIPShuttle(ServiceTaskRole.UnloadPlane);
+            var passangersOut = factory.createPassengerBus(ServiceTaskRole.UnloadPlane);
             var food = factory.createCateringTruck();
             var fuel = factory.createRefueler();
-            var trapIn = factory.createPassengerStairs(true);
-            var vipPassangersIn = factory.createVIPShuttle(true);
-            var passangersIn = factory.createPassengerBus(true);
+            var trapIn = factory.createPassengerStairs(ServiceTaskRole.LoadPlane);
+            var vipPassangersIn = factory.createVIPShuttle(ServiceTaskRole.LoadPlane);
+            var passangersIn = factory.createPassengerBus(ServiceTaskRole.LoadPlane);
+            var trapToGarage = factory.createPassengerStairs(ServiceTaskRole.MoveToGarage);
+
+            passangersIn.nextTasks.Add(trapToGarage);
 
             fuel.nextTasks.Add(trapIn);
             trapIn.nextTasks.Add(vipPassangersIn);
