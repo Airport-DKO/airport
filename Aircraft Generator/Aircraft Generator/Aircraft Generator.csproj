@@ -85,9 +85,6 @@
     </None>
     <None Include="Web References\InformationPanelWS\WebServiceInformationPanel.disco" />
     <None Include="Web References\MetrologicalService\MetrologService.disco" />
-    <Content Include="Web References\TowerService\MapObject.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </Content>
     <None Include="Web References\MetrologicalService\MetrologService.wsdl" />
     <Content Include="Web References\MetrologicalService\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>

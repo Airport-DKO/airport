@@ -145,38 +145,38 @@ namespace Ground_Movement_Control
             runwayMapPoint.MakeVacant();
         }
 
-        public MapObject CheckRunwayAwailability(Guid planeGuid)
+        public bool CheckRunwayAwailability(Guid planeGuid)
         {
             Location runwayLocation = GetActualRunway();
             if (runwayLocation == null)
             {
-                return null;
+                return false;
             }
 
             if (!WeatherCheck())
             {
-                return null;
+                return false;
             }
 
             bool result = CheckVacantPosition(runwayLocation.Position.X, runwayLocation.Position.Y, MoveObjectType.Plane,
                 planeGuid, true);
             if (!result)
             {
-                return null;
+                return false;
             }
             GscWs.MapObject serviceZone = _gsc.GetFreePlace(planeGuid);
             if (serviceZone == null)
             {
-                return null;
+                return false;
             }
             _planesServiceZones.Add(new Tuple<Guid, MapObject>(planeGuid, serviceZone));
             result = CheckVacantPosition(runwayLocation.Position.X, runwayLocation.Position.Y, MoveObjectType.Plane,
                 planeGuid);
             if (result)
             {
-                return runwayLocation.MapObject;
+                return true;
             }
-            return null;
+            return false;
         }
 
         public MapObject GetPlaneServiceZone(Guid planeGuid)
@@ -214,7 +214,8 @@ namespace Ground_Movement_Control
                     MapPoint oldPoint = _map.FirstOrDefault(m => m.OwnerGuid == id);
                     if (oldPoint != null)
                     {
-                        oldPoint.MakeVacant();
+                        if(oldPoint.X!=mapPoint.X && oldPoint.Y!=mapPoint.Y)
+                            oldPoint.MakeVacant();
                     }
                     return true;
                 }

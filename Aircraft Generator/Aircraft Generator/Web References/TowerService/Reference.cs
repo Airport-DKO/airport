@@ -74,10 +74,10 @@ namespace Aircraft_Generator.TowerService {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("Airport/LandingRequest", RequestNamespace="Airport", ResponseNamespace="Airport", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public MapObject LandingRequest(System.Guid planeId) {
+        public bool LandingRequest(System.Guid planeId) {
             object[] results = this.Invoke("LandingRequest", new object[] {
                         planeId});
-            return ((MapObject)(results[0]));
+            return ((bool)(results[0]));
         }
         
         /// <remarks/>
@@ -121,58 +121,6 @@ namespace Aircraft_Generator.TowerService {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.0.30319.34230")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="Airport")]
-    public partial class MapObject {
-        
-        private MapObjectType mapObjectTypeField;
-        
-        private int numberField;
-        
-        /// <remarks/>
-        public MapObjectType MapObjectType {
-            get {
-                return this.mapObjectTypeField;
-            }
-            set {
-                this.mapObjectTypeField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public int Number {
-            get {
-                return this.numberField;
-            }
-            set {
-                this.numberField = value;
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.0.30319.34230")]
-    [System.SerializableAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="Airport")]
-    public enum MapObjectType {
-        
-        /// <remarks/>
-        Runway,
-        
-        /// <remarks/>
-        Garage,
-        
-        /// <remarks/>
-        ServiceArea,
-        
-        /// <remarks/>
-        Airport,
-    }
-    
-    /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.34209")]
     public delegate void LandingRequestCompletedEventHandler(object sender, LandingRequestCompletedEventArgs e);
     
@@ -190,10 +138,10 @@ namespace Aircraft_Generator.TowerService {
         }
         
         /// <remarks/>
-        public MapObject Result {
+        public bool Result {
             get {
                 this.RaiseExceptionIfNecessary();
-                return ((MapObject)(this.results[0]));
+                return ((bool)(this.results[0]));
             }
         }
     }

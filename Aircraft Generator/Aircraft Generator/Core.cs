@@ -148,11 +148,10 @@ namespace Aircraft_Generator
                 Sleep(5000);
             }
 
-            MapObject runway;
             while (true)
             {
-                runway = _tower.LandingRequest(plane.Id);
-                if (runway == null)
+                bool landingRequest = _tower.LandingRequest(plane.Id);
+                if (!landingRequest)
                 {
                     Sleep(10000);
                 }
