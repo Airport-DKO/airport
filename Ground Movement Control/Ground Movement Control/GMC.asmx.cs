@@ -72,6 +72,16 @@ namespace Ground_Movement_Control
             Core.Instance.RunwayRelease();
         }
 
+       /// <summary>
+       ///      Метод возвращает рабочую впп
+       /// </summary>
+       /// <returns>Впп</returns>
+        [WebMethod]
+        public MapObject GetRunway()
+        {
+            return Core.Instance.GetRunway();
+        }
+
 
         /// <summary>
         ///     Возвращает список всех зон обслуживания

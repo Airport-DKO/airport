@@ -64,8 +64,14 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <None Include="Web References\FollowMeWs\FollowMe.disco" />
     <Content Include="Web References\GmcVs\CoordinateTuple.datasource">
       <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <None Include="Web References\FollowMeWs\FollowMe.wsdl" />
+    <Content Include="Web References\FollowMeWs\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
     </Content>
     <None Include="Web References\GmcVs\gmc.wsdl" />
     <Content Include="Web References\GmcVs\MapObject.datasource">
@@ -137,6 +143,11 @@
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\FollowMeWs\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
     </Compile>
     <Compile Include="Web References\GmcVs\Reference.cs">
       <AutoGen>True</AutoGen>
@@ -222,6 +233,17 @@
       </CachedDynamicPropName>
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>Aircraft_Generator_InformationPanelWS_WebServiceInformationPanel</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://airport-dko-services.azurewebsites.net/FollowMe.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\FollowMeWs\</RelPath>
+      <UpdateFromURL>http://airport-dko-services.azurewebsites.net/FollowMe.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Aircraft_Generator_FollowMeWs_FollowMe</CachedSettingsPropName>
     </WebReferenceUrl>
   </ItemGroup>
   <ItemGroup>

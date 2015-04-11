@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Aircraft_Generator.Commons;
+using Aircraft_Generator.FollowMeWs;
 using Aircraft_Generator.GmcVs;
 using Aircraft_Generator.GscWs2;
 using Aircraft_Generator.InformationPanelWS;
@@ -35,6 +36,7 @@ namespace Aircraft_Generator
         private readonly MetrologService _metrolog;
         private readonly WebServiceInformationPanel _panel;
         private readonly Tower _tower;
+        private readonly FollowMeWs.FollowMe _followMe;
 
         private Core()
         {
@@ -44,6 +46,7 @@ namespace Aircraft_Generator
             _gsc = new GSC();
             _panel = new WebServiceInformationPanel();
             _metrolog = new MetrologService();
+            _followMe=new FollowMe();
         }
 
         public List<Plane> Planes
@@ -161,8 +164,10 @@ namespace Aircraft_Generator
                 }
             }
 
+            var runway = _gmc.GetRunway();
             plane.State = PlaneState.Landing;
             plane.ServiceZone = _gmc.GetPlaneServiceZone(plane.Id);
+            _followMe.LeadPlane(runway, plane.ServiceZone, plane.Id);
         }
 
         private void PlaneTaxingToServiceZone(Guid planeGuid)
@@ -183,7 +188,7 @@ namespace Aircraft_Generator
         private bool CheckTime(DateTime time)
         {
             DateTime currentAirportTime = _metrolog.GetCurrentTime();
-            if (currentAirportTime.AddMinutes(2) >= time)
+            if (currentAirportTime.AddMinutes(10) >= time)
             {
                 return true;
             }

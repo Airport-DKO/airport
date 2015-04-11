@@ -39,6 +39,10 @@ namespace Aircraft_Generator.GmcVs {
         
         private System.Threading.SendOrPostCallback RunwayReleaseOperationCompleted;
         
+        private System.Threading.SendOrPostCallback GetRunwayOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetServiceZonesOperationCompleted;
+        
         private bool useDefaultCredentialsSetExplicitly;
         
         /// <remarks/>
@@ -91,6 +95,12 @@ namespace Aircraft_Generator.GmcVs {
         
         /// <remarks/>
         public event RunwayReleaseCompletedEventHandler RunwayReleaseCompleted;
+        
+        /// <remarks/>
+        public event GetRunwayCompletedEventHandler GetRunwayCompleted;
+        
+        /// <remarks/>
+        public event GetServiceZonesCompletedEventHandler GetServiceZonesCompleted;
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("Airport/GetRoute", RequestNamespace="Airport", ResponseNamespace="Airport", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
@@ -158,10 +168,10 @@ namespace Aircraft_Generator.GmcVs {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("Airport/CheckRunwayAwailability", RequestNamespace="Airport", ResponseNamespace="Airport", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public MapObject CheckRunwayAwailability(System.Guid planeGuid) {
+        public bool CheckRunwayAwailability(System.Guid planeGuid) {
             object[] results = this.Invoke("CheckRunwayAwailability", new object[] {
                         planeGuid});
-            return ((MapObject)(results[0]));
+            return ((bool)(results[0]));
         }
         
         /// <remarks/>
@@ -237,6 +247,60 @@ namespace Aircraft_Generator.GmcVs {
             if ((this.RunwayReleaseCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.RunwayReleaseCompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("Airport/GetRunway", RequestNamespace="Airport", ResponseNamespace="Airport", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public MapObject GetRunway() {
+            object[] results = this.Invoke("GetRunway", new object[0]);
+            return ((MapObject)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetRunwayAsync() {
+            this.GetRunwayAsync(null);
+        }
+        
+        /// <remarks/>
+        public void GetRunwayAsync(object userState) {
+            if ((this.GetRunwayOperationCompleted == null)) {
+                this.GetRunwayOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetRunwayOperationCompleted);
+            }
+            this.InvokeAsync("GetRunway", new object[0], this.GetRunwayOperationCompleted, userState);
+        }
+        
+        private void OnGetRunwayOperationCompleted(object arg) {
+            if ((this.GetRunwayCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetRunwayCompleted(this, new GetRunwayCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("Airport/GetServiceZones", RequestNamespace="Airport", ResponseNamespace="Airport", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public MapObject[] GetServiceZones() {
+            object[] results = this.Invoke("GetServiceZones", new object[0]);
+            return ((MapObject[])(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetServiceZonesAsync() {
+            this.GetServiceZonesAsync(null);
+        }
+        
+        /// <remarks/>
+        public void GetServiceZonesAsync(object userState) {
+            if ((this.GetServiceZonesOperationCompleted == null)) {
+                this.GetServiceZonesOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetServiceZonesOperationCompleted);
+            }
+            this.InvokeAsync("GetServiceZones", new object[0], this.GetServiceZonesOperationCompleted, userState);
+        }
+        
+        private void OnGetServiceZonesOperationCompleted(object arg) {
+            if ((this.GetServiceZonesCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetServiceZonesCompleted(this, new GetServiceZonesCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -454,10 +518,10 @@ namespace Aircraft_Generator.GmcVs {
         }
         
         /// <remarks/>
-        public MapObject Result {
+        public bool Result {
             get {
                 this.RaiseExceptionIfNecessary();
-                return ((MapObject)(this.results[0]));
+                return ((bool)(this.results[0]));
             }
         }
     }
@@ -491,6 +555,58 @@ namespace Aircraft_Generator.GmcVs {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.34209")]
     public delegate void RunwayReleaseCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.34209")]
+    public delegate void GetRunwayCompletedEventHandler(object sender, GetRunwayCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.34209")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetRunwayCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetRunwayCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public MapObject Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((MapObject)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.34209")]
+    public delegate void GetServiceZonesCompletedEventHandler(object sender, GetServiceZonesCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.34209")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetServiceZonesCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetServiceZonesCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public MapObject[] Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((MapObject[])(this.results[0]));
+            }
+        }
+    }
 }
 
 #pragma warning restore 1591

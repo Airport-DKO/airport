@@ -111,6 +111,38 @@ namespace Ground_Movement_Control
                 new CoordinateTuple(25, 25),
             });
             neededLocation1.Routes.Add(route);
+
+             neededLocation1 = _locations.FirstOrDefault(
+    l => (l.MapObject.MapObjectType == MapObjectType.Garage) && (l.MapObject.Number == 0));
+             neededLocation2 = _locations.FirstOrDefault(
+                l => (l.MapObject.MapObjectType == MapObjectType.Runway) && (l.MapObject.Number == 1));
+             route = new Route(neededLocation1, neededLocation2, new List<CoordinateTuple>
+            {
+                new CoordinateTuple(14, 15),
+                new CoordinateTuple(15, 15),
+                new CoordinateTuple(15, 16),
+                new CoordinateTuple(15, 17),
+                new CoordinateTuple(15, 18),
+                new CoordinateTuple(15, 19),
+                new CoordinateTuple(15, 20),
+                new CoordinateTuple(15, 21),
+                new CoordinateTuple(15, 22),
+                new CoordinateTuple(15, 23),
+                new CoordinateTuple(15, 24),
+                new CoordinateTuple(15, 25),
+                new CoordinateTuple(16, 25),
+                new CoordinateTuple(17, 25),
+                new CoordinateTuple(18, 25),
+                new CoordinateTuple(19, 25),
+                new CoordinateTuple(20, 25),
+                new CoordinateTuple(21, 25),
+                new CoordinateTuple(22, 25),
+                new CoordinateTuple(23, 25),
+                new CoordinateTuple(24, 25),
+                new CoordinateTuple(25, 25),
+            });
+            neededLocation1.Routes.Add(route);
+
             _routes.Add(route);
             //Конец заглушки
         }
@@ -143,6 +175,12 @@ namespace Ground_Movement_Control
             MapPoint runwayMapPoint =
                 _map.First(m => m.X == runwayLocation.Position.X && m.Y == runwayLocation.Position.Y);
             runwayMapPoint.MakeVacant();
+        }
+
+        public MapObject GetRunway()
+        {
+            Location runwayLocation = GetActualRunway();
+            return runwayLocation.MapObject;
         }
 
         public bool CheckRunwayAwailability(Guid planeGuid)
