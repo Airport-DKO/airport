@@ -84,6 +84,7 @@
       <s:element name="CreateFlight">
         <s:complexType>
           <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="arrivalTime" type="s:dateTime" />
             <s:element minOccurs="1" maxOccurs="1" name="takeoffTime" type="s:dateTime" />
             <s:element minOccurs="1" maxOccurs="1" name="city" type="tns:Cities" />
             <s:element minOccurs="1" maxOccurs="1" name="economPassengers" type="s:int" />
@@ -115,7 +116,7 @@
       <s:element name="RegisterPlaneToFlightResponse">
         <s:complexType>
           <s:sequence>
-            <s:element minOccurs="1" maxOccurs="1" name="RegisterPlaneToFlightResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="RegisterPlaneToFlightResult" type="tns:Flight" />
           </s:sequence>
         </s:complexType>
       </s:element>

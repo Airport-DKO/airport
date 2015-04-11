@@ -51,5 +51,16 @@ namespace Ground_Movement_Control
         {
             return Core.Instance.CheckRunwayAwailability(planeGuid);
         }
+
+        /// <summary>
+        ///     Информирует самолет о зоне обслуживания, которая забронирована для него
+        /// </summary>
+        /// <param name="planeGuid">Guid самолета</param>
+        /// <returns>Map Object зоны обслуживания</returns>
+        [WebMethod]
+        public MapObject GetPlaneServiceZone(Guid planeGuid)
+        {
+            return Core.Instance.GetPlaneServiceZone(planeGuid);
+        }
     }
 }

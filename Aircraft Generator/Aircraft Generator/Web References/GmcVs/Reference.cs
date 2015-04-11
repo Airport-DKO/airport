@@ -35,6 +35,8 @@ namespace Aircraft_Generator.GmcVs {
         
         private System.Threading.SendOrPostCallback CheckRunwayAwailabilityOperationCompleted;
         
+        private System.Threading.SendOrPostCallback GetPlaneServiceZoneOperationCompleted;
+        
         private bool useDefaultCredentialsSetExplicitly;
         
         /// <remarks/>
@@ -81,6 +83,9 @@ namespace Aircraft_Generator.GmcVs {
         
         /// <remarks/>
         public event CheckRunwayAwailabilityCompletedEventHandler CheckRunwayAwailabilityCompleted;
+        
+        /// <remarks/>
+        public event GetPlaneServiceZoneCompletedEventHandler GetPlaneServiceZoneCompleted;
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("Airport/GetRoute", RequestNamespace="Airport", ResponseNamespace="Airport", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
@@ -172,6 +177,35 @@ namespace Aircraft_Generator.GmcVs {
             if ((this.CheckRunwayAwailabilityCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.CheckRunwayAwailabilityCompleted(this, new CheckRunwayAwailabilityCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("Airport/GetPlaneServiceZone", RequestNamespace="Airport", ResponseNamespace="Airport", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public MapObject GetPlaneServiceZone(System.Guid planeGuid) {
+            object[] results = this.Invoke("GetPlaneServiceZone", new object[] {
+                        planeGuid});
+            return ((MapObject)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetPlaneServiceZoneAsync(System.Guid planeGuid) {
+            this.GetPlaneServiceZoneAsync(planeGuid, null);
+        }
+        
+        /// <remarks/>
+        public void GetPlaneServiceZoneAsync(System.Guid planeGuid, object userState) {
+            if ((this.GetPlaneServiceZoneOperationCompleted == null)) {
+                this.GetPlaneServiceZoneOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetPlaneServiceZoneOperationCompleted);
+            }
+            this.InvokeAsync("GetPlaneServiceZone", new object[] {
+                        planeGuid}, this.GetPlaneServiceZoneOperationCompleted, userState);
+        }
+        
+        private void OnGetPlaneServiceZoneOperationCompleted(object arg) {
+            if ((this.GetPlaneServiceZoneCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetPlaneServiceZoneCompleted(this, new GetPlaneServiceZoneCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -384,6 +418,32 @@ namespace Aircraft_Generator.GmcVs {
         private object[] results;
         
         internal CheckRunwayAwailabilityCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public MapObject Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((MapObject)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.34209")]
+    public delegate void GetPlaneServiceZoneCompletedEventHandler(object sender, GetPlaneServiceZoneCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.34209")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetPlaneServiceZoneCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetPlaneServiceZoneCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }

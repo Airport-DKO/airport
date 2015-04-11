@@ -226,8 +226,9 @@ namespace Aircraft_Generator.InformationPanelWS {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/CreateFlight", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public void CreateFlight(System.DateTime takeoffTime, Cities city, int economPassengers, int vipPassengers) {
+        public void CreateFlight(System.DateTime arrivalTime, System.DateTime takeoffTime, Cities city, int economPassengers, int vipPassengers) {
             this.Invoke("CreateFlight", new object[] {
+                        arrivalTime,
                         takeoffTime,
                         city,
                         economPassengers,
@@ -235,16 +236,17 @@ namespace Aircraft_Generator.InformationPanelWS {
         }
         
         /// <remarks/>
-        public void CreateFlightAsync(System.DateTime takeoffTime, Cities city, int economPassengers, int vipPassengers) {
-            this.CreateFlightAsync(takeoffTime, city, economPassengers, vipPassengers, null);
+        public void CreateFlightAsync(System.DateTime arrivalTime, System.DateTime takeoffTime, Cities city, int economPassengers, int vipPassengers) {
+            this.CreateFlightAsync(arrivalTime, takeoffTime, city, economPassengers, vipPassengers, null);
         }
         
         /// <remarks/>
-        public void CreateFlightAsync(System.DateTime takeoffTime, Cities city, int economPassengers, int vipPassengers, object userState) {
+        public void CreateFlightAsync(System.DateTime arrivalTime, System.DateTime takeoffTime, Cities city, int economPassengers, int vipPassengers, object userState) {
             if ((this.CreateFlightOperationCompleted == null)) {
                 this.CreateFlightOperationCompleted = new System.Threading.SendOrPostCallback(this.OnCreateFlightOperationCompleted);
             }
             this.InvokeAsync("CreateFlight", new object[] {
+                        arrivalTime,
                         takeoffTime,
                         city,
                         economPassengers,
@@ -287,11 +289,11 @@ namespace Aircraft_Generator.InformationPanelWS {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/RegisterPlaneToFlight", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public bool RegisterPlaneToFlight(System.Guid planeid, System.Guid FlightId) {
+        public Flight RegisterPlaneToFlight(System.Guid planeid, System.Guid FlightId) {
             object[] results = this.Invoke("RegisterPlaneToFlight", new object[] {
                         planeid,
                         FlightId});
-            return ((bool)(results[0]));
+            return ((Flight)(results[0]));
         }
         
         /// <remarks/>
@@ -700,10 +702,10 @@ namespace Aircraft_Generator.InformationPanelWS {
         }
         
         /// <remarks/>
-        public bool Result {
+        public Flight Result {
             get {
                 this.RaiseExceptionIfNecessary();
-                return ((bool)(this.results[0]));
+                return ((Flight)(this.results[0]));
             }
         }
     }
