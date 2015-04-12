@@ -10,6 +10,7 @@ namespace PassengerStairs
     {
         private readonly Guid _id; //идентификатор машины, чтобы ее могли отличить среди других Управление Наземным Движением и Визуализатор
         private readonly MoveObjectType _type;
+        private readonly int _speed;
 
         public Guid Id { get { return _id; } }
 
@@ -17,11 +18,13 @@ namespace PassengerStairs
         {
             _id = Guid.NewGuid();
             _type = MoveObjectType.PassengerStairs;
+            _speed = 1000;
         }
         public Car(Guid id)
         {
             _id = id;
             _type = MoveObjectType.PassengerStairs;
+            _speed = 1000;
         }
 
         /// <summary>
@@ -77,7 +80,8 @@ namespace PassengerStairs
                 {
                     //если шаг сделать удалось - передвигаемся на следующий индекс массива, содержащего маршрут
                     stepNumber++;
-                    //TODO: между интервалами посылки таких запросов необходимо делать Sleep(N/Speed), где N-число, полученное от Метрологической службы(Время)
+                    //делаем задержку, специально написанный метод Sleep внутри себя учитывает коэффициент метрологической службы
+                    SpecialThead.Sleep(_speed);
                 }
             }
         }

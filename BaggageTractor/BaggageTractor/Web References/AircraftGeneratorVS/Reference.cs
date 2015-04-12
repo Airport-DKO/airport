@@ -180,25 +180,25 @@ namespace BaggageTractor.AircraftGeneratorVS {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("DKO-Ariport-Aircraft-Generator/UnloadBaggage", RequestNamespace="DKO-Ariport-Aircraft-Generator", ResponseNamespace="DKO-Ariport-Aircraft-Generator", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public bool UnloadBaggage(MapObject serviseZone, int weightOfBaggage) {
+        public bool UnloadBaggage(MapObject serviceZone, int weightOfBaggage) {
             object[] results = this.Invoke("UnloadBaggage", new object[] {
-                        serviseZone,
+                        serviceZone,
                         weightOfBaggage});
             return ((bool)(results[0]));
         }
         
         /// <remarks/>
-        public void UnloadBaggageAsync(MapObject serviseZone, int weightOfBaggage) {
-            this.UnloadBaggageAsync(serviseZone, weightOfBaggage, null);
+        public void UnloadBaggageAsync(MapObject serviceZone, int weightOfBaggage) {
+            this.UnloadBaggageAsync(serviceZone, weightOfBaggage, null);
         }
         
         /// <remarks/>
-        public void UnloadBaggageAsync(MapObject serviseZone, int weightOfBaggage, object userState) {
+        public void UnloadBaggageAsync(MapObject serviceZone, int weightOfBaggage, object userState) {
             if ((this.UnloadBaggageOperationCompleted == null)) {
                 this.UnloadBaggageOperationCompleted = new System.Threading.SendOrPostCallback(this.OnUnloadBaggageOperationCompleted);
             }
             this.InvokeAsync("UnloadBaggage", new object[] {
-                        serviseZone,
+                        serviceZone,
                         weightOfBaggage}, this.UnloadBaggageOperationCompleted, userState);
         }
         
@@ -211,25 +211,25 @@ namespace BaggageTractor.AircraftGeneratorVS {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("DKO-Ariport-Aircraft-Generator/LoadBaggage", RequestNamespace="DKO-Ariport-Aircraft-Generator", ResponseNamespace="DKO-Ariport-Aircraft-Generator", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public bool LoadBaggage(MapObject serviseZone, int weightOfBaggage) {
+        public bool LoadBaggage(MapObject serviceZone, int weightOfBaggage) {
             object[] results = this.Invoke("LoadBaggage", new object[] {
-                        serviseZone,
+                        serviceZone,
                         weightOfBaggage});
             return ((bool)(results[0]));
         }
         
         /// <remarks/>
-        public void LoadBaggageAsync(MapObject serviseZone, int weightOfBaggage) {
-            this.LoadBaggageAsync(serviseZone, weightOfBaggage, null);
+        public void LoadBaggageAsync(MapObject serviceZone, int weightOfBaggage) {
+            this.LoadBaggageAsync(serviceZone, weightOfBaggage, null);
         }
         
         /// <remarks/>
-        public void LoadBaggageAsync(MapObject serviseZone, int weightOfBaggage, object userState) {
+        public void LoadBaggageAsync(MapObject serviceZone, int weightOfBaggage, object userState) {
             if ((this.LoadBaggageOperationCompleted == null)) {
                 this.LoadBaggageOperationCompleted = new System.Threading.SendOrPostCallback(this.OnLoadBaggageOperationCompleted);
             }
             this.InvokeAsync("LoadBaggage", new object[] {
-                        serviseZone,
+                        serviceZone,
                         weightOfBaggage}, this.LoadBaggageOperationCompleted, userState);
         }
         
@@ -242,25 +242,25 @@ namespace BaggageTractor.AircraftGeneratorVS {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("DKO-Ariport-Aircraft-Generator/LoadPassengers", RequestNamespace="DKO-Ariport-Aircraft-Generator", ResponseNamespace="DKO-Ariport-Aircraft-Generator", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public bool LoadPassengers(MapObject serviseZone, System.Guid[] passengers) {
+        public bool LoadPassengers(MapObject serviceZone, System.Guid[] passengers) {
             object[] results = this.Invoke("LoadPassengers", new object[] {
-                        serviseZone,
+                        serviceZone,
                         passengers});
             return ((bool)(results[0]));
         }
         
         /// <remarks/>
-        public void LoadPassengersAsync(MapObject serviseZone, System.Guid[] passengers) {
-            this.LoadPassengersAsync(serviseZone, passengers, null);
+        public void LoadPassengersAsync(MapObject serviceZone, System.Guid[] passengers) {
+            this.LoadPassengersAsync(serviceZone, passengers, null);
         }
         
         /// <remarks/>
-        public void LoadPassengersAsync(MapObject serviseZone, System.Guid[] passengers, object userState) {
+        public void LoadPassengersAsync(MapObject serviceZone, System.Guid[] passengers, object userState) {
             if ((this.LoadPassengersOperationCompleted == null)) {
                 this.LoadPassengersOperationCompleted = new System.Threading.SendOrPostCallback(this.OnLoadPassengersOperationCompleted);
             }
             this.InvokeAsync("LoadPassengers", new object[] {
-                        serviseZone,
+                        serviceZone,
                         passengers}, this.LoadPassengersOperationCompleted, userState);
         }
         
@@ -273,25 +273,25 @@ namespace BaggageTractor.AircraftGeneratorVS {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("DKO-Ariport-Aircraft-Generator/UnloadPassengers", RequestNamespace="DKO-Ariport-Aircraft-Generator", ResponseNamespace="DKO-Ariport-Aircraft-Generator", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public bool UnloadPassengers(MapObject serviseZone, int countOfPassengers) {
+        public bool UnloadPassengers(MapObject serviceZone, int countOfPassengers) {
             object[] results = this.Invoke("UnloadPassengers", new object[] {
-                        serviseZone,
+                        serviceZone,
                         countOfPassengers});
             return ((bool)(results[0]));
         }
         
         /// <remarks/>
-        public void UnloadPassengersAsync(MapObject serviseZone, int countOfPassengers) {
-            this.UnloadPassengersAsync(serviseZone, countOfPassengers, null);
+        public void UnloadPassengersAsync(MapObject serviceZone, int countOfPassengers) {
+            this.UnloadPassengersAsync(serviceZone, countOfPassengers, null);
         }
         
         /// <remarks/>
-        public void UnloadPassengersAsync(MapObject serviseZone, int countOfPassengers, object userState) {
+        public void UnloadPassengersAsync(MapObject serviceZone, int countOfPassengers, object userState) {
             if ((this.UnloadPassengersOperationCompleted == null)) {
                 this.UnloadPassengersOperationCompleted = new System.Threading.SendOrPostCallback(this.OnUnloadPassengersOperationCompleted);
             }
             this.InvokeAsync("UnloadPassengers", new object[] {
-                        serviseZone,
+                        serviceZone,
                         countOfPassengers}, this.UnloadPassengersOperationCompleted, userState);
         }
         

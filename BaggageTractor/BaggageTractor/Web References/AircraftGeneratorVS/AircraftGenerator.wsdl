@@ -90,7 +90,7 @@
       <s:element name="UnloadBaggage">
         <s:complexType>
           <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="serviseZone" type="s2:MapObject" />
+            <s:element minOccurs="0" maxOccurs="1" name="serviceZone" type="s2:MapObject" />
             <s:element minOccurs="1" maxOccurs="1" name="weightOfBaggage" type="s:int" />
           </s:sequence>
         </s:complexType>
@@ -105,7 +105,7 @@
       <s:element name="LoadBaggage">
         <s:complexType>
           <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="serviseZone" type="s2:MapObject" />
+            <s:element minOccurs="0" maxOccurs="1" name="serviceZone" type="s2:MapObject" />
             <s:element minOccurs="1" maxOccurs="1" name="weightOfBaggage" type="s:int" />
           </s:sequence>
         </s:complexType>
@@ -120,7 +120,7 @@
       <s:element name="LoadPassengers">
         <s:complexType>
           <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="serviseZone" type="s2:MapObject" />
+            <s:element minOccurs="0" maxOccurs="1" name="serviceZone" type="s2:MapObject" />
             <s:element minOccurs="0" maxOccurs="1" name="passengers" type="tns:ArrayOfGuid" />
           </s:sequence>
         </s:complexType>
@@ -140,7 +140,7 @@
       <s:element name="UnloadPassengers">
         <s:complexType>
           <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="serviseZone" type="s2:MapObject" />
+            <s:element minOccurs="0" maxOccurs="1" name="serviceZone" type="s2:MapObject" />
             <s:element minOccurs="1" maxOccurs="1" name="countOfPassengers" type="s:int" />
           </s:sequence>
         </s:complexType>

@@ -52,5 +52,15 @@ namespace PassengerStairs.Properties {
                 return ((string)(this["PassengerStairs_CheckinVS_WebServiceCheckIn"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://airport-dko-metrological.azurewebsites.net/MetrologService.asmx")]
+        public string PassengerStairs_MetrologServiceVS_MetrologService {
+            get {
+                return ((string)(this["PassengerStairs_MetrologServiceVS_MetrologService"]));
+            }
+        }
     }
 }

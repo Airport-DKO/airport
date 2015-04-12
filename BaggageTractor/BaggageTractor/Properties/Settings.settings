@@ -14,5 +14,8 @@
     <Setting Name="BaggageTractor_CheckinVS_WebServiceCheckIn" Type="(Web Service URL)" Scope="Application">
       <Value Profile="(Default)">http://airport-dko-passengers.azurewebsites.net/WebServiceCheckIn.asmx</Value>
     </Setting>
+    <Setting Name="BaggageTractor_MetrologServiceVS_MetrologService" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://airport-dko-metrological.azurewebsites.net/MetrologService.asmx</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
