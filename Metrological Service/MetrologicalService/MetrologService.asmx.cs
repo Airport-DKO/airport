@@ -31,6 +31,7 @@ namespace MetrologicalService
             Core.Instance.ModelingSpeed = coeff;
         }
 
+        [WebMethod]
         public Double GetCurrentTick()
         {
             return Core.Instance.ModelingSpeed;
