@@ -31,12 +31,18 @@ namespace MetrologicalService
             Core.Instance.ModelingSpeed = coeff;
         }
 
+        public Double GetCurrentTick()
+        {
+            return Core.Instance.ModelingSpeed;
+        }
+
         [WebMethod]
         public void Reset()
         {
+            Core.Instance.ClearAllQueues();
+            RefreshTick(1);
             Core.Instance.timer = DateTime.Now;
             Core.Instance.ModelingSpeed = 1;
-            RefreshTick(1);
         }
     }
 }
