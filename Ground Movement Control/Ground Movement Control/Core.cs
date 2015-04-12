@@ -3,8 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using Ground_Movement_Control.Commons;
 using Ground_Movement_Control.GscWs;
+using Ground_Movement_Control.VizualizatorWs;
+using CoordinateTuple = Ground_Movement_Control.Commons.CoordinateTuple;
+using Location = Ground_Movement_Control.Commons.Location;
 using MapObject = Ground_Movement_Control.Commons.MapObject;
 using MapObjectType = Ground_Movement_Control.Commons.MapObjectType;
+using MoveObjectType = Ground_Movement_Control.Commons.MoveObjectType;
+using Route = Ground_Movement_Control.Commons.Route;
 
 namespace Ground_Movement_Control
 {
@@ -23,6 +28,7 @@ namespace Ground_Movement_Control
         #endregion
 
         private readonly GSC _gsc;
+        private readonly VizualizatorWs.visualisator _visualisator;
         private readonly List<Location> _locations;
         private readonly List<MapPoint> _map;
 
@@ -32,6 +38,7 @@ namespace Ground_Movement_Control
         private Core()
         {
             _gsc = new GSC();
+            _visualisator=new visualisator();
             _planesServiceZones = new List<Tuple<Guid, MapObject>>();
             _map = new List<MapPoint>();
             _routes = new List<Route>();
@@ -45,9 +52,9 @@ namespace Ground_Movement_Control
         {
             _map.Clear();
             //Начало заглушки
-            for (int i = 0; i < 26; i++)
+            for (int i = 0; i < 18; i++)
             {
-                for (int j = 0; j < 26; j++)
+                for (int j = 0; j < 39; j++)
                 {
                     _map.Add(new MapPoint(i, j));
                 }
@@ -61,9 +68,9 @@ namespace Ground_Movement_Control
             //Начало заглушки
             _locations.Add(new Location(new CoordinateTuple(0, 0), new MapObject(MapObjectType.Runway, 1)));
             _locations.Add(new Location(new CoordinateTuple(0, 25), new MapObject(MapObjectType.Runway, 2)));
-            _locations.Add(new Location(new CoordinateTuple(25, 25), new MapObject(MapObjectType.Garage, 0)));
-            _locations.Add(new Location(new CoordinateTuple(25, 0), new MapObject(MapObjectType.Airport, 0)));
-            _locations.Add(new Location(new CoordinateTuple(14, 14), new MapObject(MapObjectType.ServiceArea, 1)));
+            _locations.Add(new Location(new CoordinateTuple(10, 10), new MapObject(MapObjectType.Garage, 0)));
+            _locations.Add(new Location(new CoordinateTuple(5, 0), new MapObject(MapObjectType.Airport, 0)));
+            _locations.Add(new Location(new CoordinateTuple(4, 14), new MapObject(MapObjectType.ServiceArea, 1)));
             //Конец заглушки
 
             foreach (Location location in _locations)
@@ -87,28 +94,28 @@ namespace Ground_Movement_Control
                 l => (l.MapObject.MapObjectType == MapObjectType.Garage) && (l.MapObject.Number == 0));
             var route = new Route(neededLocation1, neededLocation2, new List<CoordinateTuple>
             {
-                new CoordinateTuple(14, 15),
-                new CoordinateTuple(15, 15),
-                new CoordinateTuple(15, 16),
-                new CoordinateTuple(15, 17),
-                new CoordinateTuple(15, 18),
-                new CoordinateTuple(15, 19),
-                new CoordinateTuple(15, 20),
-                new CoordinateTuple(15, 21),
-                new CoordinateTuple(15, 22),
-                new CoordinateTuple(15, 23),
-                new CoordinateTuple(15, 24),
-                new CoordinateTuple(15, 25),
-                new CoordinateTuple(16, 25),
-                new CoordinateTuple(17, 25),
-                new CoordinateTuple(18, 25),
-                new CoordinateTuple(19, 25),
-                new CoordinateTuple(20, 25),
-                new CoordinateTuple(21, 25),
-                new CoordinateTuple(22, 25),
-                new CoordinateTuple(23, 25),
-                new CoordinateTuple(24, 25),
-                new CoordinateTuple(25, 25),
+                new CoordinateTuple(4, 15),
+                new CoordinateTuple(5, 15),
+                new CoordinateTuple(5, 16),
+                new CoordinateTuple(5, 17),
+                new CoordinateTuple(5, 18),
+                new CoordinateTuple(5, 19),
+                new CoordinateTuple(5, 20),
+                new CoordinateTuple(5, 21),
+                new CoordinateTuple(5, 22),
+                new CoordinateTuple(5, 23),
+                new CoordinateTuple(5, 24),
+                new CoordinateTuple(5, 25),
+                new CoordinateTuple(6, 25),
+                new CoordinateTuple(7, 25),
+                new CoordinateTuple(8, 25),
+                new CoordinateTuple(9, 25),
+                new CoordinateTuple(0, 25),
+                new CoordinateTuple(1, 25),
+                new CoordinateTuple(2, 25),
+                new CoordinateTuple(3, 25),
+                new CoordinateTuple(4, 25),
+                new CoordinateTuple(5, 25),
             });
             neededLocation1.Routes.Add(route);
 
@@ -118,28 +125,28 @@ namespace Ground_Movement_Control
                 l => (l.MapObject.MapObjectType == MapObjectType.Runway) && (l.MapObject.Number == 1));
              route = new Route(neededLocation1, neededLocation2, new List<CoordinateTuple>
             {
-                new CoordinateTuple(14, 15),
-                new CoordinateTuple(15, 15),
-                new CoordinateTuple(15, 16),
-                new CoordinateTuple(15, 17),
-                new CoordinateTuple(15, 18),
-                new CoordinateTuple(15, 19),
-                new CoordinateTuple(15, 20),
-                new CoordinateTuple(15, 21),
-                new CoordinateTuple(15, 22),
-                new CoordinateTuple(15, 23),
-                new CoordinateTuple(15, 24),
-                new CoordinateTuple(15, 25),
-                new CoordinateTuple(16, 25),
-                new CoordinateTuple(17, 25),
-                new CoordinateTuple(18, 25),
-                new CoordinateTuple(19, 25),
-                new CoordinateTuple(20, 25),
-                new CoordinateTuple(21, 25),
-                new CoordinateTuple(22, 25),
-                new CoordinateTuple(23, 25),
-                new CoordinateTuple(24, 25),
-                new CoordinateTuple(25, 25),
+                new CoordinateTuple(4, 15),
+                new CoordinateTuple(5, 15),
+                new CoordinateTuple(5, 16),
+                new CoordinateTuple(5, 17),
+                new CoordinateTuple(5, 18),
+                new CoordinateTuple(5, 19),
+                new CoordinateTuple(5, 20),
+                new CoordinateTuple(5, 21),
+                new CoordinateTuple(5, 22),
+                new CoordinateTuple(5, 23),
+                new CoordinateTuple(5, 24),
+                new CoordinateTuple(5, 25),
+                new CoordinateTuple(6, 25),
+                new CoordinateTuple(7, 25),
+                new CoordinateTuple(8, 25),
+                new CoordinateTuple(9, 25),
+                new CoordinateTuple(0, 25),
+                new CoordinateTuple(1, 25),
+                new CoordinateTuple(2, 25),
+                new CoordinateTuple(3, 25),
+                new CoordinateTuple(4, 25),
+                new CoordinateTuple(5, 25),
             });
             neededLocation1.Routes.Add(route);
 
@@ -249,12 +256,13 @@ namespace Ground_Movement_Control
             {
                 if (mapPoint.TryMove(type, id, justTry))
                 {
-                    MapPoint oldPoint = _map.FirstOrDefault(m => m.OwnerGuid == id);
+                    MapPoint oldPoint = _map.FirstOrDefault(m => m.OwnerGuid == id && m.X != mapPoint.X && m.Y != mapPoint.Y);
                     if (oldPoint != null)
                     {
-                        if(oldPoint.X!=mapPoint.X && oldPoint.Y!=mapPoint.Y)
                             oldPoint.MakeVacant();
                     }
+                    //DEBUG
+                    _visualisator.MoveObject(VizualizatorWs.MoveObjectType.Plane, id,new VizualizatorWs.CoordinateTuple(){X=x, Y=y},5 );
                     return true;
                 }
                 return false;

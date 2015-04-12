@@ -70,6 +70,20 @@
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
+    <Content Include="Web References\VizualizatorWs\CoordinateTuple.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\VizualizatorWs\Location.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\VizualizatorWs\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </Content>
+    <Content Include="Web References\VizualizatorWs\Route.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <None Include="Web References\VizualizatorWs\visualisator.wsdl" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -80,6 +94,7 @@
   <ItemGroup>
     <Content Include="GMC.asmx" />
     <None Include="Web References\GscWs\gsc.disco" />
+    <None Include="Web References\VizualizatorWs\visualisator.disco" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -109,6 +124,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.map</DependentUpon>
     </Compile>
+    <Compile Include="Web References\VizualizatorWs\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
@@ -117,6 +137,17 @@
     <WebReferences Include="Web References\" />
   </ItemGroup>
   <ItemGroup>
+    <WebReferenceUrl Include="http://airport-dko-1.cloudapp.net/visualisator.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\VizualizatorWs\</RelPath>
+      <UpdateFromURL>http://airport-dko-1.cloudapp.net/visualisator.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Ground_Movement_Control_VizualizatorWs_visualisator</CachedSettingsPropName>
+    </WebReferenceUrl>
     <WebReferenceUrl Include="http://airport-dko-gsc.azurewebsites.net/gsc.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\GscWs\</RelPath>

@@ -31,12 +31,14 @@ namespace Aircraft_Generator
         #endregion
 
         private readonly List<Plane> _createdPlanes;
+        private readonly FollowMe _followMe;
         private readonly GMC _gmc;
         private readonly GSC _gsc;
         private readonly MetrologService _metrolog;
         private readonly WebServiceInformationPanel _panel;
+
+        private readonly SynchronizedCollection<CancellationTokenSource> _tokens;
         private readonly Tower _tower;
-        private readonly FollowMeWs.FollowMe _followMe;
 
         private Core()
         {
@@ -46,7 +48,9 @@ namespace Aircraft_Generator
             _gsc = new GSC();
             _panel = new WebServiceInformationPanel();
             _metrolog = new MetrologService();
-            _followMe=new FollowMe();
+            _followMe = new FollowMe();
+            _tokens = new SynchronizedCollection<CancellationTokenSource>();
+            Rabbit.Instance.MessageReceived += CancelTasks;
         }
 
         public List<Plane> Planes
@@ -132,23 +136,29 @@ namespace Aircraft_Generator
         }
 
 
-        private double GetTimeCoef()
-        {
-            // TODO: коэффициент от метрологической службы
-            return 1;
-        }
-
         private void Sleep(int time)
         {
-            int sleepTime = Convert.ToInt32(time*GetTimeCoef());
-            Thread.Sleep(sleepTime);
+            while (true)
+            {
+                int sleepTime = Convert.ToInt32(time*Rabbit.Instance.CurrentCoef);
+                var tokenSource = new CancellationTokenSource();
+                _tokens.Add(tokenSource);
+                bool cancelled = tokenSource.Token.WaitHandle.WaitOne(sleepTime);
+                _tokens.Remove(tokenSource);
+                if (cancelled)
+                {
+                    continue;
+                }
+                break;
+            }
         }
+
 
         private void PlaneLanding(Plane plane)
         {
             while (!CheckTime(plane.Flight.arrivalTime))
             {
-                Sleep(5000);
+                Sleep(10000);
             }
 
             while (true)
@@ -164,10 +174,18 @@ namespace Aircraft_Generator
                 }
             }
 
-            var runway = _gmc.GetRunway();
+            MapObject runway = _gmc.GetRunway();
             plane.State = PlaneState.Landing;
             plane.ServiceZone = _gmc.GetPlaneServiceZone(plane.Id);
             _followMe.LeadPlane(runway, plane.ServiceZone, plane.Id);
+        }
+
+        private void CancelTasks(object sender, MetrologicalEventArgs e)
+        {
+            foreach (CancellationTokenSource cancellationTokenSource in _tokens)
+            {
+                cancellationTokenSource.Cancel();
+            }
         }
 
         private void PlaneTaxingToServiceZone(Guid planeGuid)
@@ -179,7 +197,7 @@ namespace Aircraft_Generator
 
         private void PlaneIsReadyToService(Guid planeGuid)
         {
-            var plane = _createdPlanes.First(p => p.Id == planeGuid);
+            Plane plane = _createdPlanes.First(p => p.Id == planeGuid);
             plane.State = PlaneState.OnService;
             _gsc.SetNeeds(plane.Id, plane.Flight, (plane.Type == PlaneType.Airbus), plane.CurrentStandartPassengers,
                 plane.CurrentVipPassengers, plane.CurrentBaggage, plane.FuelNeed);
@@ -188,7 +206,7 @@ namespace Aircraft_Generator
         private bool CheckTime(DateTime time)
         {
             DateTime currentAirportTime = _metrolog.GetCurrentTime();
-            if (currentAirportTime.AddMinutes(10) >= time)
+            if (currentAirportTime.AddMinutes(-500) >= time)
             {
                 return true;
             }
