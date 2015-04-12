@@ -8,11 +8,6 @@ using System.Text;
 using System.Windows.Forms;
 using System.Timers;
 
-using RabbitMQ.Client;
-using RabbitMQ.Client.Content;
-using RabbitMQ.Client.MessagePatterns;
-using RabbitMQ.Client.Events;
-
 namespace MetrologicalService
 {
     public partial class Form1 : Form
