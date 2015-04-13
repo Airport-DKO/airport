@@ -33,6 +33,8 @@ namespace Ground_Service_Control
                 {
                     Debug.Assert(!zone.free);
 
+                    Utils.self().log("Самолёт улетел: " + plane + " с: " + zone.zone.Number);
+
                     zone.free = true;
                     zone.plane = Guid.Empty;
 
@@ -51,6 +53,8 @@ namespace Ground_Service_Control
             {
                 foreach (var zone in m_serviceZones.Where(zone => zone.free))
                 {
+                    Utils.self().log("Самолёт собирается зайти на посадку: " + plane + " на: " + zone.zone.Number);
+
                     zone.free = false;
                     zone.plane = plane;
 
@@ -74,6 +78,8 @@ namespace Ground_Service_Control
 
                 Debug.Assert(!zone.free);
 
+                Utils.self().log("Самолёт приземлился: " + plane + " на: " + zone.zone.Number + " начато обслуживание");
+
                 m_taskScheduler.servicePlane(new PlaneNeeds{ plane = plane, flight = flight, baggage = baggage, economPassengers = economPassengers, fuelingNeeds = fuelingNeeds, ladder = ladder, VIPPassengers = VIPPassengers, serviceZone =  zone.zone});
 
                 return true;
@@ -84,9 +90,12 @@ namespace Ground_Service_Control
         {
             lock (m_lock)
             {
+                Utils.self().log("Задача завершена: " + TaskNumber.type + " самолёт: "  + TaskNumber.plane);
                 if (!m_taskScheduler.nextTask(TaskNumber))
                 {
-                    //FIXME: сообщить, что готов к взлёту.
+                    Utils.self().log("Обслуживание завершено: " + TaskNumber.plane);
+
+                    //FIXME: сообщить Г.С., что готов к взлёту.
                 }
 
                 return true;
