@@ -39,7 +39,7 @@ namespace PassengerStairs
             IConnection connection = factory.CreateConnection();
             IModel channel = connection.CreateModel();
 
-            channel.QueueDeclare("TC_PassengerStairs", false, false, false, null);
+            channel.QueueDeclare("TC_PassengerStairs", true, false, false, null);
 
             _consumer = new QueueingBasicConsumer(channel);
             channel.BasicConsume("TC_PassengerStairs", true, _consumer);

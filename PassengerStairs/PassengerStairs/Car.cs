@@ -18,13 +18,13 @@ namespace PassengerStairs
         {
             _id = Guid.NewGuid();
             _type = MoveObjectType.PassengerStairs;
-            _speed = 1000;
+            _speed = 10000;
         }
         public Car(Guid id)
         {
             _id = id;
             _type = MoveObjectType.PassengerStairs;
-            _speed = 1000;
+            _speed = 10000;
         }
 
         /// <summary>
@@ -83,6 +83,7 @@ namespace PassengerStairs
                     //делаем задержку, специально написанный метод Sleep внутри себя учитывает коэффициент метрологической службы
                     SpecialThead.Sleep(_speed);
                 }
+                SpecialThead.Sleep(_speed);
             }
         }
     }

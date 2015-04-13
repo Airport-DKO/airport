@@ -89,9 +89,9 @@ namespace Ground_Movement_Control
             _routes.Clear();
             //Начало заглушки
             Location neededLocation1 = _locations.FirstOrDefault(
-                l => (l.MapObject.MapObjectType == MapObjectType.ServiceArea) && (l.MapObject.Number == 1));
-            Location neededLocation2 = _locations.FirstOrDefault(
                 l => (l.MapObject.MapObjectType == MapObjectType.Garage) && (l.MapObject.Number == 0));
+            Location neededLocation2 = _locations.FirstOrDefault(
+                l => (l.MapObject.MapObjectType == MapObjectType.ServiceArea) && (l.MapObject.Number == 1));
             var route = new Route(neededLocation1, neededLocation2, new List<CoordinateTuple>
             {
                 new CoordinateTuple(4, 15),
@@ -101,21 +101,6 @@ namespace Ground_Movement_Control
                 new CoordinateTuple(5, 18),
                 new CoordinateTuple(5, 19),
                 new CoordinateTuple(5, 20),
-                new CoordinateTuple(5, 21),
-                new CoordinateTuple(5, 22),
-                new CoordinateTuple(5, 23),
-                new CoordinateTuple(5, 24),
-                new CoordinateTuple(5, 25),
-                new CoordinateTuple(6, 25),
-                new CoordinateTuple(7, 25),
-                new CoordinateTuple(8, 25),
-                new CoordinateTuple(9, 25),
-                new CoordinateTuple(0, 25),
-                new CoordinateTuple(1, 25),
-                new CoordinateTuple(2, 25),
-                new CoordinateTuple(3, 25),
-                new CoordinateTuple(4, 25),
-                new CoordinateTuple(5, 25),
             });
             neededLocation1.Routes.Add(route);
 

@@ -41,8 +41,8 @@ namespace PassengerStairs
 
             Logger.SendMessage(0, ComponentName, String.Format("Получено {0} пассажиров на рейс номер {1}", passangersCount, flightNumber));
 
-            if (passangersCount > 0) //если пассажиры есть - что-то делаем
-            {
+            if (passangersCount >= 0) //если пассажиры есть - что-то делаем !!!
+            {//TODO исправить условие с >= на >
                 Logger.SendMessage(0, ComponentName, String.Format("Трап выехал на площадку обслуживания номер {0}", serviceZone.Number));
 
                 var car = new Car();

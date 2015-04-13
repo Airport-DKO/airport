@@ -56,8 +56,11 @@ namespace Aircraft_Generator
                 var body = ea.Body;
                 var message = Encoding.UTF8.GetString(body);
                 var newCoef = float.Parse(message,CultureInfo.InvariantCulture);
-                MessageReceived(this, new MetrologicalEventArgs() { NewCoef = newCoef });
-                CurrentCoef = newCoef;
+                if (newCoef != CurrentCoef)
+                {
+                    MessageReceived(this, new MetrologicalEventArgs() {NewCoef = newCoef});
+                    CurrentCoef = newCoef;
+                }
             }
         }
     }
