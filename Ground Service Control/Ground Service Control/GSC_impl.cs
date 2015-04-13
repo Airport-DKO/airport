@@ -49,8 +49,6 @@ namespace Ground_Service_Control
         {
             lock (m_lock)
             {
-                Debug.Assert(m_serviceZones != null);
-
                 foreach (var zone in m_serviceZones.Where(zone => zone.free))
                 {
                     zone.free = false;
@@ -101,8 +99,7 @@ namespace Ground_Service_Control
             {
                 m_gmc = new GMC.GMC();
 
-                //FIXME:
-                var zones=m_gmc.GetServiceZones();
+                var zones = m_gmc.GetServiceZones();
                 foreach (var mapObject in zones)
                 {
                     m_serviceZones.Add(new ServiceZone() {zone = mapObject});
