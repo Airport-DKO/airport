@@ -14,7 +14,10 @@ namespace Ground_Service_Control
         }
 
         private Utils()
-        {}
+        {
+            m_queue = new MessageQueue();
+            m_timeService = new MetrologService.MetrologService();
+        }
 
         private static readonly Utils m_self = new Utils();
 
@@ -24,8 +27,7 @@ namespace Ground_Service_Control
         /// <returns></returns>
         public int systemTime(int time)
         {
-            var ms = new MetrologService.MetrologService();
-            return (int)(time / ms.GetCurrentTick());
+            return (int)(time / m_timeService.GetCurrentTick());
         }
 
         /// <summary>
@@ -55,7 +57,11 @@ namespace Ground_Service_Control
 
         public void log(string message)
         {
-            //TODO: логгер
+            //TODO: Uncomment
+            //m_queue.queueMessage(message, m_timeService.GetCurrentTime());
         }
+
+        private MessageQueue m_queue = null;
+        private MetrologService.MetrologService m_timeService = null;
     }
 }
