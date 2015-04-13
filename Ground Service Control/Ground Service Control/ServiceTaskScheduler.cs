@@ -76,8 +76,12 @@ namespace Ground_Service_Control
             trapOut.nextTasks.Add(vipPassangersOut);
             trapOut.nextTasks.Add(passangersOut);
 
-            task.AddTask(luggageTrapOut);
-            task.AddTask(trapOut);
+
+            var initTask = factory.createInitialTask();
+            initTask.nextTasks.Add(trapOut);
+            initTask.nextTasks.Add(luggageTrapOut);
+
+            task.AddTask(initTask);
 
             return task;
         }

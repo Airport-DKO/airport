@@ -63,6 +63,11 @@ namespace Ground_Service_Control
                 : (ServiceTask) new RefuelerServiceTask(m_plane);
         }
 
+        public ServiceTask createInitialTask()
+        {
+            return new NoServiceTask(m_plane);
+        }
+
         private readonly PlaneNeeds m_plane;
     }
 }
