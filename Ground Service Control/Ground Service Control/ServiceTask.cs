@@ -108,7 +108,7 @@ namespace Ground_Service_Control
         {
             var t = new Task(() =>
             {
-                Thread.Sleep(Utils.self().systemTime(5000));
+                Utils.self().sleep(5000);
 
                 var cl = new ContainerLoader.ContainerLoader();
                 if(role == ServiceTaskRole.MoveToGarage){
@@ -146,12 +146,12 @@ namespace Ground_Service_Control
                 if (role == ServiceTaskRole.LoadPlane)
                 {
                     Utils.self().waitTillCheckInFinished(context.plane);
-                    Thread.Sleep(Utils.self().systemTime(5000));
+                    Utils.self().sleep(5000);
                     pb.LoadPassengers(context.serviceZone, context.plane, taskId);
                     return;
                 }
 
-                Thread.Sleep(Utils.self().systemTime(5000));
+                Utils.self().sleep(5000);
                 pb.UnloadPassengers(context.serviceZone, context.economPassengers, taskId);
             });
 

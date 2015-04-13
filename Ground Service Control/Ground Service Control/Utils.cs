@@ -24,8 +24,20 @@ namespace Ground_Service_Control
         /// <returns></returns>
         public int systemTime(int time)
         {
-            //TODO: метрологическая служба.
-            return time;
+            var ms = new MetrologService.MetrologService();
+            return (int)(time / ms.GetCurrentTick());
+        }
+
+        /// <summary>
+        /// Ждёт указанное кол-во времени (время автоматически переводится в системное)
+        /// </summary>
+        /// <param name="time"></param>
+        public void sleep(int time)
+        {
+            while(time >= 0){
+                Thread.Sleep(Utils.self().systemTime(1000));
+                time -= 1000;
+            }
         }
 
         /// <summary>

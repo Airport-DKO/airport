@@ -105,6 +105,11 @@
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
+    <None Include="Web References\MetrologService\MetrologService.wsdl" />
+    <Content Include="Web References\MetrologService\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </Content>
     <None Include="Web References\PassengerBus\PassengerBus.wsdl" />
     <None Include="Web References\PassengerBus\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
@@ -125,6 +130,7 @@
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
     <None Include="Web References\VIPShuttle\VIPShuttle.wsdl" />
+    <None Include="Web References\MetrologService\MetrologService.disco" />
     <Content Include="Web References\WebServiceInformationPanel\Flight.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </Content>
@@ -194,6 +200,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.map</DependentUpon>
     </Compile>
+    <Compile Include="Web References\MetrologService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
     <Compile Include="Web References\PassengerBus\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -248,6 +259,17 @@
       </CachedDynamicPropName>
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>Ground_Service_Control_GMC_GMC</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://airport-dko-metrological.azurewebsites.net/MetrologService.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\MetrologService\</RelPath>
+      <UpdateFromURL>http://airport-dko-metrological.azurewebsites.net/MetrologService.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Ground_Service_Control_MetrologService_MetrologService</CachedSettingsPropName>
     </WebReferenceUrl>
     <WebReferenceUrl Include="http://airport-dko-passengers.azurewebsites.net/WebServiceInformationPanel.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
