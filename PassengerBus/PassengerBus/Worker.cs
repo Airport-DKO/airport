@@ -14,11 +14,11 @@ namespace PassengerBus
     {
         private static readonly MapObject Garage;
         private static readonly MapObject Airport;
+        private const string ComponentName = "PassengerBus";
 
         static Worker()
         {
             Garage = new MapObject { MapObjectType = MapObjectType.Garage };
-
             Airport = new MapObject { MapObjectType = MapObjectType.Airport };
         }
 
@@ -31,6 +31,9 @@ namespace PassengerBus
         /// <returns></returns>
         public static void ToAirport(MapObject serviceZone, int countOfPassengers, ServiceTaskId taskId)
         {
+            Logger.SendMessage(0, ComponentName, 
+                String.Format("Задание получено: забрать {1} пассажиров эконом-класса с борта на площадке номер {0}", serviceZone.Number, countOfPassengers));
+
             var buses = new List<Bus>();
             var tasks = new List<Task>();
 
@@ -44,8 +47,10 @@ namespace PassengerBus
                 var t = new Task(() =>
                 {
                     bus.GoTo(Garage, serviceZone);
-                    new AircraftGenerator().UnloadPassengers(serviceZone, countOfPassengers);  //забираем пассажиров у Генератора Самолетов 
+                    new AircraftGenerator().UnloadStandartPassengers(serviceZone, bus.Capacity);  //забираем пассажиров у Генератора Самолетов 
                     bus.GoTo(serviceZone, Airport);
+                    Logger.SendMessage(1, ComponentName,
+                        String.Format("{1} или меньше(остаток) пассажиров вывезено с борта на площадке {0}", serviceZone.Number, bus.Capacity));
                 });
                 t.Start();
 
@@ -58,7 +63,13 @@ namespace PassengerBus
 
             Task.WaitAll(tasks.ToArray());
 
+            Logger.SendMessage(0, ComponentName, 
+                String.Format("Задание выполнено: забрать пассажиров с борта на площадке номер {0}", serviceZone.Number));
+
             new GSC().Done(taskId); //сообщаем Управлению Наземным Обслуживанием, что задание выполнено
+
+            Logger.SendMessage(0, ComponentName, 
+                String.Format("Автобусы возвращаются с площадки номер {0} в гараж", serviceZone.Number));
 
             foreach (var bus in buses)
             {
@@ -77,6 +88,9 @@ namespace PassengerBus
         /// <returns></returns>
         public static void ToPlain(MapObject serviceZone, Guid flightNumber, ServiceTaskId taskId)
         {
+            Logger.SendMessage(0, ComponentName, 
+                String.Format("Задание получено: доставить пассажиров на борт на площадке номер {0}", serviceZone.Number));
+
             var passengers = GetPassengers(flightNumber);
             var countOfPassengers = passengers.Count;
 
@@ -95,8 +109,11 @@ namespace PassengerBus
                 {
                     bus.GoTo(Garage, Airport);
                     bus.GoTo(Airport, serviceZone);
-                    new AircraftGenerator().LoadPassengers(serviceZone,
+                    new AircraftGenerator().LoadStandartPassengers(serviceZone,
                         passengers.GetRange(busNumber*bus.Capacity, bus.Capacity).ToArray()); //загружаем пассажиров в Генератору Самолетов 
+                    SpecialThead.Sleep(50000);//изображаем деятельность
+                    Logger.SendMessage(1, ComponentName,
+                        String.Format("{1} или меньше(остаток) пассажиров доставлено на борт на площадке {0}", serviceZone.Number, bus.Capacity));
                 });
                 t.Start();
 
@@ -113,7 +130,11 @@ namespace PassengerBus
             //ждем, когда все пассажиры будут поставлены на самолет(все розданные таски выполнятся)
             Task.WaitAll(tasks.ToArray());
 
+            Logger.SendMessage(0, ComponentName, String.Format("Задание выполнено: доставить пассажиров на борт на площадке номер {0}", serviceZone.Number));
+
             new GSC().Done(taskId); //сообщаем Управлению Наземным Обслуживанием, что задание выполнено
+
+            Logger.SendMessage(0, ComponentName, String.Format("Автобусы возвращаются с площадки номер {0} в гараж", serviceZone.Number));
 
             foreach (var bus in buses)
             {
@@ -130,7 +151,9 @@ namespace PassengerBus
         /// <returns></returns>
         public static List<Guid> GetPassengers(Guid flightNumber)
         {
-            return new WebServiceCheckIn().GetSimplePassengers(flightNumber).ToList(); //запросить пассажиров у Регистрации
+            var countOfPassengers = new WebServiceCheckIn().GetSimplePassengers(flightNumber).ToList(); //запросить пассажиров у Регистрации
+            Logger.SendMessage(1, ComponentName, String.Format("Получена информация, что на рейс {0} зарегистрированно {1} пассажиров эконом-класса", flightNumber, countOfPassengers));
+            return countOfPassengers;
         }
     }
 }

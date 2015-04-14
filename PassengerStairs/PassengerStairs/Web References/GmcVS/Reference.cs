@@ -446,6 +446,9 @@ namespace PassengerStairs.GmcVS {
         
         /// <remarks/>
         SnowRemovalVehicle,
+        
+        /// <remarks/>
+        Refueler,
     }
     
     /// <remarks/>

@@ -9,20 +9,15 @@ namespace PassengerStairs
 {
     public static class Worker
     {
-        private static readonly string ComponentName;
-
+        private const string ComponentName = "PassengerStairs";
         private static SynchronizedCollection<Tuple<Guid, MapObject>> WhoWhere; //список, чтоб запоминать, где какой трап находится (используется для возврата в гараж)
-
         private static readonly MapObject Garage;
 
         static Worker()
         {
             Garage = new MapObject { MapObjectType = MapObjectType.Garage };
             WhoWhere = new SynchronizedCollection<Tuple<Guid, MapObject>>();
-            ComponentName = "PassengerStairs";
         }
-
-
 
         /// <summary>
         /// Метод, который вызывает трап на площадку обслуживания самолета
@@ -39,10 +34,10 @@ namespace PassengerStairs
                 new WebServiceCheckIn().GetSimplePassengers(flightNumber).Length +
                 new WebServiceCheckIn().GetVips(flightNumber).Length;
 
-            Logger.SendMessage(0, ComponentName, String.Format("Получено {0} пассажиров на рейс номер {1}", passangersCount, flightNumber));
+            Logger.SendMessage(0, ComponentName, String.Format("Получена информация о {0} пассажирах на рейс номер {1}", passangersCount, flightNumber));
 
-            if (passangersCount >= 0) //если пассажиры есть - что-то делаем !!!
-            {//TODO исправить условие с >= на >
+            if (passangersCount > 0) //если пассажиры есть - что-то делаем !!!
+            {
                 Logger.SendMessage(0, ComponentName, String.Format("Трап выехал на площадку обслуживания номер {0}", serviceZone.Number));
 
                 var car = new Car();
@@ -65,7 +60,7 @@ namespace PassengerStairs
         /// <returns></returns>
         public static void GoToGarage(MapObject serviceZone)
         {
-            Logger.SendMessage(0, ComponentName, String.Format("Задание получено: вернуть трап с площадки номер {0} в гараж.", serviceZone.Number));
+            Logger.SendMessage(0, ComponentName, String.Format("Задание получено: вернуть трап с площадки номер {0} в гараж", serviceZone.Number));
 
             //пытаемся найти машину на стоянке в списке и достать ее id
             Guid id = Guid.Empty;
@@ -81,7 +76,7 @@ namespace PassengerStairs
             //если машины на площадке нет - ничего не делаем
             if (id == Guid.Empty)
             {
-                Logger.SendMessage(0, ComponentName, String.Format("Трап не найден на площадке. Задание считается выполненым.", serviceZone.Number));
+                Logger.SendMessage(0, ComponentName, String.Format("Трап не найден на площадке. Задание считается выполненым", serviceZone.Number));
                 return;
             }
 
@@ -91,12 +86,12 @@ namespace PassengerStairs
             //удаляем машину из списка 
             WhoWhere.Remove(new Tuple<Guid, MapObject>(id, serviceZone));
 
-            Logger.SendMessage(1, ComponentName, String.Format("Трап выехал с площадки номер {0} в гараж.", serviceZone.Number));
+            Logger.SendMessage(0, ComponentName, String.Format("Трап выехал с площадки номер {0} в гараж", serviceZone.Number));
                 
             //возвращаем машину в гараж
             car.GoTo(serviceZone, Garage);
 
-            Logger.SendMessage(1, ComponentName, String.Format("Трап вернулся с площадки номер {0} в гараж.", serviceZone.Number));
+            Logger.SendMessage(1, ComponentName, String.Format("Трап вернулся с площадки номер {0} в гараж", serviceZone.Number));
         }
     }
 }

@@ -9,15 +9,15 @@ namespace PassengerBus
     public class Bus
     {
         private readonly Guid _id; //идентификатор машины, чтобы ее могли отличить среди других Управление Наземным Движением и Визуализатор
-        private readonly Int32 _capacity; //вместительность машины - сколько кг она может поднять
+        private const Int32 _capacity = 100; //вместительность машины - сколько кг она может поднять
         private readonly MoveObjectType _type;
+        private const int Speed = 10000;
 
         public Int32 Capacity { get { return _capacity; } }
 
         public Bus()
         {
             _id = Guid.NewGuid();
-            _capacity = 100;
             _type = MoveObjectType.PassengerBus;
         }
 
@@ -48,7 +48,7 @@ namespace PassengerBus
                 route = gmc.GetRoute(from, to).ToList(); //УНД возвращает список координат, по которым надо проехать
                 if (route.Count == 0) //если маршрут вернулся пустым - ехать пока что нельзя (уборка снега) - через некоторое время повторяем запрос
                 {
-                    Thread.Sleep(100000);
+                    SpecialThead.Sleep(100000);
                 }
                 else
                 {
@@ -74,8 +74,8 @@ namespace PassengerBus
                 {
                     //если шаг сделать удалось - передвигаемся на следующий индекс массива, содержащего маршрут
                     stepNumber++;
-                    //TODO: между интервалами посылки таких запросов необходимо делать Sleep(N/Speed), где N-число, полученное от Метрологической службы(Время)
                 }
+                SpecialThead.Sleep(Speed);
             }
         }
     }

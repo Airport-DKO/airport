@@ -13,13 +13,12 @@ namespace BaggageTractor
     {
         private static readonly MapObject Garage;
         private static readonly MapObject Airport;
-        private static readonly string ComponentName;
+        private const string ComponentName = "BaggageTractor";
 
         static Worker()
         {
             Garage = new MapObject { MapObjectType = MapObjectType.Garage };
             Airport = new MapObject { MapObjectType = MapObjectType.Airport };
-            ComponentName = "BaggageTractor";
         }
 
         /// <summary>
@@ -46,10 +45,10 @@ namespace BaggageTractor
                 var t = new Task(() =>
                 {
                     car.GoTo(Garage, serviceZone);
-                    new AircraftGenerator().UnloadBaggage(serviceZone, weightOfBaggage);//забираем багаж у Генератора Самолетов
+                    new AircraftGenerator().UnloadBaggage(serviceZone, car.Capacity);//забираем багаж у Генератора Самолетов
                     car.GoTo(serviceZone, Airport);
                     Logger.SendMessage(1, ComponentName,
-                        String.Format("{1} или меньше(остаток) килограмм багажа вывезено с борта на площадке {0}.", serviceZone.Number, weightOfBaggage));
+                        String.Format("{1} или меньше(остаток) килограмм багажа вывезено с борта на площадке {0}.", serviceZone.Number, car.Capacity));
                 });
                 t.Start();
 
@@ -104,9 +103,10 @@ namespace BaggageTractor
                 {
                     car.GoTo(Garage, Airport);
                     car.GoTo(Airport, serviceZone);
-                    new AircraftGenerator().LoadBaggage(serviceZone, weightOfBaggage);//загружаем багаж в Генератору Самолетов
+                    new AircraftGenerator().LoadBaggage(serviceZone, car.Capacity);//загружаем багаж в Генератору Самолетов
+                    SpecialThead.Sleep(50000);//изображаем деятельность
                     Logger.SendMessage(1, ComponentName,
-                        String.Format("{1} или меньше(остаток) килограмм багажа погружено на борт на площадке {0}.", serviceZone.Number, weightOfBaggage));
+                        String.Format("{1} или меньше(остаток) килограмм багажа погружено на борт на площадке {0}.", serviceZone.Number, car.Capacity));
                 });
                 t.Start();
 
@@ -123,7 +123,7 @@ namespace BaggageTractor
 
             new GSC().Done(taskId); //cообщаем Управлению Наземным Обслуживанием, что задание выполнено
 
-            Logger.SendMessage(0, ComponentName, String.Format("Машины возвращаются с площадки номер {0} в багаж.", serviceZone.Number));
+            Logger.SendMessage(0, ComponentName, String.Format("Машины возвращаются с площадки номер {0} в гараж.", serviceZone.Number));
 
             foreach (var car in cars)
             {

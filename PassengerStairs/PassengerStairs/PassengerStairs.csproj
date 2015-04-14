@@ -70,10 +70,10 @@
     <Content Include="Web References\CheckinVS\Catering.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </Content>
-    <Content Include="Web References\CheckinVS\Reference.map">
+    <None Include="Web References\CheckinVS\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
-    </Content>
+    </None>
     <None Include="Web References\CheckinVS\WebServiceCheckIn.disco" />
     <Content Include="Web References\GmcVS\CoordinateTuple.datasource">
       <DependentUpon>Reference.map</DependentUpon>

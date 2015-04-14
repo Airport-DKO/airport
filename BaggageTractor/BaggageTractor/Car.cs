@@ -8,18 +8,16 @@ namespace BaggageTractor
     public class Car
     {
         private readonly Guid _id; //идентификатор машины, чтобы ее могли отличить среди других Управление Наземным Движением и Визуализатор
-        private readonly Int32 _capacity; //вместительность машины - сколько кг она может поднять
+        private const Int32 _capacity = 100; //вместительность машины - сколько кг она может поднять
         private readonly MoveObjectType _type; //тип машинки - MoveObjectType.BaggageTractor
-        private readonly int _speed;
+        private const int Speed = 10000;
 
         public Int32 Capacity { get { return _capacity; } }
 
         public Car()
         {
             _id = Guid.NewGuid();
-            _capacity = 100;
             _type = MoveObjectType.BaggageTractor;
-            _speed = 10000;
         }
 
         /// <summary>
@@ -75,8 +73,8 @@ namespace BaggageTractor
                 {
                     //если шаг сделать удалось - передвигаемся на следующий индекс массива, содержащего маршрут
                     stepNumber++;
-                    SpecialThead.Sleep(_speed);
                 }
+                SpecialThead.Sleep(Speed);
             }
         }
     }

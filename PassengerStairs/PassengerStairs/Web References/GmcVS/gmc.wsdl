@@ -65,6 +65,7 @@
           <s:enumeration value="PassengerBus" />
           <s:enumeration value="VipShuttle" />
           <s:enumeration value="SnowRemovalVehicle" />
+          <s:enumeration value="Refueler" />
         </s:restriction>
       </s:simpleType>
       <s:element name="StepResponse">

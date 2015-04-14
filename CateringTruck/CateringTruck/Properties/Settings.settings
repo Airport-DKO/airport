@@ -14,5 +14,8 @@
     <Setting Name="CateringTruck_ChechinVS_WebServiceCheckIn" Type="(Web Service URL)" Scope="Application">
       <Value Profile="(Default)">http://airport-dko-passengers.azurewebsites.net/WebServiceCheckIn.asmx</Value>
     </Setting>
+    <Setting Name="CateringTruck_MetrologServiceVS_MetrologService" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://airport-dko-metrological.azurewebsites.net/MetrologService.asmx</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
