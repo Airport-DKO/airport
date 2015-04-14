@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using PassengerStairs.GmcVS;
 
 namespace PassengerStairs
@@ -54,7 +53,7 @@ namespace PassengerStairs
                 route = gmc.GetRoute(from, to).ToList(); //УНД возвращает список координат, по которым надо проехать
                 if (route.Count == 0) //если маршрут вернулся пустым - ехать пока что нельзя (уборка снега) - через некоторое время повторяем запрос
                 {
-                     SpecialThead(100000);
+                     SpecialThead.Sleep(100000);
                 }
                 else
                 {

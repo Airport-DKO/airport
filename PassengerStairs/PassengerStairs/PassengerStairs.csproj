@@ -91,10 +91,10 @@
     <Content Include="Web References\GscVS\MapObject.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </Content>
-    <Content Include="Web References\GscVS\Reference.map">
+    <None Include="Web References\GscVS\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
-    </Content>
+    </None>
     <None Include="Web References\MetrologServiceVS\MetrologService.wsdl" />
     <Content Include="Web References\MetrologServiceVS\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
