@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Threading;
+using System.IO;
 
 using RabbitMQ.Client;
 using RabbitMQ.Client.Content;
@@ -39,6 +40,9 @@ namespace Logger
 
         public DelegateAddString m_DelegateAddString;
         public DelegateThreadFinished m_DelegateThreadFinished;
+
+        public static FileStream fs = new FileStream(@"C:\airport\log.csv", FileMode.OpenOrCreate, FileAccess.Write);
+        public static StreamWriter sw = new StreamWriter(fs, Encoding.GetEncoding("Windows-1251"));
 
 
         private void btnStartThread_Click(object sender, System.EventArgs e)
@@ -103,10 +107,9 @@ namespace Logger
         private void StopThread()
         {
 
-            PutMinusOne();
-
             if (m_WorkerThread != null && m_WorkerThread.IsAlive)
             {
+                PutMinusOne();
                 m_EventStopThread.Set();
 
                 while (m_WorkerThread.IsAlive)
@@ -132,6 +135,7 @@ namespace Logger
             {
                 String[] words = s.Split(new char[] { '_' }, StringSplitOptions.RemoveEmptyEntries);
                 logGridView.Rows.Add(words[0], words[1], words[2], words[3], words[4]);
+                sw.WriteLine(words[0] + ";" + words[1] + ";" + words[2] + ";" + words[3] + ";" + words[4]);
             }
         }
 
@@ -149,6 +153,7 @@ namespace Logger
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
         {
             StopThread();
+            sw.Close();
         }
     }
 }
