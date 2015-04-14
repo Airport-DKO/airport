@@ -48,5 +48,17 @@ namespace WebPassengersGenerator
         {
             return passengersGenerator.GetPassengersInfo();
         }
+
+        [WebMethod]
+        public List<Passenger> GetPassengersList()
+        {
+            return passengersGenerator.GetPassengersList();
+        }
+
+        [WebMethod]
+        public void Reset()
+        {
+            passengersGenerator.Reset();
+        }
     }
 }

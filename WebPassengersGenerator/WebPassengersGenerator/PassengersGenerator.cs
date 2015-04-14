@@ -26,12 +26,10 @@ namespace WebPassengersGenerator
     {
         WebServiceCheckIn CheckIn= new WebServiceCheckIn();
         TicketSalesService.WebServiceTicketSales ticketSales = new WebServiceTicketSales();
-        //ServiceTicketSales.WebServiceTicketSalesSoapClient ticketSales = new WebServiceTicketSalesSoapClient();
-        //ServiceCheckIn.WebServiceCheckInSoapClient CheckIn = new WebServiceCheckInSoapClient();
         private static Random random = new Random();
         public List<Passenger> passengers = new List<Passenger>();   //база активных пассажиров (тех, которые уже созданы и ещё находятся в нашем аэропорту)
         private PassengersStatistic statistic = new PassengersStatistic();
-        public int generateSleep = 0;                                //интервал при генерации
+        public int generateSleep = 500;                                //интервал при генерации
 
         /// <summary>
         /// генерирует рендомных пассажиров
@@ -49,6 +47,7 @@ namespace WebPassengersGenerator
                     State = PassengerState.Created
                 });
                 statistic.Created++;
+                Thread.Sleep(generateSleep);
             }
         }
 
@@ -98,7 +97,6 @@ namespace WebPassengersGenerator
                         }
                         break;
                     case 2: //зарегестрироваться
-                        //TODO!!!!!опять несоответствие типов (ругается при передаче)
                         if (CheckIn.Registrate(passenger))
                         {
                             passenger.State = PassengerState.Registered;
@@ -108,6 +106,7 @@ namespace WebPassengersGenerator
                     default:
                         break;
                 }
+                Thread.Sleep(generateSleep);
             }
         }
 
@@ -135,6 +134,16 @@ namespace WebPassengersGenerator
         public PassengersStatistic GetPassengersInfo()
         {
             return statistic;
+        }
+
+        public List<Passenger> GetPassengersList()
+        {
+            return passengers;
+        }
+
+        public void Reset()
+        {
+            passengers.Clear();
         }
     }
 }

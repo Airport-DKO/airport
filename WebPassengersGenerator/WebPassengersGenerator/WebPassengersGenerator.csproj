@@ -59,6 +59,7 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Properties\PublishProfiles\airport-dko-passengers.pubxml" />
     <Content Include="Web References\CheckInService\Catering.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </Content>
@@ -66,7 +67,6 @@
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </Content>
-    <None Include="Properties\PublishProfiles\airport-dko-passengers.pubxml" />
     <None Include="Web References\CheckInService\WebServiceCheckIn.disco" />
     <Content Include="Web References\TicketSalesService\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
@@ -123,27 +123,27 @@
     <WebReferences Include="Web References\" />
   </ItemGroup>
   <ItemGroup>
-    <WebReferenceUrl Include="http://localhost:22401/WebServiceTicketSales.asmx">
-      <UrlBehavior>Dynamic</UrlBehavior>
-      <RelPath>Web References\TicketSalesService\</RelPath>
-      <UpdateFromURL>http://localhost:22401/WebServiceTicketSales.asmx</UpdateFromURL>
-      <ServiceLocationURL>
-      </ServiceLocationURL>
-      <CachedDynamicPropName>
-      </CachedDynamicPropName>
-      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
-      <CachedSettingsPropName>WebPassengersGenerator_TicketSalesService_WebServiceTicketSales</CachedSettingsPropName>
-    </WebReferenceUrl>
-    <WebReferenceUrl Include="http://localhost:22542/WebServiceCheckIn.asmx">
+    <WebReferenceUrl Include="http://airport-dko-passengers.azurewebsites.net/WebServiceCheckIn.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\CheckInService\</RelPath>
-      <UpdateFromURL>http://localhost:22542/WebServiceCheckIn.asmx</UpdateFromURL>
+      <UpdateFromURL>http://airport-dko-passengers.azurewebsites.net/WebServiceCheckIn.asmx</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>
       </CachedDynamicPropName>
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>WebPassengersGenerator_CheckInService_WebServiceCheckIn</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://airport-dko-passengers.azurewebsites.net/WebServiceTicketSales.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\TicketSalesService\</RelPath>
+      <UpdateFromURL>http://airport-dko-passengers.azurewebsites.net/WebServiceTicketSales.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>WebPassengersGenerator_TicketSalesService_WebServiceTicketSales</CachedSettingsPropName>
     </WebReferenceUrl>
   </ItemGroup>
   <PropertyGroup>
