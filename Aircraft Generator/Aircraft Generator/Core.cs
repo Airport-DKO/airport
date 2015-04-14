@@ -61,24 +61,18 @@ namespace Aircraft_Generator
         public bool CreateNewPlane(String name, PlaneType type, int fuelNeed,
             int currentStandartPassengers, int currentVipPassengers, bool hasArrivalPassengers, int currentBaggage)
         {
-            //DEBUG
-            Flight[] fl = GetActualFlights();
-            Flight f = fl.First();
-
             var plane = new Plane(name, PlaneState.Arrival, type, fuelNeed, currentStandartPassengers,
                 currentVipPassengers, currentBaggage, 0, hasArrivalPassengers);
-            plane.Flight = _panel.RegisterPlaneToFlight(plane.Id, f.number);
             _createdPlanes.Add(plane);
-            var task = new Task(() => PlaneLanding(plane));
-            task.Start();
             return true;
         }
 
-        public Flight[] GetActualFlights()
+        public void BindPlaneToFlight(Guid planeId, Guid flightId)
         {
-            _panel.CreateFlight(DateTime.Now, DateTime.Now.AddMinutes(60), Cities.Antananarivo, 200, 20);
-            Flight[] test = _panel.GetAvailableFlights();
-            return test;
+            var plane = Planes.First(p => p.Id == planeId);
+            plane.Flight=_panel.RegisterPlaneToFlight(planeId, flightId);
+            var task = new Task(() => PlaneLanding(plane));
+            task.Start();
         }
 
         public bool LoadPassangers(MapObject serviceZone, List<Guid> passengersGuids)

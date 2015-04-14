@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Ground_Movement_Control.Commons;
 using Ground_Movement_Control.GscWs;
@@ -241,12 +242,12 @@ namespace Ground_Movement_Control
             {
                 if (mapPoint.TryMove(type, id, justTry))
                 {
-                    MapPoint oldPoint = _map.FirstOrDefault(m => m.OwnerGuid == id && m.X != mapPoint.X && m.Y != mapPoint.Y);
+                    MapPoint oldPoint = _map.FirstOrDefault(m => m.OwnerGuid == id && (m.X != mapPoint.X || m.Y != mapPoint.Y));
                     if (oldPoint != null)
                     {
                             oldPoint.MakeVacant();
                     }
-                    //DEBUG
+                    Debug.WriteLine(String.Format("Move object {0} to {1} {2}",type, x,y));
                     _visualisator.MoveObject(VizualizatorWs.MoveObjectType.Plane, id,new VizualizatorWs.CoordinateTuple(){X=x, Y=y},5 );
                     return true;
                 }

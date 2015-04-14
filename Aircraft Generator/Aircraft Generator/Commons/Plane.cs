@@ -1,13 +1,13 @@
 ﻿using System;
-using Aircraft_Generator.GscWs2;
-using MapObject = Aircraft_Generator.GmcVs.MapObject;
-using Flight=Aircraft_Generator.InformationPanelWS.Flight;
+using Aircraft_Generator.GmcVs;
+using Aircraft_Generator.InformationPanelWS;
 
 namespace Aircraft_Generator.Commons
 {
     public class Plane
     {
-        public Plane(string name, PlaneState state, PlaneType type, int fuelNeed, int currentStandartPassengers, int currentVipPassengers, int currentBaggage, int currentCatering, bool hasArrivalPassengers)
+        public Plane(string name, PlaneState state, PlaneType type, int fuelNeed, int currentStandartPassengers,
+            int currentVipPassengers, int currentBaggage, int currentCatering, bool hasArrivalPassengers)
         {
             Id = Guid.NewGuid();
             Name = name;

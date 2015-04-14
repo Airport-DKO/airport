@@ -4,8 +4,6 @@ using System.ComponentModel;
 using System.Web.Services;
 using Aircraft_Generator.Commons;
 using Aircraft_Generator.GmcVs;
-using Aircraft_Generator.InformationPanelWS;
-using MapObject = Aircraft_Generator.GmcVs.MapObject;
 
 namespace Aircraft_Generator
 {
@@ -20,10 +18,11 @@ namespace Aircraft_Generator
     public class AircraftGenerator : WebService
     {
         [WebMethod]
-        public bool CreateNewPlane(string name, PlaneType type, int fuelNeed, int maxStandartPassengers,
-            int maxVipPassengers, bool hasArrivalPassengers)
+        public bool CreateNewPlane(string name, PlaneType type, int fuelNeed, int currentStandartPassengers,
+            int currentVipPassengers, int currentBaggage, bool hasArrivalPassengers)
         {
-            return Core.Instance.CreateNewPlane(name, type, fuelNeed, maxStandartPassengers, maxVipPassengers, true, 100);
+            return Core.Instance.CreateNewPlane(name, type, fuelNeed, currentStandartPassengers, currentVipPassengers,
+                true, currentBaggage);
         }
 
         [WebMethod]
@@ -33,9 +32,9 @@ namespace Aircraft_Generator
         }
 
         [WebMethod]
-        public Flight[] GetActualFlights()
+        public void BindPlaneToFlight(Guid planeId, Guid flightId)
         {
-            return Core.Instance.GetActualFlights();
+            Core.Instance.BindPlaneToFlight(planeId, flightId);
         }
 
         [WebMethod]
@@ -53,7 +52,7 @@ namespace Aircraft_Generator
         [WebMethod]
         public bool LoadPassengers(MapObject serviseZone, List<Guid> passengers)
         {
-            return Core.Instance.LoadPassangers(serviseZone,passengers);
+            return Core.Instance.LoadPassangers(serviseZone, passengers);
         }
 
         [WebMethod]
@@ -65,7 +64,6 @@ namespace Aircraft_Generator
         [WebMethod]
         public bool LoadCatering(MapObject serviseZone, Catering catering)
         {
-
             //TODO
             return false;
         }
@@ -87,6 +85,5 @@ namespace Aircraft_Generator
         {
             return Core.Instance.FollowMeComplete(planeId);
         }
-
     }
 }
