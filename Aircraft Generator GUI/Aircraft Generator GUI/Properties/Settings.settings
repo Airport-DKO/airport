@@ -5,5 +5,8 @@
     <Setting Name="Aircraft_Generator_GUI_AircraftGeneratorWs_AircraftGenerator" Type="(Web Service URL)" Scope="Application">
       <Value Profile="(Default)">http://airport-dko-aircraft-generator.azurewebsites.net/AircraftGenerator.asmx</Value>
     </Setting>
+    <Setting Name="Aircraft_Generator_GUI_InformationPanelWs_WebServiceInformationPanel" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://airport-dko-passengers.azurewebsites.net/WebServiceInformationPanel.asmx</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

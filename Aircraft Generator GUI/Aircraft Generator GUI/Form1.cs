@@ -21,14 +21,11 @@ namespace Aircraft_Generator_GUI
 
         private void GetPlanesList()
         {
-            while (planesGridControl.IsHandleCreated == false)
-            {
-            }
+            while (planesGridControl.IsHandleCreated == false) {}
 
             Plane[] planesList = _aircraftGeneratorWebService.GetAllPlanes();
-                planesGridControl.BeginInvoke((Action) (() => planesGridControl.DataSource = planesList));
-                planesGridControl.BeginInvoke((Action) (() => planesGridControl.RefreshDataSource()));
-            
+            planesGridControl.BeginInvoke((Action) (() => planesGridControl.DataSource = planesList));
+            planesGridControl.BeginInvoke((Action) (() => planesGridControl.RefreshDataSource()));
         }
 
         private void CreateNewPlane(string name, PlaneType type, int fuelNeed, int currentStandartPassangers,
@@ -65,10 +62,19 @@ namespace Aircraft_Generator_GUI
 
         private void bindPlaneToFlightButton_Click(object sender, EventArgs e)
         {
-            int selectedRowNumber=gridView1.GetSelectedRows().First();
-            var row=gridView1.GetRow(selectedRowNumber);
+            if (gridView1.GetSelectedRows() == null)
+            {
+                return;
+            }
+            int selectedRowNumber = gridView1.GetSelectedRows().First();
+            object row = gridView1.GetRow(selectedRowNumber);
             var plane = row as Plane;
-
+            var bp = new BindPlane(plane);
+            bp.ShowDialog();
+            if (bp.DialogResult == DialogResult.OK)
+            {
+                _aircraftGeneratorWebService.BindPlaneToFlight(plane.Id, bp.SelectedFlightGuid);
+                GetPlanesList();}
         }
 
         private void Refresher()

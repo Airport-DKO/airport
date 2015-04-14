@@ -8,7 +8,7 @@ using Ground_Movement_Control.VizualizatorWs;
 using CoordinateTuple = Ground_Movement_Control.Commons.CoordinateTuple;
 using Location = Ground_Movement_Control.Commons.Location;
 using MapObject = Ground_Movement_Control.Commons.MapObject;
-using MapObjectType = Ground_Movement_Control.Commons.MapObjectType;
+using MapObjectType = Ground_Movement_Control.VizualizatorWs.MapObjectType;
 using MoveObjectType = Ground_Movement_Control.Commons.MoveObjectType;
 using Route = Ground_Movement_Control.Commons.Route;
 
@@ -29,17 +29,17 @@ namespace Ground_Movement_Control
         #endregion
 
         private readonly GSC _gsc;
-        private readonly VizualizatorWs.visualisator _visualisator;
         private readonly List<Location> _locations;
         private readonly List<MapPoint> _map;
 
         private readonly List<Tuple<Guid, MapObject>> _planesServiceZones;
         private readonly List<Route> _routes;
+        private readonly visualisator _visualisator;
 
         private Core()
         {
             _gsc = new GSC();
-            _visualisator=new visualisator();
+            _visualisator = new visualisator();
             _planesServiceZones = new List<Tuple<Guid, MapObject>>();
             _map = new List<MapPoint>();
             _routes = new List<Route>();
@@ -49,111 +49,23 @@ namespace Ground_Movement_Control
             GetRoutesFromVizualizator();
         }
 
-        private void GetMapFromVizualizator()
-        {
-            _map.Clear();
-            //Начало заглушки
-            for (int i = 0; i < 18; i++)
-            {
-                for (int j = 0; j < 39; j++)
-                {
-                    _map.Add(new MapPoint(i, j));
-                }
-            }
-            //Конец заглушки
-        }
-
-        private void GetLocationsFromVisualizator()
-        {
-            _locations.Clear();
-            //Начало заглушки
-            _locations.Add(new Location(new CoordinateTuple(0, 0), new MapObject(MapObjectType.Runway, 1)));
-            _locations.Add(new Location(new CoordinateTuple(0, 25), new MapObject(MapObjectType.Runway, 2)));
-            _locations.Add(new Location(new CoordinateTuple(10, 10), new MapObject(MapObjectType.Garage, 0)));
-            _locations.Add(new Location(new CoordinateTuple(5, 0), new MapObject(MapObjectType.Airport, 0)));
-            _locations.Add(new Location(new CoordinateTuple(4, 14), new MapObject(MapObjectType.ServiceArea, 1)));
-            //Конец заглушки
-
-            foreach (Location location in _locations)
-            {
-                if (location.MapObject.MapObjectType != MapObjectType.Runway &&
-                    location.MapObject.MapObjectType != MapObjectType.Airport)
-                {
-                    MapPoint mapPoint = _map.First(m => m.X == location.Position.X && m.Y == location.Position.Y);
-                    mapPoint.IsPublicPlace = true;
-                }
-            }
-        }
-
-        private void GetRoutesFromVizualizator()
-        {
-            _routes.Clear();
-            //Начало заглушки
-            Location neededLocation1 = _locations.FirstOrDefault(
-                l => (l.MapObject.MapObjectType == MapObjectType.Garage) && (l.MapObject.Number == 0));
-            Location neededLocation2 = _locations.FirstOrDefault(
-                l => (l.MapObject.MapObjectType == MapObjectType.ServiceArea) && (l.MapObject.Number == 1));
-            var route = new Route(neededLocation1, neededLocation2, new List<CoordinateTuple>
-            {
-                new CoordinateTuple(4, 15),
-                new CoordinateTuple(5, 15),
-                new CoordinateTuple(5, 16),
-                new CoordinateTuple(5, 17),
-                new CoordinateTuple(5, 18),
-                new CoordinateTuple(5, 19),
-                new CoordinateTuple(5, 20),
-            });
-            neededLocation1.Routes.Add(route);
-
-             neededLocation1 = _locations.FirstOrDefault(
-    l => (l.MapObject.MapObjectType == MapObjectType.Garage) && (l.MapObject.Number == 0));
-             neededLocation2 = _locations.FirstOrDefault(
-                l => (l.MapObject.MapObjectType == MapObjectType.Runway) && (l.MapObject.Number == 1));
-             route = new Route(neededLocation1, neededLocation2, new List<CoordinateTuple>
-            {
-                new CoordinateTuple(4, 15),
-                new CoordinateTuple(5, 15),
-                new CoordinateTuple(5, 16),
-                new CoordinateTuple(5, 17),
-                new CoordinateTuple(5, 18),
-                new CoordinateTuple(5, 19),
-                new CoordinateTuple(5, 20),
-                new CoordinateTuple(5, 21),
-                new CoordinateTuple(5, 22),
-                new CoordinateTuple(5, 23),
-                new CoordinateTuple(5, 24),
-                new CoordinateTuple(5, 25),
-                new CoordinateTuple(6, 25),
-                new CoordinateTuple(7, 25),
-                new CoordinateTuple(8, 25),
-                new CoordinateTuple(9, 25),
-                new CoordinateTuple(0, 25),
-                new CoordinateTuple(1, 25),
-                new CoordinateTuple(2, 25),
-                new CoordinateTuple(3, 25),
-                new CoordinateTuple(4, 25),
-                new CoordinateTuple(5, 25),
-            });
-            neededLocation1.Routes.Add(route);
-
-            _routes.Add(route);
-            //Конец заглушки
-        }
-
         public List<CoordinateTuple> GetRoute(MapObject from, MapObject to)
         {
             Location foundFromLocation = _locations.FirstOrDefault(
                 l => (l.MapObject.MapObjectType == from.MapObjectType) && (l.MapObject.Number == from.Number));
             if (foundFromLocation == null)
             {
+                Debug.WriteLine("Route not send. FROM not found");
                 return new List<CoordinateTuple>();
             }
             Route foundRoute = foundFromLocation.Routes.FirstOrDefault(
                 r => (r.To.MapObject.MapObjectType == to.MapObjectType) && (r.To.MapObject.Number == to.Number));
             if (foundRoute == null)
             {
+                Debug.WriteLine("Route not send. TO not found");
                 return new List<CoordinateTuple>();
             }
+            Debug.WriteLine("Route send from {0} to {1}", from.MapObjectType, to.MapObjectType);
             return foundRoute.Points;
         }
 
@@ -168,6 +80,7 @@ namespace Ground_Movement_Control
             MapPoint runwayMapPoint =
                 _map.First(m => m.X == runwayLocation.Position.X && m.Y == runwayLocation.Position.Y);
             runwayMapPoint.MakeVacant();
+            Debug.WriteLine("Runway released");
         }
 
         public MapObject GetRunway()
@@ -181,11 +94,13 @@ namespace Ground_Movement_Control
             Location runwayLocation = GetActualRunway();
             if (runwayLocation == null)
             {
+                Debug.WriteLine("Declined to land plane {0} - runway not found", planeGuid);
                 return false;
             }
 
             if (!WeatherCheck())
             {
+                Debug.WriteLine("Declined to land plane {0} - bad weather", planeGuid);
                 return false;
             }
 
@@ -193,11 +108,13 @@ namespace Ground_Movement_Control
                 planeGuid, true);
             if (!result)
             {
+                Debug.WriteLine("Declined to land plane {0} - runway is hold", planeGuid);
                 return false;
             }
             GscWs.MapObject serviceZone = _gsc.GetFreePlace(planeGuid);
             if (serviceZone == null)
             {
+                Debug.WriteLine("Declined to land plane {0} - runway no available service zones", planeGuid);
                 return false;
             }
             _planesServiceZones.Add(new Tuple<Guid, MapObject>(planeGuid, serviceZone));
@@ -205,8 +122,11 @@ namespace Ground_Movement_Control
                 planeGuid);
             if (result)
             {
+                Debug.WriteLine("Accepted to land plane {0}", planeGuid);
                 return true;
             }
+            Debug.WriteLine("Declined to land plane {0} - runway is hold but service zone is ready already. fuck",
+                planeGuid);
             return false;
         }
 
@@ -214,14 +134,67 @@ namespace Ground_Movement_Control
         {
             Tuple<Guid, MapObject> tuple = _planesServiceZones.First(t => t.Item1 == planeGuid);
             if (tuple == null)
+            {
                 return null;
+            }
             return tuple.Item2;
+        }
+
+        public List<MapObject> GetServiceZones()
+        {
+            IEnumerable<Location> szones =
+                _locations.Where(l => l.MapObject.MapObjectType == Commons.MapObjectType.ServiceArea);
+            return szones.Select(location => location.MapObject).ToList();
+        }
+
+        private void GetMapFromVizualizator()
+        {
+            _map.Clear();
+            VizualizatorWs.CoordinateTuple[] mapFromVisual = _visualisator.GetMap();
+            foreach (VizualizatorWs.CoordinateTuple coordinateTuple in mapFromVisual)
+            {
+                _map.Add(new MapPoint(coordinateTuple.X, coordinateTuple.Y));
+            }
+            //Конец заглушки
+        }
+
+        private void GetLocationsFromVisualizator()
+        {
+            _locations.Clear();
+            //Начало заглушки
+            VizualizatorWs.Location[] locationsFromVisual = _visualisator.GetMapObjects();
+            foreach (VizualizatorWs.Location location in locationsFromVisual)
+            {
+                if (location.MapObj.Type == MapObjectType.Garage ||
+                    location.MapObj.Type == MapObjectType.ServiceArea)
+                {
+                    MapPoint mapPoint = _map.First(m => m.X == location.Position.X && m.Y == location.Position.Y);
+                    mapPoint.IsPublicPlace = true;
+                }
+                _locations.Add(location);
+            }
+        }
+
+        private void GetRoutesFromVizualizator()
+        {
+            _routes.Clear();
+            VizualizatorWs.Route[] routesFromVisual = _visualisator.GetRoutes();
+            foreach (VizualizatorWs.Route route in routesFromVisual)
+            {
+                Location location =
+                    _locations.First(
+                        l =>
+                            l.MapObject.MapObjectType == (Commons.MapObjectType) route.From.MapObj.Type &&
+                            l.MapObject.Number == route.From.MapObj.number);
+                location.Routes.Add(route);
+            }
+            //Конец заглушки
         }
 
         private Location GetActualRunway()
         {
             // TODO: Продумать реализацию нахождения рабочей взлетной полосы
-            return _locations.FirstOrDefault(l => l.MapObject.MapObjectType == MapObjectType.Runway);
+            return _locations.FirstOrDefault(l => l.MapObject.MapObjectType == Commons.MapObjectType.Runway);
         }
 
         private bool WeatherCheck()
@@ -236,30 +209,63 @@ namespace Ground_Movement_Control
             MapPoint mapPoint = _map.FirstOrDefault(m => m.X == x && m.Y == y);
             if (mapPoint == null)
             {
+                Debug.WriteLine("Declined to move object {0} to {1} {2} - NO MAP POINT FOUND", type, x, y);
                 return false;
+            }
+            if (mapPoint.IsPublicPlace)
+            {
+                Debug.WriteLine("Move object {0} to {1} {2} PUBLIC PLACE BECOUSE HUESOS", type, x, y);
+                _visualisator.MoveObject((VizualizatorWs.MoveObjectType) type, id,
+                    new VizualizatorWs.CoordinateTuple {X = x, Y = y}, 10);
+                MapPoint oldPoint =
+                        _map.FirstOrDefault(m => m.OwnerGuid == id && (m.X != mapPoint.X || m.Y != mapPoint.Y));
+                if (oldPoint != null)
+                {
+                    oldPoint.MakeVacant();
+                }
+
+                return true;
             }
             if (mapPoint.State == MapPointState.Vacant)
             {
                 if (mapPoint.TryMove(type, id, justTry))
                 {
-                    MapPoint oldPoint = _map.FirstOrDefault(m => m.OwnerGuid == id && (m.X != mapPoint.X || m.Y != mapPoint.Y));
+                    MapPoint oldPoint =
+                        _map.FirstOrDefault(m => m.OwnerGuid == id && (m.X != mapPoint.X || m.Y != mapPoint.Y));
                     if (oldPoint != null)
                     {
-                            oldPoint.MakeVacant();
+                        oldPoint.MakeVacant();
                     }
-                    Debug.WriteLine(String.Format("Move object {0} to {1} {2}",type, x,y));
-                    _visualisator.MoveObject(VizualizatorWs.MoveObjectType.Plane, id,new VizualizatorWs.CoordinateTuple(){X=x, Y=y},5 );
+                    Debug.WriteLine("Move object {0} to {1} {2}", type, x, y);
+                    if (!justTry)
+                    {
+                        _visualisator.MoveObject((VizualizatorWs.MoveObjectType) type, id,
+                            new VizualizatorWs.CoordinateTuple {X = x, Y = y}, 10);
+                    }
                     return true;
                 }
+                Debug.WriteLine("Declined to move object {0} to {1} {2} - MAP POINT WAS JUST HOLDED", type, x, y);
                 return false;
             }
+            if (mapPoint.OwnerGuid == id)
+            {
+                return true;
+            }
+            if (mapPoint.OwnerType == MoveObjectType.Plane && type == MoveObjectType.FollowMeVan)
+            {
+                Debug.WriteLine("Move object {0} to {1} {2} THIS IS FOLLOW ME INDA PLANE", type, x, y);
+                _visualisator.MoveObject((VizualizatorWs.MoveObjectType) type, id,
+                    new VizualizatorWs.CoordinateTuple {X = x, Y = y}, 10);
+                MapPoint oldPoint =
+                        _map.FirstOrDefault(m => m.OwnerGuid == id && (m.X != mapPoint.X || m.Y != mapPoint.Y));
+                if (oldPoint != null)
+                {
+                    oldPoint.MakeVacant();
+                }
+                return true;
+            }
+            Debug.WriteLine("Declined to move object {0} to {1} {2} - HOLD POINT", type, x, y);
             return false;
-        }
-
-        public List<MapObject> GetServiceZones()
-        {
-            var szones=_locations.Where(l => l.MapObject.MapObjectType == MapObjectType.ServiceArea);
-            return szones.Select(location => location.MapObject).ToList();
         }
     }
 }

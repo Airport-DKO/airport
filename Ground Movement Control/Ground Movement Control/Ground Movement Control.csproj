@@ -76,10 +76,10 @@
     <Content Include="Web References\VizualizatorWs\Location.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </Content>
-    <Content Include="Web References\VizualizatorWs\Reference.map">
+    <None Include="Web References\VizualizatorWs\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
-    </Content>
+    </None>
     <Content Include="Web References\VizualizatorWs\Route.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </Content>
@@ -174,7 +174,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>1975</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
