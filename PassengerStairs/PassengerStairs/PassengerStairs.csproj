@@ -39,6 +39,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="RabbitMQ.Client">
+      <HintPath>..\packages\RabbitMQ.Client.3.5.1\lib\net40\RabbitMQ.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -57,24 +61,42 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="packages.config" />
     <None Include="Properties\PublishProfiles\airport-dko-services.pubxml" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <Content Include="Web References\CheckinVS\Catering.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <None Include="Web References\CheckinVS\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\CheckinVS\WebServiceCheckIn.disco" />
     <Content Include="Web References\GmcVS\CoordinateTuple.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </Content>
+    <None Include="Web References\CheckinVS\WebServiceCheckIn.wsdl" />
     <None Include="Web References\GmcVS\gmc.wsdl" />
-    <Content Include="Web References\GmcVS\Reference.map">
+    <Content Include="Web References\GmcVS\MapObject.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <None Include="Web References\GmcVS\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
-    </Content>
+    </None>
     <None Include="Web References\GscVS\gsc.wsdl" />
     <Content Include="Web References\GscVS\MapObject.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </Content>
-    <Content Include="Web References\GscVS\Reference.map">
+    <None Include="Web References\GscVS\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\MetrologServiceVS\MetrologService.wsdl" />
+    <Content Include="Web References\MetrologServiceVS\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </Content>
@@ -89,10 +111,13 @@
     <Content Include="PassengerStairs.asmx" />
     <None Include="Web References\GmcVS\gmc.disco" />
     <None Include="Web References\GscVS\gsc.disco" />
+    <None Include="Web References\MetrologServiceVS\MetrologService.disco" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Car.cs" />
+    <Compile Include="Logger.cs" />
+    <Compile Include="Metrological.cs" />
     <Compile Include="PassengerStairs.asmx.cs">
       <DependentUpon>PassengerStairs.asmx</DependentUpon>
       <SubType>Component</SubType>
@@ -103,12 +128,23 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="SpecialThead.cs" />
+    <Compile Include="Web References\CheckinVS\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
     <Compile Include="Web References\GmcVS\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.map</DependentUpon>
     </Compile>
     <Compile Include="Web References\GscVS\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\MetrologServiceVS\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.map</DependentUpon>
@@ -143,6 +179,28 @@
       </CachedDynamicPropName>
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>PassengerStairs_GscVS_GSC</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://airport-dko-metrological.azurewebsites.net/MetrologService.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\MetrologServiceVS\</RelPath>
+      <UpdateFromURL>http://airport-dko-metrological.azurewebsites.net/MetrologService.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>PassengerStairs_MetrologServiceVS_MetrologService</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://airport-dko-passengers.azurewebsites.net/WebServiceCheckIn.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\CheckinVS\</RelPath>
+      <UpdateFromURL>http://airport-dko-passengers.azurewebsites.net/WebServiceCheckIn.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>PassengerStairs_CheckinVS_WebServiceCheckIn</CachedSettingsPropName>
     </WebReferenceUrl>
   </ItemGroup>
   <PropertyGroup>

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using VIPShuttle.AircraftgeneratorVS;
+using VIPShuttle.CheckinVS;
 using VIPShuttle.GscVS;
 using MapObject = VIPShuttle.GmcVS.MapObject;
 using MapObjectType = VIPShuttle.GmcVS.MapObjectType;
@@ -12,6 +14,7 @@ namespace VIPShuttle
     {
         private static readonly MapObject Garage;
         private static readonly MapObject Airport;
+        private const string ComponentName = "VIPShuttle";
 
         static Worker()
         {
@@ -21,6 +24,9 @@ namespace VIPShuttle
 
         public static void ToAirport(MapObject serviceZone, int countOfPassengers, ServiceTaskId taskId)
         {
+            Logger.SendMessage(0, ComponentName,
+                String.Format("Задание получено: забрать {1} пассажиров VIP-класса с борта на площадке номер {0}", serviceZone.Number, countOfPassengers));
+
             var cars = new List<Car>();
             var tasks = new List<Task>();
 
@@ -34,8 +40,11 @@ namespace VIPShuttle
                 var t = new Task(() =>
                 {
                     car.GoTo(Garage, serviceZone);
-                    new AircraftGenerator().UnloadPassengers(serviceZone, 1);//забираем пассажира у Генератора Самолетов
+                    new AircraftGenerator().UnloadVipPassengers(serviceZone, 1);//забираем пассажира у Генератора Самолетов
                     car.GoTo(serviceZone, Airport);
+                    Logger.SendMessage(1, ComponentName,
+                       String.Format("1 пассажир вывезен с борта на площадке {0}", serviceZone.Number));
+                
                 });
                 t.Start();
 
@@ -49,7 +58,13 @@ namespace VIPShuttle
             //ожидаем выполнения заданий
             Task.WaitAll(tasks.ToArray());
 
+            Logger.SendMessage(0, ComponentName,
+                String.Format("Задание выполнено: забрать {1} пассажиров VIP-класса с борта на площадке номер {0}", serviceZone.Number, countOfPassengers));
+
             new GSC().Done(taskId);//сообщаем Управлению Наземным Обслуживанием, что задание выполнено
+
+            Logger.SendMessage(0, ComponentName,
+                String.Format("Машины возвращаются с площадки номер {0} в гараж", serviceZone.Number));
 
             foreach (var car in cars)
             {
@@ -61,6 +76,9 @@ namespace VIPShuttle
 
         public static void ToPlain(MapObject serviceZone, Guid flightNumber, ServiceTaskId taskId)
         {
+            Logger.SendMessage(0, ComponentName,
+                String.Format("Задание получено: доставить пассажиров на борт на площадке номер {0}", serviceZone.Number));
+
             var passengers = GetPassengers(flightNumber);
 
             var cars = new List<Car>();
@@ -74,7 +92,9 @@ namespace VIPShuttle
                 {
                     car.GoTo(Garage,Airport);
                     car.GoTo(Airport,serviceZone);
-                    new AircraftGenerator().LoadPassengers(serviceZone, (new List<Guid> {passengers[i]}).ToArray());//сажаем пассажира в Генератор Самолетов 
+                    new AircraftGenerator().LoadVipPassengers(serviceZone, (new List<Guid> {passengers[i]}).ToArray());//сажаем пассажира в Генератор Самолетов 
+                    Logger.SendMessage(1, ComponentName,
+                        String.Format("й пассажир доставлен на борт на площадке {0}.", serviceZone.Number));
                 });
                 t.Start();
                 tasks.Add(t);
@@ -83,7 +103,11 @@ namespace VIPShuttle
 
             Task.WaitAll(tasks.ToArray());
 
-            new GSC().Done(taskId);//сообщаем Управлению Наземным Обслуживанием, что задание выполнено
+            Logger.SendMessage(0, ComponentName, String.Format("Задание выполнено: доставить пассажиров на борт на площадке номер {0}", serviceZone.Number));
+
+            new GSC().Done(taskId); //сообщаем Управлению Наземным Обслуживанием, что задание выполнено
+
+            Logger.SendMessage(0, ComponentName, String.Format("Машины возвращаются с площадки номер {0} в гараж.", serviceZone.Number));
 
             foreach (var car in cars)
             {
@@ -99,8 +123,9 @@ namespace VIPShuttle
         /// <returns></returns>
         public static List<Guid> GetPassengers(Guid flightNumber)
         {
-            //TODO: запросить пассажиров у Регистрации return GetVips(flightNumber); 
-            return new List<Guid>();
+            var countOfPassengers = new WebServiceCheckIn().GetVips(flightNumber).ToList(); //запросить пассажиров у Регистрации
+            Logger.SendMessage(1, ComponentName, String.Format("Получена информация, что на рейс {0} зарегистрированно {1} пассажиров VIP-класса.", flightNumber, countOfPassengers));
+            return countOfPassengers;
         }
     }
 }

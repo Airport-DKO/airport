@@ -42,5 +42,15 @@ namespace Refueler.Properties {
                 return ((string)(this["Refueler_GscVS_GSC"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://airport-dko-metrological.azurewebsites.net/MetrologService.asmx")]
+        public string Refueler_MetrologServiceVS_MetrologService {
+            get {
+                return ((string)(this["Refueler_MetrologServiceVS_MetrologService"]));
+            }
+        }
     }
 }

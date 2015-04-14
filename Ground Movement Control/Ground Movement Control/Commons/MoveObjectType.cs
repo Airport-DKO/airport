@@ -12,6 +12,7 @@
         PassengerStairs,
         PassengerBus,
         VipShuttle,
-        SnowRemovalVehicle
+        SnowRemovalVehicle,
+        Refueler
     }
 }

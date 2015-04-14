@@ -32,4 +32,5 @@
 
 Генератор пассажиров - http://airport-dko-passengers.azurewebsites.net/WebServicePassengersGenerator.asmx
 
+Метрологическая служба - http://airport-dko-metrological.azurewebsites.net/MetrologService.asmx
 

@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:s1="http://microsoft.com/wsdl/types/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:import namespace="http://microsoft.com/wsdl/types/" />
+      <s:element name="GenerateRandomPassengers">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="count" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GenerateRandomPassengersResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="GeneratePassenger">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="food" type="tns:Food" />
+            <s:element minOccurs="1" maxOccurs="1" name="baggage" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:simpleType name="Food">
+        <s:restriction base="s:string">
+          <s:enumeration value="Diabetic" />
+          <s:enumeration value="Vegetarian" />
+          <s:enumeration value="Children" />
+          <s:enumeration value="LowCalorie" />
+          <s:enumeration value="Default" />
+        </s:restriction>
+      </s:simpleType>
+      <s:element name="GeneratePassengerResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="PassengerBehavior">
+        <s:complexType />
+      </s:element>
+      <s:element name="PassengerBehaviorResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="onPlane">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="passengerId" type="s1:guid" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="onPlaneResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="onPlaneResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetPassengersInfo">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetPassengersInfoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetPassengersInfoResult" type="tns:PassengersStatistic" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="PassengersStatistic">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Created" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="Buy" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="Return" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="Registred" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="OnBoard" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetPassengersList">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetPassengersListResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetPassengersListResult" type="tns:ArrayOfPassenger" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfPassenger">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Passenger" nillable="true" type="tns:Passenger" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Passenger">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="ID" type="s1:guid" />
+          <s:element minOccurs="1" maxOccurs="1" name="State" type="tns:PassengerState" />
+          <s:element minOccurs="1" maxOccurs="1" name="PreferFood" type="tns:Food" />
+          <s:element minOccurs="1" maxOccurs="1" name="WeightBaggage" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Ticket" type="tns:Ticket" />
+        </s:sequence>
+      </s:complexType>
+      <s:simpleType name="PassengerState">
+        <s:restriction base="s:string">
+          <s:enumeration value="Created" />
+          <s:enumeration value="Buy" />
+          <s:enumeration value="Registered" />
+          <s:enumeration value="Onboard" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="Ticket">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="PassengerID" type="s1:guid" />
+          <s:element minOccurs="1" maxOccurs="1" name="FlightID" type="s1:guid" />
+          <s:element minOccurs="1" maxOccurs="1" name="TicketClass" type="tns:Class" />
+        </s:sequence>
+      </s:complexType>
+      <s:simpleType name="Class">
+        <s:restriction base="s:string">
+          <s:enumeration value="Vip" />
+          <s:enumeration value="Econom" />
+        </s:restriction>
+      </s:simpleType>
+    </s:schema>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://microsoft.com/wsdl/types/">
+      <s:simpleType name="guid">
+        <s:restriction base="s:string">
+          <s:pattern value="[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}" />
+        </s:restriction>
+      </s:simpleType>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="GenerateRandomPassengersSoapIn">
+    <wsdl:part name="parameters" element="tns:GenerateRandomPassengers" />
+  </wsdl:message>
+  <wsdl:message name="GenerateRandomPassengersSoapOut">
+    <wsdl:part name="parameters" element="tns:GenerateRandomPassengersResponse" />
+  </wsdl:message>
+  <wsdl:message name="GeneratePassengerSoapIn">
+    <wsdl:part name="parameters" element="tns:GeneratePassenger" />
+  </wsdl:message>
+  <wsdl:message name="GeneratePassengerSoapOut">
+    <wsdl:part name="parameters" element="tns:GeneratePassengerResponse" />
+  </wsdl:message>
+  <wsdl:message name="PassengerBehaviorSoapIn">
+    <wsdl:part name="parameters" element="tns:PassengerBehavior" />
+  </wsdl:message>
+  <wsdl:message name="PassengerBehaviorSoapOut">
+    <wsdl:part name="parameters" element="tns:PassengerBehaviorResponse" />
+  </wsdl:message>
+  <wsdl:message name="onPlaneSoapIn">
+    <wsdl:part name="parameters" element="tns:onPlane" />
+  </wsdl:message>
+  <wsdl:message name="onPlaneSoapOut">
+    <wsdl:part name="parameters" element="tns:onPlaneResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetPassengersInfoSoapIn">
+    <wsdl:part name="parameters" element="tns:GetPassengersInfo" />
+  </wsdl:message>
+  <wsdl:message name="GetPassengersInfoSoapOut">
+    <wsdl:part name="parameters" element="tns:GetPassengersInfoResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetPassengersListSoapIn">
+    <wsdl:part name="parameters" element="tns:GetPassengersList" />
+  </wsdl:message>
+  <wsdl:message name="GetPassengersListSoapOut">
+    <wsdl:part name="parameters" element="tns:GetPassengersListResponse" />
+  </wsdl:message>
+  <wsdl:portType name="WebServicePassengersGeneratorSoap">
+    <wsdl:operation name="GenerateRandomPassengers">
+      <wsdl:input message="tns:GenerateRandomPassengersSoapIn" />
+      <wsdl:output message="tns:GenerateRandomPassengersSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GeneratePassenger">
+      <wsdl:input message="tns:GeneratePassengerSoapIn" />
+      <wsdl:output message="tns:GeneratePassengerSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="PassengerBehavior">
+      <wsdl:input message="tns:PassengerBehaviorSoapIn" />
+      <wsdl:output message="tns:PassengerBehaviorSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="onPlane">
+      <wsdl:input message="tns:onPlaneSoapIn" />
+      <wsdl:output message="tns:onPlaneSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetPassengersInfo">
+      <wsdl:input message="tns:GetPassengersInfoSoapIn" />
+      <wsdl:output message="tns:GetPassengersInfoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetPassengersList">
+      <wsdl:input message="tns:GetPassengersListSoapIn" />
+      <wsdl:output message="tns:GetPassengersListSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="WebServicePassengersGeneratorSoap" type="tns:WebServicePassengersGeneratorSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GenerateRandomPassengers">
+      <soap:operation soapAction="http://tempuri.org/GenerateRandomPassengers" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GeneratePassenger">
+      <soap:operation soapAction="http://tempuri.org/GeneratePassenger" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PassengerBehavior">
+      <soap:operation soapAction="http://tempuri.org/PassengerBehavior" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="onPlane">
+      <soap:operation soapAction="http://tempuri.org/onPlane" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPassengersInfo">
+      <soap:operation soapAction="http://tempuri.org/GetPassengersInfo" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPassengersList">
+      <soap:operation soapAction="http://tempuri.org/GetPassengersList" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="WebServicePassengersGeneratorSoap12" type="tns:WebServicePassengersGeneratorSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GenerateRandomPassengers">
+      <soap12:operation soapAction="http://tempuri.org/GenerateRandomPassengers" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GeneratePassenger">
+      <soap12:operation soapAction="http://tempuri.org/GeneratePassenger" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PassengerBehavior">
+      <soap12:operation soapAction="http://tempuri.org/PassengerBehavior" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="onPlane">
+      <soap12:operation soapAction="http://tempuri.org/onPlane" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPassengersInfo">
+      <soap12:operation soapAction="http://tempuri.org/GetPassengersInfo" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPassengersList">
+      <soap12:operation soapAction="http://tempuri.org/GetPassengersList" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="WebServicePassengersGenerator">
+    <wsdl:port name="WebServicePassengersGeneratorSoap" binding="tns:WebServicePassengersGeneratorSoap">
+      <soap:address location="http://airport-dko-passengers.azurewebsites.net/WebServicePassengersGenerator.asmx" />
+    </wsdl:port>
+    <wsdl:port name="WebServicePassengersGeneratorSoap12" binding="tns:WebServicePassengersGeneratorSoap12">
+      <soap12:address location="http://airport-dko-passengers.azurewebsites.net/WebServicePassengersGenerator.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

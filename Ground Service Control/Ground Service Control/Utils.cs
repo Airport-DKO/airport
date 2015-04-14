@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Web;
 
 namespace Ground_Service_Control
@@ -13,7 +14,10 @@ namespace Ground_Service_Control
         }
 
         private Utils()
-        {}
+        {
+            m_queue = new MessageQueue();
+            m_timeService = new MetrologService.MetrologService();
+        }
 
         private static readonly Utils m_self = new Utils();
 
@@ -23,19 +27,41 @@ namespace Ground_Service_Control
         /// <returns></returns>
         public int systemTime(int time)
         {
-            //TODO: метрологическая служба.
-            return time;
+            return (int)(time / m_timeService.GetCurrentTick());
         }
 
-        public double temperature()
+        /// <summary>
+        /// Ждёт указанное кол-во времени (время автоматически переводится в системное)
+        /// </summary>
+        /// <param name="time"></param>
+        public void sleep(int time)
         {
-            //TODO: метеорологическая служба.
-            return 20;
+            while(time >= 0){
+                Thread.Sleep(Utils.self().systemTime(1000));
+                time -= 1000;
+            }
+        }
+
+        /// <summary>
+        /// Ждёт, покарегистрация на самолёт не завершится
+        /// </summary>
+        /// <param name="plane"></param>
+        public void waitTillCheckInFinished(Guid plane)
+        {
+            var tablo = new WebServiceInformationPanel.WebServiceInformationPanel();
+            while (!tablo.IsCheckInFinished(plane))
+            {
+                Thread.Sleep(Utils.self().systemTime(1000));
+            }
         }
 
         public void log(string message)
         {
-            //TODO: логгер
+            //TODO: Uncomment
+            //m_queue.queueMessage(message, m_timeService.GetCurrentTime());
         }
+
+        private MessageQueue m_queue = null;
+        private MetrologService.MetrologService m_timeService = null;
     }
 }

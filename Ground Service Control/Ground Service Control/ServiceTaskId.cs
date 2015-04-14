@@ -10,11 +10,53 @@ namespace Ground_Service_Control
     /// </summary>
     public class ServiceTaskId
     {
-        internal Guid plane;
-        internal ServiceTaskType type;
+        public Guid plane;
+        public ServiceTaskType type;
+
+        public static implicit operator BaggageTractor.ServiceTaskId(ServiceTaskId d)
+        {
+            //FIXME:
+            return new BaggageTractor.ServiceTaskId();
+        }
+
+        public static implicit operator ContainerLoader.ServiceTaskId(ServiceTaskId d)
+        {
+            //FIXME:
+            return new ContainerLoader.ServiceTaskId();
+        }
+
+        public static implicit operator PassengerStairs.ServiceTaskId(ServiceTaskId d)
+        {
+            //FIXME:
+            return new PassengerStairs.ServiceTaskId();
+        }
+
+        public static implicit operator CateringTruck.ServiceTaskId(ServiceTaskId d)
+        {
+            //FIXME:
+            return new CateringTruck.ServiceTaskId();
+        }
+
+        public static implicit operator PassengerBus.ServiceTaskId(ServiceTaskId d)
+        {
+            //FIXME:
+            return new PassengerBus.ServiceTaskId();
+        }
+
+        public static implicit operator Refueler.ServiceTaskId(ServiceTaskId d)
+        {
+            //FIXME:
+            return new Refueler.ServiceTaskId();
+        }
+
+        public static implicit operator VIPShuttle.ServiceTaskId(ServiceTaskId d)
+        {
+            //FIXME:
+            return new VIPShuttle.ServiceTaskId();
+        }
     };
 
-    internal enum ServiceTaskType
+    public enum ServiceTaskType
     {
         None,
         /// <summary>
@@ -28,8 +70,7 @@ namespace Ground_Service_Control
         /// <summary>
         /// Погрузчик багажа (типа трапа?)
         /// </summary>
-        ContainerLoader, 
-        Deicer,
+        ContainerLoader,
         PassengerBus,
         /// <summary>
         /// Трап

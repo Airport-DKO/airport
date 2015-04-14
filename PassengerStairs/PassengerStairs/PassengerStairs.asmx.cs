@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using System.Web.Services;
 using PassengerStairs.GscVS;
 using MapObject = PassengerStairs.GmcVS.MapObject;
@@ -19,12 +20,13 @@ namespace PassengerStairs
         /// Метод, который вызывает трап на площадку обслуживания самолета
         /// </summary>
         /// <param name="serviceZone">площадка, на которой находится обслуживаемый самолет</param>
+        /// <param name="flightNumber">номер рейса</param>
         /// <param name="taskId">номер задания</param>
         /// <returns></returns>
         [WebMethod]
-        public bool ToServiceZone(MapObject serviceZone, ServiceTaskId taskId)
+        public bool ToServiceZone(MapObject serviceZone, Guid flightNumber, ServiceTaskId taskId)
         {
-            var t = new Task(() => Worker.GoToServiceZone(serviceZone, taskId));
+            var t = new Task(() => Worker.GoToServiceZone(serviceZone, flightNumber, taskId));
             t.Start(); //запускаем асинхронно
 
             return true;

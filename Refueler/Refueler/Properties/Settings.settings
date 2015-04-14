@@ -8,5 +8,8 @@
     <Setting Name="Refueler_GscVS_GSC" Type="(Web Service URL)" Scope="Application">
       <Value Profile="(Default)">http://airport-dko-gsc.azurewebsites.net/gsc.asmx</Value>
     </Setting>
+    <Setting Name="Refueler_MetrologServiceVS_MetrologService" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://airport-dko-metrological.azurewebsites.net/MetrologService.asmx</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -1,0 +1,12 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Ground_Movement_Control.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="Ground_Movement_Control_GscWs_GSC" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://airport-dko-gsc.azurewebsites.net/gsc.asmx</Value>
+    </Setting>
+    <Setting Name="Ground_Movement_Control_VizualizatorWs_visualisator" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://airport-dko-1.cloudapp.net/visualisator.asmx</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

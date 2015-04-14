@@ -19,6 +19,7 @@ namespace Ground_Service_Control
         public int VIPPassengers;
         public int baggage;
         public int fuelingNeeds;
+        public GMC.MapObject serviceZone;
     };
 
     internal class TasksGenerator
@@ -35,42 +36,52 @@ namespace Ground_Service_Control
         //    3. Заправка.
         //       4. Принять пассажиров.
         //5. Все операции завершены:
-        //    Антиобледенитель и взлёт.
+        //    Убрать трапы и взлёт.
         static public PlaneTask generateListOfTasksForPlane(PlaneNeeds plane)
         {
             var factory = new ServiceTaskFactory(plane);
 
             var task = new PlaneTask(plane);
 
-            var luggageTrap = factory.createContainerLoader();
-            var luggageUnload = factory.createBaggageTractor(false);
-            var luggageLoad = factory.createBaggageTractor(true);
+            var luggageTrapOut = factory.createContainerLoader(ServiceTaskRole.UnloadPlane);
+            var luggageUnload = factory.createBaggageTractor(ServiceTaskRole.UnloadPlane);
+            var luggageTrapIn = factory.createContainerLoader(ServiceTaskRole.LoadPlane);
+            var luggageLoad = factory.createBaggageTractor(ServiceTaskRole.LoadPlane);
+            var luggageTrapToGarage = factory.createContainerLoader(ServiceTaskRole.MoveToGarage);
 
-            luggageUnload.nextTasks.Add(luggageLoad);
-            luggageTrap.nextTasks.Add(luggageUnload);
+            luggageTrapIn.nextTasks.Add(luggageTrapToGarage);
+            luggageTrapIn.nextTasks.Add(luggageLoad);
+            luggageUnload.nextTasks.Add(luggageTrapIn);
+            luggageTrapOut.nextTasks.Add(luggageUnload);
 
-            var trap = factory.createPassengerStairs();
-            var vipPassangersOut = factory.createVIPShuttle(false);
-            var passangersOut = factory.createPassengerBus(false);
+            var trapOut = factory.createPassengerStairs(ServiceTaskRole.UnloadPlane);
+            var vipPassangersOut = factory.createVIPShuttle(ServiceTaskRole.UnloadPlane);
+            var passangersOut = factory.createPassengerBus(ServiceTaskRole.UnloadPlane);
             var food = factory.createCateringTruck();
             var fuel = factory.createRefueler();
-            var vipPassangersIn = factory.createVIPShuttle(true);
-            var passangersIn = factory.createPassengerBus(true);
-            var deicing = factory.createDeicer();
+            var trapIn = factory.createPassengerStairs(ServiceTaskRole.LoadPlane);
+            var vipPassangersIn = factory.createVIPShuttle(ServiceTaskRole.LoadPlane);
+            var passangersIn = factory.createPassengerBus(ServiceTaskRole.LoadPlane);
+            var trapToGarage = factory.createPassengerStairs(ServiceTaskRole.MoveToGarage);
 
-            passangersIn.nextTasks.Add(deicing);
+            passangersIn.nextTasks.Add(trapToGarage);
 
-            fuel.nextTasks.Add(vipPassangersIn);
-            fuel.nextTasks.Add(passangersIn);
+            fuel.nextTasks.Add(trapIn);
+            trapIn.nextTasks.Add(vipPassangersIn);
+            trapIn.nextTasks.Add(passangersIn);
 
             passangersOut.nextTasks.Add(food);
             passangersOut.nextTasks.Add(fuel);
 
-            trap.nextTasks.Add(vipPassangersOut);
-            trap.nextTasks.Add(passangersOut);
+            trapOut.nextTasks.Add(vipPassangersOut);
+            trapOut.nextTasks.Add(passangersOut);
 
-            task.AddTask(luggageTrap);
-            task.AddTask(trap);
+
+            var initTask = factory.createInitialTask();
+            initTask.nextTasks.Add(trapOut);
+            initTask.nextTasks.Add(luggageTrapOut);
+
+            task.AddTask(initTask);
 
             return task;
         }

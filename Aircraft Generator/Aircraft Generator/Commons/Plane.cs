@@ -1,28 +1,24 @@
 ﻿using System;
-using Aircraft_Generator.GscWs2;
-using MapObject = Aircraft_Generator.GmcVs.MapObject;
+using Aircraft_Generator.GmcVs;
+using Aircraft_Generator.InformationPanelWS;
 
 namespace Aircraft_Generator.Commons
 {
     public class Plane
     {
-        public Plane(string name, PlaneState state, PlaneType type, int fuelNeed, int maxStandartPassengers,
-            int maxVipPassengers, bool hasArrivalPassengers)
+        public Plane(string name, PlaneState state, PlaneType type, int fuelNeed, int currentStandartPassengers,
+            int currentVipPassengers, int currentBaggage, int currentCatering, bool hasArrivalPassengers)
         {
             Id = Guid.NewGuid();
             Name = name;
             State = state;
             Type = type;
             FuelNeed = fuelNeed;
-            MaxStandartPassengers = maxStandartPassengers;
-            MaxVipPassengers = maxVipPassengers;
+            CurrentStandartPassengers = currentStandartPassengers;
+            CurrentVipPassengers = currentVipPassengers;
+            CurrentBaggage = currentBaggage;
+            CurrentCatering = currentCatering;
             HasArrivalPassengers = hasArrivalPassengers;
-
-            // Отправка запроса в Табло и получение номера рейса
-
-            // Начало заглушки
-            Flight = new Flight();
-            // Конец заглушки
         }
 
         public Plane()
@@ -35,8 +31,10 @@ namespace Aircraft_Generator.Commons
         public PlaneState State { get; set; }
         public PlaneType Type { get; set; }
         public Int32 FuelNeed { get; set; }
-        public Int32 MaxStandartPassengers { get; set; }
-        public Int32 MaxVipPassengers { get; set; }
+        public Int32 CurrentStandartPassengers { get; set; }
+        public Int32 CurrentVipPassengers { get; set; }
+        public Int32 CurrentBaggage { get; set; }
+        public Int32 CurrentCatering { get; set; }
         public bool HasArrivalPassengers { get; set; }
 
         public MapObject ServiceZone { get; set; }

@@ -30,7 +30,7 @@ namespace Ground_Movement_Control.Commons
             OwnerType = MoveObjectType.None;
         }
 
-        public bool TryMove(MoveObjectType ownersType, Guid ownersGuid)
+        public bool TryMove(MoveObjectType ownersType, Guid ownersGuid, bool justTry=false)
         {
             if (IsPublicPlace)
             {
@@ -40,9 +40,12 @@ namespace Ground_Movement_Control.Commons
             {
                 if (State == MapPointState.Vacant)
                 {
-                    State=MapPointState.Hold;
-                    OwnerGuid = ownersGuid;
-                    OwnerType = ownersType;
+                    if (!justTry)
+                    {
+                        State = MapPointState.Hold;
+                        OwnerGuid = ownersGuid;
+                        OwnerType = ownersType;
+                    }
                     return true;
                 }
                 else

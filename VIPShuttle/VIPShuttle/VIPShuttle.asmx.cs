@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Services;
 using VIPShuttle.GscVS;
 using MapObject = VIPShuttle.GmcVS.MapObject;
@@ -52,6 +49,7 @@ namespace VIPShuttle
             return true;
         }
 
+        /*
         /// <summary>
         /// Метод, который позволяет определить, есть ли пассажиры на данный рейс
         /// </summary>
@@ -63,5 +61,6 @@ namespace VIPShuttle
             var count = Worker.GetPassengers(flightNumber).Count; //запрашиваем количество пассажиров
             return count > 0; //возвращаем true, если пассажиры есть
         }
+        */
     }
 }

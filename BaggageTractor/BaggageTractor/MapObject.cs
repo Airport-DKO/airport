@@ -10,14 +10,12 @@
                 Number = obj.Number
             };
             return newobj;
-
         }
 
         public static implicit operator MapObject(AircraftGeneratorVS.MapObject obj)
         {
             var newobj = new MapObject {MapObjectType = (MapObjectType) obj.MapObjectType, Number = obj.Number};
             return newobj;
-
         }
     }
 }

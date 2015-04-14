@@ -4,7 +4,6 @@ using System.ComponentModel;
 using System.Web.Services;
 using Aircraft_Generator.Commons;
 using Aircraft_Generator.GmcVs;
-using MapObject = Aircraft_Generator.GmcVs.MapObject;
 
 namespace Aircraft_Generator
 {
@@ -19,17 +18,23 @@ namespace Aircraft_Generator
     public class AircraftGenerator : WebService
     {
         [WebMethod]
-        public bool CreateNewPlane(string name, PlaneType type, int fuelNeed, int maxStandartPassengers,
-            int maxVipPassengers, bool hasArrivalPassengers)
+        public bool CreateNewPlane(string name, PlaneType type, int fuelNeed, int currentStandartPassengers,
+            int currentVipPassengers, int currentBaggage, bool hasArrivalPassengers)
         {
-            return Core.Instance.CreateNewPlane(name, type, fuelNeed, maxStandartPassengers, maxVipPassengers,
-                hasArrivalPassengers);
+            return Core.Instance.CreateNewPlane(name, type, fuelNeed, currentStandartPassengers, currentVipPassengers,
+                true, currentBaggage);
         }
 
         [WebMethod]
         public List<Plane> GetAllPlanes()
         {
             return Core.Instance.Planes;
+        }
+
+        [WebMethod]
+        public void BindPlaneToFlight(Guid planeId, Guid flightId)
+        {
+            Core.Instance.BindPlaneToFlight(planeId, flightId);
         }
 
         [WebMethod]
@@ -45,15 +50,33 @@ namespace Aircraft_Generator
         }
 
         [WebMethod]
-        public bool LoadPassengers(MapObject serviseZone, List<Guid> passengers)
+        public bool LoadStandartPassengers(MapObject serviseZone, List<Guid> passengers)
         {
-            return Core.Instance.LoadPassangers(serviseZone,passengers);
+            return Core.Instance.LoadStandartPassangers(serviseZone, passengers);
         }
 
         [WebMethod]
-        public bool UnloadPassengers(MapObject serviseZone, int countOfPassengers)
+        public bool LoadVipPassengers(MapObject serviseZone, List<Guid> passengers)
         {
-            return Core.Instance.UnloadPassangers(serviseZone, countOfPassengers);
+            return Core.Instance.LoadVipPassangers(serviseZone, passengers);
+        }
+
+        [WebMethod]
+        public bool UnloadStandartPassengers(MapObject serviseZone, int countOfPassengers)
+        {
+            return Core.Instance.UnloadStandartPassangers(serviseZone, countOfPassengers);
+        }
+        [WebMethod]
+        public bool UnloadVipPassengers(MapObject serviseZone, int countOfPassengers)
+        {
+            return Core.Instance.UnloadVipPassangers(serviseZone, countOfPassengers);
+        }
+
+        [WebMethod]
+        public bool LoadCatering(MapObject serviseZone, Catering catering)
+        {
+            //TODO
+            return false;
         }
 
         [WebMethod]
@@ -74,5 +97,10 @@ namespace Aircraft_Generator
             return Core.Instance.FollowMeComplete(planeId);
         }
 
+        [WebMethod]
+        public bool Douched(MapObject serviсeZone)
+        {
+            return Core.Instance.Douched(serviсeZone);
+        }
     }
 }

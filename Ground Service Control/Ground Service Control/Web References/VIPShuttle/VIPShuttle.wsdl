@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:s1="Airport" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:s2="DKO-Airport-Ground-Service-Control" xmlns:s3="http://microsoft.com/wsdl/types/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:import namespace="Airport" />
+      <s:import namespace="DKO-Airport-Ground-Service-Control" />
+      <s:import namespace="http://microsoft.com/wsdl/types/" />
+      <s:element name="UnloadPassengers">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="serviseZone" type="s1:MapObject" />
+            <s:element minOccurs="1" maxOccurs="1" name="countOfPassengers" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="taskId" type="s2:ServiceTaskId" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UnloadPassengersResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="UnloadPassengersResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="LoadPassengers">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="place" type="s1:MapObject" />
+            <s:element minOccurs="1" maxOccurs="1" name="flightNumber" type="s3:guid" />
+            <s:element minOccurs="0" maxOccurs="1" name="taskId" type="s2:ServiceTaskId" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="LoadPassengersResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="LoadPassengersResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+    <s:schema elementFormDefault="qualified" targetNamespace="Airport">
+      <s:complexType name="MapObject">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="MapObjectType" type="s1:MapObjectType" />
+          <s:element minOccurs="1" maxOccurs="1" name="Number" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:simpleType name="MapObjectType">
+        <s:restriction base="s:string">
+          <s:enumeration value="Runway" />
+          <s:enumeration value="Garage" />
+          <s:enumeration value="ServiceArea" />
+          <s:enumeration value="Airport" />
+        </s:restriction>
+      </s:simpleType>
+    </s:schema>
+    <s:schema elementFormDefault="qualified" targetNamespace="DKO-Airport-Ground-Service-Control">
+      <s:complexType name="ServiceTaskId" />
+    </s:schema>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://microsoft.com/wsdl/types/">
+      <s:simpleType name="guid">
+        <s:restriction base="s:string">
+          <s:pattern value="[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}" />
+        </s:restriction>
+      </s:simpleType>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="UnloadPassengersSoapIn">
+    <wsdl:part name="parameters" element="tns:UnloadPassengers" />
+  </wsdl:message>
+  <wsdl:message name="UnloadPassengersSoapOut">
+    <wsdl:part name="parameters" element="tns:UnloadPassengersResponse" />
+  </wsdl:message>
+  <wsdl:message name="LoadPassengersSoapIn">
+    <wsdl:part name="parameters" element="tns:LoadPassengers" />
+  </wsdl:message>
+  <wsdl:message name="LoadPassengersSoapOut">
+    <wsdl:part name="parameters" element="tns:LoadPassengersResponse" />
+  </wsdl:message>
+  <wsdl:portType name="VIPShuttleSoap">
+    <wsdl:operation name="UnloadPassengers">
+      <wsdl:input message="tns:UnloadPassengersSoapIn" />
+      <wsdl:output message="tns:UnloadPassengersSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="LoadPassengers">
+      <wsdl:input message="tns:LoadPassengersSoapIn" />
+      <wsdl:output message="tns:LoadPassengersSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="VIPShuttleSoap" type="tns:VIPShuttleSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="UnloadPassengers">
+      <soap:operation soapAction="http://tempuri.org/UnloadPassengers" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LoadPassengers">
+      <soap:operation soapAction="http://tempuri.org/LoadPassengers" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="VIPShuttleSoap12" type="tns:VIPShuttleSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="UnloadPassengers">
+      <soap12:operation soapAction="http://tempuri.org/UnloadPassengers" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LoadPassengers">
+      <soap12:operation soapAction="http://tempuri.org/LoadPassengers" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="VIPShuttle">
+    <wsdl:port name="VIPShuttleSoap" binding="tns:VIPShuttleSoap">
+      <soap:address location="http://airport-dko-services.azurewebsites.net/VIPShuttle.asmx" />
+    </wsdl:port>
+    <wsdl:port name="VIPShuttleSoap12" binding="tns:VIPShuttleSoap12">
+      <soap12:address location="http://airport-dko-services.azurewebsites.net/VIPShuttle.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

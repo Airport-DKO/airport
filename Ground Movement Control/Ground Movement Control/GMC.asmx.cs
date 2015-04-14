@@ -47,9 +47,50 @@ namespace Ground_Movement_Control
         /// <param name="planeGuid">Guid самолета, который хочет сесть</param>
         /// <returns>null - если запрет, MapObject полосы в положительном случае</returns>
         [WebMethod]
-        public MapObject CheckRunwayAwailability(Guid planeGuid)
+        public bool CheckRunwayAwailability(Guid planeGuid)
         {
             return Core.Instance.CheckRunwayAwailability(planeGuid);
+        }
+
+        /// <summary>
+        ///     Информирует самолет о зоне обслуживания, которая забронирована для него
+        /// </summary>
+        /// <param name="planeGuid">Guid самолета</param>
+        /// <returns>Map Object зоны обслуживания</returns>
+        [WebMethod]
+        public MapObject GetPlaneServiceZone(Guid planeGuid)
+        {
+            return Core.Instance.GetPlaneServiceZone(planeGuid);
+        }
+
+        /// <summary>
+        ///     Освобождаем впп
+        /// </summary>
+        [WebMethod]
+        public void RunwayRelease()
+        {
+            Core.Instance.RunwayRelease();
+        }
+
+       /// <summary>
+       ///      Метод возвращает рабочую впп
+       /// </summary>
+       /// <returns>Впп</returns>
+        [WebMethod]
+        public MapObject GetRunway()
+        {
+            return Core.Instance.GetRunway();
+        }
+
+
+        /// <summary>
+        ///     Возвращает список всех зон обслуживания
+        /// </summary>
+        /// <returns>Список MapObject ServiceZone</returns>
+        [WebMethod]
+        public List<MapObject> GetServiceZones()
+        {
+            return Core.Instance.GetServiceZones();
         }
     }
 }

@@ -28,7 +28,8 @@ namespace Ground_Service_Control
         /// </summary>
         public void StartExecution()
         {
-            foreach (var task in m_tasks)
+            var tasks = new List<ServiceTask>(m_tasks);
+            foreach (var task in tasks)
             {
                 executeTasks(task);
             }
@@ -43,7 +44,8 @@ namespace Ground_Service_Control
         {
             Debug.Assert(m_tasks.Count > 0);
 
-            foreach (var task in m_tasks.Where(task => task.taskId == previousTask))
+            var tasks = new List<ServiceTask>(m_tasks);
+            foreach (var task in tasks.Where(task => task.taskId == previousTask))
             {
                 executeTasks(task);
 
@@ -60,6 +62,7 @@ namespace Ground_Service_Control
 
             foreach (var task in finishedTask.nextTasks)
             {
+                Utils.self().log("Начинаю выполнять задание: " + task.taskId.type + " самолёт: " + task.taskId.plane);
                 task.execute();
                 m_tasks.Add(task);
             }

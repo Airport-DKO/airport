@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
-using System.Web;
 using CateringTruck.GmcVS;
 
 namespace CateringTruck
@@ -10,7 +8,8 @@ namespace CateringTruck
     public class Car
     {
         private readonly Guid _id; //идентификатор машины, чтобы ее могли отличить среди других Управление Наземным Движением и Визуализатор
-        private readonly MoveObjectType _type; 
+        private readonly MoveObjectType _type;
+        private const int Speed = 10000;
 
         public Car()
         {
@@ -45,14 +44,13 @@ namespace CateringTruck
                 route = gmc.GetRoute(from, to).ToList(); //УНД возвращает список координат, по которым надо проехать
                 if (route.Count == 0) //если маршрут вернулся пустым - ехать пока что нельзя (уборка снега) - через некоторое время повторяем запрос
                 {
-                    Thread.Sleep(100000);
+                    SpecialThead.Sleep(100000);
                 }
                 else
                 {
                     break; //когда получили маршрут - выходим из цикла
                 }
             }
-
             return route;
         }
 
@@ -71,8 +69,8 @@ namespace CateringTruck
                 {
                     //если шаг сделать удалось - передвигаемся на следующий индекс массива, содержащего маршрут
                     stepNumber++;
-                    //TODO: между интервалами посылки таких запросов необходимо делать Sleep(N/Speed), где N-число, полученное от Метрологической службы(Время)
                 }
+                SpecialThead.Sleep(Speed);//делаем задержку, специально написанный метод Sleep внутри себя учитывает коэффициент метрологической службы
             }
         }
     }

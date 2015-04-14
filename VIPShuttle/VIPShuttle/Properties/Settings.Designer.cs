@@ -52,5 +52,25 @@ namespace VIPShuttle.Properties {
                 return ((string)(this["VIPShuttle_GscVS_GSC"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://airport-dko-passengers.azurewebsites.net/WebServiceCheckIn.asmx")]
+        public string VIPShuttle_CheckinVS_WebServiceCheckIn {
+            get {
+                return ((string)(this["VIPShuttle_CheckinVS_WebServiceCheckIn"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://airport-dko-metrological.azurewebsites.net/MetrologService.asmx")]
+        public string VIPShuttle_MetrologServiceVS_MetrologService {
+            get {
+                return ((string)(this["VIPShuttle_MetrologServiceVS_MetrologService"]));
+            }
+        }
     }
 }

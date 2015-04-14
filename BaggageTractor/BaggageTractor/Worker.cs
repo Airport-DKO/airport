@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using BaggageTractor.AircraftGeneratorVS;
+using BaggageTractor.CheckinVS;
 using BaggageTractor.GscVS;
 using MapObject = BaggageTractor.GmcVS.MapObject;
 using MapObjectType = BaggageTractor.GmcVS.MapObjectType;
@@ -12,6 +13,7 @@ namespace BaggageTractor
     {
         private static readonly MapObject Garage;
         private static readonly MapObject Airport;
+        private const string ComponentName = "BaggageTractor";
 
         static Worker()
         {
@@ -22,12 +24,14 @@ namespace BaggageTractor
         /// <summary>
         /// Метод, который служит для выгрузки багажа с рейса
         /// </summary>
-        /// <param name="serviseZone">Площадка, на которой стоит самолет</param>
+        /// <param name="serviceZone">Площадка, на которой стоит самолет</param>
         /// <param name="weightOfBaggage">Количество багажа для выгрузки</param>
         /// <param name="taskId">Номер задания</param>
         /// <returns></returns>
-        public static void FromPlane(MapObject serviseZone, int weightOfBaggage, ServiceTaskId taskId)
+        public static void FromPlane(MapObject serviceZone, int weightOfBaggage, ServiceTaskId taskId)
         {
+            Logger.SendMessage(0, ComponentName, String.Format("Задание получено: забрать {1} кг багажа с борта на площадке номер {0}", serviceZone.Number, weightOfBaggage));
+
             var cars = new List<Car>();
             var tasks = new List<Task>();
 
@@ -40,9 +44,11 @@ namespace BaggageTractor
                 //запускаем для каждой машинки асинхронно задание "езжай к самолету(чтоб забрать багаж), затем езжай в аэропорт(чтоб доставить багаж)"
                 var t = new Task(() =>
                 {
-                    car.GoTo(Garage, serviseZone);
-                    new AircraftGenerator().UnloadBaggage(serviseZone, weightOfBaggage);//забираем багаж у Генератора Самолетов
-                    car.GoTo(serviseZone, Airport);
+                    car.GoTo(Garage, serviceZone);
+                    new AircraftGenerator().UnloadBaggage(serviceZone, car.Capacity);//забираем багаж у Генератора Самолетов
+                    car.GoTo(serviceZone, Airport);
+                    Logger.SendMessage(1, ComponentName,
+                        String.Format("{1} или меньше(остаток) килограмм багажа вывезено с борта на площадке {0}.", serviceZone.Number, car.Capacity));
                 });
                 t.Start();
 
@@ -55,12 +61,16 @@ namespace BaggageTractor
 
             Task.WaitAll(tasks.ToArray());
 
+            Logger.SendMessage(0, ComponentName, String.Format("Задание выполнено: забрать багаж с борта на площадке номер {0}.", serviceZone.Number));
+
             new GSC().Done(taskId);//сообщаем Управлению Наземным Обслуживанием, что задание выполнено 
+
+            Logger.SendMessage(0, ComponentName, String.Format("Машины возвращаются с площадки номер {0} в багаж.", serviceZone.Number));
 
             foreach (var car in cars)
             {
                 //возвращаем машинки в гараж
-                var t = new Task(() => car.GoTo(serviseZone, Garage));
+                var t = new Task(() => car.GoTo(serviceZone, Garage));
                 t.Start();
             }
         }
@@ -68,12 +78,14 @@ namespace BaggageTractor
         /// <summary>
         /// Метод, который служит для загрузки багажа на рейс
         /// </summary>
-        /// <param name="serviseZone">площадка, на которой стоит самолет</param>
+        /// <param name="serviceZone">площадка, на которой стоит самолет</param>
         /// <param name="flightNumber">номер рейса, багаж пассажиров которого следует погрузить</param>
         /// <param name="taskId">номер задания</param>
         /// <returns></returns>
-        public static void ToPlain(MapObject serviseZone, Guid flightNumber, ServiceTaskId taskId)
+        public static void ToPlain(MapObject serviceZone, Guid flightNumber, ServiceTaskId taskId)
         {
+            Logger.SendMessage(0, ComponentName, String.Format("Задание получено: загрузить багаж на борт на площадке номер {0}", serviceZone.Number));
+
             var cars = new List<Car>();
             var tasks = new List<Task>();
 
@@ -90,8 +102,11 @@ namespace BaggageTractor
                 var t = new Task(() =>
                 {
                     car.GoTo(Garage, Airport);
-                    car.GoTo(Airport, serviseZone);
-                    new AircraftGenerator().LoadBaggage(serviseZone, weightOfBaggage);//загружаем багаж в Генератору Самолетов
+                    car.GoTo(Airport, serviceZone);
+                    new AircraftGenerator().LoadBaggage(serviceZone, car.Capacity);//загружаем багаж в Генератору Самолетов
+                    SpecialThead.Sleep(50000);//изображаем деятельность
+                    Logger.SendMessage(1, ComponentName,
+                        String.Format("{1} или меньше(остаток) килограмм багажа погружено на борт на площадке {0}.", serviceZone.Number, car.Capacity));
                 });
                 t.Start();
 
@@ -104,12 +119,16 @@ namespace BaggageTractor
 
             Task.WaitAll(tasks.ToArray());
 
+            Logger.SendMessage(0, ComponentName, String.Format("Задание выполнено: загрузить багаж на борт на площадке номер {0}", serviceZone.Number));
+
             new GSC().Done(taskId); //cообщаем Управлению Наземным Обслуживанием, что задание выполнено
+
+            Logger.SendMessage(0, ComponentName, String.Format("Машины возвращаются с площадки номер {0} в гараж.", serviceZone.Number));
 
             foreach (var car in cars)
             {
                 //возвращаем машинки в гараж
-                var t = new Task(() => car.GoTo(serviseZone, Garage));
+                var t = new Task(() => car.GoTo(serviceZone, Garage));
                 t.Start();
             }
         }
@@ -121,8 +140,9 @@ namespace BaggageTractor
         /// <returns></returns>
         public static int GetWeightOfBaggage(Guid flightNumber)
         {
-            //TODO: запрашиваем вес у Регистрации GetBaggage(flightNumber)
-            return 150;
+            var weightOfBaggage = new WebServiceCheckIn().GetBaggage(flightNumber); //запрашиваем вес у Регистрации
+            Logger.SendMessage(1, ComponentName, String.Format("Получена информация, что на рейс {0} зарегистрированно {1} кг багажа.", flightNumber, weightOfBaggage));
+            return weightOfBaggage;
         }
     }
 }
