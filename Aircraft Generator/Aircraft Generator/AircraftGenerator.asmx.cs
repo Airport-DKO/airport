@@ -50,15 +50,26 @@ namespace Aircraft_Generator
         }
 
         [WebMethod]
-        public bool LoadPassengers(MapObject serviseZone, List<Guid> passengers)
+        public bool LoadStandartPassengers(MapObject serviseZone, List<Guid> passengers)
         {
-            return Core.Instance.LoadPassangers(serviseZone, passengers);
+            return Core.Instance.LoadStandartPassangers(serviseZone, passengers);
         }
 
         [WebMethod]
-        public bool UnloadPassengers(MapObject serviseZone, int countOfPassengers)
+        public bool LoadVipPassengers(MapObject serviseZone, List<Guid> passengers)
         {
-            return Core.Instance.UnloadPassangers(serviseZone, countOfPassengers);
+            return Core.Instance.LoadVipPassangers(serviseZone, passengers);
+        }
+
+        [WebMethod]
+        public bool UnloadStandartPassengers(MapObject serviseZone, int countOfPassengers)
+        {
+            return Core.Instance.UnloadStandartPassangers(serviseZone, countOfPassengers);
+        }
+        [WebMethod]
+        public bool UnloadVipPassengers(MapObject serviseZone, int countOfPassengers)
+        {
+            return Core.Instance.UnloadVipPassangers(serviseZone, countOfPassengers);
         }
 
         [WebMethod]
@@ -84,6 +95,12 @@ namespace Aircraft_Generator
         public bool FollowMeComplete(Guid planeId)
         {
             return Core.Instance.FollowMeComplete(planeId);
+        }
+
+        [WebMethod]
+        public bool Douched(MapObject serviсeZone)
+        {
+            return Core.Instance.Douched(serviсeZone);
         }
     }
 }

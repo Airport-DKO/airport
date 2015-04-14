@@ -75,17 +75,30 @@ namespace Aircraft_Generator
             task.Start();
         }
 
-        public bool LoadPassangers(MapObject serviceZone, List<Guid> passengersGuids)
+        public bool LoadStandartPassangers(MapObject serviceZone, List<Guid> passengersGuids)
         {
             Plane plane = Planes.First(p => p.ServiceZone.Number == serviceZone.Number);
             plane.CurrentStandartPassengers += passengersGuids.Count;
             return true;
         }
+        public bool LoadVipPassangers(MapObject serviceZone, List<Guid> passengersGuids)
+        {
+            Plane plane = Planes.First(p => p.ServiceZone.Number == serviceZone.Number);
+            plane.CurrentVipPassengers += passengersGuids.Count;
+            return true;
+        }
 
-        public bool UnloadPassangers(MapObject serviceZone, int countOfPassengers)
+        public bool UnloadStandartPassangers(MapObject serviceZone, int countOfPassengers)
         {
             Plane plane = Planes.First(p => p.ServiceZone.Number == serviceZone.Number);
             plane.CurrentStandartPassengers -= countOfPassengers;
+            return true;
+        }
+
+        public bool UnloadVipPassangers(MapObject serviceZone, int countOfPassengers)
+        {
+            Plane plane = Planes.First(p => p.ServiceZone.Number == serviceZone.Number);
+            plane.CurrentVipPassengers -= countOfPassengers;
             return true;
         }
 
@@ -129,6 +142,11 @@ namespace Aircraft_Generator
             return true;
         }
 
+        public bool Douched(MapObject serviceZone)
+        {
+            // TODO
+            return true;
+        }
 
         private void Sleep(int time)
         {
