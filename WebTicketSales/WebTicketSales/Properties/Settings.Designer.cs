@@ -26,7 +26,17 @@ namespace WebTicketSales.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://localhost:14069/WebServiceInformationPanel.asmx")]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://airport-dko-metrological.azurewebsites.net/MetrologService.asmx")]
+        public string WebTicketSales_MetrologService_MetrologService {
+            get {
+                return ((string)(this["WebTicketSales_MetrologService_MetrologService"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://airport-dko-passengers.azurewebsites.net/WebServiceInformationPanel.asmx")]
         public string WebTicketSales_InformationPanelService_WebServiceInformationPanel {
             get {
                 return ((string)(this["WebTicketSales_InformationPanelService_WebServiceInformationPanel"]));

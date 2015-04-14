@@ -5,14 +5,16 @@ using System.Web;
 using WebTicketSales.InformationPanelService;
 
 
+
 namespace WebTicketSales
 {
     public class TicketSales
     {
-        
         WebServiceInformationPanel informationPanel = new WebServiceInformationPanel();
+        MetrologService.MetrologService metrolog = new MetrologService.MetrologService();
         private Random random = new Random();
         private List<Ticket> ticketsBase = new List<Ticket>();
+        private MqSender Logger = new MqSender("LoggerQueue");
 
         /// <summary>
         /// покупка билетов
@@ -24,40 +26,54 @@ namespace WebTicketSales
             //если пассажир уже купил белет, то ещё один мы ему не отдаём
             if (ticketsBase.FirstOrDefault(s => s.PassengerID == passengerId) != null)
                 return null;
-            //получаем список рейсов от табло
-            List<Flight> Flights = informationPanel.GetFlightsForSales().ToList();
-            
-            if (Flights.Count == 0)
-                return null;
-            //выбираем рандомный рейс
-            int k = random.Next(Flights.Count);
-            var flight = Flights[k];
-
-            //пассажир выбирает условия обслуживания
-            var behaver = (Class) random.Next(0, 2);
-            int count;
-            Ticket t;
-            switch (behaver)
+            List<Flight> Flights;
+            //если не удалось достучаться до табло
+            try
             {
-                case Class.Econom: //пассажир выбрал эконом
-                    // смотрим количество уже купленных билетов эконом-класса
-                    count = ticketsBase.Count(s => s.FlightID == flight.number && s.TicketClass == Class.Econom);
-                    //если все билеты раскупили - пассажир уходит грустный :(
-                    if (count >= flight.EconomPassengersCount)
-                        return null;
-                    // ну а если билеты остались - оформляем билет, и отдаём его пассажиру
-                    t = new Ticket() {FlightID = flight.number, PassengerID = passengerId, TicketClass = Class.Econom};
-                    ticketsBase.Add(t);
-                    return t;
-                case Class.Vip: //пассажир выбрал Vip (всё то же самое с точностью до класса)
-                    count = ticketsBase.Count(s => s.FlightID == flight.number && s.TicketClass == Class.Vip);
-                    if (count >= flight.VipPassengersCount)
-                        return null;
-                    t = new Ticket() {FlightID = flight.number, PassengerID = passengerId, TicketClass = Class.Vip};
-                    ticketsBase.Add(t);
-                    return t;
-                default:
+                //получаем список рейсов от табло
+                Flights = informationPanel.GetFlightsForSales().ToList();
+                if (Flights.Count == 0)
                     return null;
+                //выбираем рандомный рейс
+                int k = random.Next(Flights.Count);
+                var flight = Flights[k];
+
+                //пассажир выбирает условия обслуживания
+                var behaver = (Class)random.Next(0, 2);
+                int count;
+                Ticket t;
+                switch (behaver)
+                {
+                    case Class.Econom: //пассажир выбрал эконом
+                        // смотрим количество уже купленных билетов эконом-класса
+                        count = ticketsBase.Count(s => s.FlightID == flight.number && s.TicketClass == Class.Econom);
+                        //если все билеты раскупили - пассажир уходит грустный :(
+                        if (count >= flight.EconomPassengersCount)
+                            return null;
+                        // ну а если билеты остались - оформляем билет, и отдаём его пассажиру
+                        t = new Ticket() { FlightID = flight.number, PassengerID = passengerId, TicketClass = Class.Econom };
+                        break;
+                    case Class.Vip: //пассажир выбрал Vip (всё то же самое с точностью до класса)
+                        count = ticketsBase.Count(s => s.FlightID == flight.number && s.TicketClass == Class.Vip);
+                        if (count >= flight.VipPassengersCount)
+                            return null;
+                        t = new Ticket() { FlightID = flight.number, PassengerID = passengerId, TicketClass = Class.Vip };
+                        break;
+                    default:
+                        return null;
+                }
+                ticketsBase.Add(t);
+                var time = metrolog.GetCurrentTime();
+                Logger.SendMsg(string.Format("{0}_{1}_TicketSales_1_Пассажир {2} купил билет на рейс {3} {4} класса",
+                    time.Date, time.TimeOfDay, t.PassengerID, t.FlightID, t.PassengerID));
+                return t;
+            }
+            catch (Exception ex)
+            {
+                var time = metrolog.GetCurrentTime();
+                Logger.SendMsg(string.Format("{0}_{1}_TicketSales_0_Error {2}",
+                    time.Date, time.TimeOfDay, ex.Message));
+                return null;
             }
         }
 
@@ -68,12 +84,28 @@ namespace WebTicketSales
         /// <returns>удалось ли вернуть билет</returns>
         public bool ReturnTicket(Guid passengerId)
         {
-            //TODO как-то согласоваться по времени (можно ли вернуть билет (видимо запрашивать у табло))
-            var ticket = ticketsBase.FirstOrDefault(s => s.PassengerID == passengerId);
-            if (ticket != null)
+            try
             {
-                ticketsBase.Remove(ticket);
-                return true;
+                var ticket = ticketsBase.FirstOrDefault(s => s.PassengerID == passengerId);
+                if (ticket != null)
+                {
+                    if (informationPanel.CanReturnTicket(ticket.FlightID))
+                    {
+                        var time = metrolog.GetCurrentTime();
+                        ticketsBase.Remove(ticket);
+                        Logger.SendMsg(
+                            string.Format("{0}_{1}_TicketSales_1_Пассажир {2} вернул билет на рейс {3} {4} класса",
+                                time.Date, time.TimeOfDay, ticket.PassengerID, ticket.FlightID, ticket.PassengerID));
+                        return true;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                var time = metrolog.GetCurrentTime();
+                Logger.SendMsg(string.Format("{0}_{1}_TicketSales_0_Error {2}",
+                    time.Date, time.TimeOfDay, ex.Message));
+                return false;
             }
             return false;
         }
@@ -87,6 +119,11 @@ namespace WebTicketSales
         public bool CheckTicket(Guid passengerid, Guid fligthid)
         {
             return ticketsBase.FirstOrDefault(s => s.FlightID == fligthid && s.PassengerID == passengerid) != null;
+        }
+
+        public void Reset()
+        {
+            ticketsBase.Clear();
         }
     }
 }
