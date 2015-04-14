@@ -3,10 +3,10 @@
   <Profiles />
   <Settings>
     <Setting Name="WebCheckIn_InformationPanelService_WebServiceInformationPanel" Type="(Web Service URL)" Scope="Application">
-      <Value Profile="(Default)">http://localhost:14069/WebServiceInformationPanel.asmx</Value>
+      <Value Profile="(Default)">http://airport-dko-passengers.azurewebsites.net/WebServiceInformationPanel.asmx</Value>
     </Setting>
     <Setting Name="WebCheckIn_TicketSalesService_WebServiceTicketSales" Type="(Web Service URL)" Scope="Application">
-      <Value Profile="(Default)">http://localhost:22401/WebServiceTicketSales.asmx</Value>
+      <Value Profile="(Default)">http://airport-dko-passengers.azurewebsites.net/WebServiceTicketSales.asmx</Value>
     </Setting>
   </Settings>
 </SettingsFile>

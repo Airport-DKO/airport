@@ -122,5 +122,10 @@ namespace WebCheckIn
             }
             
         }
+
+        public void Reset()
+        {
+            RegistrationBase.Clear();
+        }
     }
 }
