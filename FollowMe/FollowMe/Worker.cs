@@ -21,6 +21,7 @@ namespace FollowMe
             new AircraftGenerator().FollowMe(planeId); //ожидаем самолет
             car.GoAndLeadTo(from, to, planeId); //едем и ведем самолет за собой
             new AircraftGenerator().FollowMeComplete(planeId); //оповещаем УНД, что сопровождение окончено
+            car.GoTo(to, Garage); //вернули followme в гараж
         }
     }
 }

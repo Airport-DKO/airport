@@ -54,7 +54,7 @@ namespace PassengerStairs
                 route = gmc.GetRoute(from, to).ToList(); //УНД возвращает список координат, по которым надо проехать
                 if (route.Count == 0) //если маршрут вернулся пустым - ехать пока что нельзя (уборка снега) - через некоторое время повторяем запрос
                 {
-                    Thread.Sleep(100000);
+                     SpecialThead(100000);
                 }
                 else
                 {
