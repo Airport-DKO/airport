@@ -35,12 +35,12 @@
       <s:simpleType name="Cities">
         <s:restriction base="s:string">
           <s:enumeration value="Tokyo" />
-          <s:enumeration value="Paris" />
-          <s:enumeration value="Rome" />
-          <s:enumeration value="NewYork" />
-          <s:enumeration value="Sydney" />
-          <s:enumeration value="Brasilia" />
-          <s:enumeration value="Antananarivo" />
+          <s:enumeration value="Kyiv" />
+          <s:enumeration value="Whitecourt" />
+          <s:enumeration value="Roma" />
+          <s:enumeration value="Washington" />
+          <s:enumeration value="Minsk" />
+          <s:enumeration value="Almaty" />
         </s:restriction>
       </s:simpleType>
       <s:element name="GetFlightsForSales">
@@ -150,6 +150,34 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="GetStatus">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="flightNumber" type="s1:guid" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetStatusResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetStatusResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CanReturnTicket">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="flightNumber" type="s1:guid" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CanReturnTicketResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="CanReturnTicketResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
     </s:schema>
     <s:schema elementFormDefault="qualified" targetNamespace="http://microsoft.com/wsdl/types/">
       <s:simpleType name="guid">
@@ -219,6 +247,18 @@
   <wsdl:message name="GetFlightsListSoapOut">
     <wsdl:part name="parameters" element="tns:GetFlightsListResponse" />
   </wsdl:message>
+  <wsdl:message name="GetStatusSoapIn">
+    <wsdl:part name="parameters" element="tns:GetStatus" />
+  </wsdl:message>
+  <wsdl:message name="GetStatusSoapOut">
+    <wsdl:part name="parameters" element="tns:GetStatusResponse" />
+  </wsdl:message>
+  <wsdl:message name="CanReturnTicketSoapIn">
+    <wsdl:part name="parameters" element="tns:CanReturnTicket" />
+  </wsdl:message>
+  <wsdl:message name="CanReturnTicketSoapOut">
+    <wsdl:part name="parameters" element="tns:CanReturnTicketResponse" />
+  </wsdl:message>
   <wsdl:portType name="WebServiceInformationPanelSoap">
     <wsdl:operation name="GetFlightsForRegistration">
       <wsdl:input message="tns:GetFlightsForRegistrationSoapIn" />
@@ -259,6 +299,14 @@
     <wsdl:operation name="GetFlightsList">
       <wsdl:input message="tns:GetFlightsListSoapIn" />
       <wsdl:output message="tns:GetFlightsListSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetStatus">
+      <wsdl:input message="tns:GetStatusSoapIn" />
+      <wsdl:output message="tns:GetStatusSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CanReturnTicket">
+      <wsdl:input message="tns:CanReturnTicketSoapIn" />
+      <wsdl:output message="tns:CanReturnTicketSoapOut" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="WebServiceInformationPanelSoap" type="tns:WebServiceInformationPanelSoap">
@@ -353,6 +401,24 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="GetStatus">
+      <soap:operation soapAction="http://tempuri.org/GetStatus" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CanReturnTicket">
+      <soap:operation soapAction="http://tempuri.org/CanReturnTicket" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
   </wsdl:binding>
   <wsdl:binding name="WebServiceInformationPanelSoap12" type="tns:WebServiceInformationPanelSoap">
     <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
@@ -439,6 +505,24 @@
     </wsdl:operation>
     <wsdl:operation name="GetFlightsList">
       <soap12:operation soapAction="http://tempuri.org/GetFlightsList" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetStatus">
+      <soap12:operation soapAction="http://tempuri.org/GetStatus" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CanReturnTicket">
+      <soap12:operation soapAction="http://tempuri.org/CanReturnTicket" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

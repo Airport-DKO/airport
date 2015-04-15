@@ -45,6 +45,7 @@
             this.label6 = new System.Windows.Forms.Label();
             this.baggageTextEdit = new DevExpress.XtraEditors.TextEdit();
             this.bindPlaneToFlightButton = new DevExpress.XtraEditors.SimpleButton();
+            this.resetButton = new DevExpress.XtraEditors.SimpleButton();
             ((System.ComponentModel.ISupportInitialize)(this.planesGridControl)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nameTextEdit.Properties)).BeginInit();
@@ -206,11 +207,21 @@
             this.bindPlaneToFlightButton.Text = "Привязать самолет к рейсу";
             this.bindPlaneToFlightButton.Click += new System.EventHandler(this.bindPlaneToFlightButton_Click);
             // 
+            // resetButton
+            // 
+            this.resetButton.Location = new System.Drawing.Point(17, 414);
+            this.resetButton.Name = "resetButton";
+            this.resetButton.Size = new System.Drawing.Size(118, 27);
+            this.resetButton.TabIndex = 17;
+            this.resetButton.Text = "Reset";
+            this.resetButton.Click += new System.EventHandler(this.resetButton_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(890, 514);
+            this.Controls.Add(this.resetButton);
             this.Controls.Add(this.bindPlaneToFlightButton);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.baggageTextEdit);
@@ -261,6 +272,7 @@
         private System.Windows.Forms.Label label6;
         private DevExpress.XtraEditors.TextEdit baggageTextEdit;
         private DevExpress.XtraEditors.SimpleButton bindPlaneToFlightButton;
+        private DevExpress.XtraEditors.SimpleButton resetButton;
     }
 }
 

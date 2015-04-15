@@ -6,10 +6,15 @@ namespace Aircraft_Generator
 {
     public static class Logger
     {
-        private static readonly string QueueName;
-        private static readonly IModel Channel;
+        private static  string QueueName;
+        private static  IModel Channel;
 
         static Logger()
+        {
+
+        }
+
+        public static void SendMessage(int level, string componentName, string message, DateTime dateTime)
         {
             var factory = new ConnectionFactory
             {
@@ -26,10 +31,7 @@ namespace Aircraft_Generator
 
             //декларируем имя очереди
             Channel.QueueDeclare(QueueName, false, false, false, null);
-        }
 
-        public static void SendMessage(int level, string componentName, string message, DateTime dateTime)
-        {
             DateTime dt = dateTime; //узнаем время у метрологической службы
 
             /*Кладем сообщения строго в очередь LoggerQueue сторого в указанном ниже формате:

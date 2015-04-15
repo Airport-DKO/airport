@@ -102,5 +102,11 @@ namespace Aircraft_Generator
         {
             return Core.Instance.Douched(serviсeZone);
         }
+
+        [WebMethod]
+        public void Reset()
+        {
+            Core.Instance.Reset();
+        }
     }
 }

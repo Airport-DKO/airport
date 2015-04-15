@@ -39,9 +39,13 @@ namespace Aircraft_Generator_GUI.AircraftGeneratorWs {
         
         private System.Threading.SendOrPostCallback LoadBaggageOperationCompleted;
         
-        private System.Threading.SendOrPostCallback LoadPassengersOperationCompleted;
+        private System.Threading.SendOrPostCallback LoadStandartPassengersOperationCompleted;
         
-        private System.Threading.SendOrPostCallback UnloadPassengersOperationCompleted;
+        private System.Threading.SendOrPostCallback LoadVipPassengersOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback UnloadStandartPassengersOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback UnloadVipPassengersOperationCompleted;
         
         private System.Threading.SendOrPostCallback LoadCateringOperationCompleted;
         
@@ -50,6 +54,10 @@ namespace Aircraft_Generator_GUI.AircraftGeneratorWs {
         private System.Threading.SendOrPostCallback DoStepOperationCompleted;
         
         private System.Threading.SendOrPostCallback FollowMeCompleteOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback DouchedOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback ResetOperationCompleted;
         
         private bool useDefaultCredentialsSetExplicitly;
         
@@ -105,10 +113,16 @@ namespace Aircraft_Generator_GUI.AircraftGeneratorWs {
         public event LoadBaggageCompletedEventHandler LoadBaggageCompleted;
         
         /// <remarks/>
-        public event LoadPassengersCompletedEventHandler LoadPassengersCompleted;
+        public event LoadStandartPassengersCompletedEventHandler LoadStandartPassengersCompleted;
         
         /// <remarks/>
-        public event UnloadPassengersCompletedEventHandler UnloadPassengersCompleted;
+        public event LoadVipPassengersCompletedEventHandler LoadVipPassengersCompleted;
+        
+        /// <remarks/>
+        public event UnloadStandartPassengersCompletedEventHandler UnloadStandartPassengersCompleted;
+        
+        /// <remarks/>
+        public event UnloadVipPassengersCompletedEventHandler UnloadVipPassengersCompleted;
         
         /// <remarks/>
         public event LoadCateringCompletedEventHandler LoadCateringCompleted;
@@ -121,6 +135,12 @@ namespace Aircraft_Generator_GUI.AircraftGeneratorWs {
         
         /// <remarks/>
         public event FollowMeCompleteCompletedEventHandler FollowMeCompleteCompleted;
+        
+        /// <remarks/>
+        public event DouchedCompletedEventHandler DouchedCompleted;
+        
+        /// <remarks/>
+        public event ResetCompletedEventHandler ResetCompleted;
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("DKO-Ariport-Aircraft-Generator/CreateNewPlane", RequestNamespace="DKO-Ariport-Aircraft-Generator", ResponseNamespace="DKO-Ariport-Aircraft-Generator", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
@@ -283,64 +303,126 @@ namespace Aircraft_Generator_GUI.AircraftGeneratorWs {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("DKO-Ariport-Aircraft-Generator/LoadPassengers", RequestNamespace="DKO-Ariport-Aircraft-Generator", ResponseNamespace="DKO-Ariport-Aircraft-Generator", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public bool LoadPassengers(MapObject serviseZone, System.Guid[] passengers) {
-            object[] results = this.Invoke("LoadPassengers", new object[] {
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("DKO-Ariport-Aircraft-Generator/LoadStandartPassengers", RequestNamespace="DKO-Ariport-Aircraft-Generator", ResponseNamespace="DKO-Ariport-Aircraft-Generator", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public bool LoadStandartPassengers(MapObject serviseZone, System.Guid[] passengers) {
+            object[] results = this.Invoke("LoadStandartPassengers", new object[] {
                         serviseZone,
                         passengers});
             return ((bool)(results[0]));
         }
         
         /// <remarks/>
-        public void LoadPassengersAsync(MapObject serviseZone, System.Guid[] passengers) {
-            this.LoadPassengersAsync(serviseZone, passengers, null);
+        public void LoadStandartPassengersAsync(MapObject serviseZone, System.Guid[] passengers) {
+            this.LoadStandartPassengersAsync(serviseZone, passengers, null);
         }
         
         /// <remarks/>
-        public void LoadPassengersAsync(MapObject serviseZone, System.Guid[] passengers, object userState) {
-            if ((this.LoadPassengersOperationCompleted == null)) {
-                this.LoadPassengersOperationCompleted = new System.Threading.SendOrPostCallback(this.OnLoadPassengersOperationCompleted);
+        public void LoadStandartPassengersAsync(MapObject serviseZone, System.Guid[] passengers, object userState) {
+            if ((this.LoadStandartPassengersOperationCompleted == null)) {
+                this.LoadStandartPassengersOperationCompleted = new System.Threading.SendOrPostCallback(this.OnLoadStandartPassengersOperationCompleted);
             }
-            this.InvokeAsync("LoadPassengers", new object[] {
+            this.InvokeAsync("LoadStandartPassengers", new object[] {
                         serviseZone,
-                        passengers}, this.LoadPassengersOperationCompleted, userState);
+                        passengers}, this.LoadStandartPassengersOperationCompleted, userState);
         }
         
-        private void OnLoadPassengersOperationCompleted(object arg) {
-            if ((this.LoadPassengersCompleted != null)) {
+        private void OnLoadStandartPassengersOperationCompleted(object arg) {
+            if ((this.LoadStandartPassengersCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
-                this.LoadPassengersCompleted(this, new LoadPassengersCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+                this.LoadStandartPassengersCompleted(this, new LoadStandartPassengersCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("DKO-Ariport-Aircraft-Generator/UnloadPassengers", RequestNamespace="DKO-Ariport-Aircraft-Generator", ResponseNamespace="DKO-Ariport-Aircraft-Generator", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public bool UnloadPassengers(MapObject serviseZone, int countOfPassengers) {
-            object[] results = this.Invoke("UnloadPassengers", new object[] {
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("DKO-Ariport-Aircraft-Generator/LoadVipPassengers", RequestNamespace="DKO-Ariport-Aircraft-Generator", ResponseNamespace="DKO-Ariport-Aircraft-Generator", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public bool LoadVipPassengers(MapObject serviseZone, System.Guid[] passengers) {
+            object[] results = this.Invoke("LoadVipPassengers", new object[] {
+                        serviseZone,
+                        passengers});
+            return ((bool)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void LoadVipPassengersAsync(MapObject serviseZone, System.Guid[] passengers) {
+            this.LoadVipPassengersAsync(serviseZone, passengers, null);
+        }
+        
+        /// <remarks/>
+        public void LoadVipPassengersAsync(MapObject serviseZone, System.Guid[] passengers, object userState) {
+            if ((this.LoadVipPassengersOperationCompleted == null)) {
+                this.LoadVipPassengersOperationCompleted = new System.Threading.SendOrPostCallback(this.OnLoadVipPassengersOperationCompleted);
+            }
+            this.InvokeAsync("LoadVipPassengers", new object[] {
+                        serviseZone,
+                        passengers}, this.LoadVipPassengersOperationCompleted, userState);
+        }
+        
+        private void OnLoadVipPassengersOperationCompleted(object arg) {
+            if ((this.LoadVipPassengersCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.LoadVipPassengersCompleted(this, new LoadVipPassengersCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("DKO-Ariport-Aircraft-Generator/UnloadStandartPassengers", RequestNamespace="DKO-Ariport-Aircraft-Generator", ResponseNamespace="DKO-Ariport-Aircraft-Generator", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public bool UnloadStandartPassengers(MapObject serviseZone, int countOfPassengers) {
+            object[] results = this.Invoke("UnloadStandartPassengers", new object[] {
                         serviseZone,
                         countOfPassengers});
             return ((bool)(results[0]));
         }
         
         /// <remarks/>
-        public void UnloadPassengersAsync(MapObject serviseZone, int countOfPassengers) {
-            this.UnloadPassengersAsync(serviseZone, countOfPassengers, null);
+        public void UnloadStandartPassengersAsync(MapObject serviseZone, int countOfPassengers) {
+            this.UnloadStandartPassengersAsync(serviseZone, countOfPassengers, null);
         }
         
         /// <remarks/>
-        public void UnloadPassengersAsync(MapObject serviseZone, int countOfPassengers, object userState) {
-            if ((this.UnloadPassengersOperationCompleted == null)) {
-                this.UnloadPassengersOperationCompleted = new System.Threading.SendOrPostCallback(this.OnUnloadPassengersOperationCompleted);
+        public void UnloadStandartPassengersAsync(MapObject serviseZone, int countOfPassengers, object userState) {
+            if ((this.UnloadStandartPassengersOperationCompleted == null)) {
+                this.UnloadStandartPassengersOperationCompleted = new System.Threading.SendOrPostCallback(this.OnUnloadStandartPassengersOperationCompleted);
             }
-            this.InvokeAsync("UnloadPassengers", new object[] {
+            this.InvokeAsync("UnloadStandartPassengers", new object[] {
                         serviseZone,
-                        countOfPassengers}, this.UnloadPassengersOperationCompleted, userState);
+                        countOfPassengers}, this.UnloadStandartPassengersOperationCompleted, userState);
         }
         
-        private void OnUnloadPassengersOperationCompleted(object arg) {
-            if ((this.UnloadPassengersCompleted != null)) {
+        private void OnUnloadStandartPassengersOperationCompleted(object arg) {
+            if ((this.UnloadStandartPassengersCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
-                this.UnloadPassengersCompleted(this, new UnloadPassengersCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+                this.UnloadStandartPassengersCompleted(this, new UnloadStandartPassengersCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("DKO-Ariport-Aircraft-Generator/UnloadVipPassengers", RequestNamespace="DKO-Ariport-Aircraft-Generator", ResponseNamespace="DKO-Ariport-Aircraft-Generator", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public bool UnloadVipPassengers(MapObject serviseZone, int countOfPassengers) {
+            object[] results = this.Invoke("UnloadVipPassengers", new object[] {
+                        serviseZone,
+                        countOfPassengers});
+            return ((bool)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void UnloadVipPassengersAsync(MapObject serviseZone, int countOfPassengers) {
+            this.UnloadVipPassengersAsync(serviseZone, countOfPassengers, null);
+        }
+        
+        /// <remarks/>
+        public void UnloadVipPassengersAsync(MapObject serviseZone, int countOfPassengers, object userState) {
+            if ((this.UnloadVipPassengersOperationCompleted == null)) {
+                this.UnloadVipPassengersOperationCompleted = new System.Threading.SendOrPostCallback(this.OnUnloadVipPassengersOperationCompleted);
+            }
+            this.InvokeAsync("UnloadVipPassengers", new object[] {
+                        serviseZone,
+                        countOfPassengers}, this.UnloadVipPassengersOperationCompleted, userState);
+        }
+        
+        private void OnUnloadVipPassengersOperationCompleted(object arg) {
+            if ((this.UnloadVipPassengersCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.UnloadVipPassengersCompleted(this, new UnloadVipPassengersCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -461,6 +543,61 @@ namespace Aircraft_Generator_GUI.AircraftGeneratorWs {
             if ((this.FollowMeCompleteCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.FollowMeCompleteCompleted(this, new FollowMeCompleteCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("DKO-Ariport-Aircraft-Generator/Douched", RequestNamespace="DKO-Ariport-Aircraft-Generator", ResponseNamespace="DKO-Ariport-Aircraft-Generator", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public bool Douched(MapObject serviсeZone) {
+            object[] results = this.Invoke("Douched", new object[] {
+                        serviсeZone});
+            return ((bool)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void DouchedAsync(MapObject serviсeZone) {
+            this.DouchedAsync(serviсeZone, null);
+        }
+        
+        /// <remarks/>
+        public void DouchedAsync(MapObject serviсeZone, object userState) {
+            if ((this.DouchedOperationCompleted == null)) {
+                this.DouchedOperationCompleted = new System.Threading.SendOrPostCallback(this.OnDouchedOperationCompleted);
+            }
+            this.InvokeAsync("Douched", new object[] {
+                        serviсeZone}, this.DouchedOperationCompleted, userState);
+        }
+        
+        private void OnDouchedOperationCompleted(object arg) {
+            if ((this.DouchedCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.DouchedCompleted(this, new DouchedCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("DKO-Ariport-Aircraft-Generator/Reset", RequestNamespace="DKO-Ariport-Aircraft-Generator", ResponseNamespace="DKO-Ariport-Aircraft-Generator", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public void Reset() {
+            this.Invoke("Reset", new object[0]);
+        }
+        
+        /// <remarks/>
+        public void ResetAsync() {
+            this.ResetAsync(null);
+        }
+        
+        /// <remarks/>
+        public void ResetAsync(object userState) {
+            if ((this.ResetOperationCompleted == null)) {
+                this.ResetOperationCompleted = new System.Threading.SendOrPostCallback(this.OnResetOperationCompleted);
+            }
+            this.InvokeAsync("Reset", new object[0], this.ResetOperationCompleted, userState);
+        }
+        
+        private void OnResetOperationCompleted(object arg) {
+            if ((this.ResetCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.ResetCompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -789,22 +926,22 @@ namespace Aircraft_Generator_GUI.AircraftGeneratorWs {
         Tokyo,
         
         /// <remarks/>
-        Paris,
+        Kyiv,
         
         /// <remarks/>
-        Rome,
+        Whitecourt,
         
         /// <remarks/>
-        NewYork,
+        Roma,
         
         /// <remarks/>
-        Sydney,
+        Washington,
         
         /// <remarks/>
-        Brasilia,
+        Minsk,
         
         /// <remarks/>
-        Antananarivo,
+        Almaty,
     }
     
     /// <remarks/>
@@ -847,6 +984,66 @@ namespace Aircraft_Generator_GUI.AircraftGeneratorWs {
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="DKO-Ariport-Aircraft-Generator")]
     public partial class Catering {
+        
+        private int defaultField;
+        
+        private int childrenField;
+        
+        private int diabeticField;
+        
+        private int lowCalorieField;
+        
+        private int vegetarianField;
+        
+        /// <remarks/>
+        public int Default {
+            get {
+                return this.defaultField;
+            }
+            set {
+                this.defaultField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int Children {
+            get {
+                return this.childrenField;
+            }
+            set {
+                this.childrenField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int Diabetic {
+            get {
+                return this.diabeticField;
+            }
+            set {
+                this.diabeticField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int LowCalorie {
+            get {
+                return this.lowCalorieField;
+            }
+            set {
+                this.lowCalorieField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int Vegetarian {
+            get {
+                return this.vegetarianField;
+            }
+            set {
+                this.vegetarianField = value;
+            }
+        }
     }
     
     /// <remarks/>
@@ -1036,17 +1233,17 @@ namespace Aircraft_Generator_GUI.AircraftGeneratorWs {
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.34209")]
-    public delegate void LoadPassengersCompletedEventHandler(object sender, LoadPassengersCompletedEventArgs e);
+    public delegate void LoadStandartPassengersCompletedEventHandler(object sender, LoadStandartPassengersCompletedEventArgs e);
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.34209")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    public partial class LoadPassengersCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+    public partial class LoadStandartPassengersCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
         
         private object[] results;
         
-        internal LoadPassengersCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+        internal LoadStandartPassengersCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }
@@ -1062,17 +1259,69 @@ namespace Aircraft_Generator_GUI.AircraftGeneratorWs {
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.34209")]
-    public delegate void UnloadPassengersCompletedEventHandler(object sender, UnloadPassengersCompletedEventArgs e);
+    public delegate void LoadVipPassengersCompletedEventHandler(object sender, LoadVipPassengersCompletedEventArgs e);
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.34209")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    public partial class UnloadPassengersCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+    public partial class LoadVipPassengersCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
         
         private object[] results;
         
-        internal UnloadPassengersCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+        internal LoadVipPassengersCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public bool Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((bool)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.34209")]
+    public delegate void UnloadStandartPassengersCompletedEventHandler(object sender, UnloadStandartPassengersCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.34209")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class UnloadStandartPassengersCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal UnloadStandartPassengersCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public bool Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((bool)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.34209")]
+    public delegate void UnloadVipPassengersCompletedEventHandler(object sender, UnloadVipPassengersCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.34209")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class UnloadVipPassengersCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal UnloadVipPassengersCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }
@@ -1189,6 +1438,36 @@ namespace Aircraft_Generator_GUI.AircraftGeneratorWs {
             }
         }
     }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.34209")]
+    public delegate void DouchedCompletedEventHandler(object sender, DouchedCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.34209")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class DouchedCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal DouchedCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public bool Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((bool)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.34209")]
+    public delegate void ResetCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
 }
 
 #pragma warning restore 1591

@@ -85,5 +85,9 @@ namespace Aircraft_Generator_GUI
                 Thread.Sleep(5000);
             }
         }
+
+        private void resetButton_Click(object sender, EventArgs e)
+        {
+            _aircraftGeneratorWebService.Reset(); }
     }
 }

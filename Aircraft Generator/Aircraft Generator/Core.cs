@@ -39,6 +39,8 @@ namespace Aircraft_Generator
         private readonly SynchronizedCollection<CancellationTokenSource> _tokens;
         private readonly Tower _tower;
 
+        private CancellationTokenSource _token;
+
         private Core()
         {
             _createdPlanes = new List<Plane>();
@@ -50,6 +52,7 @@ namespace Aircraft_Generator
             _followMe = new FollowMe();
             _tokens = new SynchronizedCollection<CancellationTokenSource>();
             Rabbit.Instance.MessageReceived += CancelTasks;
+            _token=new CancellationTokenSource();
         }
 
         public List<Plane> Planes
@@ -74,7 +77,7 @@ namespace Aircraft_Generator
         {
             Plane plane = Planes.First(p => p.Id == planeId);
             plane.Flight = _panel.RegisterPlaneToFlight(planeId, flightId);
-            var task = new Task(() => PlaneLanding(plane));
+            var task = new Task(() => PlaneLanding(plane), _token.Token);
             Debug.WriteLine("Plane {0} binded to {1}", planeId,flightId);
             Logger.SendMessage(1, "AircraftGenerator", String.Format("Plane {0} binded to {1}", planeId, flightId),
     _metrolog.GetCurrentTime());
@@ -181,31 +184,38 @@ namespace Aircraft_Generator
 
         private void PlaneLanding(Plane plane)
         {
-            while (!CheckTime(plane.Flight.arrivalTime))
+            try
             {
-                Sleep(10000);
-            }
-
-            while (true)
-            {
-                bool landingRequest = _tower.LandingRequest(plane.Id);
-                if (!landingRequest)
+                while (!CheckTime(plane.Flight.arrivalTime))
                 {
                     Sleep(10000);
                 }
-                else
-                {
-                    break;
-                }
-            }
 
-            MapObject runway = _gmc.GetRunway();
-            plane.State = PlaneState.Landing;
-            plane.ServiceZone = _gmc.GetPlaneServiceZone(plane.Id);
-            _followMe.LeadPlane(runway, plane.ServiceZone, plane.Id);
-            Debug.WriteLine("Plane {0} landed!", plane.Name);
-            Logger.SendMessage(1, "AircraftGenerator", String.Format("Plane {0} landed!", plane.Name),
-    _metrolog.GetCurrentTime());
+                while (true)
+                {
+                    bool landingRequest = _tower.LandingRequest(plane.Id);
+                    if (!landingRequest)
+                    {
+                        Sleep(10000);
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+
+                MapObject runway = _gmc.GetRunway();
+                plane.State = PlaneState.Landing;
+                plane.ServiceZone = _gmc.GetPlaneServiceZone(plane.Id);
+                _followMe.LeadPlane(runway, plane.ServiceZone, plane.Id);
+                Debug.WriteLine("Plane {0} landed!", plane.Name);
+                Logger.SendMessage(1, "AircraftGenerator", String.Format("Plane {0} landed!", plane.Name),
+                    _metrolog.GetCurrentTime());
+            }
+            catch (OperationCanceledException ex)
+            {
+                return;
+            }
         }
 
         private void CancelTasks(object sender, MetrologicalEventArgs e)
@@ -239,6 +249,13 @@ namespace Aircraft_Generator
                 return true;
             }
             return false;
+        }
+
+        public void Reset()
+        {
+            Planes.Clear();
+            _token.Cancel(true);
+            _token=new CancellationTokenSource();
         }
     }
 }

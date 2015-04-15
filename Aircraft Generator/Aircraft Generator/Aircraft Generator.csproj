@@ -73,10 +73,10 @@
       <DependentUpon>Reference.map</DependentUpon>
     </Content>
     <None Include="Web References\FollowMeWs\FollowMe.wsdl" />
-    <Content Include="Web References\FollowMeWs\Reference.map">
+    <None Include="Web References\FollowMeWs\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
-    </Content>
+    </None>
     <None Include="Web References\GmcVs\gmc.wsdl" />
     <Content Include="Web References\GmcVs\MapObject.datasource">
       <DependentUpon>Reference.map</DependentUpon>
@@ -96,10 +96,10 @@
     <None Include="Web References\InformationPanelWS\WebServiceInformationPanel.disco" />
     <None Include="Web References\MetrologicalService\MetrologService.disco" />
     <None Include="Web References\MetrologicalService\MetrologService.wsdl" />
-    <Content Include="Web References\MetrologicalService\Reference.map">
+    <None Include="Web References\MetrologicalService\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
-    </Content>
+    </None>
     <None Include="Web References\TowerService\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
