@@ -30,13 +30,11 @@ namespace ContainerLoader
         {
             Logger.SendMessage(0, ComponentName, String.Format("Задание получено: подогнать погрузчик багажа на площадку номер {0}", serviceZone.Number));
 
-            var countOfBaggage = new WebServiceCheckIn().GetBaggage(flightNumber);
-
-            Logger.SendMessage(0, ComponentName, String.Format("Получена информация о {0} кг багажа на рейс номер {1}", countOfBaggage, flightNumber));
-
-            if (countOfBaggage > 0) //если багаж вообще есть, что-то делаем
-            {
-                Logger.SendMessage(0, ComponentName, String.Format("Погрузчик багажа выехал на площадку обслуживания номер {0}", serviceZone.Number));
+//            var countOfBaggage = new WebServiceCheckIn().GetBaggage(flightNumber);
+//            Logger.SendMessage(0, ComponentName, String.Format("Получена информация о {0} кг багажа на рейс номер {1}", countOfBaggage, flightNumber));
+//            if (countOfBaggage > 0) //если багаж вообще есть, что-то делаем
+//            {
+//                Logger.SendMessage(0, ComponentName, String.Format("Погрузчик багажа выехал на площадку обслуживания номер {0}", serviceZone.Number));
 
                 var car = new Car();
                 car.GoTo(Garage, serviceZone);
@@ -44,9 +42,10 @@ namespace ContainerLoader
                 Logger.SendMessage(1, ComponentName, String.Format("Погрузчик багажа прибыл на площадку обслуживания номер {0}", serviceZone.Number));
 
                 WhoWhere.Add(new Tuple<Guid, MapObject>(car.Id, serviceZone)); //запоминаем, что на этой площадке находится погрузчик с некоторым идентификатором
-            } //если нет багажа, считаем, что все сделано
+//            } //если нет багажа, считаем, что все сделано
 
-            Logger.SendMessage(0, ComponentName, String.Format("Задание выполнено: подогнать погрузчик багажа на площадку номер {0}", serviceZone.Number));
+            Logger.SendMessage(0, ComponentName, 
+                String.Format("Задание выполнено: подогнать погрузчик багажа на площадку номер {0}", serviceZone.Number));
 
             new GSC().Done(taskId); //сообщаем Управлению Наземным Обслуживанием, что задание выполнено
         }

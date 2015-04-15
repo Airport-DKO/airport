@@ -57,6 +57,8 @@ namespace PassengerBus.AircraftgeneratorVS {
         
         private System.Threading.SendOrPostCallback DouchedOperationCompleted;
         
+        private System.Threading.SendOrPostCallback ResetOperationCompleted;
+        
         private bool useDefaultCredentialsSetExplicitly;
         
         /// <remarks/>
@@ -136,6 +138,9 @@ namespace PassengerBus.AircraftgeneratorVS {
         
         /// <remarks/>
         public event DouchedCompletedEventHandler DouchedCompleted;
+        
+        /// <remarks/>
+        public event ResetCompletedEventHandler ResetCompleted;
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("DKO-Ariport-Aircraft-Generator/CreateNewPlane", RequestNamespace="DKO-Ariport-Aircraft-Generator", ResponseNamespace="DKO-Ariport-Aircraft-Generator", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
@@ -571,6 +576,32 @@ namespace PassengerBus.AircraftgeneratorVS {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("DKO-Ariport-Aircraft-Generator/Reset", RequestNamespace="DKO-Ariport-Aircraft-Generator", ResponseNamespace="DKO-Ariport-Aircraft-Generator", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public void Reset() {
+            this.Invoke("Reset", new object[0]);
+        }
+        
+        /// <remarks/>
+        public void ResetAsync() {
+            this.ResetAsync(null);
+        }
+        
+        /// <remarks/>
+        public void ResetAsync(object userState) {
+            if ((this.ResetOperationCompleted == null)) {
+                this.ResetOperationCompleted = new System.Threading.SendOrPostCallback(this.OnResetOperationCompleted);
+            }
+            this.InvokeAsync("Reset", new object[0], this.ResetOperationCompleted, userState);
+        }
+        
+        private void OnResetOperationCompleted(object arg) {
+            if ((this.ResetCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.ResetCompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
         public new void CancelAsync(object userState) {
             base.CancelAsync(userState);
         }
@@ -895,22 +926,22 @@ namespace PassengerBus.AircraftgeneratorVS {
         Tokyo,
         
         /// <remarks/>
-        Paris,
+        Kyiv,
         
         /// <remarks/>
-        Rome,
+        Whitecourt,
         
         /// <remarks/>
-        NewYork,
+        Roma,
         
         /// <remarks/>
-        Sydney,
+        Washington,
         
         /// <remarks/>
-        Brasilia,
+        Minsk,
         
         /// <remarks/>
-        Antananarivo,
+        Almaty,
     }
     
     /// <remarks/>
@@ -1433,6 +1464,10 @@ namespace PassengerBus.AircraftgeneratorVS {
             }
         }
     }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.18408")]
+    public delegate void ResetCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
 }
 
 #pragma warning restore 1591

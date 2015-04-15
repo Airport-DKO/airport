@@ -33,6 +33,8 @@ namespace BaggageTractor.MetrologServiceVS {
         
         private System.Threading.SendOrPostCallback RefreshTickOperationCompleted;
         
+        private System.Threading.SendOrPostCallback GetCurrentTickOperationCompleted;
+        
         private System.Threading.SendOrPostCallback ResetOperationCompleted;
         
         private bool useDefaultCredentialsSetExplicitly;
@@ -78,6 +80,9 @@ namespace BaggageTractor.MetrologServiceVS {
         
         /// <remarks/>
         public event RefreshTickCompletedEventHandler RefreshTickCompleted;
+        
+        /// <remarks/>
+        public event GetCurrentTickCompletedEventHandler GetCurrentTickCompleted;
         
         /// <remarks/>
         public event ResetCompletedEventHandler ResetCompleted;
@@ -134,6 +139,33 @@ namespace BaggageTractor.MetrologServiceVS {
             if ((this.RefreshTickCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.RefreshTickCompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("Airport-Metrological-Service/GetCurrentTick", RequestNamespace="Airport-Metrological-Service", ResponseNamespace="Airport-Metrological-Service", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public double GetCurrentTick() {
+            object[] results = this.Invoke("GetCurrentTick", new object[0]);
+            return ((double)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetCurrentTickAsync() {
+            this.GetCurrentTickAsync(null);
+        }
+        
+        /// <remarks/>
+        public void GetCurrentTickAsync(object userState) {
+            if ((this.GetCurrentTickOperationCompleted == null)) {
+                this.GetCurrentTickOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetCurrentTickOperationCompleted);
+            }
+            this.InvokeAsync("GetCurrentTick", new object[0], this.GetCurrentTickOperationCompleted, userState);
+        }
+        
+        private void OnGetCurrentTickOperationCompleted(object arg) {
+            if ((this.GetCurrentTickCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetCurrentTickCompleted(this, new GetCurrentTickCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -211,6 +243,32 @@ namespace BaggageTractor.MetrologServiceVS {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.18408")]
     public delegate void RefreshTickCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.18408")]
+    public delegate void GetCurrentTickCompletedEventHandler(object sender, GetCurrentTickCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.18408")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetCurrentTickCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetCurrentTickCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public double Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((double)(this.results[0]));
+            }
+        }
+    }
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.18408")]

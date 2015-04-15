@@ -51,7 +51,7 @@ namespace BaggageTractor
             return true;
         }
 
-        /*
+        
         /// <summary>
         /// Метод, который позволяет определить, есть ли багаж у пассажиров на данный рейс
         /// </summary>
@@ -63,6 +63,6 @@ namespace BaggageTractor
             var count = Worker.GetWeightOfBaggage(flightNumber); //запрашиваем количество багажа
             return count > 0; //возвращаем true, если багаж есть
         }
-        */
+        
     }
 }

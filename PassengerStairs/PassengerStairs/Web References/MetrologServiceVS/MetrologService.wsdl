@@ -22,6 +22,16 @@
       <s:element name="RefreshTickResponse">
         <s:complexType />
       </s:element>
+      <s:element name="GetCurrentTick">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetCurrentTickResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetCurrentTickResult" type="s:double" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
       <s:element name="Reset">
         <s:complexType />
       </s:element>
@@ -42,6 +52,12 @@
   <wsdl:message name="RefreshTickSoapOut">
     <wsdl:part name="parameters" element="tns:RefreshTickResponse" />
   </wsdl:message>
+  <wsdl:message name="GetCurrentTickSoapIn">
+    <wsdl:part name="parameters" element="tns:GetCurrentTick" />
+  </wsdl:message>
+  <wsdl:message name="GetCurrentTickSoapOut">
+    <wsdl:part name="parameters" element="tns:GetCurrentTickResponse" />
+  </wsdl:message>
   <wsdl:message name="ResetSoapIn">
     <wsdl:part name="parameters" element="tns:Reset" />
   </wsdl:message>
@@ -56,6 +72,10 @@
     <wsdl:operation name="RefreshTick">
       <wsdl:input message="tns:RefreshTickSoapIn" />
       <wsdl:output message="tns:RefreshTickSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCurrentTick">
+      <wsdl:input message="tns:GetCurrentTickSoapIn" />
+      <wsdl:output message="tns:GetCurrentTickSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="Reset">
       <wsdl:input message="tns:ResetSoapIn" />
@@ -75,6 +95,15 @@
     </wsdl:operation>
     <wsdl:operation name="RefreshTick">
       <soap:operation soapAction="Airport-Metrological-Service/RefreshTick" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCurrentTick">
+      <soap:operation soapAction="Airport-Metrological-Service/GetCurrentTick" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -105,6 +134,15 @@
     </wsdl:operation>
     <wsdl:operation name="RefreshTick">
       <soap12:operation soapAction="Airport-Metrological-Service/RefreshTick" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCurrentTick">
+      <soap12:operation soapAction="Airport-Metrological-Service/GetCurrentTick" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

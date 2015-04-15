@@ -94,7 +94,7 @@ namespace VIPShuttle
                     car.GoTo(Airport,serviceZone);
                     new AircraftGenerator().LoadVipPassengers(serviceZone, (new List<Guid> {passengers[i]}).ToArray());//сажаем пассажира в Генератор Самолетов 
                     Logger.SendMessage(1, ComponentName,
-                        String.Format("й пассажир доставлен на борт на площадке {0}.", serviceZone.Number));
+                        String.Format("1 пассажир доставлен на борт на площадке {0}.", serviceZone.Number));
                 });
                 t.Start();
                 tasks.Add(t);

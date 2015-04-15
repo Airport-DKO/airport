@@ -75,10 +75,10 @@
     <Content Include="Web References\CheckinVS\Catering.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </Content>
-    <Content Include="Web References\CheckinVS\Reference.map">
+    <None Include="Web References\CheckinVS\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
-    </Content>
+    </None>
     <None Include="Web References\CheckinVS\WebServiceCheckIn.wsdl" />
     <None Include="Web References\GscVS\gsc.wsdl" />
     <None Include="Web References\CheckinVS\WebServiceCheckIn.disco" />
@@ -90,10 +90,10 @@
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
     <None Include="Web References\MetrologServiceVS\MetrologService.wsdl" />
-    <Content Include="Web References\MetrologServiceVS\Reference.map">
+    <None Include="Web References\MetrologServiceVS\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
-    </Content>
+    </None>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

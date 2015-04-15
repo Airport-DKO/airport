@@ -72,7 +72,8 @@ namespace FollowMe
                 if (gmc.Step(route[stepNumber], _type, _id)) //УНД возвращает разрешение на движение на переданную координату или запрет 
                 {
                     //если шаг сделать удалось - передвигаемся на следующий индекс массива, содержащего маршрут
-                    stepNumber++;}
+                    stepNumber++;
+                }
                 SpecialThead.Sleep(Speed);
             }
         }
@@ -109,12 +110,13 @@ namespace FollowMe
                     }
                     //если шаг сделать удалось - передвигаемся на следующий индекс массива, содержащего маршрут
                     stepNumber++;
-                    //TODO: между интервалами посылки таких запросов необходимо делать Sleep(N/Speed), где N-число, полученное от Метрологической службы(Время)
                 }
+                SpecialThead.Sleep(Speed);
             }
 
             //чтобы самолет оказался ровно на площадке обслуживания передаем Генератору Самолетов последние две координаты 
             airplane.DoStep(who, route[route.Count - 2]);
+            SpecialThead.Sleep(Speed);
             airplane.DoStep(who, route[route.Count - 1]); 
         }
     }
