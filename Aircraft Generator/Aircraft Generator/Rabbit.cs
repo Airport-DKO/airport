@@ -40,10 +40,10 @@ namespace Aircraft_Generator
             IConnection connection = factory.CreateConnection();
             IModel channel = connection.CreateModel();
 
-            channel.QueueDeclare("MetrologQueue", false, false, false, null);
+            channel.QueueDeclare("TC_AircraftGenerator", false, false, false, null);
 
             _consumer = new QueueingBasicConsumer(channel);
-            channel.BasicConsume("MetrologQueue", true, _consumer);
+            channel.BasicConsume("TC_AircraftGenerator", true, _consumer);
             var listenTask = new Task(ListenQueue);
             listenTask.Start();
         }

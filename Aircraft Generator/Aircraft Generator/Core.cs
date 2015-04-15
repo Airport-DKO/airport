@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -10,8 +11,6 @@ using Aircraft_Generator.GscWs2;
 using Aircraft_Generator.InformationPanelWS;
 using Aircraft_Generator.MetrologicalService;
 using Aircraft_Generator.TowerService;
-using Cities = Aircraft_Generator.InformationPanelWS.Cities;
-using Flight = Aircraft_Generator.InformationPanelWS.Flight;
 using MapObject = Aircraft_Generator.GmcVs.MapObject;
 
 namespace Aircraft_Generator
@@ -64,14 +63,21 @@ namespace Aircraft_Generator
             var plane = new Plane(name, PlaneState.Arrival, type, fuelNeed, currentStandartPassengers,
                 currentVipPassengers, currentBaggage, 0, hasArrivalPassengers);
             _createdPlanes.Add(plane);
+            Debug.WriteLine("Plane {0} created! Type: {1}. Fuel {2}, StdPas: {3} VipPas: {4} Bugg: {5}", name, type,
+                fuelNeed, currentStandartPassengers, currentVipPassengers, currentBaggage);
+            Logger.SendMessage(1, "AircraftGenerator", String.Format("Plane {0} created", name),
+                _metrolog.GetCurrentTime());
             return true;
         }
 
         public void BindPlaneToFlight(Guid planeId, Guid flightId)
         {
-            var plane = Planes.First(p => p.Id == planeId);
-            plane.Flight=_panel.RegisterPlaneToFlight(planeId, flightId);
+            Plane plane = Planes.First(p => p.Id == planeId);
+            plane.Flight = _panel.RegisterPlaneToFlight(planeId, flightId);
             var task = new Task(() => PlaneLanding(plane));
+            Debug.WriteLine("Plane {0} binded to {1}", planeId,flightId);
+            Logger.SendMessage(1, "AircraftGenerator", String.Format("Plane {0} binded to {1}", planeId, flightId),
+    _metrolog.GetCurrentTime());
             task.Start();
         }
 
@@ -81,6 +87,7 @@ namespace Aircraft_Generator
             plane.CurrentStandartPassengers += passengersGuids.Count;
             return true;
         }
+
         public bool LoadVipPassangers(MapObject serviceZone, List<Guid> passengersGuids)
         {
             Plane plane = Planes.First(p => p.ServiceZone.Number == serviceZone.Number);
@@ -119,6 +126,9 @@ namespace Aircraft_Generator
         public bool FollowMe(Guid planeId)
         {
             PlaneTaxingToServiceZone(planeId);
+            Debug.WriteLine("Plane {0} is now following", planeId);
+            Logger.SendMessage(1, "AircraftGenerator", String.Format("Plane {0} is now following", planeId),
+    _metrolog.GetCurrentTime());
             return true;
         }
 
@@ -139,6 +149,9 @@ namespace Aircraft_Generator
         public bool FollowMeComplete(Guid planeId)
         {
             PlaneIsReadyToService(planeId);
+            Debug.WriteLine("Plane {0} is at Service Zone now", planeId);
+            Logger.SendMessage(1, "AircraftGenerator", String.Format("Plane {0} is at Service Zone now", planeId),
+    _metrolog.GetCurrentTime());
             return true;
         }
 
@@ -190,6 +203,9 @@ namespace Aircraft_Generator
             plane.State = PlaneState.Landing;
             plane.ServiceZone = _gmc.GetPlaneServiceZone(plane.Id);
             _followMe.LeadPlane(runway, plane.ServiceZone, plane.Id);
+            Debug.WriteLine("Plane {0} landed!", plane.Name);
+            Logger.SendMessage(1, "AircraftGenerator", String.Format("Plane {0} landed!", plane.Name),
+    _metrolog.GetCurrentTime());
         }
 
         private void CancelTasks(object sender, MetrologicalEventArgs e)
