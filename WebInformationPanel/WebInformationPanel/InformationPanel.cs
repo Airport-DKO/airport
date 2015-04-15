@@ -13,11 +13,13 @@ namespace WebInformationPanel
         private static Random random;
         private MetrologService.MetrologService metrolog = new MetrologService.MetrologService();
         private Thread thread;
+        private MqSender Logger = new MqSender("LoggerQueue");
 
         public InformationPanel()
         {
             thread = new Thread(makeFligthLater);
             thread.Start();
+            Logger.Connect();
         }
 
         /// <summary>
@@ -235,6 +237,9 @@ namespace WebInformationPanel
             return FlightsBase;
         }
 
+        /// <summary>
+        /// функция потока, который будет переносить время вылета, если самолёт не готов улететь
+        /// </summary>
         private void makeFligthLater()
         {
             //пока читерство. поток будет спать фиксированное время
