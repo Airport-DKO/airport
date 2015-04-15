@@ -29,7 +29,13 @@ namespace WebPassengersGenerator
         private static Random random = new Random();
         public List<Passenger> passengers = new List<Passenger>();   //база активных пассажиров (тех, которые уже созданы и ещё находятся в нашем аэропорту)
         private PassengersStatistic statistic = new PassengersStatistic();
-        public int generateSleep = 500;                                //интервал при генерации
+        public int generateSleep = 300;                                //интервал при генерации
+        private MqSender Logger = new MqSender("LoggerQueue");
+
+        public PassengersGenerator()
+        {
+            Logger.Connect();
+        }
 
         /// <summary>
         /// генерирует рендомных пассажиров
@@ -73,7 +79,7 @@ namespace WebPassengersGenerator
         /// </summary>
         public void PassengerBehavior()
         {
-            var p = passengers.Where(s => s.State != PassengerState.Onboard).ToArray();
+            var p = passengers.Where(s => s.State != PassengerState.Onboard&&s.State != PassengerState.Registered).ToArray();
             foreach (var passenger in p)
             {
                 int behavior = random.Next(0, 3);
@@ -93,6 +99,7 @@ namespace WebPassengersGenerator
                         if (ticketSales.ReturnTicket(passenger.ID))
                         {
                             passenger.Ticket = null;
+                            passenger.State = PassengerState.Created;
                             statistic.Return++;
                         }
                         break;
