@@ -29,8 +29,13 @@ namespace WebCheckIn
         
         private WebServiceTicketSales ticketSales = new WebServiceTicketSales();
         private InformationPanelService.WebServiceInformationPanel informationPanel = new InformationPanelService.WebServiceInformationPanel();
-        private List<RegistrationWriting> RegistrationBase = new List<RegistrationWriting>(); 
-        
+        private List<RegistrationWriting> RegistrationBase = new List<RegistrationWriting>();
+        private MqSender Logger = new MqSender("LoggerQueue");
+
+        public CheckIn()
+        {
+            Logger.Connect();
+        }
         /// <summary>
         /// возвращает суммарный вес багажа
         /// </summary>
