@@ -43,10 +43,10 @@ namespace FollowMe
             IConnection connection = factory.CreateConnection();
             IModel channel = connection.CreateModel();
 
-            channel.QueueDeclare("TC_FollowMe", true, false, false, null);
+            channel.QueueDeclare("TC_FollowmeVan", true, false, false, null);
 
             _consumer = new QueueingBasicConsumer(channel);
-            channel.BasicConsume("TC_FollowMe", true, _consumer);
+            channel.BasicConsume("TC_FollowmeVan", true, _consumer);
             var listenTask = new Task(ListenQueue);
             listenTask.Start();
         }
