@@ -16,6 +16,11 @@ namespace WebTicketSales
         private List<Ticket> ticketsBase = new List<Ticket>();
         private MqSender Logger = new MqSender("LoggerQueue");
 
+        public TicketSales()
+        {
+            Logger.Connect();
+        }
+
         /// <summary>
         /// покупка билетов
         /// </summary>
@@ -64,14 +69,14 @@ namespace WebTicketSales
                 }
                 ticketsBase.Add(t);
                 var time = metrolog.GetCurrentTime();
-                Logger.SendMsg(string.Format("{0}_{1}_TicketSales_1_Пассажир {2} купил билет на рейс {3} {4} класса",
-                    time.Date, time.TimeOfDay, t.PassengerID, t.FlightID, t.PassengerID));
+                Logger.SendMsg(string.Format("{0}_{1}_1_TicketSales_Пассажир {2} купил билет на рейс {3} {4} класса",
+                    time.Date, time.TimeOfDay, t.PassengerID, t.FlightID, t.TicketClass));
                 return t;
             }
             catch (Exception ex)
             {
                 var time = metrolog.GetCurrentTime();
-                Logger.SendMsg(string.Format("{0}_{1}_TicketSales_0_Error {2}",
+                Logger.SendMsg(string.Format("{0}_{1}_0_TicketSales_Error {2}",
                     time.Date, time.TimeOfDay, ex.Message));
                 return null;
             }
@@ -94,8 +99,8 @@ namespace WebTicketSales
                         var time = metrolog.GetCurrentTime();
                         ticketsBase.Remove(ticket);
                         Logger.SendMsg(
-                            string.Format("{0}_{1}_TicketSales_1_Пассажир {2} вернул билет на рейс {3} {4} класса",
-                                time.Date, time.TimeOfDay, ticket.PassengerID, ticket.FlightID, ticket.PassengerID));
+                            string.Format("{0}_{1}_1_TicketSales_Пассажир {2} вернул билет на рейс {3} {4} класса",
+                                time.Date, time.TimeOfDay, ticket.PassengerID, ticket.FlightID, ticket.TicketClass));
                         return true;
                     }
                 }
@@ -103,7 +108,7 @@ namespace WebTicketSales
             catch (Exception ex)
             {
                 var time = metrolog.GetCurrentTime();
-                Logger.SendMsg(string.Format("{0}_{1}_TicketSales_0_Error {2}",
+                Logger.SendMsg(string.Format("{0}_{1}_0_TicketSales_Error {2}",
                     time.Date, time.TimeOfDay, ex.Message));
                 return false;
             }

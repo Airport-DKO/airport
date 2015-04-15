@@ -38,7 +38,7 @@ namespace WebTicketSales
                 // Декларируем имя очереди
                 channel.QueueDeclare(MQName, false, false, false, null);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return false;
             }
@@ -52,7 +52,7 @@ namespace WebTicketSales
                 var body = Encoding.UTF8.GetBytes(msg); // декодируем в UTF8, хз можно ли без этого
                 channel.BasicPublish("", MQName, null, body);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 //if (Connect())
                 //    SendMsg(msg);
