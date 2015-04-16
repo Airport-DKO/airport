@@ -69,9 +69,6 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <None Include="Web References\AircraftGenerator\AircraftGenerator.disco" />
-    <Content Include="Web References\AircraftGenerator\Flight.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </Content>
     <None Include="Web References\BaggageTractor\BaggageTractor.wsdl" />
     <None Include="Web References\BaggageTractor\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
@@ -110,10 +107,10 @@
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
     <None Include="Web References\MetrologService\MetrologService.wsdl" />
-    <Content Include="Web References\MetrologService\Reference.map">
+    <None Include="Web References\MetrologService\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
-    </Content>
+    </None>
     <None Include="Web References\PassengerBus\PassengerBus.wsdl" />
     <None Include="Web References\PassengerBus\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
@@ -138,10 +135,10 @@
     <Content Include="Web References\WebServiceInformationPanel\Flight.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </Content>
-    <Content Include="Web References\WebServiceInformationPanel\Reference.map">
+    <None Include="Web References\WebServiceInformationPanel\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
-    </Content>
+    </None>
     <None Include="Web References\WebServiceInformationPanel\WebServiceInformationPanel.wsdl" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
