@@ -7,10 +7,7 @@ namespace CateringTruck
 {
     public static class Logger
     {
-        private static readonly string QueueName;
-        private static readonly IModel Channel;
-
-        static Logger()
+        public static void SendMessage(int level, string componentName, string message)
         {
             var factory = new ConnectionFactory
             {
@@ -21,16 +18,13 @@ namespace CateringTruck
                 Port = 5672
             };
 
-            Channel = factory.CreateConnection().CreateModel();
+            IModel Channel = factory.CreateConnection().CreateModel();
 
-            QueueName = "LoggerQueue";
+            string QueueName = "LoggerQueue";
 
             //декларируем имя очереди
             Channel.QueueDeclare(QueueName, false, false, false, null);
-        }
 
-        public static void SendMessage(int level, string componentName, string message)
-        {
             DateTime dt = new MetrologService().GetCurrentTime(); //узнаем время у метрологической службы
 
             /*Кладем сообщения строго в очередь LoggerQueue сторого в указанном ниже формате:
