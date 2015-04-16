@@ -1,0 +1,29 @@
+Для получения точного времени надо дергать метод GetCurrentTime() веб-службы.
+Для получения коэффициента (точнее, значения, равного единице, деленной на коэффициент) необходимо слушать свою очередь. Список очередей под каждую компоненту будет в следующем сообщении.
+Для получения коэффициента после перезапуска службы необходимо дергать метод GetCurrentTick() веб-службы. Использовать только однократно (например, если вы перезапустились), в остальных случаях надо слушать очередь.
+Обратите внимание, что очереди не чистятся. Очистка очередей и одновременное туда добавление единственного сообщения с коэффициентом 1 происходит лишь при вызове метода Reset(). То есть при стабильной работе в вашу очередь постоянно приходят актуальные коэффиценты, и ваше дело их корректно и своевременно обработать.
+
+Список имеющихся очередей (название очереди после TC_ соответствует компоненте из файла Чапкина):
+TC_AircraftGenerator
+TC_BaggageTractor
+TC_CateringTruck
+TC_Checkin
+TC_ContainerLoader
+TC_Deicer
+TC_FollowmeVan
+TC_GroundMovementControl
+TC_HandlingSupervisor
+TC_InformationPanel
+TC_Logger
+TC_PassengerBus
+TC_PassengerStairs
+TC_PassengersGenerator
+TC_Refueler
+TC_SnowremovalVehicle
+TC_SystemDashboard
+TC_TicketSales
+TC_Time
+TC_TowerControl
+TC_VIPShuttle
+TC_Visualization
+TC_Weather
