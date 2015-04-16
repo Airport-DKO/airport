@@ -33,6 +33,8 @@ namespace Ground_Service_Control.BaggageTractor {
         
         private System.Threading.SendOrPostCallback LoadBaggageOperationCompleted;
         
+        private System.Threading.SendOrPostCallback ToPlainOperationCompleted;
+        
         private bool useDefaultCredentialsSetExplicitly;
         
         /// <remarks/>
@@ -78,27 +80,30 @@ namespace Ground_Service_Control.BaggageTractor {
         public event LoadBaggageCompletedEventHandler LoadBaggageCompleted;
         
         /// <remarks/>
+        public event ToPlainCompletedEventHandler ToPlainCompleted;
+        
+        /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/UnloadBaggage", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public bool UnloadBaggage(MapObject serviseZone, int weightOfBaggage, ServiceTaskId taskId) {
+        public bool UnloadBaggage(MapObject serviceZone, int weightOfBaggage, ServiceTaskId taskId) {
             object[] results = this.Invoke("UnloadBaggage", new object[] {
-                        serviseZone,
+                        serviceZone,
                         weightOfBaggage,
                         taskId});
             return ((bool)(results[0]));
         }
         
         /// <remarks/>
-        public void UnloadBaggageAsync(MapObject serviseZone, int weightOfBaggage, ServiceTaskId taskId) {
-            this.UnloadBaggageAsync(serviseZone, weightOfBaggage, taskId, null);
+        public void UnloadBaggageAsync(MapObject serviceZone, int weightOfBaggage, ServiceTaskId taskId) {
+            this.UnloadBaggageAsync(serviceZone, weightOfBaggage, taskId, null);
         }
         
         /// <remarks/>
-        public void UnloadBaggageAsync(MapObject serviseZone, int weightOfBaggage, ServiceTaskId taskId, object userState) {
+        public void UnloadBaggageAsync(MapObject serviceZone, int weightOfBaggage, ServiceTaskId taskId, object userState) {
             if ((this.UnloadBaggageOperationCompleted == null)) {
                 this.UnloadBaggageOperationCompleted = new System.Threading.SendOrPostCallback(this.OnUnloadBaggageOperationCompleted);
             }
             this.InvokeAsync("UnloadBaggage", new object[] {
-                        serviseZone,
+                        serviceZone,
                         weightOfBaggage,
                         taskId}, this.UnloadBaggageOperationCompleted, userState);
         }
@@ -112,26 +117,26 @@ namespace Ground_Service_Control.BaggageTractor {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/LoadBaggage", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public bool LoadBaggage(MapObject serviseZone, System.Guid flightNumber, ServiceTaskId taskId) {
+        public bool LoadBaggage(MapObject serviceZone, System.Guid flightNumber, ServiceTaskId taskId) {
             object[] results = this.Invoke("LoadBaggage", new object[] {
-                        serviseZone,
+                        serviceZone,
                         flightNumber,
                         taskId});
             return ((bool)(results[0]));
         }
         
         /// <remarks/>
-        public void LoadBaggageAsync(MapObject serviseZone, System.Guid flightNumber, ServiceTaskId taskId) {
-            this.LoadBaggageAsync(serviseZone, flightNumber, taskId, null);
+        public void LoadBaggageAsync(MapObject serviceZone, System.Guid flightNumber, ServiceTaskId taskId) {
+            this.LoadBaggageAsync(serviceZone, flightNumber, taskId, null);
         }
         
         /// <remarks/>
-        public void LoadBaggageAsync(MapObject serviseZone, System.Guid flightNumber, ServiceTaskId taskId, object userState) {
+        public void LoadBaggageAsync(MapObject serviceZone, System.Guid flightNumber, ServiceTaskId taskId, object userState) {
             if ((this.LoadBaggageOperationCompleted == null)) {
                 this.LoadBaggageOperationCompleted = new System.Threading.SendOrPostCallback(this.OnLoadBaggageOperationCompleted);
             }
             this.InvokeAsync("LoadBaggage", new object[] {
-                        serviseZone,
+                        serviceZone,
                         flightNumber,
                         taskId}, this.LoadBaggageOperationCompleted, userState);
         }
@@ -140,6 +145,35 @@ namespace Ground_Service_Control.BaggageTractor {
             if ((this.LoadBaggageCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.LoadBaggageCompleted(this, new LoadBaggageCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/ToPlain", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public bool ToPlain(System.Guid flightNumber) {
+            object[] results = this.Invoke("ToPlain", new object[] {
+                        flightNumber});
+            return ((bool)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void ToPlainAsync(System.Guid flightNumber) {
+            this.ToPlainAsync(flightNumber, null);
+        }
+        
+        /// <remarks/>
+        public void ToPlainAsync(System.Guid flightNumber, object userState) {
+            if ((this.ToPlainOperationCompleted == null)) {
+                this.ToPlainOperationCompleted = new System.Threading.SendOrPostCallback(this.OnToPlainOperationCompleted);
+            }
+            this.InvokeAsync("ToPlain", new object[] {
+                        flightNumber}, this.ToPlainOperationCompleted, userState);
+        }
+        
+        private void OnToPlainOperationCompleted(object arg) {
+            if ((this.ToPlainCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.ToPlainCompleted(this, new ToPlainCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -221,6 +255,61 @@ namespace Ground_Service_Control.BaggageTractor {
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="DKO-Airport-Ground-Service-Control")]
     public partial class ServiceTaskId {
+        
+        private System.Guid planeField;
+        
+        private ServiceTaskType typeField;
+        
+        /// <remarks/>
+        public System.Guid plane {
+            get {
+                return this.planeField;
+            }
+            set {
+                this.planeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public ServiceTaskType type {
+            get {
+                return this.typeField;
+            }
+            set {
+                this.typeField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.0.30319.34209")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="DKO-Airport-Ground-Service-Control")]
+    public enum ServiceTaskType {
+        
+        /// <remarks/>
+        None,
+        
+        /// <remarks/>
+        BaggageTractor,
+        
+        /// <remarks/>
+        CateringTruck,
+        
+        /// <remarks/>
+        ContainerLoader,
+        
+        /// <remarks/>
+        PassengerBus,
+        
+        /// <remarks/>
+        PassengerStairs,
+        
+        /// <remarks/>
+        Refueler,
+        
+        /// <remarks/>
+        VIPShuttle,
     }
     
     /// <remarks/>
@@ -262,6 +351,32 @@ namespace Ground_Service_Control.BaggageTractor {
         private object[] results;
         
         internal LoadBaggageCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public bool Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((bool)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.34209")]
+    public delegate void ToPlainCompletedEventHandler(object sender, ToPlainCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.34209")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class ToPlainCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal ToPlainCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }

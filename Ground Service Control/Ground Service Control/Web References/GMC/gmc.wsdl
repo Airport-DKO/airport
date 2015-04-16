@@ -65,6 +65,7 @@
           <s:enumeration value="PassengerBus" />
           <s:enumeration value="VipShuttle" />
           <s:enumeration value="SnowRemovalVehicle" />
+          <s:enumeration value="Refueler" />
         </s:restriction>
       </s:simpleType>
       <s:element name="StepResponse">
@@ -84,7 +85,7 @@
       <s:element name="CheckRunwayAwailabilityResponse">
         <s:complexType>
           <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="CheckRunwayAwailabilityResult" type="tns:MapObject" />
+            <s:element minOccurs="1" maxOccurs="1" name="CheckRunwayAwailabilityResult" type="s:boolean" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -107,6 +108,16 @@
       </s:element>
       <s:element name="RunwayReleaseResponse">
         <s:complexType />
+      </s:element>
+      <s:element name="GetRunway">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetRunwayResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetRunwayResult" type="tns:MapObject" />
+          </s:sequence>
+        </s:complexType>
       </s:element>
       <s:element name="GetServiceZones">
         <s:complexType />
@@ -162,6 +173,12 @@
   <wsdl:message name="RunwayReleaseSoapOut">
     <wsdl:part name="parameters" element="tns:RunwayReleaseResponse" />
   </wsdl:message>
+  <wsdl:message name="GetRunwaySoapIn">
+    <wsdl:part name="parameters" element="tns:GetRunway" />
+  </wsdl:message>
+  <wsdl:message name="GetRunwaySoapOut">
+    <wsdl:part name="parameters" element="tns:GetRunwayResponse" />
+  </wsdl:message>
   <wsdl:message name="GetServiceZonesSoapIn">
     <wsdl:part name="parameters" element="tns:GetServiceZones" />
   </wsdl:message>
@@ -188,6 +205,10 @@
     <wsdl:operation name="RunwayRelease">
       <wsdl:input message="tns:RunwayReleaseSoapIn" />
       <wsdl:output message="tns:RunwayReleaseSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetRunway">
+      <wsdl:input message="tns:GetRunwaySoapIn" />
+      <wsdl:output message="tns:GetRunwaySoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetServiceZones">
       <wsdl:input message="tns:GetServiceZonesSoapIn" />
@@ -234,6 +255,15 @@
     </wsdl:operation>
     <wsdl:operation name="RunwayRelease">
       <soap:operation soapAction="Airport/RunwayRelease" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRunway">
+      <soap:operation soapAction="Airport/GetRunway" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -291,6 +321,15 @@
     </wsdl:operation>
     <wsdl:operation name="RunwayRelease">
       <soap12:operation soapAction="Airport/RunwayRelease" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRunway">
+      <soap12:operation soapAction="Airport/GetRunway" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
