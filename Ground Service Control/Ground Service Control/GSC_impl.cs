@@ -104,12 +104,16 @@ namespace Ground_Service_Control
 
         public void Reset()
         {
-            foreach(var zone in m_serviceZones){
-                zone.free = true;
-                zone.plane = Guid.Empty;
-            }
+            lock (m_lock)
+            {
+                foreach (var zone in m_serviceZones)
+                {
+                    zone.free = true;
+                    zone.plane = Guid.Empty;
+                }
 
-            m_taskScheduler.Reset();
+                m_taskScheduler.Reset();
+            }
         }
 
         private GSC_impl()

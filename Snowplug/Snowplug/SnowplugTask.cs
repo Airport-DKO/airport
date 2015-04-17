@@ -27,8 +27,7 @@ namespace Snowplug
                 }
             }
 
-            //TODO:
-            //gmc.SnowCleanFinished();
+            gmc.SnowCleanFinished();
 
             Logger.SendMessage("Очистка снега окончена");
 

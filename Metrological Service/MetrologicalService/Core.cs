@@ -33,9 +33,8 @@ namespace MetrologicalService
         private Core()
         {
             modTimer.Elapsed += timer_Elapsed;
-            DateTime now = DateTime.Now;
             modTimer.Start();
-            timer = DateTime.Now;
+            timer = DateTime.UtcNow.AddHours(3);
         }
 
         private void timer_Elapsed(object sender, ElapsedEventArgs e)
