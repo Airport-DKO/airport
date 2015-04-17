@@ -97,10 +97,13 @@
     <WebReferences Include="Web References\" />
   </ItemGroup>
   <ItemGroup>
-    <WebReferenceUrl Include="http://localhost:1646/WebServiceWeather.asmx">
+    <None Include="Resources\00118217 - копия %283%29.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferenceUrl Include="http://airport-dko-weather.azurewebsites.net/WebServiceWeather.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\Weather\</RelPath>
-      <UpdateFromURL>http://localhost:1646/WebServiceWeather.asmx</UpdateFromURL>
+      <UpdateFromURL>http://airport-dko-weather.azurewebsites.net/WebServiceWeather.asmx</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>
@@ -111,9 +114,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Web References\Weather\WebServiceWeather.disco" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\00118217 - копия %283%29.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

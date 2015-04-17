@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="WeatherGUI_Weather_WebServiceWeather" Type="(Web Service URL)" Scope="Application">
-      <Value Profile="(Default)">http://localhost:1646/WebServiceWeather.asmx</Value>
+      <Value Profile="(Default)">http://airport-dko-weather.azurewebsites.net/WebServiceWeather.asmx</Value>
     </Setting>
   </Settings>
 </SettingsFile>

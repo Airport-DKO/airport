@@ -38,6 +38,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
+            this.button3 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // button1
@@ -91,7 +92,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(22, 190);
+            this.button2.Location = new System.Drawing.Point(22, 216);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(90, 23);
             this.button2.TabIndex = 5;
@@ -103,7 +104,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.BackColor = System.Drawing.Color.Transparent;
-            this.label3.Location = new System.Drawing.Point(19, 174);
+            this.label3.Location = new System.Drawing.Point(19, 200);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(35, 13);
             this.label3.TabIndex = 6;
@@ -129,12 +130,23 @@
             this.label5.TabIndex = 8;
             this.label5.Text = "label5";
             // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(22, 157);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(90, 23);
+            this.button3.TabIndex = 9;
+            this.button3.Text = "button3";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.ClientSize = new System.Drawing.Size(392, 273);
+            this.Controls.Add(this.button3);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
@@ -165,6 +177,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Button button3;
     }
 }
 

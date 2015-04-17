@@ -3,7 +3,11 @@
   <wsdl:types>
     <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
       <s:element name="GetTemperature">
-        <s:complexType />
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="gui" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
       </s:element>
       <s:element name="GetTemperatureResponse">
         <s:complexType>
@@ -208,10 +212,10 @@
   </wsdl:binding>
   <wsdl:service name="WebServiceWeather">
     <wsdl:port name="WebServiceWeatherSoap" binding="tns:WebServiceWeatherSoap">
-      <soap:address location="http://localhost:1646/WebServiceWeather.asmx" />
+      <soap:address location="http://airport-dko-weather.azurewebsites.net/WebServiceWeather.asmx" />
     </wsdl:port>
     <wsdl:port name="WebServiceWeatherSoap12" binding="tns:WebServiceWeatherSoap12">
-      <soap12:address location="http://localhost:1646/WebServiceWeather.asmx" />
+      <soap12:address location="http://airport-dko-weather.azurewebsites.net/WebServiceWeather.asmx" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>
