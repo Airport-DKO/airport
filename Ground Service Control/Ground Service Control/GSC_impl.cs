@@ -104,7 +104,11 @@ namespace Ground_Service_Control
 
         public void Reset()
         {
-            m_serviceZones.Clear();
+            foreach(var zone in m_serviceZones){
+                zone.free = true;
+                zone.plane = Guid.Empty;
+            }
+
             m_taskScheduler.Reset();
         }
 

@@ -71,9 +71,9 @@ namespace Ground_Service_Control
         }
 
         [WebMethod]
-        public bool Reset()
+        public void Reset()
         {
-            return GSC_impl.self().Reset();
+            GSC_impl.self().Reset();
         }
 
     }
