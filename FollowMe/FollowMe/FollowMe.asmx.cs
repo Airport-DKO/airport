@@ -25,10 +25,13 @@ namespace FollowMe
         [WebMethod]
         public bool LeadPlane(MapObject from, MapObject to, Guid planeId)
         {
-            Task t = new Task(() => Worker.LeadPlane(from, to, planeId));
-            t.Start();
+            return FollowMeProxy.LeadPlane(from, to, planeId);
+        }
 
-            return true;
+        [WebMethod]
+        public void Reset()
+        {
+            FollowMeProxy.Reset();
         }
     }
 }

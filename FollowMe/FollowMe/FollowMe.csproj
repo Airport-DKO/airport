@@ -113,6 +113,7 @@
       <DependentUpon>FollowMe.asmx</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="FollowMeProxy.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="Metrological.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
