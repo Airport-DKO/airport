@@ -28,9 +28,8 @@ namespace MetrologicalService
         private void Form1_Load(object sender, EventArgs e)
         {
             modTimer1.Elapsed += timer_Elapsed1;
-            DateTime now = DateTime.Now;
             modTimer1.Start();
-            timer = DateTime.Now;
+            timer = DateTime.UtcNow.AddHours(3);
             a.RefreshTick(1);
 
             timer = a.GetCurrentTime();
@@ -94,7 +93,7 @@ namespace MetrologicalService
         {
             ModelingSpeed = 1;
             a.Reset();
-            timer = DateTime.Now;
+            timer = DateTime.UtcNow.AddHours(3);
             timeLabel.Text = timer.ToString("HH:mm:ss");
             dateLabel.Text = timer.ToString("dd.MM.yyyy");
             textBoxSpeed.Text = "1";

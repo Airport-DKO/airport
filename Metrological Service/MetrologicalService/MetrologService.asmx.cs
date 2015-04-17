@@ -42,7 +42,7 @@ namespace MetrologicalService
         {
             Core.Instance.ClearAllQueues();
             RefreshTick(1);
-            Core.Instance.timer = DateTime.Now;
+            Core.Instance.timer = DateTime.UtcNow.AddHours(3);
             Core.Instance.ModelingSpeed = 1;
         }
     }
