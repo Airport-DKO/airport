@@ -88,6 +88,8 @@ namespace Ground_Service_Control
         {
             var t = new Task(() =>
             {
+                Utils.self().waitTillCheckInFinished(context.plane);
+
                 var ct = new CateringTruck.CateringTruck();
                 ct.LoadFood(context.serviceZone, context.plane, taskId);
             });
