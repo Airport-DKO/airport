@@ -78,7 +78,7 @@ namespace Ground_Service_Control
 
                 Debug.Assert(!zone.free);
 
-                Utils.self().log("Самолёт приземлился: " + plane.GetHashCode() + " на: " + zone.zone.Number + " начато обслуживание");
+                Utils.self().log("Самолёт прибыл на обслуживание: " + plane.GetHashCode() + " зона: " + zone.zone.Number + " начато обслуживание");
 
                 m_taskScheduler.servicePlane(new PlaneNeeds{ plane = plane, flight = flight, baggage = baggage, economPassengers = economPassengers, fuelingNeeds = fuelingNeeds, ladder = ladder, VIPPassengers = VIPPassengers, serviceZone =  zone.zone});
 
