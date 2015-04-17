@@ -120,8 +120,14 @@ namespace Ground_Service_Control
                 }
 
                 Utils.self().waitTillCheckInFinished(context.plane);
-                //TODO: Спросить, нужен ли трап, если нет убрать
-                cl.ToServiceZone(context.serviceZone, context.plane, taskId);
+
+                var baggage = new BaggageTractor.BaggageTractor();
+
+                if(baggage.ToPlain(context.plane)){
+                    cl.ToServiceZone(context.serviceZone, context.plane, taskId);
+                } else {
+                    cl.ToGarage(context.serviceZone);
+                }
             });
 
             t.Start();
@@ -186,8 +192,17 @@ namespace Ground_Service_Control
                 }
 
                 Utils.self().waitTillCheckInFinished(context.plane);
-                //TODO: Спросить, нужен ли трап, если нет убрать
-                ps.ToServiceZone(context.serviceZone, context.plane, taskId);
+
+                var vip = new VIPShuttle.VIPShuttle();
+                var bus = new PassengerBus.PassengerBus();
+
+                var needTrap = vip.ToPlain(context.plane) || bus.ToPlain(context.plane);
+                if (needTrap)
+                {
+                    ps.ToServiceZone(context.serviceZone, context.plane, taskId);
+                } else {
+                    ps.ToGarage(context.serviceZone);
+                }
             });
 
             t.Start();
