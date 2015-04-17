@@ -95,7 +95,7 @@ namespace Ground_Service_Control
                 {
                     Utils.self().log("Обслуживание завершено: " + TaskNumber.plane.GetHashCode());
 
-                    //FIXME: сообщить Г.С., что готов к взлёту.
+                    new AircraftGenerator.AircraftGenerator().ServiceComplete(TaskNumber.plane);
                 }
 
                 return true;
