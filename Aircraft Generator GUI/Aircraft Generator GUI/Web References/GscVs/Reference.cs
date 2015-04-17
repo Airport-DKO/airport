@@ -13,7 +13,7 @@
 // 
 #pragma warning disable 1591
 
-namespace Aircraft_Generator.GscWs2 {
+namespace Aircraft_Generator_GUI.GscVs {
     using System;
     using System.Web.Services;
     using System.Diagnostics;
@@ -43,7 +43,7 @@ namespace Aircraft_Generator.GscWs2 {
         
         /// <remarks/>
         public GSC() {
-            this.Url = global::Aircraft_Generator.Properties.Settings.Default.Aircraft_Generator_GscWs2_GSC;
+            this.Url = global::Aircraft_Generator_GUI.Properties.Settings.Default.Aircraft_Generator_GUI_GscVs_GSC;
             if ((this.IsLocalFileSystemWebService(this.Url) == true)) {
                 this.UseDefaultCredentials = true;
                 this.useDefaultCredentialsSetExplicitly = false;

@@ -115,6 +115,12 @@
       <s:element name="LetItSnowResponse">
         <s:complexType />
       </s:element>
+      <s:element name="Reset">
+        <s:complexType />
+      </s:element>
+      <s:element name="ResetResponse">
+        <s:complexType />
+      </s:element>
     </s:schema>
     <s:schema elementFormDefault="qualified" targetNamespace="http://microsoft.com/wsdl/types/">
       <s:simpleType name="guid">
@@ -154,6 +160,12 @@
   <wsdl:message name="LetItSnowSoapOut">
     <wsdl:part name="parameters" element="tns:LetItSnowResponse" />
   </wsdl:message>
+  <wsdl:message name="ResetSoapIn">
+    <wsdl:part name="parameters" element="tns:Reset" />
+  </wsdl:message>
+  <wsdl:message name="ResetSoapOut">
+    <wsdl:part name="parameters" element="tns:ResetResponse" />
+  </wsdl:message>
   <wsdl:portType name="visualisatorSoap">
     <wsdl:operation name="GetMap">
       <wsdl:input message="tns:GetMapSoapIn" />
@@ -174,6 +186,10 @@
     <wsdl:operation name="LetItSnow">
       <wsdl:input message="tns:LetItSnowSoapIn" />
       <wsdl:output message="tns:LetItSnowSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Reset">
+      <wsdl:input message="tns:ResetSoapIn" />
+      <wsdl:output message="tns:ResetSoapOut" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="visualisatorSoap" type="tns:visualisatorSoap">
@@ -223,6 +239,15 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="Reset">
+      <soap:operation soapAction="http://airport-dko-1.cloudapp.net/Reset" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
   </wsdl:binding>
   <wsdl:binding name="visualisatorSoap12" type="tns:visualisatorSoap">
     <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
@@ -264,6 +289,15 @@
     </wsdl:operation>
     <wsdl:operation name="LetItSnow">
       <soap12:operation soapAction="http://airport-dko-1.cloudapp.net/LetItSnow" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Reset">
+      <soap12:operation soapAction="http://airport-dko-1.cloudapp.net/Reset" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

@@ -68,7 +68,13 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <None Include="Web References\DeicerVs\Deicer.wsdl" />
+    <Content Include="Web References\DeicerVs\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </Content>
     <None Include="Web References\FollowMeWs\FollowMe.disco" />
+    <None Include="Web References\DeicerVs\Deicer.disco" />
     <Content Include="Web References\GmcVs\CoordinateTuple.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </Content>
@@ -141,6 +147,7 @@
     <Compile Include="Commons\PlaneType.cs" />
     <Compile Include="Conversions\Flight.cs" />
     <Compile Include="Conversions\MapObject.cs" />
+    <Compile Include="Conversions\MapObject2.cs" />
     <Compile Include="Core.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -150,6 +157,11 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="Rabbit.cs" />
+    <Compile Include="Web References\DeicerVs\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
     <Compile Include="Web References\FollowMeWs\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -239,6 +251,17 @@
       </CachedDynamicPropName>
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>Aircraft_Generator_InformationPanelWS_WebServiceInformationPanel</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://airport-dko-services.azurewebsites.net/Deicer.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\DeicerVs\</RelPath>
+      <UpdateFromURL>http://airport-dko-services.azurewebsites.net/Deicer.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Aircraft_Generator_DeicerVs_Deicer</CachedSettingsPropName>
     </WebReferenceUrl>
     <WebReferenceUrl Include="http://airport-dko-services.azurewebsites.net/FollowMe.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>

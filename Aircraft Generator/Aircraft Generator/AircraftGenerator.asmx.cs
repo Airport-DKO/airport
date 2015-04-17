@@ -108,5 +108,12 @@ namespace Aircraft_Generator
         {
             Core.Instance.Reset();
         }
+
+
+        [WebMethod]
+        public void ServiceComplete(Guid planeId)
+        {
+            Core.Instance.ServiceComplete(planeId);
+        }
     }
 }

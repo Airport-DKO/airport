@@ -92,5 +92,17 @@ namespace Ground_Movement_Control
         {
             return Core.Instance.GetServiceZones();
         }
+
+        [WebMethod]
+        public void SnowCleanFinished()
+        {
+            Core.Instance.SnowCleanFinished();
+        }
+
+        [WebMethod]
+        public void Reset()
+        {
+            Core.Instance.Reset();
+        }
     }
 }

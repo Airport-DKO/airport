@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Aircraft_Generator.Commons;
+using Aircraft_Generator.DeicerVs;
 using Aircraft_Generator.FollowMeWs;
 using Aircraft_Generator.GmcVs;
 using Aircraft_Generator.GscWs2;
@@ -52,7 +53,7 @@ namespace Aircraft_Generator
             _followMe = new FollowMe();
             _tokens = new SynchronizedCollection<CancellationTokenSource>();
             Rabbit.Instance.MessageReceived += CancelTasks;
-            _token=new CancellationTokenSource();
+            _token = new CancellationTokenSource();
         }
 
         public List<Plane> Planes
@@ -77,10 +78,10 @@ namespace Aircraft_Generator
         {
             Plane plane = Planes.First(p => p.Id == planeId);
             plane.Flight = _panel.RegisterPlaneToFlight(planeId, flightId);
-            var task = new Task(() => PlaneLanding(plane), _token.Token);
-            Debug.WriteLine("Plane {0} binded to {1}", planeId,flightId);
+            var task = new Task(() => PlaneLanding(plane, _token.Token), _token.Token);
+            Debug.WriteLine("Plane {0} binded to {1}", planeId, flightId);
             Logger.SendMessage(1, "AircraftGenerator", String.Format("Plane {0} binded to {1}", planeId, flightId),
-    _metrolog.GetCurrentTime());
+                _metrolog.GetCurrentTime());
             task.Start();
         }
 
@@ -131,7 +132,7 @@ namespace Aircraft_Generator
             PlaneTaxingToServiceZone(planeId);
             Debug.WriteLine("Plane {0} is now following", planeId);
             Logger.SendMessage(1, "AircraftGenerator", String.Format("Plane {0} is now following", planeId),
-    _metrolog.GetCurrentTime());
+                _metrolog.GetCurrentTime());
             return true;
         }
 
@@ -144,6 +145,8 @@ namespace Aircraft_Generator
                 {
                     break;
                 }
+                if (_token.IsCancellationRequested)
+                    return false;
                 Sleep(1000);
             }
             return true;
@@ -154,13 +157,19 @@ namespace Aircraft_Generator
             PlaneIsReadyToService(planeId);
             Debug.WriteLine("Plane {0} is at Service Zone now", planeId);
             Logger.SendMessage(1, "AircraftGenerator", String.Format("Plane {0} is at Service Zone now", planeId),
-    _metrolog.GetCurrentTime());
+                _metrolog.GetCurrentTime());
             return true;
         }
 
         public bool Douched(MapObject serviceZone)
         {
-            // TODO
+            var plane=Planes.First(
+                p =>
+                    p.ServiceZone.MapObjectType == serviceZone.MapObjectType &&
+                    p.ServiceZone.Number == serviceZone.Number);
+            _panel.ReadyToTakeOff(plane.Flight.number);
+            Logger.SendMessage(1, "AircraftGenerator", String.Format("Plane {0} УЛЕТЕЛ. Считайте что так", plane.Name),
+                _metrolog.GetCurrentTime());
             return true;
         }
 
@@ -182,17 +191,25 @@ namespace Aircraft_Generator
         }
 
 
-        private void PlaneLanding(Plane plane)
+        private void PlaneLanding(Plane plane, CancellationToken token)
         {
             try
             {
                 while (!CheckTime(plane.Flight.arrivalTime))
                 {
+                    if (token.IsCancellationRequested)
+                    {
+                        return;
+                    }
                     Sleep(10000);
                 }
 
                 while (true)
                 {
+                    if (token.IsCancellationRequested)
+                    {
+                        return;
+                    }
                     bool landingRequest = _tower.LandingRequest(plane.Id);
                     if (!landingRequest)
                     {
@@ -214,7 +231,6 @@ namespace Aircraft_Generator
             }
             catch (OperationCanceledException ex)
             {
-                return;
             }
         }
 
@@ -251,11 +267,39 @@ namespace Aircraft_Generator
             return false;
         }
 
+
+        public void ServiceComplete(Guid planeId)
+        {
+            Plane plane = Planes.First(p => p.Id == planeId);
+            if (true) // Weather check
+            {
+                Logger.SendMessage(1, "AircraftGenerator",
+                    String.Format("Самолет {0} получил информацию от УНО о том, что он обслужен", plane.Name),
+                    _metrolog.GetCurrentTime());
+                while (!_panel.IsFlightSoon(plane.Flight.number))
+                {
+                    Logger.SendMessage(1, "AircraftGenerator",
+    String.Format("Самолет {0} еще не готов к вылету по расписанию", plane.Name),
+    _metrolog.GetCurrentTime());
+                    Sleep(10000);
+                }
+                Logger.SendMessage(1, "AircraftGenerator",
+    String.Format("Самолет {0} по расписанию уже должен вылететь", plane.Name),
+    _metrolog.GetCurrentTime());
+                var d = new Deicer();
+                d.DouchePlane(plane.ServiceZone);
+                Logger.SendMessage(1, "AircraftGenerator",
+String.Format("Самолет {0} отправил заявку антиобледенителю", plane.Name),
+_metrolog.GetCurrentTime());
+                return;
+            }
+        }
+
         public void Reset()
         {
             Planes.Clear();
             _token.Cancel(true);
-            _token=new CancellationTokenSource();
+            _token = new CancellationTokenSource();
         }
     }
 }

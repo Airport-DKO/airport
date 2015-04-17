@@ -85,6 +85,12 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="Reset">
+        <s:complexType />
+      </s:element>
+      <s:element name="ResetResponse">
+        <s:complexType />
+      </s:element>
     </s:schema>
     <s:schema elementFormDefault="qualified" targetNamespace="http://microsoft.com/wsdl/types/">
       <s:simpleType name="guid">
@@ -128,12 +134,12 @@
       <s:simpleType name="Cities">
         <s:restriction base="s:string">
           <s:enumeration value="Tokyo" />
-          <s:enumeration value="Paris" />
-          <s:enumeration value="Rome" />
-          <s:enumeration value="NewYork" />
-          <s:enumeration value="Sydney" />
-          <s:enumeration value="Brasilia" />
-          <s:enumeration value="Antananarivo" />
+          <s:enumeration value="Kyiv" />
+          <s:enumeration value="Whitecourt" />
+          <s:enumeration value="Roma" />
+          <s:enumeration value="Washington" />
+          <s:enumeration value="Minsk" />
+          <s:enumeration value="Almaty" />
         </s:restriction>
       </s:simpleType>
     </s:schema>
@@ -162,6 +168,12 @@
   <wsdl:message name="DoneSoapOut">
     <wsdl:part name="parameters" element="tns:DoneResponse" />
   </wsdl:message>
+  <wsdl:message name="ResetSoapIn">
+    <wsdl:part name="parameters" element="tns:Reset" />
+  </wsdl:message>
+  <wsdl:message name="ResetSoapOut">
+    <wsdl:part name="parameters" element="tns:ResetResponse" />
+  </wsdl:message>
   <wsdl:portType name="GSCSoap">
     <wsdl:operation name="GetFreePlace">
       <wsdl:input message="tns:GetFreePlaceSoapIn" />
@@ -178,6 +190,10 @@
     <wsdl:operation name="Done">
       <wsdl:input message="tns:DoneSoapIn" />
       <wsdl:output message="tns:DoneSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Reset">
+      <wsdl:input message="tns:ResetSoapIn" />
+      <wsdl:output message="tns:ResetSoapOut" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="GSCSoap" type="tns:GSCSoap">
@@ -218,6 +234,15 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="Reset">
+      <soap:operation soapAction="DKO-Airport-Ground-Service-Control/Reset" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
   </wsdl:binding>
   <wsdl:binding name="GSCSoap12" type="tns:GSCSoap">
     <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
@@ -250,6 +275,15 @@
     </wsdl:operation>
     <wsdl:operation name="Done">
       <soap12:operation soapAction="DKO-Airport-Ground-Service-Control/Done" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Reset">
+      <soap12:operation soapAction="DKO-Airport-Ground-Service-Control/Reset" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

@@ -265,6 +265,16 @@
       <s:element name="ResetResponse">
         <s:complexType />
       </s:element>
+      <s:element name="ServiceComplete">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="planeId" type="s1:guid" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ServiceCompleteResponse">
+        <s:complexType />
+      </s:element>
     </s:schema>
     <s:schema elementFormDefault="qualified" targetNamespace="http://microsoft.com/wsdl/types/">
       <s:simpleType name="guid">
@@ -414,6 +424,12 @@
   <wsdl:message name="ResetSoapOut">
     <wsdl:part name="parameters" element="tns:ResetResponse" />
   </wsdl:message>
+  <wsdl:message name="ServiceCompleteSoapIn">
+    <wsdl:part name="parameters" element="tns:ServiceComplete" />
+  </wsdl:message>
+  <wsdl:message name="ServiceCompleteSoapOut">
+    <wsdl:part name="parameters" element="tns:ServiceCompleteResponse" />
+  </wsdl:message>
   <wsdl:portType name="AircraftGeneratorSoap">
     <wsdl:operation name="CreateNewPlane">
       <wsdl:input message="tns:CreateNewPlaneSoapIn" />
@@ -474,6 +490,10 @@
     <wsdl:operation name="Reset">
       <wsdl:input message="tns:ResetSoapIn" />
       <wsdl:output message="tns:ResetSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ServiceComplete">
+      <wsdl:input message="tns:ServiceCompleteSoapIn" />
+      <wsdl:output message="tns:ServiceCompleteSoapOut" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="AircraftGeneratorSoap" type="tns:AircraftGeneratorSoap">
@@ -613,6 +633,15 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="ServiceComplete">
+      <soap:operation soapAction="DKO-Ariport-Aircraft-Generator/ServiceComplete" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
   </wsdl:binding>
   <wsdl:binding name="AircraftGeneratorSoap12" type="tns:AircraftGeneratorSoap">
     <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
@@ -744,6 +773,15 @@
     </wsdl:operation>
     <wsdl:operation name="Reset">
       <soap12:operation soapAction="DKO-Ariport-Aircraft-Generator/Reset" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ServiceComplete">
+      <soap12:operation soapAction="DKO-Ariport-Aircraft-Generator/ServiceComplete" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

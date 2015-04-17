@@ -267,5 +267,18 @@ namespace Ground_Movement_Control
             Debug.WriteLine("Declined to move object {0} to {1} {2} - HOLD POINT", type, x, y);
             return false;
         }
+
+        public void SnowCleanFinished()
+        {
+            return;
+        }
+
+        public void Reset()
+        {
+            foreach (var mapPoint in _map)
+            {
+                mapPoint.MakeVacant();
+            }
+        }
     }
 }

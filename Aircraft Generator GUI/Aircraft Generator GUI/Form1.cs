@@ -4,6 +4,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Aircraft_Generator_GUI.AircraftGeneratorWs;
+using Aircraft_Generator_GUI.GmcVs;
+using Aircraft_Generator_GUI.GscVs;
 
 namespace Aircraft_Generator_GUI
 {
@@ -11,8 +13,7 @@ namespace Aircraft_Generator_GUI
     {
         private readonly AircraftGenerator _aircraftGeneratorWebService;
 
-        public Form1()
-        {
+        public Form1(){
             InitializeComponent();
             typeListBox.Items.AddRange(Enum.GetNames(typeof (PlaneType)));
             _aircraftGeneratorWebService = new AircraftGenerator();
@@ -21,7 +22,9 @@ namespace Aircraft_Generator_GUI
 
         private void GetPlanesList()
         {
-            while (planesGridControl.IsHandleCreated == false) {}
+            while (planesGridControl.IsHandleCreated == false)
+            {
+            }
 
             Plane[] planesList = _aircraftGeneratorWebService.GetAllPlanes();
             planesGridControl.BeginInvoke((Action) (() => planesGridControl.DataSource = planesList));
@@ -74,7 +77,8 @@ namespace Aircraft_Generator_GUI
             if (bp.DialogResult == DialogResult.OK)
             {
                 _aircraftGeneratorWebService.BindPlaneToFlight(plane.Id, bp.SelectedFlightGuid);
-                GetPlanesList();}
+                GetPlanesList();
+            }
         }
 
         private void Refresher()
@@ -88,6 +92,19 @@ namespace Aircraft_Generator_GUI
 
         private void resetButton_Click(object sender, EventArgs e)
         {
-            _aircraftGeneratorWebService.Reset(); }
+            _aircraftGeneratorWebService.Reset();
+        }
+
+        private void simpleButton1_Click(object sender, EventArgs e)
+        {
+            var g = new GMC();
+            g.Reset();
+        }
+
+        private void simpleButton2_Click(object sender, EventArgs e)
+        {
+            var g = new GSC();
+            g.Reset();
+        }
     }
 }
