@@ -122,8 +122,12 @@ namespace Ground_Service_Control
                 return true;
             }
 
-            Debug.Assert(false);
             return false;
+        }
+
+        public void Reset()
+        {
+            m_tasks.Clear();
         }
 
         /// <summary>

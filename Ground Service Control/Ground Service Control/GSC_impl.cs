@@ -102,6 +102,12 @@ namespace Ground_Service_Control
             }
         }
 
+        public void Reset()
+        {
+            m_serviceZones.Clear();
+            m_taskScheduler.Reset();
+        }
+
         private GSC_impl()
         {
             lock (m_lock)
