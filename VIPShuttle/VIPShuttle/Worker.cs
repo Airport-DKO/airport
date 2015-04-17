@@ -59,7 +59,7 @@ namespace VIPShuttle
             Task.WaitAll(tasks.ToArray());
 
             Logger.SendMessage(0, ComponentName,
-                String.Format("Задание выполнено: забрать {1} пассажиров VIP-класса с борта на площадке номер {0}", serviceZone.Number, countOfPassengers));
+                String.Format("Задание выполнено: забрать пассажиров VIP-класса с борта на площадке номер {0}", serviceZone.Number, countOfPassengers));
 
             new GSC().Done(taskId);//сообщаем Управлению Наземным Обслуживанием, что задание выполнено
 

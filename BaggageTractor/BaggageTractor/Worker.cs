@@ -65,7 +65,7 @@ namespace BaggageTractor
 
             new GSC().Done(taskId);//сообщаем Управлению Наземным Обслуживанием, что задание выполнено 
 
-            Logger.SendMessage(0, ComponentName, String.Format("Машины возвращаются с площадки номер {0} в багаж.", serviceZone.Number));
+            Logger.SendMessage(0, ComponentName, String.Format("Машины возвращаются в гараж.", serviceZone.Number));
 
             foreach (var car in cars)
             {

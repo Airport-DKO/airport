@@ -38,7 +38,7 @@ namespace PassengerStairs
 //
 //            if (passangersCount > 0) //если пассажиры есть - что-то делаем !!!
 //            {
-                Logger.SendMessage(0, ComponentName, String.Format("Трап выехал на площадку обслуживания номер {0}", serviceZone.Number));
+//                Logger.SendMessage(0, ComponentName, String.Format("Трап выехал на площадку обслуживания номер {0}", serviceZone.Number));
 
                 var car = new Car();
                 car.GoTo(Garage, serviceZone);

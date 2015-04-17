@@ -69,7 +69,7 @@ namespace PassengerBus
             new GSC().Done(taskId); //сообщаем Управлению Наземным Обслуживанием, что задание выполнено
 
             Logger.SendMessage(0, ComponentName, 
-                String.Format("Автобусы возвращаются с площадки номер {0} в гараж", serviceZone.Number));
+                String.Format("Автобусы возвращаются от аэропорта в гараж"));
 
             foreach (var bus in buses)
             {
