@@ -265,12 +265,6 @@
       <s:element name="ResetResponse">
         <s:complexType />
       </s:element>
-      <s:element name="SnowCleanFinished">
-        <s:complexType />
-      </s:element>
-      <s:element name="SnowCleanFinishedResponse">
-        <s:complexType />
-      </s:element>
       <s:element name="ServiceComplete">
         <s:complexType>
           <s:sequence>
@@ -430,12 +424,6 @@
   <wsdl:message name="ResetSoapOut">
     <wsdl:part name="parameters" element="tns:ResetResponse" />
   </wsdl:message>
-  <wsdl:message name="SnowCleanFinishedSoapIn">
-    <wsdl:part name="parameters" element="tns:SnowCleanFinished" />
-  </wsdl:message>
-  <wsdl:message name="SnowCleanFinishedSoapOut">
-    <wsdl:part name="parameters" element="tns:SnowCleanFinishedResponse" />
-  </wsdl:message>
   <wsdl:message name="ServiceCompleteSoapIn">
     <wsdl:part name="parameters" element="tns:ServiceComplete" />
   </wsdl:message>
@@ -502,10 +490,6 @@
     <wsdl:operation name="Reset">
       <wsdl:input message="tns:ResetSoapIn" />
       <wsdl:output message="tns:ResetSoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="SnowCleanFinished">
-      <wsdl:input message="tns:SnowCleanFinishedSoapIn" />
-      <wsdl:output message="tns:SnowCleanFinishedSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="ServiceComplete">
       <wsdl:input message="tns:ServiceCompleteSoapIn" />
@@ -642,15 +626,6 @@
     </wsdl:operation>
     <wsdl:operation name="Reset">
       <soap:operation soapAction="DKO-Ariport-Aircraft-Generator/Reset" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="SnowCleanFinished">
-      <soap:operation soapAction="DKO-Ariport-Aircraft-Generator/SnowCleanFinished" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -798,15 +773,6 @@
     </wsdl:operation>
     <wsdl:operation name="Reset">
       <soap12:operation soapAction="DKO-Ariport-Aircraft-Generator/Reset" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="SnowCleanFinished">
-      <soap12:operation soapAction="DKO-Ariport-Aircraft-Generator/SnowCleanFinished" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
