@@ -15,7 +15,6 @@ namespace Ground_Service_Control
 
         private Utils()
         {
-            m_queue = new MessageQueue();
         }
 
         private static readonly Utils m_self = new Utils();
@@ -56,10 +55,7 @@ namespace Ground_Service_Control
 
         public void log(string message)
         {
-            //TODO: Uncomment
-            //m_queue.queueMessage(message, m_timeService.GetCurrentTime());
+            Logger.SendMessage(message);
         }
-
-        private MessageQueue m_queue = null;
     }
 }
