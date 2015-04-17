@@ -93,7 +93,7 @@ namespace Ground_Service_Control
                 Utils.self().log("End: " + TaskNumber.type + " самолёт: "  + TaskNumber.plane.GetHashCode());
                 if (!m_taskScheduler.nextTask(TaskNumber))
                 {
-                    Utils.self().log("Обслуживание завершено: " + TaskNumber.plane.GetHashCode());
+                    Utils.self().warning("Обслуживание завершено: " + TaskNumber.plane.GetHashCode());
 
                     new AircraftGenerator.AircraftGenerator().ServiceComplete(TaskNumber.plane);
                 }

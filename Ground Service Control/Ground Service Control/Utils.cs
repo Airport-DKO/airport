@@ -55,7 +55,12 @@ namespace Ground_Service_Control
 
         public void log(string message)
         {
-            Logger.SendMessage(message);
+            Logger.SendMessage(message, 0);
+        }
+
+        public void warning(string message)
+        {
+            Logger.SendMessage(message, 1);
         }
     }
 }

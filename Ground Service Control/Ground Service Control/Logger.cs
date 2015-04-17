@@ -6,7 +6,7 @@ namespace Ground_Service_Control
 {
     public static class Logger
     {
-        public static void SendMessage(string message)
+        public static void SendMessage(string message, int level)
         {
             var factory = new ConnectionFactory
             {
@@ -30,7 +30,7 @@ namespace Ground_Service_Control
             string logMessage = String.Format("{0}_{1}_{2}_{3}_{4}",
                 dt.ToString("dd.MM.yyyy"),
                 dt.ToString("HH:mm:ss"),
-                0,
+                level,
                 "HandlingSupervisor",
                 message);
 
