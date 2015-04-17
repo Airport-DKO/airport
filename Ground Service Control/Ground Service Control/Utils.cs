@@ -16,7 +16,6 @@ namespace Ground_Service_Control
         private Utils()
         {
             m_queue = new MessageQueue();
-            m_timeService = new MetrologService.MetrologService();
         }
 
         private static readonly Utils m_self = new Utils();
@@ -27,7 +26,7 @@ namespace Ground_Service_Control
         /// <returns></returns>
         public int systemTime(int time)
         {
-            return (int)(time / m_timeService.GetCurrentTick());
+            return (int)(time * Metrological.Instance.CurrentCoef);
         }
 
         /// <summary>
@@ -62,6 +61,5 @@ namespace Ground_Service_Control
         }
 
         private MessageQueue m_queue = null;
-        private MetrologService.MetrologService m_timeService = null;
     }
 }
