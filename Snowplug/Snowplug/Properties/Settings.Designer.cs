@@ -32,5 +32,15 @@ namespace Snowplug.Properties {
                 return ((string)(this["Snowplug_GMC_GMC"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://airport-dko-metrological.azurewebsites.net/MetrologService.asmx")]
+        public string Snowplug_MetrologService_MetrologService {
+            get {
+                return ((string)(this["Snowplug_MetrologService_MetrologService"]));
+            }
+        }
     }
 }
