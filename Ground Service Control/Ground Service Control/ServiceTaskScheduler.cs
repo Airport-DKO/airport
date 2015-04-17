@@ -49,7 +49,7 @@ namespace Ground_Service_Control
             var luggageLoad = factory.createBaggageTractor(ServiceTaskRole.LoadPlane);
             var luggageTrapToGarage = factory.createContainerLoader(ServiceTaskRole.MoveToGarage);
 
-            luggageTrapIn.nextTasks.Add(luggageTrapToGarage);
+            luggageLoad.nextTasks.Add(luggageTrapToGarage);
             luggageTrapIn.nextTasks.Add(luggageLoad);
             luggageUnload.nextTasks.Add(luggageTrapIn);
             luggageTrapOut.nextTasks.Add(luggageUnload);
