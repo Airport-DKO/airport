@@ -28,11 +28,15 @@ namespace WebApplicationWeather
         private const string ComponentName = "Weather";
 
         [WebMethod]
-        public double GetTemperature()
+        public double GetTemperature(bool gui)
         {
-            Logger.SendMessage(1, ComponentName, String.Format("Aэропорт, температура {0} С", AirportTemperature));
+            if (gui)
+                Logger.SendMessage(0, ComponentName, String.Format("Aэропорт, температура {0} С", AirportTemperature));
+            else
+                Logger.SendMessage(1, ComponentName, String.Format("Aэропорт, температура {0} С", AirportTemperature));
             return AirportTemperature;
         }
+
 
         [WebMethod]
         public void SetTemperature(double t)
