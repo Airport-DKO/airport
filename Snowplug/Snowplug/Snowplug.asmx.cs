@@ -8,6 +8,12 @@ using Snowplug.GMC;
 
 namespace Snowplug
 {
+
+    internal class TaskToken{
+        public Task task;
+        public System.Threading.CancellationTokenSource token;
+    }
+
     /// <summary>
     /// Summary description for Snowplug
     /// </summary>
@@ -26,10 +32,32 @@ namespace Snowplug
         [WebMethod]
         public bool Clean(List<CoordinateTuple> coordinates)
         {
-            var t = new Task(() => SnowplugTask.Clean(coordinates));
+            var tmp = new List<TaskToken>(tasks);
+            foreach(var task in tmp){
+                if(task.task.IsCompleted){
+                    tasks.Remove(task);
+                }
+            }
+
+            System.Threading.CancellationTokenSource source = new System.Threading.CancellationTokenSource();
+            var t = new Task(() => SnowplugTask.Clean(coordinates, source.Token));
             t.Start();
+            tasks.Add(new TaskToken{task = t, token = source});
 
             return true;
         }
+
+        [WebMethod]
+        public void Reset() {
+            foreach(var task in tasks){
+                if(!task.task.IsCompleted){
+                    task.token.Cancel();
+                }
+            }
+
+            tasks.Clear();
+        }
+
+        static List<TaskToken> tasks = new List<TaskToken>();
     }
 }

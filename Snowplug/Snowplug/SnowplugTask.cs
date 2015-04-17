@@ -9,7 +9,7 @@ namespace Snowplug
 {
     public class SnowplugTask
     {
-        static public bool Clean(List<CoordinateTuple> coordinates)
+        static public bool Clean(List<CoordinateTuple> coordinates, CancellationToken token)
         {
             var gmc = new GMC.GMC();
             var id = Guid.NewGuid();
@@ -20,6 +20,9 @@ namespace Snowplug
             {
                 while (!gmc.Step(coordinate, MoveObjectType.SnowRemovalVehicle, id))
                 {
+                    if(token.IsCancellationRequested){
+                        return true;
+                    }
                     Thread.Sleep(1000 * (int)Metrological.Instance.CurrentCoef);
                 }
             }
