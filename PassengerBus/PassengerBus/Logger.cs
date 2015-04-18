@@ -2,6 +2,7 @@
 using System.Text;
 using PassengerBus.MetrologServiceVS;
 using RabbitMQ.Client;
+using RabbitMQ.Client.Exceptions;
 
 namespace PassengerBus
 {
@@ -9,6 +10,8 @@ namespace PassengerBus
     {
         public static void SendMessage(int level, string componentName, string message)
         {
+            try
+            {
             var factory = new ConnectionFactory
             {
                 UserName = "tester",
@@ -39,6 +42,13 @@ namespace PassengerBus
             //передача сообщения в очередь
             var body = Encoding.UTF8.GetBytes(logMessage); // декодируем в UTF8
             Channel.BasicPublish("", QueueName, null, body);
+            }
+            catch (BrokerUnreachableException)
+            {
+                var i = 0;
+                i++;
+                return;
+            }
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using ContainerLoader.CheckinVS;
 using ContainerLoader.GscVS;
 using MapObject = ContainerLoader.GmcVS.MapObject;
@@ -10,13 +11,13 @@ namespace ContainerLoader
     public static class Worker
     {
         private const string ComponentName = "ContainerLoader";
-        private static List<Tuple<Guid, MapObject>> WhoWhere; //список, чтоб запоминать, где какой погрузчик находится (используется для возврата в гараж)
+        private static SynchronizedCollection<Tuple<Guid, MapObject>> WhoWhere; //список, чтоб запоминать, где какой погрузчик находится (используется для возврата в гараж)
         private static readonly MapObject Garage;
 
         static Worker()
         {
             Garage = new MapObject {MapObjectType = MapObjectType.Garage};
-            WhoWhere = new List<Tuple<Guid, MapObject>>();
+            WhoWhere = new SynchronizedCollection<Tuple<Guid, MapObject>>();
         }
 
         /// <summary>
@@ -63,7 +64,7 @@ namespace ContainerLoader
             Guid id = Guid.Empty;
             foreach (var tuple in WhoWhere)
             {
-                if (tuple.Item2 == serviceZone)
+                if (tuple.Item2.Number == serviceZone.Number)
                 {
                     id = tuple.Item1;
                     break;
@@ -80,7 +81,7 @@ namespace ContainerLoader
             Car car = new Car(id);
 
             //удаляем машину из списка 
-            WhoWhere.Remove(new Tuple<Guid, MapObject>(id, serviceZone));
+            WhoWhere.Remove(WhoWhere.First(x => x.Item1 == id));
 
             Logger.SendMessage(0, ComponentName, String.Format("Погрузчик багажа выехал с площадки номер {0} в гараж", serviceZone.Number));
 

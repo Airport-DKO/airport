@@ -151,9 +151,9 @@ namespace PassengerBus
         /// <returns></returns>
         public static List<Guid> GetPassengers(Guid flightNumber)
         {
-            var countOfPassengers = new WebServiceCheckIn().GetSimplePassengers(flightNumber).ToList(); //запросить пассажиров у Регистрации
-            Logger.SendMessage(1, ComponentName, String.Format("Получена информация, что на рейс {0} зарегистрированно {1} пассажиров эконом-класса", flightNumber, countOfPassengers));
-            return countOfPassengers;
+            var passengers = new WebServiceCheckIn().GetSimplePassengers(flightNumber).ToList(); //запросить пассажиров у Регистрации
+            Logger.SendMessage(1, ComponentName, String.Format("Получена информация, что на рейс {0} зарегистрированно {1} пассажиров эконом-класса", flightNumber, passengers.Count));
+            return passengers;
         }
     }
 }

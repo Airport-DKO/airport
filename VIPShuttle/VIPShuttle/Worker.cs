@@ -123,9 +123,9 @@ namespace VIPShuttle
         /// <returns></returns>
         public static List<Guid> GetPassengers(Guid flightNumber)
         {
-            var countOfPassengers = new WebServiceCheckIn().GetVips(flightNumber).ToList(); //запросить пассажиров у Регистрации
-            Logger.SendMessage(1, ComponentName, String.Format("Получена информация, что на рейс {0} зарегистрированно {1} пассажиров VIP-класса.", flightNumber, countOfPassengers));
-            return countOfPassengers;
+            var passengers = new WebServiceCheckIn().GetVips(flightNumber).ToList(); //запросить пассажиров у Регистрации
+            Logger.SendMessage(1, ComponentName, String.Format("Получена информация, что на рейс {0} зарегистрированно {1} пассажиров VIP-класса.", flightNumber, passengers.Count));
+            return passengers;
         }
     }
 }
