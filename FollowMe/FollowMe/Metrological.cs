@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using FollowMe.MetrologServiceVS;
 using RabbitMQ.Client;
 
 namespace FollowMe
@@ -26,11 +27,11 @@ namespace FollowMe
         private readonly QueueingBasicConsumer _consumer;
 
         public event EventHandler<MetrologicalEventArgs> MessageReceived;
-        public float CurrentCoef { get; private set; }
+        public double CurrentCoef { get; private set; }
 
         private Metrological()
         {
-            CurrentCoef = 1;
+            CurrentCoef = new MetrologService().GetCurrentTick();
             var factory = new ConnectionFactory
             {
                 UserName = "tester",
@@ -58,7 +59,7 @@ namespace FollowMe
                 var ea = _consumer.Queue.Dequeue();
                 var body = ea.Body;
                 var message = Encoding.UTF8.GetString(body);
-                var newCoef = float.Parse(message, CultureInfo.InvariantCulture);
+                var newCoef = double.Parse(message, CultureInfo.InvariantCulture);
                 if (newCoef != CurrentCoef)
                 {
                     MessageReceived(this, new MetrologicalEventArgs() { NewCoef = newCoef });
@@ -70,6 +71,6 @@ namespace FollowMe
 
     public class MetrologicalEventArgs : EventArgs
     {
-        public float NewCoef { get; set; }
+        public double NewCoef { get; set; }
     }
 }

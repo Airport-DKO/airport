@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.Text;
 using System.Threading.Tasks;
+using PassengerBus.MetrologServiceVS;
 using RabbitMQ.Client;
 
 namespace PassengerBus
@@ -22,11 +23,11 @@ namespace PassengerBus
         private readonly QueueingBasicConsumer _consumer;
 
         public event EventHandler<MetrologicalEventArgs> MessageReceived;
-        public float CurrentCoef { get; private set; }
+        public double CurrentCoef { get; private set; }
 
         private Metrological()
         {
-            CurrentCoef = 1;
+            CurrentCoef = new MetrologService().GetCurrentTick();
             var factory = new ConnectionFactory
             {
                 UserName = "tester",

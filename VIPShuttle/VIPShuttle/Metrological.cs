@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Text;
 using System.Threading.Tasks;
 using RabbitMQ.Client;
+using VIPShuttle.MetrologServiceVS;
 
 namespace VIPShuttle
 {
@@ -22,11 +23,11 @@ namespace VIPShuttle
         private readonly QueueingBasicConsumer _consumer;
 
         public event EventHandler<MetrologicalEventArgs> MessageReceived;
-        public float CurrentCoef { get; private set; }
+        public double CurrentCoef { get; private set; }
 
         private Metrological()
         {
-            CurrentCoef = 1;
+            CurrentCoef = new MetrologService().GetCurrentTick();
             var factory = new ConnectionFactory
             {
                 UserName = "tester",

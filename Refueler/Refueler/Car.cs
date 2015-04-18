@@ -70,7 +70,7 @@ namespace Refueler
             int stepNumber = 0;
             while (stepNumber < route.Count) //пока не дойдем до конца массива, содержащего маршрут
             {
-                if (gmc.Step(route[stepNumber], _type, _id))
+                if (gmc.Step(route[stepNumber], _type, _id, Speed * Metrological.Instance.CurrentCoef))
                     //УНД возвращает разрешение на движение на переданную координату или запрет 
                 {
                     //если шаг сделать удалось - передвигаемся на следующий индекс массива, содержащего маршрут
