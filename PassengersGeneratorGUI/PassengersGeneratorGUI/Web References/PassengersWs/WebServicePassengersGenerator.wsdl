@@ -53,25 +53,6 @@
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:element name="GetPassengersInfo">
-        <s:complexType />
-      </s:element>
-      <s:element name="GetPassengersInfoResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="GetPassengersInfoResult" type="tns:PassengersStatistic" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:complexType name="PassengersStatistic">
-        <s:sequence>
-          <s:element minOccurs="1" maxOccurs="1" name="Created" type="s:int" />
-          <s:element minOccurs="1" maxOccurs="1" name="Buy" type="s:int" />
-          <s:element minOccurs="1" maxOccurs="1" name="Return" type="s:int" />
-          <s:element minOccurs="1" maxOccurs="1" name="Registred" type="s:int" />
-          <s:element minOccurs="1" maxOccurs="1" name="OnBoard" type="s:int" />
-        </s:sequence>
-      </s:complexType>
       <s:element name="GetPassengersList">
         <s:complexType />
       </s:element>
@@ -117,6 +98,12 @@
           <s:enumeration value="Econom" />
         </s:restriction>
       </s:simpleType>
+      <s:element name="Reset">
+        <s:complexType />
+      </s:element>
+      <s:element name="ResetResponse">
+        <s:complexType />
+      </s:element>
     </s:schema>
     <s:schema elementFormDefault="qualified" targetNamespace="http://microsoft.com/wsdl/types/">
       <s:simpleType name="guid">
@@ -150,17 +137,17 @@
   <wsdl:message name="onPlaneSoapOut">
     <wsdl:part name="parameters" element="tns:onPlaneResponse" />
   </wsdl:message>
-  <wsdl:message name="GetPassengersInfoSoapIn">
-    <wsdl:part name="parameters" element="tns:GetPassengersInfo" />
-  </wsdl:message>
-  <wsdl:message name="GetPassengersInfoSoapOut">
-    <wsdl:part name="parameters" element="tns:GetPassengersInfoResponse" />
-  </wsdl:message>
   <wsdl:message name="GetPassengersListSoapIn">
     <wsdl:part name="parameters" element="tns:GetPassengersList" />
   </wsdl:message>
   <wsdl:message name="GetPassengersListSoapOut">
     <wsdl:part name="parameters" element="tns:GetPassengersListResponse" />
+  </wsdl:message>
+  <wsdl:message name="ResetSoapIn">
+    <wsdl:part name="parameters" element="tns:Reset" />
+  </wsdl:message>
+  <wsdl:message name="ResetSoapOut">
+    <wsdl:part name="parameters" element="tns:ResetResponse" />
   </wsdl:message>
   <wsdl:portType name="WebServicePassengersGeneratorSoap">
     <wsdl:operation name="GenerateRandomPassengers">
@@ -179,13 +166,13 @@
       <wsdl:input message="tns:onPlaneSoapIn" />
       <wsdl:output message="tns:onPlaneSoapOut" />
     </wsdl:operation>
-    <wsdl:operation name="GetPassengersInfo">
-      <wsdl:input message="tns:GetPassengersInfoSoapIn" />
-      <wsdl:output message="tns:GetPassengersInfoSoapOut" />
-    </wsdl:operation>
     <wsdl:operation name="GetPassengersList">
       <wsdl:input message="tns:GetPassengersListSoapIn" />
       <wsdl:output message="tns:GetPassengersListSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Reset">
+      <wsdl:input message="tns:ResetSoapIn" />
+      <wsdl:output message="tns:ResetSoapOut" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="WebServicePassengersGeneratorSoap" type="tns:WebServicePassengersGeneratorSoap">
@@ -226,8 +213,8 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="GetPassengersInfo">
-      <soap:operation soapAction="http://tempuri.org/GetPassengersInfo" style="document" />
+    <wsdl:operation name="GetPassengersList">
+      <soap:operation soapAction="http://tempuri.org/GetPassengersList" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -235,8 +222,8 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="GetPassengersList">
-      <soap:operation soapAction="http://tempuri.org/GetPassengersList" style="document" />
+    <wsdl:operation name="Reset">
+      <soap:operation soapAction="http://tempuri.org/Reset" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -283,8 +270,8 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="GetPassengersInfo">
-      <soap12:operation soapAction="http://tempuri.org/GetPassengersInfo" style="document" />
+    <wsdl:operation name="GetPassengersList">
+      <soap12:operation soapAction="http://tempuri.org/GetPassengersList" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -292,8 +279,8 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="GetPassengersList">
-      <soap12:operation soapAction="http://tempuri.org/GetPassengersList" style="document" />
+    <wsdl:operation name="Reset">
+      <soap12:operation soapAction="http://tempuri.org/Reset" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

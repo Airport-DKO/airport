@@ -216,7 +216,7 @@ namespace Ground_Movement_Control
             {
                 Debug.WriteLine("Move object {0} to {1} {2} PUBLIC PLACE BECOUSE HUESOS", type, x, y);
                 _visualisator.MoveObject((VizualizatorWs.MoveObjectType) type, id,
-                    new VizualizatorWs.CoordinateTuple {X = x, Y = y}, 10);
+                    new VizualizatorWs.CoordinateTuple {X = x, Y = y}, 1000);
                 MapPoint oldPoint =
                         _map.FirstOrDefault(m => m.OwnerGuid == id && (m.X != mapPoint.X || m.Y != mapPoint.Y));
                 if (oldPoint != null)
