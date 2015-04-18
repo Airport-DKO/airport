@@ -36,9 +36,9 @@ namespace Ground_Movement_Control
         /// <param name="id">GUID объекта</param>
         /// <returns>true - если УВД разрешает, false - если нет</returns>
         [WebMethod]
-        public bool Step(CoordinateTuple coordinate, MoveObjectType type, Guid id)
+        public bool Step(CoordinateTuple coordinate, MoveObjectType type, Guid id, double speed)
         {
-            return Core.Instance.Step(coordinate.X, coordinate.Y, type, id);
+            return Core.Instance.Step(coordinate.X, coordinate.Y, type, id, speed);
         }
 
         /// <summary>

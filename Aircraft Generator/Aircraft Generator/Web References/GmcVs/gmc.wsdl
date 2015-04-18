@@ -49,6 +49,7 @@
             <s:element minOccurs="0" maxOccurs="1" name="coordinate" type="tns:CoordinateTuple" />
             <s:element minOccurs="1" maxOccurs="1" name="type" type="tns:MoveObjectType" />
             <s:element minOccurs="1" maxOccurs="1" name="id" type="s1:guid" />
+            <s:element minOccurs="1" maxOccurs="1" name="speed" type="s:double" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -65,6 +66,7 @@
           <s:enumeration value="PassengerBus" />
           <s:enumeration value="VipShuttle" />
           <s:enumeration value="SnowRemovalVehicle" />
+          <s:enumeration value="Refueler" />
         </s:restriction>
       </s:simpleType>
       <s:element name="StepResponse">
@@ -133,6 +135,18 @@
           <s:element minOccurs="0" maxOccurs="unbounded" name="MapObject" nillable="true" type="tns:MapObject" />
         </s:sequence>
       </s:complexType>
+      <s:element name="SnowCleanFinished">
+        <s:complexType />
+      </s:element>
+      <s:element name="SnowCleanFinishedResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="Reset">
+        <s:complexType />
+      </s:element>
+      <s:element name="ResetResponse">
+        <s:complexType />
+      </s:element>
     </s:schema>
     <s:schema elementFormDefault="qualified" targetNamespace="http://microsoft.com/wsdl/types/">
       <s:simpleType name="guid">
@@ -184,6 +198,18 @@
   <wsdl:message name="GetServiceZonesSoapOut">
     <wsdl:part name="parameters" element="tns:GetServiceZonesResponse" />
   </wsdl:message>
+  <wsdl:message name="SnowCleanFinishedSoapIn">
+    <wsdl:part name="parameters" element="tns:SnowCleanFinished" />
+  </wsdl:message>
+  <wsdl:message name="SnowCleanFinishedSoapOut">
+    <wsdl:part name="parameters" element="tns:SnowCleanFinishedResponse" />
+  </wsdl:message>
+  <wsdl:message name="ResetSoapIn">
+    <wsdl:part name="parameters" element="tns:Reset" />
+  </wsdl:message>
+  <wsdl:message name="ResetSoapOut">
+    <wsdl:part name="parameters" element="tns:ResetResponse" />
+  </wsdl:message>
   <wsdl:portType name="GMCSoap">
     <wsdl:operation name="GetRoute">
       <wsdl:input message="tns:GetRouteSoapIn" />
@@ -212,6 +238,14 @@
     <wsdl:operation name="GetServiceZones">
       <wsdl:input message="tns:GetServiceZonesSoapIn" />
       <wsdl:output message="tns:GetServiceZonesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SnowCleanFinished">
+      <wsdl:input message="tns:SnowCleanFinishedSoapIn" />
+      <wsdl:output message="tns:SnowCleanFinishedSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Reset">
+      <wsdl:input message="tns:ResetSoapIn" />
+      <wsdl:output message="tns:ResetSoapOut" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="GMCSoap" type="tns:GMCSoap">
@@ -279,6 +313,24 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="SnowCleanFinished">
+      <soap:operation soapAction="Airport/SnowCleanFinished" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Reset">
+      <soap:operation soapAction="Airport/Reset" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
   </wsdl:binding>
   <wsdl:binding name="GMCSoap12" type="tns:GMCSoap">
     <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
@@ -338,6 +390,24 @@
     </wsdl:operation>
     <wsdl:operation name="GetServiceZones">
       <soap12:operation soapAction="Airport/GetServiceZones" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SnowCleanFinished">
+      <soap12:operation soapAction="Airport/SnowCleanFinished" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Reset">
+      <soap12:operation soapAction="Airport/Reset" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

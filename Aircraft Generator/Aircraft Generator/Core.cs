@@ -168,7 +168,7 @@ namespace Aircraft_Generator
         {
             while (true)
             {
-                bool result = _gmc.Step(step, MoveObjectType.Plane, planeId);
+                bool result = _gmc.Step(step, MoveObjectType.Plane, planeId, 1000 * Rabbit.Instance.CurrentCoef);
                 if (result)
                 {
                     break;
@@ -230,7 +230,7 @@ namespace Aircraft_Generator
                 bool result;
                 while (true)
                 {
-                    result = _gmc.Step(coordinate, MoveObjectType.Plane, plane.Id);
+                    result = _gmc.Step(coordinate, MoveObjectType.Plane, plane.Id, 2000*Rabbit.Instance.CurrentCoef);
                     if (result)
                     {
                         break;

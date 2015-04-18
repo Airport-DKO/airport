@@ -69,10 +69,10 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <None Include="Web References\DeicerVs\Deicer.wsdl" />
-    <Content Include="Web References\DeicerVs\Reference.map">
+    <None Include="Web References\DeicerVs\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
-    </Content>
+    </None>
     <None Include="Web References\FollowMeWs\FollowMe.disco" />
     <None Include="Web References\DeicerVs\Deicer.disco" />
     <Content Include="Web References\GmcVs\CoordinateTuple.datasource">
