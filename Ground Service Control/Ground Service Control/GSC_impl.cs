@@ -65,7 +65,7 @@ namespace Ground_Service_Control
             }
         }
 
-        public bool SetNeeds(Guid plane, Flight flight, bool ladder, int economPassengers, int VIPPassengers,
+        public bool SetNeeds(Guid plane, Flight flight, bool _ladder, int economPassengers, int VIPPassengers,
            int baggage, int fuelingNeeds)
         {
             lock (m_lock)
@@ -80,7 +80,7 @@ namespace Ground_Service_Control
 
                 Utils.self().log("Самолёт прибыл на обслуживание: " + plane.GetHashCode() + " зона: " + zone.zone.Number + " начато обслуживание");
 
-                m_taskScheduler.servicePlane(new PlaneNeeds{ plane = plane, flight = flight, baggage = baggage, economPassengers = economPassengers, fuelingNeeds = fuelingNeeds, ladder = ladder, VIPPassengers = VIPPassengers, serviceZone =  zone.zone});
+                m_taskScheduler.servicePlane(new PlaneNeeds{ plane = plane, flight = flight, baggage = baggage, economPassengers = economPassengers, fuelingNeeds = fuelingNeeds, ladder = _ladder, VIPPassengers = VIPPassengers, serviceZone =  zone.zone});
 
                 return true;
             }
