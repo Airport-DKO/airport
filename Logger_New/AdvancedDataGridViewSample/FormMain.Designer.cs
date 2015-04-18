@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panel1 = new System.Windows.Forms.Panel();
             this.btnclean = new System.Windows.Forms.Button();
             this.btnStopThread = new System.Windows.Forms.Button();
@@ -65,13 +65,14 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(984, 162);
+            this.panel1.Size = new System.Drawing.Size(1215, 162);
             this.panel1.TabIndex = 0;
             // 
             // btnclean
             // 
+            this.btnclean.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnclean.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btnclean.Location = new System.Drawing.Point(608, 14);
+            this.btnclean.Location = new System.Drawing.Point(839, 14);
             this.btnclean.Name = "btnclean";
             this.btnclean.Size = new System.Drawing.Size(247, 43);
             this.btnclean.TabIndex = 19;
@@ -102,10 +103,10 @@
             // 
             // label5
             // 
-            this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label5.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label5.Location = new System.Drawing.Point(454, 32);
+            this.label5.Location = new System.Drawing.Point(569, 32);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(104, 20);
             this.label5.TabIndex = 16;
@@ -113,8 +114,8 @@
             // 
             // textBox_total
             // 
-            this.textBox_total.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox_total.Location = new System.Drawing.Point(458, 58);
+            this.textBox_total.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.textBox_total.Location = new System.Drawing.Point(573, 58);
             this.textBox_total.Name = "textBox_total";
             this.textBox_total.ReadOnly = true;
             this.textBox_total.Size = new System.Drawing.Size(100, 20);
@@ -126,7 +127,7 @@
             this.panel3.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panel3.Location = new System.Drawing.Point(0, 134);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(984, 28);
+            this.panel3.Size = new System.Drawing.Size(1215, 28);
             this.panel3.TabIndex = 10;
             // 
             // advancedDataGridViewSearchToolBar_main
@@ -138,7 +139,7 @@
             this.advancedDataGridViewSearchToolBar_main.MinimumSize = new System.Drawing.Size(0, 27);
             this.advancedDataGridViewSearchToolBar_main.Name = "advancedDataGridViewSearchToolBar_main";
             this.advancedDataGridViewSearchToolBar_main.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.advancedDataGridViewSearchToolBar_main.Size = new System.Drawing.Size(984, 27);
+            this.advancedDataGridViewSearchToolBar_main.Size = new System.Drawing.Size(1215, 27);
             this.advancedDataGridViewSearchToolBar_main.TabIndex = 0;
             this.advancedDataGridViewSearchToolBar_main.Text = "advancedDataGridViewSearchToolBar_main";
             this.advancedDataGridViewSearchToolBar_main.Search += new Zuby.ADGV.AdvancedDataGridViewSearchToolBarSearchEventHandler(this.advancedDataGridViewSearchToolBar_main_Search);
@@ -147,7 +148,7 @@
             // 
             this.button_unloadfilters.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.button_unloadfilters.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.button_unloadfilters.Location = new System.Drawing.Point(608, 65);
+            this.button_unloadfilters.Location = new System.Drawing.Point(839, 65);
             this.button_unloadfilters.Name = "button_unloadfilters";
             this.button_unloadfilters.Size = new System.Drawing.Size(247, 43);
             this.button_unloadfilters.TabIndex = 9;
@@ -207,15 +208,15 @@
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel2.Location = new System.Drawing.Point(0, 162);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(984, 300);
+            this.panel2.Size = new System.Drawing.Size(1215, 458);
             this.panel2.TabIndex = 1;
             // 
             // advancedDataGridView_main
             // 
             this.advancedDataGridView_main.AllowUserToAddRows = false;
             this.advancedDataGridView_main.AllowUserToDeleteRows = false;
-            dataGridViewCellStyle3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.advancedDataGridView_main.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.advancedDataGridView_main.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle2;
             this.advancedDataGridView_main.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.advancedDataGridView_main.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.advancedDataGridView_main.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -224,7 +225,7 @@
             this.advancedDataGridView_main.Name = "advancedDataGridView_main";
             this.advancedDataGridView_main.ReadOnly = true;
             this.advancedDataGridView_main.RowHeadersVisible = false;
-            this.advancedDataGridView_main.Size = new System.Drawing.Size(984, 300);
+            this.advancedDataGridView_main.Size = new System.Drawing.Size(1215, 458);
             this.advancedDataGridView_main.TabIndex = 0;
             this.advancedDataGridView_main.SortStringChanged += new System.EventHandler(this.advancedDataGridView_main_SortStringChanged);
             this.advancedDataGridView_main.FilterStringChanged += new System.EventHandler(this.advancedDataGridView_main_FilterStringChanged);
@@ -237,11 +238,13 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(984, 462);
+            this.ClientSize = new System.Drawing.Size(1215, 620);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.MinimumSize = new System.Drawing.Size(1000, 500);
             this.Name = "FormMain";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Логгер";
             this.Load += new System.EventHandler(this.FormMain_Load);
             this.panel1.ResumeLayout(false);
