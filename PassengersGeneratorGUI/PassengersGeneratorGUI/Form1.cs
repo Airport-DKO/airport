@@ -54,8 +54,7 @@ namespace PassengersGeneratorGUI
             while (true)
             {
                 if (simulationToggle.IsOn)
-                {
-                    _passengersGenerator.PassengerBehavior();
+                {_passengersGenerator.PassengerBehavior();
                     RefreshGrid();
                 }
                 Thread.Sleep(3000);

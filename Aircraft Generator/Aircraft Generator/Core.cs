@@ -64,6 +64,21 @@ namespace Aircraft_Generator
         public bool CreateNewPlane(String name, PlaneType type, int fuelNeed,
             int currentStandartPassengers, int currentVipPassengers, bool hasArrivalPassengers, int currentBaggage)
         {
+            if (type == PlaneType.Jet)
+            {
+                hasArrivalPassengers = false;
+            }
+            else
+            {
+                if (currentStandartPassengers > 0 || currentVipPassengers > 0)
+                {
+                    hasArrivalPassengers = true;
+                }
+                else
+                {
+                    hasArrivalPassengers = false;
+                }
+            }
             var plane = new Plane(name, PlaneState.Arrival, type, fuelNeed, currentStandartPassengers,
                 currentVipPassengers, currentBaggage, 0, hasArrivalPassengers);
             _createdPlanes.Add(plane);
@@ -284,7 +299,7 @@ namespace Aircraft_Generator
                 plane.ServiceZone = _gmc.GetPlaneServiceZone(plane.Id);
                 _followMe.LeadPlane(runway, plane.ServiceZone, plane.Id);
                 Debug.WriteLine("Plane {0} landed!", plane.Name);
-                Logger.SendMessage(1, "AircraftGenerator", String.Format("Plane {0} landed!", plane.Name),
+                Logger.SendMessage(1, "AircraftGenerator", String.Format("Самолет {0} приземлился!", plane.Name),
                     _metrolog.GetCurrentTime());
             }
             catch (OperationCanceledException ex)
