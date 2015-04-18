@@ -145,28 +145,30 @@ namespace Snowplug.GMC {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("Airport/Step", RequestNamespace="Airport", ResponseNamespace="Airport", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public bool Step(CoordinateTuple coordinate, MoveObjectType type, System.Guid id) {
+        public bool Step(CoordinateTuple coordinate, MoveObjectType type, System.Guid id, double speed) {
             object[] results = this.Invoke("Step", new object[] {
                         coordinate,
                         type,
-                        id});
+                        id,
+                        speed});
             return ((bool)(results[0]));
         }
         
         /// <remarks/>
-        public void StepAsync(CoordinateTuple coordinate, MoveObjectType type, System.Guid id) {
-            this.StepAsync(coordinate, type, id, null);
+        public void StepAsync(CoordinateTuple coordinate, MoveObjectType type, System.Guid id, double speed) {
+            this.StepAsync(coordinate, type, id, speed, null);
         }
         
         /// <remarks/>
-        public void StepAsync(CoordinateTuple coordinate, MoveObjectType type, System.Guid id, object userState) {
+        public void StepAsync(CoordinateTuple coordinate, MoveObjectType type, System.Guid id, double speed, object userState) {
             if ((this.StepOperationCompleted == null)) {
                 this.StepOperationCompleted = new System.Threading.SendOrPostCallback(this.OnStepOperationCompleted);
             }
             this.InvokeAsync("Step", new object[] {
                         coordinate,
                         type,
-                        id}, this.StepOperationCompleted, userState);
+                        id,
+                        speed}, this.StepOperationCompleted, userState);
         }
         
         private void OnStepOperationCompleted(object arg) {

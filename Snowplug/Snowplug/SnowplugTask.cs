@@ -13,23 +13,24 @@ namespace Snowplug
         {
             var gmc = new GMC.GMC();
             var id = Guid.NewGuid();
+            var speed = 500;
 
             Logger.SendMessage("Начата очистка снега");
 
             foreach (var coordinate in coordinates)
             {
-                while (!gmc.Step(coordinate, MoveObjectType.SnowRemovalVehicle, id))
+                while (!gmc.Step(coordinate, MoveObjectType.SnowRemovalVehicle, id, speed * (int)Metrological.Instance.CurrentCoef))
                 {
                     if(token.IsCancellationRequested){
                         return true;
                     }
-                    Thread.Sleep(1000 * (int)Metrological.Instance.CurrentCoef);
+                    Thread.Sleep(speed * (int)Metrological.Instance.CurrentCoef);
                 }
             }
 
             gmc.SnowCleanFinished();
 
-            Logger.SendMessage("Очистка снега окончена");
+            Logger.SendMessage("Очистка снега завершена");
 
             return true;
         }

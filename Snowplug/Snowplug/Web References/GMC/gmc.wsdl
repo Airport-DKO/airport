@@ -49,6 +49,7 @@
             <s:element minOccurs="0" maxOccurs="1" name="coordinate" type="tns:CoordinateTuple" />
             <s:element minOccurs="1" maxOccurs="1" name="type" type="tns:MoveObjectType" />
             <s:element minOccurs="1" maxOccurs="1" name="id" type="s1:guid" />
+            <s:element minOccurs="1" maxOccurs="1" name="speed" type="s:double" />
           </s:sequence>
         </s:complexType>
       </s:element>
