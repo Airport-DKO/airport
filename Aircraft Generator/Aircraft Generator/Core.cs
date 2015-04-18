@@ -67,9 +67,10 @@ namespace Aircraft_Generator
             var plane = new Plane(name, PlaneState.Arrival, type, fuelNeed, currentStandartPassengers,
                 currentVipPassengers, currentBaggage, 0, hasArrivalPassengers);
             _createdPlanes.Add(plane);
-            Debug.WriteLine("Plane {0} created! Type: {1}. Fuel {2}, StdPas: {3} VipPas: {4} Bugg: {5}", name, type,
+            Debug.WriteLine("Самолет {0} создан! Тип: {1}. Топливо {2}, Пассажиры: {3} Вип: {4} Баггаж: {5}", name, type,
                 fuelNeed, currentStandartPassengers, currentVipPassengers, currentBaggage);
-            Logger.SendMessage(1, "AircraftGenerator", String.Format("Plane {0} created", name),
+            Logger.SendMessage(1, "AircraftGenerator", String.Format("Самолет {0} создан! Тип: {1}. Топливо {2}, Пассажиры: {3} Вип: {4} Баггаж: {5}", name, type,
+                fuelNeed, currentStandartPassengers, currentVipPassengers, currentBaggage),
                 _metrolog.GetCurrentTime());
             return true;
         }
@@ -80,7 +81,7 @@ namespace Aircraft_Generator
             plane.Flight = _panel.RegisterPlaneToFlight(planeId, flightId);
             var task = new Task(() => PlaneLanding(plane, _token.Token), _token.Token);
             Debug.WriteLine("Plane {0} binded to {1}", planeId, flightId);
-            Logger.SendMessage(1, "AircraftGenerator", String.Format("Plane {0} binded to {1}", planeId, flightId),
+            Logger.SendMessage(1, "AircraftGenerator", String.Format("Самолет {0} закреплен на рейс {1}", planeId, flightId),
                 _metrolog.GetCurrentTime());
             task.Start();
         }
@@ -143,7 +144,7 @@ namespace Aircraft_Generator
         {
             PlaneTaxingToServiceZone(planeId);
             Debug.WriteLine("Plane {0} is now following", planeId);
-            Logger.SendMessage(1, "AircraftGenerator", String.Format("Plane {0} is now following", planeId),
+            Logger.SendMessage(0, "AircraftGenerator", String.Format("К самолету {0} приехал Follow me", planeId),
                 _metrolog.GetCurrentTime());
             return true;
         }
@@ -168,7 +169,7 @@ namespace Aircraft_Generator
         {
             PlaneIsReadyToService(planeId);
             Debug.WriteLine("Plane {0} is at Service Zone now", planeId);
-            Logger.SendMessage(1, "AircraftGenerator", String.Format("Самолет {0} приехал в сервиз зону", planeId),
+            Logger.SendMessage(1, "AircraftGenerator", String.Format("Самолет {0} готов к обслуживанию", planeId),
                 _metrolog.GetCurrentTime());
             return true;
         }
@@ -180,7 +181,7 @@ namespace Aircraft_Generator
                     p.ServiceZone.MapObjectType == serviceZone.MapObjectType &&
                     p.ServiceZone.Number == serviceZone.Number);
             _panel.ReadyToTakeOff(plane.Flight.number);
-            Logger.SendMessage(1, "AircraftGenerator", String.Format("Самолет {0} облит", plane.Name),
+            Logger.SendMessage(1, "AircraftGenerator", String.Format("Самолет {0} облит антиобледенителем", plane.Name),
                 _metrolog.GetCurrentTime());
             MoveToRunway(plane);
             return true;
@@ -224,7 +225,7 @@ namespace Aircraft_Generator
             }
 
             Logger.SendMessage(1, "AircraftGenerator",
-                String.Format("Самолет {0} вылетел ", plane.Name),
+                String.Format("Самолет {0} вылетел", plane.Name),
                 _metrolog.GetCurrentTime());
             Sleep(3000);
             _gmc.RunwayRelease();
