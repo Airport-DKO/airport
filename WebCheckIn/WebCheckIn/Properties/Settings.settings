@@ -8,5 +8,8 @@
     <Setting Name="WebCheckIn_TicketSalesService_WebServiceTicketSales" Type="(Web Service URL)" Scope="Application">
       <Value Profile="(Default)">http://airport-dko-passengers.azurewebsites.net/WebServiceTicketSales.asmx</Value>
     </Setting>
+    <Setting Name="WebCheckIn_MetrologService_MetrologService" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://airport-dko-metrological.azurewebsites.net/MetrologService.asmx</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -60,6 +60,12 @@ namespace WebInformationPanel
             return infpanel.RegisterPlaneToFlight(planeid, FlightId);
         }
 
+        [WebMethod]
+        public bool IsFlightRightNow(Guid flightNumber)
+        {
+            return infpanel.IsFlightRightNow(flightNumber);
+        }
+
 
         [WebMethod]
         public bool ReadyToTakeOff(Guid fligthID)

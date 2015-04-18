@@ -29,12 +29,18 @@ namespace WebPassengersGenerator
         private static Random random = new Random();
         public List<Passenger> passengers = new List<Passenger>();   //база активных пассажиров (тех, которые уже созданы и ещё находятся в нашем аэропорту)
         private PassengersStatistic statistic = new PassengersStatistic();
-        public int generateSleep = 300;                                //интервал при генерации
+        public int generateSleep = 200;                                //интервал при генерации
         private MqSender Logger = new MqSender("LoggerQueue");
+        private MqSender DashBoard = new MqSender("StatusQueue");
+        private MetrologService.MetrologService metrolog = new MetrologService.MetrologService();
+        private Catering cateringStatistic = new Catering();
+
+
 
         public PassengersGenerator()
         {
             Logger.Connect();
+            DashBoard.Connect();
         }
 
         /// <summary>
@@ -53,6 +59,9 @@ namespace WebPassengersGenerator
                     State = PassengerState.Created
                 });
                 statistic.Created++;
+                SendInformation(1,statistic.Created);
+                SendMsgToLogger(0,"Создан пассажир "+passengers.Last().ID);
+
                 Thread.Sleep(generateSleep);
             }
         }
@@ -72,6 +81,8 @@ namespace WebPassengersGenerator
                 Ticket = null,
                 WeightBaggage = baggage});
             statistic.Created++;
+            SendInformation(1, statistic.Created);
+            SendMsgToLogger(1, "Создан пассажир " + passengers.Last().ID);
         }
 
         /// <summary>
@@ -93,6 +104,8 @@ namespace WebPassengersGenerator
 
                             passenger.State = PassengerState.Buy;
                             statistic.Buy++;
+                            SendInformation(2, statistic.Buy);
+                            SendMsgToLogger(1, string.Format("пассажир {0} купил билет на рейс{1}", passenger.ID,ticket.FlightID));
                         }
                         break;
                     case 1: //вернуть билет
@@ -101,6 +114,8 @@ namespace WebPassengersGenerator
                             passenger.Ticket = null;
                             passenger.State = PassengerState.Created;
                             statistic.Return++;
+                            SendInformation(4, statistic.Return);
+                            SendMsgToLogger(1, string.Format("пассажир {0} вернул билет", passenger.ID));
                         }
                         break;
                     case 2: //зарегестрироваться
@@ -108,6 +123,9 @@ namespace WebPassengersGenerator
                         {
                             passenger.State = PassengerState.Registered;
                             statistic.Registred++;
+                            SendInformation(3, statistic.Registred);
+                            SendMsgToLogger(1, string.Format("пассажир {0} зарегестрировался", passenger.ID));
+
                         }
                         break;
                     default:
@@ -129,19 +147,14 @@ namespace WebPassengersGenerator
             {
                 passenger.State = PassengerState.Onboard;
                 statistic.OnBoard++;
+                SendInformation(5, statistic.OnBoard);
+                SendMsgToLogger(1, string.Format("пассажир {0} на борту", passenger.ID));
                 return true;
             }
             return false;
         }
 
-        /// <summary>
-        /// получение информации для дашборда
-        /// </summary>
-        /// <returns>статистика генератора </returns>
-        public PassengersStatistic GetPassengersInfo()
-        {
-            return statistic;
-        }
+        
 
         public List<Passenger> GetPassengersList()
         {
@@ -152,5 +165,62 @@ namespace WebPassengersGenerator
         {
             passengers.Clear();
         }
+
+        private void SendMsgToLogger(int status, string text)
+        {
+            try
+            {
+                DateTime t = metrolog.GetCurrentTime();
+                Logger.SendMsg(string.Format("{0}_{1}_{2}_PassengersGenerator_{3}",
+                    t.ToString("dd.MM.yyyy"), t.ToString("HH:mm:ss"), status, text));
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
+        private void SendInformation(int status, int newCount)
+        {
+            try
+            {
+                DashBoard.SendMsg(string.Format("PS_{0}_{1}",status,newCount)); 
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
+        //private void sendCateringStatistic(Food f)
+        //{
+        //    int y = 0;
+        //    switch (f)
+        //    {
+        //        case Food.Children:
+        //            cateringStatistic.Children++;
+        //            y = 5;
+        //            break;
+        //        case Food.Default:
+        //            cateringStatistic.Default++;
+        //            y = 2;
+        //            break;
+        //        case Food.Diabetic:
+        //            cateringStatistic.Diabetic++;
+        //            y = 3;
+        //            break;
+        //        case Food.LowCalorie:
+        //            cateringStatistic.LowCalorie++;
+        //            y = 6;
+        //            break;
+        //        case Food.Vegetarian:
+        //            cateringStatistic.Vegetarian++;
+        //            y = 4;
+        //            break;       
+        //    }
+
+
+        //    DashBoard.SendMsg(string.Format("FD_{0}_{1}", y, newCount));
+        //}
     }
 }

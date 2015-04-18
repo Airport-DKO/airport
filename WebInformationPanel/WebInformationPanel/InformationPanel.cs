@@ -46,6 +46,8 @@ namespace WebInformationPanel
             f.EndRegistrationTime = takeoffTime.AddMinutes(-30);
             f.StartRegistrationTime = f.EndRegistrationTime.AddHours(-2);
             FlightsBase.Add(f);
+            SendMsgToLogger(1, "Cоздан рейс " + f.number);
+
         }
 
         /// <summary>
@@ -66,7 +68,10 @@ namespace WebInformationPanel
         {
             var f = FlightsBase.FirstOrDefault(s => s.number == fligthID);
             if (f != null)
+            {
                 return f.IsReadyTakeOff = true;
+                SendMsgToLogger(1, "рейс готов к вылету " + f.number);
+            }
             return false;
         }
 
@@ -82,7 +87,10 @@ namespace WebInformationPanel
         {
             var f = FlightsBase.FirstOrDefault(s => s.number == FlightId);
             if (f != null)
+            {
                 f.BindPlaneID = planeid;
+                SendMsgToLogger(0, string.Format("Рейс {0} привязан к самолёту {1}",f.number,planeid));
+            }
             return f;
         }
 
@@ -139,7 +147,12 @@ namespace WebInformationPanel
                 var f = FlightsBase.FirstOrDefault(s => s.number == flightNumber);
                 if (f == null) //это будет очень странно            
                     return false;
-                return time >= f.EndRegistrationTime;
+                if (time >= f.EndRegistrationTime)
+                {
+                    SendMsgToLogger(1, "Регистрация завершена. рейс"+flightNumber);
+                    return true;
+                }
+                return false;
             }
             catch (Exception ex)
             {
@@ -167,6 +180,30 @@ namespace WebInformationPanel
                 return false;
             }
         }
+
+
+
+        public bool IsFlightRightNow(Guid flightNumber)
+        {
+            try
+            {
+                var time = metrolog.GetCurrentTime();
+                var f = FlightsBase.FirstOrDefault(s => s.number == flightNumber);
+                if (f == null) //это будет очень странно            
+                    return false;
+                if (time >= f.takeoffTime)
+                {
+                    SendMsgToLogger(1,"рейс готов к вылету "+flightNumber );
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
 
         /// <summary>
         /// отвечает кассе, можно ли вернвть билет на этот рейс
@@ -249,9 +286,25 @@ namespace WebInformationPanel
                 var flights = FlightsBase.Where(s => time >= s.takeoffTime && s.IsReadyTakeOff == false);
                 foreach (var flight in flights)
                 {
-                    flight.takeoffTime.AddMinutes(20);
+                    flight.takeoffTime = time.AddMinutes(20);
+                    SendMsgToLogger(1, "Вылет рейса перенесён " + flight.number);
                 }
                 Thread.Sleep(100);
+            }
+        }
+
+
+        private void SendMsgToLogger(int status, string text)
+        {
+            try
+            {
+                DateTime t = metrolog.GetCurrentTime();
+                Logger.SendMsg(string.Format("{0}_{1}_{2}_InformationPanel_{3}",
+                    t.ToString("dd.MM.yyyy"), t.ToString("HH:mm:ss"), status, text));
+            }
+            catch (Exception ex)
+            {
+
             }
         }
     }

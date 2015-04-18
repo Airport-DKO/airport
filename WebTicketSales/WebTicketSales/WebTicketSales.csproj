@@ -67,10 +67,10 @@
     <Content Include="Web References\InformationPanelService\Flight.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </Content>
-    <Content Include="Web References\InformationPanelService\Reference.map">
+    <None Include="Web References\InformationPanelService\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
-    </Content>
+    </None>
     <None Include="Web References\InformationPanelService\WebServiceInformationPanel.wsdl" />
     <None Include="Web References\MetrologService\MetrologService.wsdl" />
     <None Include="Web References\InformationPanelService\WebServiceInformationPanel.disco" />
@@ -160,7 +160,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>22401</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
