@@ -74,12 +74,16 @@ namespace Ground_Movement_Control
             return CheckVacantPosition(x, y, type, id, speed);
         }
 
-        public void RunwayRelease()
+        public void RunwayRelease(MapPoint additionalMapPoint = null)
         {
             Location runwayLocation = GetActualRunway();
             MapPoint runwayMapPoint =
                 _map.First(m => m.X == runwayLocation.Position.X && m.Y == runwayLocation.Position.Y);
             runwayMapPoint.MakeVacant();
+            if (additionalMapPoint != null)
+            {
+                additionalMapPoint.MakeVacant();
+            }
             Debug.WriteLine("Runway released");
         }
 

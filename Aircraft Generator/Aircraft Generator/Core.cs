@@ -230,7 +230,7 @@ namespace Aircraft_Generator
                 bool result;
                 while (true)
                 {
-                    result = _gmc.Step(coordinate, MoveObjectType.Plane, plane.Id, 2000*Rabbit.Instance.CurrentCoef);
+                    result = _gmc.Step(coordinate, MoveObjectType.Plane, plane.Id, 4000*Rabbit.Instance.CurrentCoef);
                     if (result)
                     {
                         break;
@@ -326,7 +326,7 @@ namespace Aircraft_Generator
         {
             Plane plane = _createdPlanes.First(p => p.Id == planeGuid);
             plane.State = PlaneState.OnService;
-            _gsc.SetNeeds(plane.Id, plane.Flight, (plane.Type == PlaneType.Airbus), plane.CurrentStandartPassengers,
+            _gsc.SetNeeds(plane.Id, plane.Flight,plane.HasArrivalPassengers, plane.CurrentStandartPassengers,
                 plane.CurrentVipPassengers, plane.CurrentBaggage, plane.FuelNeed);
         }
 
