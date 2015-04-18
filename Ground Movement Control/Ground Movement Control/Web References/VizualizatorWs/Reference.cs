@@ -485,6 +485,9 @@ namespace Ground_Movement_Control.VizualizatorWs {
         
         /// <remarks/>
         SnowRemovalVehicle,
+        
+        /// <remarks/>
+        Refueler,
     }
     
     /// <remarks/>

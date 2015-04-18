@@ -166,7 +166,7 @@ namespace Ground_Movement_Control
             foreach (VizualizatorWs.Location location in locationsFromVisual)
             {
                 if (location.MapObj.Type == MapObjectType.Garage ||
-                    location.MapObj.Type == MapObjectType.ServiceArea)
+                    location.MapObj.Type == MapObjectType.ServiceArea || location.MapObj.Type== MapObjectType.Airport)
                 {
                     MapPoint mapPoint = _map.First(m => m.X == location.Position.X && m.Y == location.Position.Y);
                     mapPoint.IsPublicPlace = true;

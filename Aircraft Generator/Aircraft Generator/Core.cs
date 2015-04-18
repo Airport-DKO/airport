@@ -102,6 +102,10 @@ namespace Aircraft_Generator
         public bool UnloadStandartPassangers(MapObject serviceZone, int countOfPassengers)
         {
             Plane plane = Planes.First(p => p.ServiceZone.Number == serviceZone.Number);
+            if (countOfPassengers >= plane.CurrentStandartPassengers)
+            {
+                countOfPassengers = plane.CurrentStandartPassengers;
+            }
             plane.CurrentStandartPassengers -= countOfPassengers;
             return true;
         }
@@ -109,6 +113,10 @@ namespace Aircraft_Generator
         public bool UnloadVipPassangers(MapObject serviceZone, int countOfPassengers)
         {
             Plane plane = Planes.First(p => p.ServiceZone.Number == serviceZone.Number);
+            if (countOfPassengers >= plane.CurrentVipPassengers)
+            {
+                countOfPassengers = plane.CurrentVipPassengers;
+            }
             plane.CurrentVipPassengers -= countOfPassengers;
             return true;
         }
@@ -123,6 +131,10 @@ namespace Aircraft_Generator
         public bool UnloadBaggage(MapObject serviseZone, int weightOfBaggage)
         {
             Plane plane = Planes.First(p => p.ServiceZone.Number == serviseZone.Number);
+            if (weightOfBaggage >= plane.CurrentBaggage)
+            {
+                weightOfBaggage = plane.CurrentBaggage;
+            }
             plane.CurrentBaggage -= weightOfBaggage;
             return true;
         }
@@ -156,21 +168,66 @@ namespace Aircraft_Generator
         {
             PlaneIsReadyToService(planeId);
             Debug.WriteLine("Plane {0} is at Service Zone now", planeId);
-            Logger.SendMessage(1, "AircraftGenerator", String.Format("Plane {0} is at Service Zone now", planeId),
+            Logger.SendMessage(1, "AircraftGenerator", String.Format("Самолет {0} приехал в сервиз зону", planeId),
                 _metrolog.GetCurrentTime());
             return true;
         }
 
         public bool Douched(MapObject serviceZone)
         {
-            var plane=Planes.First(
+            Plane plane = Planes.First(
                 p =>
                     p.ServiceZone.MapObjectType == serviceZone.MapObjectType &&
                     p.ServiceZone.Number == serviceZone.Number);
             _panel.ReadyToTakeOff(plane.Flight.number);
-            Logger.SendMessage(1, "AircraftGenerator", String.Format("Plane {0} УЛЕТЕЛ. Считайте что так", plane.Name),
+            Logger.SendMessage(1, "AircraftGenerator", String.Format("Самолет {0} облит", plane.Name),
                 _metrolog.GetCurrentTime());
+            MoveToRunway(plane);
             return true;
+        }
+
+        private void MoveToRunway(Plane plane)
+        {
+            while (true)
+            {
+                if (_gmc.CheckRunwayAwailability(plane.Id))
+                {
+                    _panel.ReadyToTakeOff(plane.Flight.number);
+                    break;
+                }
+                Sleep(4000);
+            }
+            
+            MapObject runway = _gmc.GetRunway();
+            CoordinateTuple[] route;
+            while (true)
+            {
+                route = _gmc.GetRoute(plane.ServiceZone, runway);
+                if (route.Count() >= 0)
+                {
+                    break;
+                }
+                Sleep(5000);
+            }
+            foreach (CoordinateTuple coordinate in route)
+            {
+                bool result;
+                while (true)
+                {
+                    result = _gmc.Step(coordinate, MoveObjectType.Plane, plane.Id);
+                    if (result)
+                    {
+                        break;
+                    }
+                    Sleep(2000);
+                }
+            }
+
+            Logger.SendMessage(1, "AircraftGenerator",
+                String.Format("Самолет {0} вылетел ", plane.Name),
+                _metrolog.GetCurrentTime());
+            Sleep(3000);
+            _gmc.RunwayRelease();
         }
 
         private void Sleep(int time)
@@ -260,7 +317,7 @@ namespace Aircraft_Generator
         private bool CheckTime(DateTime time)
         {
             DateTime currentAirportTime = _metrolog.GetCurrentTime();
-            if (currentAirportTime.AddMinutes(-500) >= time)
+            if (currentAirportTime>= time)
             {
                 return true;
             }
@@ -271,27 +328,31 @@ namespace Aircraft_Generator
         public void ServiceComplete(Guid planeId)
         {
             Plane plane = Planes.First(p => p.Id == planeId);
-            if (true) // Weather check
+
+            Logger.SendMessage(1, "AircraftGenerator",
+                String.Format("Самолет {0} получил информацию от УНО о том, что он обслужен", plane.Name),
+                _metrolog.GetCurrentTime());
+            while (!_panel.IsFlightSoon(plane.Flight.number))
             {
                 Logger.SendMessage(1, "AircraftGenerator",
-                    String.Format("Самолет {0} получил информацию от УНО о том, что он обслужен", plane.Name),
+                    String.Format("Самолет {0} еще не готов к вылету по расписанию", plane.Name),
                     _metrolog.GetCurrentTime());
-                while (!_panel.IsFlightSoon(plane.Flight.number))
-                {
-                    Logger.SendMessage(1, "AircraftGenerator",
-    String.Format("Самолет {0} еще не готов к вылету по расписанию", plane.Name),
-    _metrolog.GetCurrentTime());
-                    Sleep(10000);
-                }
-                Logger.SendMessage(1, "AircraftGenerator",
-    String.Format("Самолет {0} по расписанию уже должен вылететь", plane.Name),
-    _metrolog.GetCurrentTime());
+                Sleep(10000);
+            }
+            Logger.SendMessage(1, "AircraftGenerator",
+                String.Format("Самолет {0} по расписанию уже должен вылететь", plane.Name),
+                _metrolog.GetCurrentTime());
+            if (true) // Weather check
+            {
                 var d = new Deicer();
                 d.DouchePlane(plane.ServiceZone);
                 Logger.SendMessage(1, "AircraftGenerator",
-String.Format("Самолет {0} отправил заявку антиобледенителю", plane.Name),
-_metrolog.GetCurrentTime());
-                return;
+                    String.Format("Самолет {0} отправил заявку антиобледенителю", plane.Name),
+                    _metrolog.GetCurrentTime());
+            }
+            else
+            {
+                MoveToRunway(plane);
             }
         }
 
