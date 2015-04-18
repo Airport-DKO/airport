@@ -9,7 +9,7 @@ namespace VIPShuttle
     public class Car
     {
         private readonly Guid _id; //идентификатор машины, чтобы ее могли отличить среди других Управление Наземным Движением и Визуализатор
-        private const int Speed = 1000;
+        private const int Speed = 8000;
 
         public Car()
         {
