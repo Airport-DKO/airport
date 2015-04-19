@@ -58,7 +58,10 @@ namespace Refueler
                 var newCoef = float.Parse(message, CultureInfo.InvariantCulture);
                 if (newCoef != CurrentCoef)
                 {
-                    MessageReceived(this, new MetrologicalEventArgs() { NewCoef = newCoef });
+                    if (MessageReceived!=null)
+                    {
+                        MessageReceived(this, new MetrologicalEventArgs() {NewCoef = newCoef});
+                    }
                     CurrentCoef = newCoef;
                 }
             }
