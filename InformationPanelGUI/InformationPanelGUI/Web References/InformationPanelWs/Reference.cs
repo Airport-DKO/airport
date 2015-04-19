@@ -246,8 +246,9 @@ namespace InformationPanelGUI.InformationPanelWs {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/CreateFlight", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public void CreateFlight(System.DateTime arrivalTime, System.DateTime takeoffTime, Cities city, int economPassengers, int vipPassengers) {
+        public void CreateFlight(string fligthName, string arrivalTime, string takeoffTime, Cities city, int economPassengers, int vipPassengers) {
             this.Invoke("CreateFlight", new object[] {
+                        fligthName,
                         arrivalTime,
                         takeoffTime,
                         city,
@@ -256,16 +257,17 @@ namespace InformationPanelGUI.InformationPanelWs {
         }
         
         /// <remarks/>
-        public void CreateFlightAsync(System.DateTime arrivalTime, System.DateTime takeoffTime, Cities city, int economPassengers, int vipPassengers) {
-            this.CreateFlightAsync(arrivalTime, takeoffTime, city, economPassengers, vipPassengers, null);
+        public void CreateFlightAsync(string fligthName, string arrivalTime, string takeoffTime, Cities city, int economPassengers, int vipPassengers) {
+            this.CreateFlightAsync(fligthName, arrivalTime, takeoffTime, city, economPassengers, vipPassengers, null);
         }
         
         /// <remarks/>
-        public void CreateFlightAsync(System.DateTime arrivalTime, System.DateTime takeoffTime, Cities city, int economPassengers, int vipPassengers, object userState) {
+        public void CreateFlightAsync(string fligthName, string arrivalTime, string takeoffTime, Cities city, int economPassengers, int vipPassengers, object userState) {
             if ((this.CreateFlightOperationCompleted == null)) {
                 this.CreateFlightOperationCompleted = new System.Threading.SendOrPostCallback(this.OnCreateFlightOperationCompleted);
             }
             this.InvokeAsync("CreateFlight", new object[] {
+                        fligthName,
                         arrivalTime,
                         takeoffTime,
                         city,
@@ -542,6 +544,8 @@ namespace InformationPanelGUI.InformationPanelWs {
         
         private System.DateTime takeoffTimeField;
         
+        private string fligthNameField;
+        
         private System.DateTime startRegistrationTimeField;
         
         private System.DateTime endRegistrationTimeField;
@@ -591,6 +595,16 @@ namespace InformationPanelGUI.InformationPanelWs {
             }
             set {
                 this.takeoffTimeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string FligthName {
+            get {
+                return this.fligthNameField;
+            }
+            set {
+                this.fligthNameField = value;
             }
         }
         
