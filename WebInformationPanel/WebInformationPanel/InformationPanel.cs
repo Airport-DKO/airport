@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Web;
 
 namespace WebInformationPanel
 {
-    //TODO дабить логгирование
     class InformationPanel
     {
         List<Flight> FlightsBase = new List<Flight>();   //собственно, рейсы уже привязанные к самолёту
@@ -29,25 +29,24 @@ namespace WebInformationPanel
         /// <param name="city">направление</param>
         /// <param name="economPassengers">количество обычных пассажиров</param>
         /// <param name="vipPassengers">количество випов</param>
-        public void CreateFlight(DateTime arrivalTime, DateTime takeoffTime, Cities city, int economPassengers, int vipPassengers)
+        public void CreateFlight(string fligthName, string arrivalTime, string takeoffTime, Cities city, int economPassengers, int vipPassengers)
         {
-             Flight f = new Flight();
+            Flight f = new Flight();
             f.number = Guid.NewGuid();
-            f.takeoffTime = takeoffTime;
+            f.takeoffTime = DateTime.ParseExact(takeoffTime, "yyyy-MM-dd HH:mm", CultureInfo.CurrentCulture);
             f.city = city;
             f.EconomPassengersCount = economPassengers;
             f.VipPassengersCount = vipPassengers;
             f.IsReadyTakeOff = false;
-            f.arrivalTime = arrivalTime;
+            f.arrivalTime = DateTime.ParseExact(arrivalTime, "yyyy-MM-dd HH:mm", CultureInfo.CurrentCulture);
+            f.FligthName = fligthName;
             //проставляем время начала и окончания регистрации на рейс
             //допустим, что регистрация заканчивается за полчаса до вылета
             //и длится 2 часа
-            //TODO (согласовать) возможно нужно больше времини, т.к. людей багаж и еду надо везди после окончания регистрации
-            f.EndRegistrationTime = takeoffTime.AddMinutes(-30);
+            f.EndRegistrationTime = f.takeoffTime.AddMinutes(-30);
             f.StartRegistrationTime = f.EndRegistrationTime.AddHours(-2);
             FlightsBase.Add(f);
-            SendMsgToLogger(1, "Cоздан рейс " + f.number);
-
+            SendMsgToLogger(1, "Cоздан рейс " + f.FligthName + " " + f.number);
         }
 
         /// <summary>
@@ -69,13 +68,12 @@ namespace WebInformationPanel
             var f = FlightsBase.FirstOrDefault(s => s.number == fligthID);
             if (f != null)
             {
+                SendMsgToLogger(1, "Сообщили, что рейс готов к вылету " + f.FligthName + " " + f.number);
                 return f.IsReadyTakeOff = true;
-                SendMsgToLogger(1, "рейс готов к вылету " + f.number);
             }
             return false;
         }
 
-        //TODO нет класса Pline, поэтому пока принимаем тольео id (возможны исправления) 
         //в принципе, можно с помощью этого метода предусмотреть функционал создания рейса специально под самолёт, но это если скучно будет
         /// <summary>
         /// привязка рейса к самолёту
@@ -89,7 +87,7 @@ namespace WebInformationPanel
             if (f != null)
             {
                 f.BindPlaneID = planeid;
-                SendMsgToLogger(0, string.Format("Рейс {0} привязан к самолёту {1}",f.number,planeid));
+                SendMsgToLogger(0, string.Format("Рейс {0} привязан к самолёту {1}",f.FligthName,planeid));
             }
             return f;
         }
@@ -126,7 +124,6 @@ namespace WebInformationPanel
                 var time = metrolog.GetCurrentTime();
                 var t = FlightsBase.Where(s => time <= s.EndRegistrationTime                     //допустим, что мы можем продовать билеты до окончания регистрации
                     && (s.VipPassengersCount > 0 || s.EconomPassengersCount > 0)).ToList();         //и на которых есть хоть какие-то места
-                SendMsgToLogger(1, string.Format("доступно {0} рейсов для продажи билетов", t.Count));
                 return t;
             }
             catch (Exception)
@@ -150,7 +147,7 @@ namespace WebInformationPanel
                     return false;
                 if (time >= f.EndRegistrationTime)
                 {
-                    SendMsgToLogger(1, "Регистрация завершена. рейс"+flightNumber);
+                    SendMsgToLogger(1, "Регистрация завершена. рейс " + f.FligthName);
                     return true;
                 }
                 return false;
@@ -194,7 +191,7 @@ namespace WebInformationPanel
                     return false;
                 if (time >= f.takeoffTime)
                 {
-                    SendMsgToLogger(1,"рейс готов к вылету "+flightNumber );
+                    SendMsgToLogger(1,"Рейс готов к вылету "+f.FligthName );
                     return true;
                 }
                 return false;
@@ -249,15 +246,18 @@ namespace WebInformationPanel
                 if (f == null) //это будет очень странно            
                     return string.Empty;
 
-                //TODO спросить о правильных статусах (например, какой статус у рейса, самолёт для которого ещё не сгенерился, а регистрация уже началсь)
                 if (time < f.arrivalTime)
                     return "Ожидается";
                 if (time >= f.arrivalTime && f.BindPlaneID == null)
                     return "Задерживается";
+                if ((time >= f.StartRegistrationTime && time <= f.EndRegistrationTime) && f.BindPlaneID == null)
+                    return "Регистрация началась (борт ожидается)";
                 if (time >= f.StartRegistrationTime && time <= f.EndRegistrationTime)
                     return "Идёт регистрация";
                 if (time >= f.EndRegistrationTime && time <= f.takeoffTime)
                     return "Идёт пасадка";
+                if (time > f.takeoffTime)
+                    return "Вылетел";
             }
             catch (Exception ex)
             {

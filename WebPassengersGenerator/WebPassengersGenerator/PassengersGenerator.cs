@@ -27,20 +27,18 @@ namespace WebPassengersGenerator
         WebServiceCheckIn CheckIn= new WebServiceCheckIn();
         TicketSalesService.WebServiceTicketSales ticketSales = new WebServiceTicketSales();
         private static Random random = new Random();
-        public List<Passenger> passengers = new List<Passenger>();   //база активных пассажиров (тех, которые уже созданы и ещё находятся в нашем аэропорту)
+        public List<Passenger> passengers = new List<Passenger>();          //база пассажиров 
         private PassengersStatistic statistic = new PassengersStatistic();
-        public int generateSleep = 50;                                //интервал при генерации
+        public int generateSleep = 50;                                      //интервал при генерации
         private MqSender Logger = new MqSender("LoggerQueue");
-        private MqSender DashBoard = new MqSender("StatusQueue");
+        private MqSender Dashboard = new MqSender("StatusQueue");
         private MetrologService.MetrologService metrolog = new MetrologService.MetrologService();
-        private Catering cateringStatistic = new Catering();
-
 
 
         public PassengersGenerator()
         {
             Logger.Connect();
-            DashBoard.Connect();
+            Dashboard.Connect();
         }
 
         /// <summary>
@@ -61,7 +59,6 @@ namespace WebPassengersGenerator
                 statistic.Created++;
                 SendInformation(1,statistic.Created);
                 SendMsgToLogger(0,"Создан пассажир "+passengers.Last().ID);
-
                 Thread.Sleep(generateSleep);
             }
         }
@@ -93,16 +90,14 @@ namespace WebPassengersGenerator
             var p = passengers.Where(s => s.State != PassengerState.Onboard&&s.State != PassengerState.Registered).ToArray();
             foreach (var passenger in p)
             {
-                int behavior = random.Next(0,0);
+                int behavior = random.Next(0,3);
                 switch (behavior)
                 {
                     case 0: //купиь билет
-                        SendMsgToLogger(1, string.Format("Пассажир {0} хочет купить билет на рейс{1}", passenger.ID));
                         var ticket = ticketSales.BuyTicket(passenger.ID);
                         if (ticket != null)
                         {
                             passenger.Ticket = ticket;
-
                             passenger.State = PassengerState.Buy;
                             statistic.Buy++;
                             SendInformation(2, statistic.Buy);
@@ -126,7 +121,7 @@ namespace WebPassengersGenerator
                             statistic.Registred++;
                             SendInformation(3, statistic.Registred);
                             SendMsgToLogger(0, string.Format("Пассажир {0} зарегистрировался", passenger.ID));
-
+                            sendCateringStatistic(passenger.PreferFood);
                         }
                         break;
                     default:
@@ -141,21 +136,21 @@ namespace WebPassengersGenerator
         /// </summary>
         /// <param name="passengerId">id пассажира</param>
         /// <returns>папал ли пассажир на борт</returns>
-        public bool onPlane(Guid passengerId)
+        public bool onPlane(List<Guid> passengersidGuids)
         {
-            var passenger = passengers.FirstOrDefault(s => s.ID == passengerId);
-            if (passenger != null)
+            foreach (var passengersidGuid in passengersidGuids)
             {
-                passenger.State = PassengerState.Onboard;
-                statistic.OnBoard++;
-                SendInformation(5, statistic.OnBoard);
-                SendMsgToLogger(0, string.Format("Пассажир {0} на борту", passenger.ID));
-                return true;
+                var passenger = passengers.FirstOrDefault(s => s.ID == passengersidGuid);
+                if (passenger != null)
+                {
+                    passenger.State = PassengerState.Onboard;
+                    statistic.OnBoard++;
+                    SendMsgToLogger(0, string.Format("Пассажир {0} на борту", passenger.ID));
+                }
             }
-            return false;
+            SendInformation(5, statistic.OnBoard);
+            return true;
         }
-
-        
 
         public List<Passenger> GetPassengersList()
         {
@@ -177,51 +172,60 @@ namespace WebPassengersGenerator
             }
             catch (Exception ex)
             {
-
             }
         }
 
+        /// <summary>
+        /// отправка сообщения на дашборд
+        /// </summary>
+        /// <param name="status">тип сообщения</param>
+        /// <param name="newCount"> количество</param>
         private void SendInformation(int status, int newCount)
         {
             try
             {
-                DashBoard.SendMsg(string.Format("PS_{0}_{1}",status,newCount)); 
+                Dashboard.SendMsg(string.Format("PS_{0}_{1}",status,newCount)); 
             }
             catch (Exception ex)
             {
-
             }
         }
 
-        //private void sendCateringStatistic(Food f)
-        //{
-        //    int y = 0;
-        //    switch (f)
-        //    {
-        //        case Food.Children:
-        //            cateringStatistic.Children++;
-        //            y = 5;
-        //            break;
-        //        case Food.Default:
-        //            cateringStatistic.Default++;
-        //            y = 2;
-        //            break;
-        //        case Food.Diabetic:
-        //            cateringStatistic.Diabetic++;
-        //            y = 3;
-        //            break;
-        //        case Food.LowCalorie:
-        //            cateringStatistic.LowCalorie++;
-        //            y = 6;
-        //            break;
-        //        case Food.Vegetarian:
-        //            cateringStatistic.Vegetarian++;
-        //            y = 4;
-        //            break;       
-        //    }
-
-
-        //    DashBoard.SendMsg(string.Format("FD_{0}_{1}", y, newCount));
-        //}
+        private void sendCateringStatistic(Food f)
+        {
+            try
+            {
+                int y = 0, z = 0; //y - тип сообщения. z - количество
+                var p = passengers.Where(s => s.State == PassengerState.Registered || s.State == PassengerState.Onboard);
+                switch (f)
+                {
+                    case Food.Children:
+                        z = p.Count(s => s.PreferFood == Food.Children);
+                        y = 5;
+                        break;
+                    case Food.Default:
+                        z = p.Count(s => s.PreferFood == Food.Default);
+                        y = 2;
+                        break;
+                    case Food.Diabetic:
+                        z = p.Count(s => s.PreferFood == Food.Diabetic);
+                        y = 3;
+                        break;
+                    case Food.LowCalorie:
+                        z = p.Count(s => s.PreferFood == Food.LowCalorie);
+                        y = 6;
+                        break;
+                    case Food.Vegetarian:
+                        z = p.Count(s => s.PreferFood == Food.Vegetarian);
+                        y = 4;
+                        break;
+                }
+                Dashboard.SendMsg(string.Format("FD_{0}_{1}", 1, p.Count()));
+                Dashboard.SendMsg(string.Format("FD_{0}_{1}", y, z));
+            }
+            catch (Exception)
+            {
+            }
+        }
     }
 }

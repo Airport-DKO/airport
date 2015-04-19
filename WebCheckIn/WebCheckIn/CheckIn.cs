@@ -44,9 +44,8 @@ namespace WebCheckIn
         /// <returns>вес</returns>
         public int GetBaggage(Guid flightNumber)
         {
-            SendMsgToLogger(1, "получен запрос на багаж. рейс" + flightNumber);
+            SendMsgToLogger(0, "Получен запрос на багаж. рейс" + flightNumber);
             return RegistrationBase.Where(s => s.FligthID == flightNumber).Sum(s =>s.Passenger.WeightBaggage);
-
         }
 
         /// <summary>
@@ -56,7 +55,7 @@ namespace WebCheckIn
         /// <returns></returns>
         public Catering GetCatering(Guid flightNumber)
         {
-            SendMsgToLogger(1, "получен запрос на питание. рейс " + flightNumber);
+            SendMsgToLogger(0, "Получен запрос на питание. рейс " + flightNumber);
             //получаем всех пассажиров, которые зарегестрированы на рейс
             var fligths = RegistrationBase.Where(s => s.FligthID == flightNumber).ToList();
             //считаем количество необходимых кантейнеров по каждому типу
@@ -78,7 +77,7 @@ namespace WebCheckIn
         /// <returns>список пассажиров</returns>
         public List<Guid> GetSimplePassengers(Guid flightNumber)
         {
-            SendMsgToLogger(1,"получен запрос на обычных пассажиров "+ flightNumber);
+            SendMsgToLogger(0,"Получен запрос на обычных пассажиров "+ flightNumber);
             //получаем всех пассажиров, которые зарегестрированы на рейс
             var fligths = RegistrationBase.Where(s => s.FligthID == flightNumber).ToList();
             //возвращаем айдишники пассажиров эконома
@@ -92,10 +91,10 @@ namespace WebCheckIn
         /// <returns></returns>
         public List<Guid> GetVips(Guid flightNumber)
         {
-            SendMsgToLogger(1, "получен запрос на vip пассажиров " + flightNumber);
+            SendMsgToLogger(0, "Получен запрос на vip пассажиров " + flightNumber);
             //получаем всех пассажиров, которые зарегестрированы на рейс
             var fligths = RegistrationBase.Where(s => s.FligthID == flightNumber).ToList();
-            //возвращаем айдишники пассажиров эконома
+            //возвращаем айдишники пассажиров випа
             return fligths.Where(s => s.Passenger.Ticket.TicketClass == Class.Vip).Select(s => s.Passenger.ID).ToList();
         }
 
@@ -111,24 +110,22 @@ namespace WebCheckIn
                 return false;
             try
             {
-                
                 //если касса говорит, что такой пассажир билет на этот рейс не покупал - на самолёт ему, собственно, нельзя
                 if (!ticketSales.CheckTicket(passenger.ID, passenger.Ticket.FlightID))
                     return false;
 
                 var fligths = informationPanel.GetFlightsForRegistration();
                 var fligth = fligths.FirstOrDefault(s => s.number == passenger.Ticket.FlightID);
-                //если в списке рейсов с открытой регистрацией нет рейса, на который хотел бы зарегестрироваться пассажир - или опаздал бедняга, или рано пришёл. пусть погуляет
+                //если в списке рейсов с открытой регистрацией нет рейса, на который хотел бы зарегестрироваться пассажир - или он опаздал, или рано пришёл. пусть погуляет
                 if (fligth == null)
                     return false;
-                //и вот, если пассажир прощёл через все проверки, то он счастливчик, и может зарегестрироваться(но улетит ли он - большой вопрос)
+                //и вот, если пассажир прошёл через все проверки, то он может зарегестрироваться(но улетит ли он - большой вопрос)
                 RegistrationBase.Add(new RegistrationWriting() { FligthID = fligth.number, Passenger = passenger });
                 SendMsgToLogger(1, string.Format("пассажир {0} зарегистрирован на рейс{1}",passenger.ID,fligth.number));
 
                 return true;
 
             }
-            //ну, "мир не идеален", и если вдруг не удалось достучаться до одного из сервисов(темболее мы знаем кото их писал), придётся пассажиру уйти
             catch (Exception)
             {
                 return false;
