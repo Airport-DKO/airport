@@ -35,8 +35,7 @@ namespace InformationPanelGUI
             while (true)
             {
                 if (flightsGridControl.IsHandleCreated)
-                {
-                    RefreshGrid();
+                {RefreshGrid();
                     Thread.Sleep(3000);
                 }
             }
@@ -79,7 +78,6 @@ namespace InformationPanelGUI
                 _timeService = new MetrologService();
             }
         }
-
 
         private void createFlightButton_Click(object sender, EventArgs e)
         {

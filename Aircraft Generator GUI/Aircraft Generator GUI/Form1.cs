@@ -13,7 +13,8 @@ namespace Aircraft_Generator_GUI
     {
         private readonly AircraftGenerator _aircraftGeneratorWebService;
 
-        public Form1(){
+        public Form1()
+        {
             InitializeComponent();
             typeListBox.Items.AddRange(Enum.GetNames(typeof (PlaneType)));
             _aircraftGeneratorWebService = new AircraftGenerator();

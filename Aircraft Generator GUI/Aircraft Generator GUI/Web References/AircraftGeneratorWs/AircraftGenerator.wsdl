@@ -291,6 +291,7 @@
           <s:element minOccurs="1" maxOccurs="1" name="city" type="s2:Cities" />
           <s:element minOccurs="1" maxOccurs="1" name="arrivalTime" type="s:dateTime" />
           <s:element minOccurs="1" maxOccurs="1" name="takeoffTime" type="s:dateTime" />
+          <s:element minOccurs="0" maxOccurs="1" name="FligthName" type="s:string" />
           <s:element minOccurs="1" maxOccurs="1" name="StartRegistrationTime" type="s:dateTime" />
           <s:element minOccurs="1" maxOccurs="1" name="EndRegistrationTime" type="s:dateTime" />
           <s:element minOccurs="1" maxOccurs="1" name="EconomPassengersCount" type="s:int" />

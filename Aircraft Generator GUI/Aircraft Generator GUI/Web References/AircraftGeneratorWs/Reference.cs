@@ -835,6 +835,8 @@ namespace Aircraft_Generator_GUI.AircraftGeneratorWs {
         
         private System.DateTime takeoffTimeField;
         
+        private string fligthNameField;
+        
         private System.DateTime startRegistrationTimeField;
         
         private System.DateTime endRegistrationTimeField;
@@ -884,6 +886,16 @@ namespace Aircraft_Generator_GUI.AircraftGeneratorWs {
             }
             set {
                 this.takeoffTimeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string FligthName {
+            get {
+                return this.fligthNameField;
+            }
+            set {
+                this.fligthNameField = value;
             }
         }
         

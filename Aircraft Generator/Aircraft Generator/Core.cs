@@ -11,6 +11,7 @@ using Aircraft_Generator.GmcVs;
 using Aircraft_Generator.GscWs2;
 using Aircraft_Generator.InformationPanelWS;
 using Aircraft_Generator.MetrologicalService;
+using Aircraft_Generator.PassengersWs;
 using Aircraft_Generator.TowerService;
 using MapObject = Aircraft_Generator.GmcVs.MapObject;
 
@@ -36,6 +37,7 @@ namespace Aircraft_Generator
         private readonly GSC _gsc;
         private readonly MetrologService _metrolog;
         private readonly WebServiceInformationPanel _panel;
+        private readonly PassengersWs.WebServicePassengersGenerator _passengersGenerator;
 
         private readonly SynchronizedCollection<CancellationTokenSource> _tokens;
         private readonly Tower _tower;
@@ -51,6 +53,7 @@ namespace Aircraft_Generator
             _panel = new WebServiceInformationPanel();
             _metrolog = new MetrologService();
             _followMe = new FollowMe();
+            _passengersGenerator=new WebServicePassengersGenerator();
             _tokens = new SynchronizedCollection<CancellationTokenSource>();
             Rabbit.Instance.MessageReceived += CancelTasks;
             _token = new CancellationTokenSource();
@@ -105,6 +108,7 @@ namespace Aircraft_Generator
         {
             Plane plane = Planes.First(p => p.ServiceZone.Number == serviceZone.Number);
             plane.CurrentStandartPassengers += passengersGuids.Count;
+            _passengersGenerator.onPlane(passengersGuids.ToArray());
             return true;
         }
 
@@ -112,6 +116,7 @@ namespace Aircraft_Generator
         {
             Plane plane = Planes.First(p => p.ServiceZone.Number == serviceZone.Number);
             plane.CurrentVipPassengers += passengersGuids.Count;
+            _passengersGenerator.onPlane(passengersGuids.ToArray());
             return true;
         }
 

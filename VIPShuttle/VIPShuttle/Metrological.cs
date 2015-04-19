@@ -58,7 +58,10 @@ namespace VIPShuttle
                 var newCoef = float.Parse(message, CultureInfo.InvariantCulture);
                 if (newCoef != CurrentCoef)
                 {
-                    MessageReceived(this, new MetrologicalEventArgs() { NewCoef = newCoef });
+                    if (MessageReceived != null) // Вот здесь
+                    {
+                        MessageReceived(this, new MetrologicalEventArgs() {NewCoef = newCoef});
+                    }
                     CurrentCoef = newCoef;
                 }
             }
