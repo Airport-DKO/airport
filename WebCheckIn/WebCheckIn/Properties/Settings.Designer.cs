@@ -26,7 +26,7 @@ namespace WebCheckIn.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://localhost:14069/WebServiceInformationPanel.asmx")]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://airport-dko-passengers.azurewebsites.net/WebServiceInformationPanel.asmx")]
         public string WebCheckIn_InformationPanelService_WebServiceInformationPanel {
             get {
                 return ((string)(this["WebCheckIn_InformationPanelService_WebServiceInformationPanel"]));
@@ -36,10 +36,20 @@ namespace WebCheckIn.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://localhost:22401/WebServiceTicketSales.asmx")]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://airport-dko-passengers.azurewebsites.net/WebServiceTicketSales.asmx")]
         public string WebCheckIn_TicketSalesService_WebServiceTicketSales {
             get {
                 return ((string)(this["WebCheckIn_TicketSalesService_WebServiceTicketSales"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://airport-dko-metrological.azurewebsites.net/MetrologService.asmx")]
+        public string WebCheckIn_MetrologService_MetrologService {
+            get {
+                return ((string)(this["WebCheckIn_MetrologService_MetrologService"]));
             }
         }
     }

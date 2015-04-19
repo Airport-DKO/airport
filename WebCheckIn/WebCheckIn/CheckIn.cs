@@ -29,8 +29,14 @@ namespace WebCheckIn
         
         private WebServiceTicketSales ticketSales = new WebServiceTicketSales();
         private InformationPanelService.WebServiceInformationPanel informationPanel = new InformationPanelService.WebServiceInformationPanel();
-        private List<RegistrationWriting> RegistrationBase = new List<RegistrationWriting>(); 
-        
+        private List<RegistrationWriting> RegistrationBase = new List<RegistrationWriting>();
+        private MqSender Logger = new MqSender("LoggerQueue");
+        private MetrologService.MetrologService metrolog = new MetrologService.MetrologService();
+
+        public CheckIn()
+        {
+            Logger.Connect();
+        }
         /// <summary>
         /// возвращает суммарный вес багажа
         /// </summary>
@@ -38,6 +44,7 @@ namespace WebCheckIn
         /// <returns>вес</returns>
         public int GetBaggage(Guid flightNumber)
         {
+            SendMsgToLogger(1, "получен запрос на багаж. рейс" + flightNumber);
             return RegistrationBase.Where(s => s.FligthID == flightNumber).Sum(s =>s.Passenger.WeightBaggage);
 
         }
@@ -49,6 +56,7 @@ namespace WebCheckIn
         /// <returns></returns>
         public Catering GetCatering(Guid flightNumber)
         {
+            SendMsgToLogger(1, "получен запрос на питание. рейс " + flightNumber);
             //получаем всех пассажиров, которые зарегестрированы на рейс
             var fligths = RegistrationBase.Where(s => s.FligthID == flightNumber).ToList();
             //считаем количество необходимых кантейнеров по каждому типу
@@ -70,6 +78,7 @@ namespace WebCheckIn
         /// <returns>список пассажиров</returns>
         public List<Guid> GetSimplePassengers(Guid flightNumber)
         {
+            SendMsgToLogger(1,"получен запрос на обычных пассажиров "+ flightNumber);
             //получаем всех пассажиров, которые зарегестрированы на рейс
             var fligths = RegistrationBase.Where(s => s.FligthID == flightNumber).ToList();
             //возвращаем айдишники пассажиров эконома
@@ -83,6 +92,7 @@ namespace WebCheckIn
         /// <returns></returns>
         public List<Guid> GetVips(Guid flightNumber)
         {
+            SendMsgToLogger(1, "получен запрос на vip пассажиров " + flightNumber);
             //получаем всех пассажиров, которые зарегестрированы на рейс
             var fligths = RegistrationBase.Where(s => s.FligthID == flightNumber).ToList();
             //возвращаем айдишники пассажиров эконома
@@ -112,6 +122,9 @@ namespace WebCheckIn
                 if (fligth == null)
                     return false;
                 //и вот, если пассажир прощёл через все проверки, то он счастливчик, и может зарегестрироваться(но улетит ли он - большой вопрос)
+                RegistrationBase.Add(new RegistrationWriting() { FligthID = fligth.number, Passenger = passenger });
+                SendMsgToLogger(1, string.Format("пассажир {0} зарегистрирован на рейс{1}",passenger.ID,fligth.number));
+
                 return true;
 
             }
@@ -121,6 +134,25 @@ namespace WebCheckIn
                 return false;
             }
             
+        }
+
+        public void Reset()
+        {
+            RegistrationBase.Clear();
+        }
+
+        private void SendMsgToLogger(int status, string text)
+        {
+            try
+            {
+                DateTime t = metrolog.GetCurrentTime();
+                Logger.SendMsg(string.Format("{0}_{1}_{2}_CheckIn_{3}",
+                    t.ToString("dd.MM.yyyy"), t.ToString("HH:mm:ss"), status, text));
+            }
+            catch(Exception ex)
+            {
+                
+            }
         }
     }
 }

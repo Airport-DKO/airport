@@ -6,11 +6,21 @@ using System.Web;
 
 namespace WebInformationPanel
 {
-    //TODO написать логику переноса времени вылета!!!!!
+    //TODO дабить логгирование
     class InformationPanel
     {
         List<Flight> FlightsBase = new List<Flight>();   //собственно, рейсы уже привязанные к самолёту
         private static Random random;
+        private MetrologService.MetrologService metrolog = new MetrologService.MetrologService();
+        private Thread thread;
+        private MqSender Logger = new MqSender("LoggerQueue");
+
+        public InformationPanel()
+        {
+            thread = new Thread(makeFligthLater);
+            thread.Start();
+            Logger.Connect();
+        }
 
         /// <summary>
         /// создаёт рейс, и кладёт его в список
@@ -19,7 +29,7 @@ namespace WebInformationPanel
         /// <param name="city">направление</param>
         /// <param name="economPassengers">количество обычных пассажиров</param>
         /// <param name="vipPassengers">количество випов</param>
-        public void CreateFlight(DateTime takeoffTime, Cities city, int economPassengers, int vipPassengers)
+        public void CreateFlight(DateTime arrivalTime, DateTime takeoffTime, Cities city, int economPassengers, int vipPassengers)
         {
             Flight f = new Flight();
             f.number = Guid.NewGuid();
@@ -28,14 +38,16 @@ namespace WebInformationPanel
             f.EconomPassengersCount = economPassengers;
             f.VipPassengersCount = vipPassengers;
             f.IsReadyTakeOff = false;
+            f.arrivalTime = arrivalTime;
             //проставляем время начала и окончания регистрации на рейс
             //допустим, что регистрация заканчивается за полчаса до вылета
             //и длится 2 часа
             //TODO (согласовать) возможно нужно больше времини, т.к. людей багаж и еду надо везди после окончания регистрации
             f.EndRegistrationTime = takeoffTime.AddMinutes(-30);
             f.StartRegistrationTime = f.EndRegistrationTime.AddHours(-2);
-            //TODO (спросить) забыла, когда и кем записывается время прибытия
             FlightsBase.Add(f);
+            SendMsgToLogger(1, "Cоздан рейс " + f.number);
+
         }
 
         /// <summary>
@@ -47,13 +59,18 @@ namespace WebInformationPanel
             return FlightsBase.Where(s => s.BindPlaneID == null).ToList();
         }
 
+        /// <summary>
+        /// гс сообщает, что самолёт полностью готов к вылету
+        /// </summary>
+        /// <param name="fligthID">номер рейса</param>
+        /// <returns></returns>
         public bool ReadyToTakeOff(Guid fligthID)
         {
             var f = FlightsBase.FirstOrDefault(s => s.number == fligthID);
             if (f != null)
             {
-                f.IsReadyTakeOff = true;
-                return true;
+                return f.IsReadyTakeOff = true;
+                SendMsgToLogger(1, "рейс готов к вылету " + f.number);
             }
             return false;
         }
@@ -66,24 +83,26 @@ namespace WebInformationPanel
         /// <param name="planeid">id самолёта</param>
         /// <param name="FlightId">id рейса</param>
         /// <returns></returns>
-        public bool RegisterPlaneToFlight(Guid planeid, Guid FlightId)
+        public Flight RegisterPlaneToFlight(Guid planeid, Guid FlightId)
         {
             var f = FlightsBase.FirstOrDefault(s => s.number == FlightId);
-            if (f == null) return false;
-            f.BindPlaneID = planeid;
-            return true;
+            if (f != null)
+            {
+                f.BindPlaneID = planeid;
+                SendMsgToLogger(0, string.Format("Рейс {0} привязан к самолёту {1}",f.number,planeid));
+            }
+            return f;
         }
 
         /// <summary>
         /// получаем рейсы, доступные для регистрации
-        /// </summary>
+        /// </summary> 
         /// <returns>список рейсов</returns>
         public List<Flight> GetFlightsForRegistration()
         {
             try
             {
-                //TODO получаем точное время от мс
-                DateTime time = DateTime.Now;
+                var time = metrolog.GetCurrentTime();
                 var t = FlightsBase.Where(s =>
                     time >= s.StartRegistrationTime && time <= s.EndRegistrationTime                //отбираем рейсы, регистрация на которые уже началась, но ещё не закончилась
                     && (s.VipPassengersCount > 0 || s.EconomPassengersCount > 0)).ToList();         //и на которых есть хоть какие-то места
@@ -104,8 +123,7 @@ namespace WebInformationPanel
         {
             try
             {
-                //TODO получаем точное время от мс
-                DateTime time = DateTime.Now;
+                var time = metrolog.GetCurrentTime();
                 var t = FlightsBase.Where(s => time <= s.EndRegistrationTime                     //допустим, что мы можем продовать билеты до окончания регистрации
                     && (s.VipPassengersCount > 0 || s.EconomPassengersCount > 0)).ToList();         //и на которых есть хоть какие-то места
                 return t;
@@ -121,14 +139,25 @@ namespace WebInformationPanel
         /// </summary>
         /// <param name="flightNumber">id рейса</param>
         /// <returns>конец регистрации</returns>
-        public bool IsCheckInFinished(Guid flightNumber) //Табло отвечает, закончилась ли регистрация на рейс
+        public bool IsCheckInFinished(Guid flightNumber) 
         {
-            //TODO получаем время от мс
-            DateTime time = DateTime.Now;
-            var f = FlightsBase.FirstOrDefault(s => s.number == flightNumber);
-            if (f==null)//это будет очень странно            
+            try
+            {
+                var time = metrolog.GetCurrentTime();
+                var f = FlightsBase.FirstOrDefault(s => s.number == flightNumber);
+                if (f == null) //это будет очень странно            
+                    return false;
+                if (time >= f.EndRegistrationTime)
+                {
+                    SendMsgToLogger(1, "Регистрация завершена. рейс"+flightNumber);
+                    return true;
+                }
                 return false;
-            return time >= f.EndRegistrationTime;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
         }
 
         /// <summary>
@@ -136,19 +165,147 @@ namespace WebInformationPanel
         /// </summary>
         /// <param name="flightNumber"> id рейса</param>
         /// <returns></returns>
-        public bool IsFlightSoon(Guid flightNumber) 
+        public bool IsFlightSoon(Guid flightNumber)
         {
-            //TODO получаем время от мс
-            DateTime time = DateTime.Now;
-            var f = FlightsBase.FirstOrDefault(s => s.number == flightNumber);
-            if (f == null)//это будет очень странно            
+            try
+            {
+                var time = metrolog.GetCurrentTime();
+                var f = FlightsBase.FirstOrDefault(s => s.number == flightNumber);
+                if (f == null) //это будет очень странно            
+                    return false;
+                return time >= f.takeoffTime.AddMinutes(-5);
+            }
+            catch (Exception ex)
+            {
                 return false;
-            return time >= f.takeoffTime.AddMinutes(-5);
+            }
         }
 
+
+
+        public bool IsFlightRightNow(Guid flightNumber)
+        {
+            try
+            {
+                var time = metrolog.GetCurrentTime();
+                var f = FlightsBase.FirstOrDefault(s => s.number == flightNumber);
+                if (f == null) //это будет очень странно            
+                    return false;
+                if (time >= f.takeoffTime)
+                {
+                    SendMsgToLogger(1,"рейс готов к вылету "+flightNumber );
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
+
+        /// <summary>
+        /// отвечает кассе, можно ли вернвть билет на этот рейс
+        /// </summary>
+        /// <param name="flightNumber">номер рейса</param>
+        /// <returns></returns>
+        public bool CanReturnTicket(Guid flightNumber)
+        {
+            try
+            {
+                var time = metrolog.GetCurrentTime();
+                var f = FlightsBase.FirstOrDefault(s => s.number == flightNumber);
+                if (f == null) //это будет очень странно            
+                    return false;
+                return time <= f.StartRegistrationTime;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// сброс "системы"
+        /// </summary>
         public void Reset()
         {
             FlightsBase.Clear();
+        }
+
+        /// <summary>
+        /// Возвращает в GUI статус рейса
+        /// </summary>
+        /// <param name="flightNumber">id рейса</param>
+        /// <returns>статус</returns>
+        public string GetStatus(Guid flightNumber)
+        {
+            try
+            {
+                var time = metrolog.GetCurrentTime();
+                var f = FlightsBase.FirstOrDefault(s => s.number == flightNumber);
+                if (f == null) //это будет очень странно            
+                    return string.Empty;
+
+                //TODO спросить о правильных статусах (например, какой статус у рейса, самолёт для которого ещё не сгенерился, а регистрация уже началсь)
+                if (time < f.arrivalTime)
+                    return "Ожидается";
+                if (time >= f.arrivalTime && f.BindPlaneID == null)
+                    return "Задерживается";
+                if (time >= f.StartRegistrationTime && time <= f.EndRegistrationTime)
+                    return "Идёт регистрация";
+                if (time >= f.EndRegistrationTime && time <= f.takeoffTime)
+                    return "Идёт пасадка";
+            }
+            catch (Exception ex)
+            {
+                return string.Empty;
+            }
+            return string.Empty;
+        }
+
+        /// <summary>
+        /// поулчаем список всех рейсов для интерфейса
+        /// </summary>
+        /// <returns>список рейсов</returns>
+        public List<Flight> GetFlightsList()
+        {
+            return FlightsBase;
+        }
+
+        /// <summary>
+        /// функция потока, который будет переносить время вылета, если самолёт не готов улететь
+        /// </summary>
+        private void makeFligthLater()
+        {
+            //пока читерство. поток будет спать фиксированное время
+            while (true)
+            {
+                var time = metrolog.GetCurrentTime();
+                var flights = FlightsBase.Where(s => time >= s.takeoffTime && s.IsReadyTakeOff == false);
+                foreach (var flight in flights)
+                {
+                    flight.takeoffTime = time.AddMinutes(20);
+                    SendMsgToLogger(1, "Вылет рейса перенесён " + flight.number);
+                }
+                Thread.Sleep(100);
+            }
+        }
+
+
+        private void SendMsgToLogger(int status, string text)
+        {
+            try
+            {
+                DateTime t = metrolog.GetCurrentTime();
+                Logger.SendMsg(string.Format("{0}_{1}_{2}_InformationPanel_{3}",
+                    t.ToString("dd.MM.yyyy"), t.ToString("HH:mm:ss"), status, text));
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
     }
 }

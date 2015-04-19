@@ -39,6 +39,8 @@ namespace WebPassengersGenerator.CheckInService {
         
         private System.Threading.SendOrPostCallback GetBaggageOperationCompleted;
         
+        private System.Threading.SendOrPostCallback ResetOperationCompleted;
+        
         private bool useDefaultCredentialsSetExplicitly;
         
         /// <remarks/>
@@ -91,6 +93,9 @@ namespace WebPassengersGenerator.CheckInService {
         
         /// <remarks/>
         public event GetBaggageCompletedEventHandler GetBaggageCompleted;
+        
+        /// <remarks/>
+        public event ResetCompletedEventHandler ResetCompleted;
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/Registrate", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
@@ -234,6 +239,32 @@ namespace WebPassengersGenerator.CheckInService {
             if ((this.GetBaggageCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.GetBaggageCompleted(this, new GetBaggageCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/Reset", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public void Reset() {
+            this.Invoke("Reset", new object[0]);
+        }
+        
+        /// <remarks/>
+        public void ResetAsync() {
+            this.ResetAsync(null);
+        }
+        
+        /// <remarks/>
+        public void ResetAsync(object userState) {
+            if ((this.ResetOperationCompleted == null)) {
+                this.ResetOperationCompleted = new System.Threading.SendOrPostCallback(this.OnResetOperationCompleted);
+            }
+            this.InvokeAsync("Reset", new object[0], this.ResetOperationCompleted, userState);
+        }
+        
+        private void OnResetOperationCompleted(object arg) {
+            if ((this.ResetCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.ResetCompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -416,7 +447,7 @@ namespace WebPassengersGenerator.CheckInService {
             {
                 FlightID = t.FlightID,
                 PassengerID = t.PassengerID,
-                TicketClass = (TicketSalesService.Class) t.TicketClass,
+                TicketClass = (TicketSalesService.Class)t.TicketClass,
             };
         }
 
@@ -426,10 +457,9 @@ namespace WebPassengersGenerator.CheckInService {
             {
                 FlightID = t.FlightID,
                 PassengerID = t.PassengerID,
-                TicketClass = (Class) t.TicketClass,
+                TicketClass = (Class)t.TicketClass,
             };
         }
-    
     }
     
     /// <remarks/>
@@ -643,6 +673,10 @@ namespace WebPassengersGenerator.CheckInService {
             }
         }
     }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.33440")]
+    public delegate void ResetCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
 }
 
 #pragma warning restore 1591

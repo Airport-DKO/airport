@@ -7,6 +7,13 @@ using System.Web;
 
 namespace Ground_Service_Control
 {
+    internal enum ServiceTaskRole
+    {
+        LoadPlane,
+        UnloadPlane,
+        MoveToGarage
+    };
+
     /// <summary>
     /// Одна конкретная задача для самолёта и список задач, зависящих от неё.
     /// </summary>
@@ -29,27 +36,23 @@ namespace Ground_Service_Control
 
     internal abstract class TransportationServiceTask : ServiceTask
     {
-        protected TransportationServiceTask(PlaneNeeds plane, bool load)
+        protected TransportationServiceTask(PlaneNeeds plane, ServiceTaskRole _role)
             : base(plane)
         {
             taskId.type = ServiceTaskType.VIPShuttle;
-            m_load = load;
+            role = _role;
         }
 
-        public bool needToLoad()
-        {
-            return m_load;
-        }
         /// <summary>
         /// Показывает, должен ли самолёт быть загружен или разгружен.
         /// </summary>
-        private readonly bool m_load;
+        public ServiceTaskRole role { set; get; }
     };
 
     internal class BaggageTractorServiceTask : TransportationServiceTask
     {
-        public BaggageTractorServiceTask(PlaneNeeds plane, bool load)
-            : base(plane, load)
+        public BaggageTractorServiceTask(PlaneNeeds plane, ServiceTaskRole role)
+            : base(plane, role)
         {
             taskId.type = ServiceTaskType.BaggageTractor;
         }
@@ -60,7 +63,7 @@ namespace Ground_Service_Control
             {
                 var bt = new BaggageTractor.BaggageTractor();
 
-                if (needToLoad())
+                if (role == ServiceTaskRole.LoadPlane)
                 {
                     bt.LoadBaggage(context.serviceZone, context.plane, taskId);
                     return;
@@ -95,8 +98,8 @@ namespace Ground_Service_Control
 
     internal class ContainerLoaderServiceTask : TransportationServiceTask
     {
-        public ContainerLoaderServiceTask(PlaneNeeds plane, bool load)
-            : base(plane, load)
+        public ContainerLoaderServiceTask(PlaneNeeds plane, ServiceTaskRole role)
+            : base(plane, role)
         {
             taskId.type = ServiceTaskType.ContainerLoader;
         }
@@ -105,16 +108,26 @@ namespace Ground_Service_Control
         {
             var t = new Task(() =>
             {
-                Thread.Sleep(Utils.self().systemTime(5000));
+                Utils.self().sleep(5000);
 
                 var cl = new ContainerLoader.ContainerLoader();
-                if (needToLoad())
-                {
-                    Utils.self().waitTillCheckInFinished(context.plane);
+                if(role == ServiceTaskRole.MoveToGarage){
+                    cl.ToGarage(context.serviceZone);
+                    return;
+                } else if (role == ServiceTaskRole.UnloadPlane){
+                    cl.ToServiceZone(context.serviceZone, context.plane, taskId);
+                    return;
                 }
 
-                cl.ToServiceZone(context.serviceZone, taskId);
-                //TODO: убрать трап когда не нужен.
+                Utils.self().waitTillCheckInFinished(context.plane);
+
+                var baggage = new BaggageTractor.BaggageTractor();
+
+                if(baggage.ToPlain(context.plane)){
+                    cl.ToServiceZone(context.serviceZone, context.plane, taskId);
+                } else {
+                    cl.ToGarage(context.serviceZone);
+                }
             });
 
             t.Start();
@@ -124,8 +137,8 @@ namespace Ground_Service_Control
 
     internal class PassengerBusServiceTask : TransportationServiceTask
     {
-        public PassengerBusServiceTask(PlaneNeeds plane, bool load)
-            : base(plane, load)
+        public PassengerBusServiceTask(PlaneNeeds plane, ServiceTaskRole role)
+            : base(plane, role)
         {
             taskId.type = ServiceTaskType.PassengerBus;
         }
@@ -134,17 +147,17 @@ namespace Ground_Service_Control
         {
             var t = new Task(() =>
             {
-                Thread.Sleep(Utils.self().systemTime(5000));
-
                 var pb = new PassengerBus.PassengerBus();
 
-                if (needToLoad())
+                if (role == ServiceTaskRole.LoadPlane)
                 {
                     Utils.self().waitTillCheckInFinished(context.plane);
+                    Utils.self().sleep(5000);
                     pb.LoadPassengers(context.serviceZone, context.plane, taskId);
                     return;
                 }
 
+                Utils.self().sleep(5000);
                 pb.UnloadPassengers(context.serviceZone, context.economPassengers, taskId);
             });
 
@@ -155,8 +168,8 @@ namespace Ground_Service_Control
 
     internal class PassengerStairsServiceTask : TransportationServiceTask
     {
-        public PassengerStairsServiceTask(PlaneNeeds plane, bool load)
-            : base(plane, load)
+        public PassengerStairsServiceTask(PlaneNeeds plane, ServiceTaskRole role)
+            : base(plane, role)
         {
             taskId.type = ServiceTaskType.PassengerStairs;
         }
@@ -167,12 +180,29 @@ namespace Ground_Service_Control
             {
                 var ps = new PassengerStairs.PassengerStairs();
 
-                if (needToLoad())
+                if (role == ServiceTaskRole.MoveToGarage)
                 {
-                    Utils.self().waitTillCheckInFinished(context.plane);
+                    ps.ToGarage(context.serviceZone);
+                    return;
                 }
-                ps.ToServiceZone(context.serviceZone, taskId);
-                //TODO: убрать трап пока не нужен.
+                else if (role == ServiceTaskRole.UnloadPlane)
+                {
+                    ps.ToServiceZone(context.serviceZone, context.plane, taskId);
+                    return;
+                }
+
+                Utils.self().waitTillCheckInFinished(context.plane);
+
+                var vip = new VIPShuttle.VIPShuttle();
+                var bus = new PassengerBus.PassengerBus();
+
+                var needTrap = vip.ToPlain(context.plane) || bus.ToPlain(context.plane);
+                if (needTrap)
+                {
+                    ps.ToServiceZone(context.serviceZone, context.plane, taskId);
+                } else {
+                    ps.ToGarage(context.serviceZone);
+                }
             });
 
             t.Start();
@@ -201,8 +231,8 @@ namespace Ground_Service_Control
 
     internal class VIPShuttleServiceTask : TransportationServiceTask
     {
-        public VIPShuttleServiceTask(PlaneNeeds plane, bool load)
-            : base(plane, load)
+        public VIPShuttleServiceTask(PlaneNeeds plane, ServiceTaskRole role)
+            : base(plane, role)
         {
             taskId.type = ServiceTaskType.VIPShuttle;
         }
@@ -212,7 +242,7 @@ namespace Ground_Service_Control
             var t = new Task(() =>
             {
                 var vip = new VIPShuttle.VIPShuttle();
-                if (needToLoad())
+                if (role == ServiceTaskRole.LoadPlane)
                 {
                     Utils.self().waitTillCheckInFinished(context.plane);
                     vip.LoadPassengers(context.serviceZone, context.plane, taskId);

@@ -239,7 +239,7 @@ namespace Refueler.GscVS {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="DKO-Airport-Ground-Movement-Control")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="Airport")]
     public partial class MapObject {
         
         private MapObjectType mapObjectTypeField;
@@ -270,7 +270,7 @@ namespace Refueler.GscVS {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.0.30319.34234")]
     [System.SerializableAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="DKO-Airport-Ground-Movement-Control")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="Airport")]
     public enum MapObjectType {
         
         /// <remarks/>
@@ -293,6 +293,61 @@ namespace Refueler.GscVS {
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="DKO-Airport-Ground-Service-Control")]
     public partial class ServiceTaskId {
+        
+        private System.Guid planeField;
+        
+        private ServiceTaskType typeField;
+        
+        /// <remarks/>
+        public System.Guid plane {
+            get {
+                return this.planeField;
+            }
+            set {
+                this.planeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public ServiceTaskType type {
+            get {
+                return this.typeField;
+            }
+            set {
+                this.typeField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.0.30319.34234")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="DKO-Airport-Ground-Service-Control")]
+    public enum ServiceTaskType {
+        
+        /// <remarks/>
+        None,
+        
+        /// <remarks/>
+        BaggageTractor,
+        
+        /// <remarks/>
+        CateringTruck,
+        
+        /// <remarks/>
+        ContainerLoader,
+        
+        /// <remarks/>
+        PassengerBus,
+        
+        /// <remarks/>
+        PassengerStairs,
+        
+        /// <remarks/>
+        Refueler,
+        
+        /// <remarks/>
+        VIPShuttle,
     }
     
     /// <remarks/>
@@ -300,29 +355,41 @@ namespace Refueler.GscVS {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="DKO-Ariport-Aircraft-Generator")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://tempuri.org/")]
     public partial class Flight {
         
-        private int flightNumberField;
+        private System.Guid numberField;
         
-        private City cityField;
+        private Cities cityField;
         
         private System.DateTime arrivalTimeField;
         
-        private System.DateTime departureTimeField;
+        private System.DateTime takeoffTimeField;
+        
+        private System.DateTime startRegistrationTimeField;
+        
+        private System.DateTime endRegistrationTimeField;
+        
+        private int economPassengersCountField;
+        
+        private int vipPassengersCountField;
+        
+        private System.Nullable<System.Guid> bindPlaneIDField;
+        
+        private bool isReadyTakeOffField;
         
         /// <remarks/>
-        public int FlightNumber {
+        public System.Guid number {
             get {
-                return this.flightNumberField;
+                return this.numberField;
             }
             set {
-                this.flightNumberField = value;
+                this.numberField = value;
             }
         }
         
         /// <remarks/>
-        public City City {
+        public Cities city {
             get {
                 return this.cityField;
             }
@@ -332,7 +399,7 @@ namespace Refueler.GscVS {
         }
         
         /// <remarks/>
-        public System.DateTime ArrivalTime {
+        public System.DateTime arrivalTime {
             get {
                 return this.arrivalTimeField;
             }
@@ -342,12 +409,73 @@ namespace Refueler.GscVS {
         }
         
         /// <remarks/>
-        public System.DateTime DepartureTime {
+        public System.DateTime takeoffTime {
             get {
-                return this.departureTimeField;
+                return this.takeoffTimeField;
             }
             set {
-                this.departureTimeField = value;
+                this.takeoffTimeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public System.DateTime StartRegistrationTime {
+            get {
+                return this.startRegistrationTimeField;
+            }
+            set {
+                this.startRegistrationTimeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public System.DateTime EndRegistrationTime {
+            get {
+                return this.endRegistrationTimeField;
+            }
+            set {
+                this.endRegistrationTimeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int EconomPassengersCount {
+            get {
+                return this.economPassengersCountField;
+            }
+            set {
+                this.economPassengersCountField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int VipPassengersCount {
+            get {
+                return this.vipPassengersCountField;
+            }
+            set {
+                this.vipPassengersCountField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Nullable<System.Guid> BindPlaneID {
+            get {
+                return this.bindPlaneIDField;
+            }
+            set {
+                this.bindPlaneIDField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public bool IsReadyTakeOff {
+            get {
+                return this.isReadyTakeOffField;
+            }
+            set {
+                this.isReadyTakeOffField = value;
             }
         }
     }
@@ -355,8 +483,8 @@ namespace Refueler.GscVS {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.0.30319.34234")]
     [System.SerializableAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="DKO-Ariport-Aircraft-Generator")]
-    public enum City {
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://tempuri.org/")]
+    public enum Cities {
         
         /// <remarks/>
         Tokyo,

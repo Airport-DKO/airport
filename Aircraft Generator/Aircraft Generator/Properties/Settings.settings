@@ -20,5 +20,11 @@
     <Setting Name="Aircraft_Generator_MetrologicalService_MetrologService" Type="(Web Service URL)" Scope="Application">
       <Value Profile="(Default)">http://airport-dko-metrological.azurewebsites.net/MetrologService.asmx</Value>
     </Setting>
+    <Setting Name="Aircraft_Generator_FollowMeWs_FollowMe" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://airport-dko-services.azurewebsites.net/FollowMe.asmx</Value>
+    </Setting>
+    <Setting Name="Aircraft_Generator_DeicerVs_Deicer" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://airport-dko-services.azurewebsites.net/Deicer.asmx</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

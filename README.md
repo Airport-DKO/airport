@@ -34,3 +34,6 @@
 
 Метрологическая служба - http://airport-dko-metrological.azurewebsites.net/MetrologService.asmx
 
+Снегоочистка - http://airport-dko-services.azurewebsites.net/snowplug.asmx
+
+Погода - http://airport-dko-weather.azurewebsites.net/WebServiceWeather.asmx

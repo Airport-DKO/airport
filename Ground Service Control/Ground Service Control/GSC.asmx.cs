@@ -69,5 +69,12 @@ namespace Ground_Service_Control
         {
             return GSC_impl.self().Done(TaskNumber);
         }
+
+        [WebMethod]
+        public void Reset()
+        {
+            GSC_impl.self().Reset();
+        }
+
     }
 }

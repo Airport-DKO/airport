@@ -22,14 +22,14 @@ namespace BaggageTractor
         /// <summary>
         /// Метод, который служит для выгрузки багажа с рейса
         /// </summary>
-        /// <param name="serviseZone">площадка, на которой стоит самолет</param>
+        /// <param name="serviceZone">площадка, на которой стоит самолет</param>
         /// <param name="weightOfBaggage">количество багажа для выгрузки</param>
         /// <param name="taskId">номер задания</param>
         /// <returns></returns>
         [WebMethod]
-        public bool UnloadBaggage(MapObject serviseZone, int weightOfBaggage, ServiceTaskId taskId)
+        public bool UnloadBaggage(MapObject serviceZone, int weightOfBaggage, ServiceTaskId taskId)
         {
-            var t = new Task(() => Worker.FromPlane(serviseZone, weightOfBaggage, taskId));
+            var t = new Task(() => Worker.FromPlane(serviceZone, weightOfBaggage, taskId));
             t.Start();//запускаем выполнение асинхронно
 
             return true;
@@ -38,20 +38,20 @@ namespace BaggageTractor
         /// <summary>
         /// Метод, который служит для загрузки багажа на рейс
         /// </summary>
-        /// <param name="serviseZone">площадка, на которой стоит самолет</param>
+        /// <param name="serviceZone">площадка, на которой стоит самолет</param>
         /// <param name="flightNumber">номер рейса, багаж пассажиров которого следует погрузить</param>
         /// <param name="taskId">номер задания</param>
         /// <returns></returns>
         [WebMethod]
-        public bool LoadBaggage(MapObject serviseZone, Guid flightNumber, ServiceTaskId taskId)
+        public bool LoadBaggage(MapObject serviceZone, Guid flightNumber, ServiceTaskId taskId)
         {
-            var t = new Task(() => Worker.ToPlain(serviseZone, flightNumber, taskId));
+            var t = new Task(() => Worker.ToPlain(serviceZone, flightNumber, taskId));
             t.Start();//запускаем выполнение асинхронно
 
             return true;
         }
 
-        /*
+        
         /// <summary>
         /// Метод, который позволяет определить, есть ли багаж у пассажиров на данный рейс
         /// </summary>
@@ -63,6 +63,6 @@ namespace BaggageTractor
             var count = Worker.GetWeightOfBaggage(flightNumber); //запрашиваем количество багажа
             return count > 0; //возвращаем true, если багаж есть
         }
-        */
+        
     }
 }

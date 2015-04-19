@@ -49,6 +49,10 @@ namespace WebCheckIn
             return checkIn.GetBaggage(flightNumber);
         }
 
-
+        [WebMethod]
+        public void Reset()
+        {
+            checkIn.Reset();
+        }
     }
 }

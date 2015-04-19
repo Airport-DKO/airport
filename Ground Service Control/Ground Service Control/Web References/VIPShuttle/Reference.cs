@@ -255,6 +255,61 @@ namespace Ground_Service_Control.VIPShuttle {
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="DKO-Airport-Ground-Service-Control")]
     public partial class ServiceTaskId {
+        
+        private System.Guid planeField;
+        
+        private ServiceTaskType typeField;
+        
+        /// <remarks/>
+        public System.Guid plane {
+            get {
+                return this.planeField;
+            }
+            set {
+                this.planeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public ServiceTaskType type {
+            get {
+                return this.typeField;
+            }
+            set {
+                this.typeField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.0.30319.34209")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="DKO-Airport-Ground-Service-Control")]
+    public enum ServiceTaskType {
+        
+        /// <remarks/>
+        None,
+        
+        /// <remarks/>
+        BaggageTractor,
+        
+        /// <remarks/>
+        CateringTruck,
+        
+        /// <remarks/>
+        ContainerLoader,
+        
+        /// <remarks/>
+        PassengerBus,
+        
+        /// <remarks/>
+        PassengerStairs,
+        
+        /// <remarks/>
+        Refueler,
+        
+        /// <remarks/>
+        VIPShuttle,
     }
     
     /// <remarks/>

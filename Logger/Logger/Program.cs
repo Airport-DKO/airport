@@ -16,7 +16,14 @@ namespace Logger
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            try
+            {
+                Application.Run(new Form1());
+            }
+            catch
+            {
+                MessageBox.Show("Ошибка при запуске. Убедитесь, что у вас имеется папка \"C:\\airport\\\"");
+            }
         }
     }
 }

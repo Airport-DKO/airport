@@ -42,5 +42,26 @@ namespace Ground_Movement_Control.Commons
             };
             return mapObject;
         }
+
+        public static implicit operator MapObject(VizualizatorWs.MapObject m)
+        {
+            var mapObject = new MapObject()
+            {
+                
+                MapObjectType = (Commons.MapObjectType)m.Type,
+                Number = m.number
+            };
+            return mapObject;
+        }
+
+        public static implicit operator VizualizatorWs.MapObject(MapObject m)
+        {
+            var mapObject = new VizualizatorWs.MapObject()
+            {
+                Type = (VizualizatorWs.MapObjectType)m.MapObjectType,
+                number = m.Number
+            };
+            return mapObject;
+        }
     }
 }

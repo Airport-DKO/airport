@@ -35,7 +35,6 @@
             this.maxStdPsnTextEdit = new DevExpress.XtraEditors.TextEdit();
             this.maxVipPsnTextEdit = new DevExpress.XtraEditors.TextEdit();
             this.typeListBox = new System.Windows.Forms.ListBox();
-            this.hasArrivalPassengersCheckBox = new System.Windows.Forms.CheckBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -43,12 +42,19 @@
             this.label5 = new System.Windows.Forms.Label();
             this.createPlaneButton = new DevExpress.XtraEditors.SimpleButton();
             this.refreshButton = new DevExpress.XtraEditors.SimpleButton();
+            this.label6 = new System.Windows.Forms.Label();
+            this.baggageTextEdit = new DevExpress.XtraEditors.TextEdit();
+            this.bindPlaneToFlightButton = new DevExpress.XtraEditors.SimpleButton();
+            this.resetButton = new DevExpress.XtraEditors.SimpleButton();
+            this.simpleButton1 = new DevExpress.XtraEditors.SimpleButton();
+            this.simpleButton2 = new DevExpress.XtraEditors.SimpleButton();
             ((System.ComponentModel.ISupportInitialize)(this.planesGridControl)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nameTextEdit.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.fuelNeedTextEdit.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.maxStdPsnTextEdit.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.maxVipPsnTextEdit.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.baggageTextEdit.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // planesGridControl
@@ -81,6 +87,8 @@
             // 
             this.fuelNeedTextEdit.Location = new System.Drawing.Point(611, 319);
             this.fuelNeedTextEdit.Name = "fuelNeedTextEdit";
+            this.fuelNeedTextEdit.Properties.Mask.EditMask = "[0-9]{1,3}";
+            this.fuelNeedTextEdit.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
             this.fuelNeedTextEdit.Size = new System.Drawing.Size(232, 26);
             this.fuelNeedTextEdit.TabIndex = 2;
             // 
@@ -88,6 +96,8 @@
             // 
             this.maxStdPsnTextEdit.Location = new System.Drawing.Point(611, 351);
             this.maxStdPsnTextEdit.Name = "maxStdPsnTextEdit";
+            this.maxStdPsnTextEdit.Properties.Mask.EditMask = "[0-9]{1,3}";
+            this.maxStdPsnTextEdit.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
             this.maxStdPsnTextEdit.Size = new System.Drawing.Size(232, 26);
             this.maxStdPsnTextEdit.TabIndex = 3;
             // 
@@ -95,6 +105,8 @@
             // 
             this.maxVipPsnTextEdit.Location = new System.Drawing.Point(611, 383);
             this.maxVipPsnTextEdit.Name = "maxVipPsnTextEdit";
+            this.maxVipPsnTextEdit.Properties.Mask.EditMask = "[0-9]{1,3}";
+            this.maxVipPsnTextEdit.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
             this.maxVipPsnTextEdit.Size = new System.Drawing.Size(232, 26);
             this.maxVipPsnTextEdit.TabIndex = 4;
             // 
@@ -106,16 +118,6 @@
             this.typeListBox.Name = "typeListBox";
             this.typeListBox.Size = new System.Drawing.Size(232, 44);
             this.typeListBox.TabIndex = 5;
-            // 
-            // hasArrivalPassengersCheckBox
-            // 
-            this.hasArrivalPassengersCheckBox.AutoSize = true;
-            this.hasArrivalPassengersCheckBox.Location = new System.Drawing.Point(164, 404);
-            this.hasArrivalPassengersCheckBox.Name = "hasArrivalPassengersCheckBox";
-            this.hasArrivalPassengersCheckBox.Size = new System.Drawing.Size(228, 24);
-            this.hasArrivalPassengersCheckBox.TabIndex = 6;
-            this.hasArrivalPassengersCheckBox.Text = "Есть пассажиры на борту";
-            this.hasArrivalPassengersCheckBox.UseVisualStyleBackColor = true;
             // 
             // label1
             // 
@@ -164,7 +166,7 @@
             // 
             // createPlaneButton
             // 
-            this.createPlaneButton.Location = new System.Drawing.Point(51, 454);
+            this.createPlaneButton.Location = new System.Drawing.Point(17, 454);
             this.createPlaneButton.Name = "createPlaneButton";
             this.createPlaneButton.Size = new System.Drawing.Size(282, 48);
             this.createPlaneButton.TabIndex = 12;
@@ -173,18 +175,78 @@
             // 
             // refreshButton
             // 
-            this.refreshButton.Location = new System.Drawing.Point(561, 454);
+            this.refreshButton.Location = new System.Drawing.Point(596, 454);
             this.refreshButton.Name = "refreshButton";
             this.refreshButton.Size = new System.Drawing.Size(282, 48);
             this.refreshButton.TabIndex = 13;
             this.refreshButton.Text = "Обновить";
             this.refreshButton.Click += new System.EventHandler(this.refreshButton_Click);
             // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(447, 418);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(158, 20);
+            this.label6.TabIndex = 15;
+            this.label6.Text = "Количество багажа";
+            // 
+            // baggageTextEdit
+            // 
+            this.baggageTextEdit.Location = new System.Drawing.Point(611, 415);
+            this.baggageTextEdit.Name = "baggageTextEdit";
+            this.baggageTextEdit.Properties.Mask.EditMask = "[0-9]{1,3}";
+            this.baggageTextEdit.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+            this.baggageTextEdit.Size = new System.Drawing.Size(232, 26);
+            this.baggageTextEdit.TabIndex = 14;
+            // 
+            // bindPlaneToFlightButton
+            // 
+            this.bindPlaneToFlightButton.Location = new System.Drawing.Point(306, 454);
+            this.bindPlaneToFlightButton.Name = "bindPlaneToFlightButton";
+            this.bindPlaneToFlightButton.Size = new System.Drawing.Size(282, 48);
+            this.bindPlaneToFlightButton.TabIndex = 16;
+            this.bindPlaneToFlightButton.Text = "Привязать самолет к рейсу";
+            this.bindPlaneToFlightButton.Click += new System.EventHandler(this.bindPlaneToFlightButton_Click);
+            // 
+            // resetButton
+            // 
+            this.resetButton.Location = new System.Drawing.Point(17, 414);
+            this.resetButton.Name = "resetButton";
+            this.resetButton.Size = new System.Drawing.Size(118, 27);
+            this.resetButton.TabIndex = 17;
+            this.resetButton.Text = "Reset ГС";
+            this.resetButton.Click += new System.EventHandler(this.resetButton_Click);
+            // 
+            // simpleButton1
+            // 
+            this.simpleButton1.Location = new System.Drawing.Point(141, 414);
+            this.simpleButton1.Name = "simpleButton1";
+            this.simpleButton1.Size = new System.Drawing.Size(118, 27);
+            this.simpleButton1.TabIndex = 18;
+            this.simpleButton1.Text = "Reset УНД";
+            this.simpleButton1.Click += new System.EventHandler(this.simpleButton1_Click);
+            // 
+            // simpleButton2
+            // 
+            this.simpleButton2.Location = new System.Drawing.Point(265, 415);
+            this.simpleButton2.Name = "simpleButton2";
+            this.simpleButton2.Size = new System.Drawing.Size(118, 26);
+            this.simpleButton2.TabIndex = 19;
+            this.simpleButton2.Text = "Reset УНО";
+            this.simpleButton2.Click += new System.EventHandler(this.simpleButton2_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(890, 514);
+            this.Controls.Add(this.simpleButton2);
+            this.Controls.Add(this.simpleButton1);
+            this.Controls.Add(this.resetButton);
+            this.Controls.Add(this.bindPlaneToFlightButton);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.baggageTextEdit);
             this.Controls.Add(this.refreshButton);
             this.Controls.Add(this.createPlaneButton);
             this.Controls.Add(this.label5);
@@ -192,7 +254,6 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.hasArrivalPassengersCheckBox);
             this.Controls.Add(this.typeListBox);
             this.Controls.Add(this.maxVipPsnTextEdit);
             this.Controls.Add(this.maxStdPsnTextEdit);
@@ -208,6 +269,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.fuelNeedTextEdit.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.maxStdPsnTextEdit.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.maxVipPsnTextEdit.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.baggageTextEdit.Properties)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -222,7 +284,6 @@
         private DevExpress.XtraEditors.TextEdit maxStdPsnTextEdit;
         private DevExpress.XtraEditors.TextEdit maxVipPsnTextEdit;
         private System.Windows.Forms.ListBox typeListBox;
-        private System.Windows.Forms.CheckBox hasArrivalPassengersCheckBox;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
@@ -230,6 +291,12 @@
         private System.Windows.Forms.Label label5;
         private DevExpress.XtraEditors.SimpleButton createPlaneButton;
         private DevExpress.XtraEditors.SimpleButton refreshButton;
+        private System.Windows.Forms.Label label6;
+        private DevExpress.XtraEditors.TextEdit baggageTextEdit;
+        private DevExpress.XtraEditors.SimpleButton bindPlaneToFlightButton;
+        private DevExpress.XtraEditors.SimpleButton resetButton;
+        private DevExpress.XtraEditors.SimpleButton simpleButton1;
+        private DevExpress.XtraEditors.SimpleButton simpleButton2;
     }
 }
 

@@ -13,46 +13,63 @@ namespace Ground_Service_Control
         public Guid plane;
         public ServiceTaskType type;
 
+        public static bool operator ==(ServiceTaskId a, ServiceTaskId b)
+        {
+            if (a.plane == b.plane && a.type == b.type)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public static bool operator !=(ServiceTaskId a, ServiceTaskId b)
+        {
+            if (a.plane == b.plane && a.type == b.type)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
         public static implicit operator BaggageTractor.ServiceTaskId(ServiceTaskId d)
         {
-            //FIXME:
-            return new BaggageTractor.ServiceTaskId();
+            return new BaggageTractor.ServiceTaskId() { plane = d.plane, type = (BaggageTractor.ServiceTaskType)d.type };
         }
 
         public static implicit operator ContainerLoader.ServiceTaskId(ServiceTaskId d)
         {
-            //FIXME:
-            return new ContainerLoader.ServiceTaskId();
+            return new ContainerLoader.ServiceTaskId() { plane = d.plane, type = (ContainerLoader.ServiceTaskType)d.type };
         }
 
         public static implicit operator PassengerStairs.ServiceTaskId(ServiceTaskId d)
         {
-            //FIXME:
-            return new PassengerStairs.ServiceTaskId();
+            return new PassengerStairs.ServiceTaskId() { plane = d.plane, type = (PassengerStairs.ServiceTaskType)d.type };
         }
 
         public static implicit operator CateringTruck.ServiceTaskId(ServiceTaskId d)
         {
-            //FIXME:
-            return new CateringTruck.ServiceTaskId();
+            return new CateringTruck.ServiceTaskId() { plane = d.plane, type = (CateringTruck.ServiceTaskType)d.type };
         }
 
         public static implicit operator PassengerBus.ServiceTaskId(ServiceTaskId d)
         {
-            //FIXME:
-            return new PassengerBus.ServiceTaskId();
+            return new PassengerBus.ServiceTaskId() { plane = d.plane, type = (PassengerBus.ServiceTaskType)d.type };
         }
 
         public static implicit operator Refueler.ServiceTaskId(ServiceTaskId d)
         {
-            //FIXME:
-            return new Refueler.ServiceTaskId();
+            return new Refueler.ServiceTaskId() { plane = d.plane, type = (Refueler.ServiceTaskType)d.type };
         }
 
         public static implicit operator VIPShuttle.ServiceTaskId(ServiceTaskId d)
         {
-            //FIXME:
-            return new VIPShuttle.ServiceTaskId();
+            return new VIPShuttle.ServiceTaskId() { plane = d.plane, type = (VIPShuttle.ServiceTaskType)d.type };
         }
     };
 

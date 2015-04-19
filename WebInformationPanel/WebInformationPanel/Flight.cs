@@ -8,12 +8,12 @@ namespace WebInformationPanel
     public enum Cities
     {
         Tokyo,
-        Paris,
-        Rome,
-        NewYork,
-        Sydney,
-        Brasilia,
-        Antananarivo
+        Kyiv,
+        Whitecourt,
+        Roma,
+        Washington,
+        Minsk,
+        Almaty,
     };
 
     public class Flight

@@ -16,46 +16,44 @@ namespace Ground_Service_Control
             m_plane = plane;
         }
 
-        public ServiceTask createContainerLoader(bool load)
+        public ServiceTask createContainerLoader(ServiceTaskRole role)
         {
-            return m_plane.baggage <= 0
+            return m_plane.baggage <= 0 && role == ServiceTaskRole.UnloadPlane
                 ? (ServiceTask) new NoServiceTask(m_plane)
-                : new ContainerLoaderServiceTask(m_plane, load);
+                : new ContainerLoaderServiceTask(m_plane, role);
         }
 
-        public ServiceTask createBaggageTractor(bool load)
+        public ServiceTask createBaggageTractor(ServiceTaskRole role)
         {
-            return m_plane.baggage <= 0
+            return m_plane.baggage <= 0 && role == ServiceTaskRole.UnloadPlane
                 ? new NoServiceTask(m_plane)
-                : (ServiceTask)new BaggageTractorServiceTask(m_plane, load);
+                : (ServiceTask)new BaggageTractorServiceTask(m_plane, role);
         }
 
-        public ServiceTask createPassengerStairs(bool load)
+        public ServiceTask createPassengerStairs(ServiceTaskRole role)
         {
-            return !m_plane.ladder
+            return !m_plane.ladder && role == ServiceTaskRole.UnloadPlane
                 ? new NoServiceTask(m_plane)
-                : (ServiceTask)new PassengerStairsServiceTask(m_plane, load);
+                : (ServiceTask)new PassengerStairsServiceTask(m_plane, role);
         }
 
-        public ServiceTask createVIPShuttle(bool load)
+        public ServiceTask createVIPShuttle(ServiceTaskRole role)
         {
-            return m_plane.VIPPassengers <= 0
+            return m_plane.VIPPassengers <= 0 && role == ServiceTaskRole.UnloadPlane
                 ? new NoServiceTask(m_plane)
-                : (ServiceTask) new VIPShuttleServiceTask(m_plane, load);
+                : (ServiceTask) new VIPShuttleServiceTask(m_plane, role);
         }
 
-        public ServiceTask createPassengerBus(bool load)
+        public ServiceTask createPassengerBus(ServiceTaskRole role)
         {
-            return m_plane.economPassengers <= 0
+            return m_plane.economPassengers <= 0 && role == ServiceTaskRole.UnloadPlane
                 ? new NoServiceTask(m_plane)
-                : (ServiceTask) new PassengerBusServiceTask(m_plane, load);
+                : (ServiceTask) new PassengerBusServiceTask(m_plane, role);
         }
 
         public ServiceTask createCateringTruck()
         {
-            return m_plane.economPassengers + m_plane.VIPPassengers <= 0
-                ? new NoServiceTask(m_plane)
-                : (ServiceTask) new CateringTruckServiceTask(m_plane);
+            return new CateringTruckServiceTask(m_plane);
         }
 
         public ServiceTask createRefueler()
@@ -63,6 +61,11 @@ namespace Ground_Service_Control
             return m_plane.fuelingNeeds <= 0
                 ? new NoServiceTask(m_plane)
                 : (ServiceTask) new RefuelerServiceTask(m_plane);
+        }
+
+        public ServiceTask createInitialTask()
+        {
+            return new NoServiceTask(m_plane);
         }
 
         private readonly PlaneNeeds m_plane;

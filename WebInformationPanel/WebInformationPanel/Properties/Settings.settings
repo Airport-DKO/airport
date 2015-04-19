@@ -1,0 +1,17 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<<<<<<< 4551eeb9b5d8db4b531e8b925e377cb10d288b59
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)">
+  <Profiles>
+    <Profile Name="(Default)" />
+  </Profiles>
+</SettingsFile>
+=======
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="WebInformationPanel.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="WebInformationPanel_MetrologService_MetrologService" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://airport-dko-metrological.azurewebsites.net/MetrologService.asmx</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
+>>>>>>> 6d958a2bef146d882d00f85c1ec8337b8de3caec

@@ -39,6 +39,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="RabbitMQ.Client">
+      <HintPath>..\packages\RabbitMQ.Client.3.5.1\lib\net40\RabbitMQ.Client.dll</HintPath>
+    </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Web.DynamicData" />
@@ -59,20 +62,18 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="packages.config" />
     <None Include="Properties\PublishProfiles\airport-dko-gsc.pubxml" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <None Include="Web References\AircraftGenerator\AircraftGenerator.disco" />
-    <Content Include="Web References\AircraftGenerator\Flight.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </Content>
     <None Include="Web References\BaggageTractor\BaggageTractor.wsdl" />
-    <Content Include="Web References\BaggageTractor\Reference.map">
+    <None Include="Web References\BaggageTractor\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
-    </Content>
+    </None>
     <None Include="Web References\CateringTruck\CateringTruck.disco" />
     <None Include="Web References\ContainerLoader\ContainerLoader.disco" />
     <None Include="Web References\BaggageTractor\BaggageTractor.disco" />
@@ -88,15 +89,15 @@
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
     <None Include="Web References\CateringTruck\CateringTruck.wsdl" />
-    <Content Include="Web References\CateringTruck\Reference.map">
+    <None Include="Web References\CateringTruck\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
-    </Content>
+    </None>
     <None Include="Web References\ContainerLoader\ContainerLoader.wsdl" />
-    <Content Include="Web References\ContainerLoader\Reference.map">
+    <None Include="Web References\ContainerLoader\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
-    </Content>
+    </None>
     <None Include="Web References\GMC\gmc.wsdl" />
     <Content Include="Web References\GMC\MapObject.datasource">
       <DependentUpon>Reference.map</DependentUpon>
@@ -105,33 +106,39 @@
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
+    <None Include="Web References\MetrologService\MetrologService.wsdl" />
+    <None Include="Web References\MetrologService\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
     <None Include="Web References\PassengerBus\PassengerBus.wsdl" />
-    <Content Include="Web References\PassengerBus\Reference.map">
+    <None Include="Web References\PassengerBus\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
-    </Content>
+    </None>
     <None Include="Web References\PassengerStairs\PassengerStairs.wsdl" />
-    <Content Include="Web References\PassengerStairs\Reference.map">
+    <None Include="Web References\PassengerStairs\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
-    </Content>
-    <Content Include="Web References\Refueler\Reference.map">
+    </None>
+    <None Include="Web References\Refueler\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
-    </Content>
+    </None>
     <None Include="Web References\Refueler\Refueler.wsdl" />
-    <Content Include="Web References\VIPShuttle\Reference.map">
+    <None Include="Web References\VIPShuttle\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
-    </Content>
+    </None>
     <None Include="Web References\VIPShuttle\VIPShuttle.wsdl" />
+    <None Include="Web References\MetrologService\MetrologService.disco" />
     <Content Include="Web References\WebServiceInformationPanel\Flight.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </Content>
-    <Content Include="Web References\WebServiceInformationPanel\Reference.map">
+    <None Include="Web References\WebServiceInformationPanel\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
-    </Content>
+    </None>
     <None Include="Web References\WebServiceInformationPanel\WebServiceInformationPanel.wsdl" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -156,6 +163,8 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="GSC_impl.cs" />
+    <Compile Include="Implementations\MapObject.cs" />
+    <Compile Include="Logger.cs" />
     <Compile Include="PlaneTask.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
@@ -167,6 +176,7 @@
     <Compile Include="ServiceTaskFactory.cs" />
     <Compile Include="ServiceTaskId.cs" />
     <Compile Include="ServiceTaskScheduler.cs" />
+    <Compile Include="Metrological.cs" />
     <Compile Include="Utils.cs" />
     <Compile Include="Web References\AircraftGenerator\Reference.cs">
       <AutoGen>True</AutoGen>
@@ -189,6 +199,11 @@
       <DependentUpon>Reference.map</DependentUpon>
     </Compile>
     <Compile Include="Web References\GMC\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\MetrologService\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.map</DependentUpon>
@@ -247,6 +262,17 @@
       </CachedDynamicPropName>
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>Ground_Service_Control_GMC_GMC</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://airport-dko-metrological.azurewebsites.net/MetrologService.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\MetrologService\</RelPath>
+      <UpdateFromURL>http://airport-dko-metrological.azurewebsites.net/MetrologService.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Ground_Service_Control_MetrologService_MetrologService</CachedSettingsPropName>
     </WebReferenceUrl>
     <WebReferenceUrl Include="http://airport-dko-passengers.azurewebsites.net/WebServiceInformationPanel.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
@@ -337,6 +363,7 @@
       <CachedSettingsPropName>Ground_Service_Control_VIPShuttle_VIPShuttle</CachedSettingsPropName>
     </WebReferenceUrl>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

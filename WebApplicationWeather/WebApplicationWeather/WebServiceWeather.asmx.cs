@@ -6,6 +6,11 @@ using System.Web.Services;
 using System.Xml.Linq;
 using System.Text.RegularExpressions;
 
+using RabbitMQ.Client;
+using RabbitMQ.Client.Content;
+using RabbitMQ.Client.MessagePatterns;
+using RabbitMQ.Client.Events;
+
 namespace WebApplicationWeather
 {
     /// <summary>
@@ -16,25 +21,34 @@ namespace WebApplicationWeather
     [System.ComponentModel.ToolboxItem(false)]
     // Чтобы разрешить вызывать веб-службу из скрипта с помощью ASP.NET AJAX, раскомментируйте следующую строку. 
     // [System.Web.Script.Services.ScriptService]
+
     public class WebServiceWeather : System.Web.Services.WebService
     {
         static double AirportTemperature = 4;
+        private const string ComponentName = "Weather";
 
         [WebMethod]
-        public double GetTemperature()
+        public double GetTemperature(bool gui)
         {
+            if (gui)
+                Logger.SendMessage(0, ComponentName, String.Format("Aэропорт, температура {0} С", AirportTemperature));
+            else
+                Logger.SendMessage(1, ComponentName, String.Format("Aэропорт, температура {0} С", AirportTemperature));
             return AirportTemperature;
         }
+
 
         [WebMethod]
         public void SetTemperature(double t)
         {
             AirportTemperature = t;
+            Logger.SendMessage(1, ComponentName, String.Format("Aэропорт, установлена температура {0} С", AirportTemperature));
         }
 
         [WebMethod]
         public double GetTempFromCity(string city)
         {
+            Logger.SendMessage(0, ComponentName, String.Format("Запрос температуры из города {0}", city));
             System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US");
             if (city.Length == 0) return 0;
             WebServiceGlobalWeather.GlobalWeatherSoap ws = new WebServiceGlobalWeather.GlobalWeatherSoapClient();
@@ -48,12 +62,16 @@ namespace WebApplicationWeather
                 }
                 catch
                 {
+                    Logger.SendMessage(0, ComponentName, String.Format("{0}, повтор запроса", city));
                     continue;
                 }
             }
-            
+
             if (xmlCodeString == "Data Not Found")
+            {
+                Logger.SendMessage(0, ComponentName, String.Format("Информация о погоде в городе {0} не предоставляется", city));
                 return 0;
+            }
             XDocument xmlCode = XDocument.Parse(xmlCodeString);
             XElement valueElement = xmlCode.Element("CurrentWeather").Element("Temperature");
             string valueString = valueElement.Value;
@@ -67,12 +85,14 @@ namespace WebApplicationWeather
             newReg = new Regex(pattern, option);
             match = newReg.Match(text);
             double temp = Double.Parse(match.Value);
+            Logger.SendMessage(1, ComponentName, String.Format("Город {0}, температура {1} С", city, temp));
             return temp;
         }
 
         [WebMethod]
         public int GetWindFromCity(string city)
         {
+            Logger.SendMessage(0, ComponentName, String.Format("Запрос ветра из города {0}", city));
             if (city.Length == 0) return 0;
             WebServiceGlobalWeather.GlobalWeatherSoap ws = new WebServiceGlobalWeather.GlobalWeatherSoapClient();
             string xmlCodeString;
@@ -104,13 +124,14 @@ namespace WebApplicationWeather
             newReg = new Regex(pattern, option);
             match = newReg.Match(text);
             int wind = (int)Math.Round(Double.Parse(match.Value) * 0.45);
+            Logger.SendMessage(1, ComponentName, String.Format("Город {0}, ветер {1} м/с", city, wind));
             return wind;
         }
         
         [WebMethod]
         public void CrapSnow()
         {
-
+            Logger.SendMessage(1, ComponentName, String.Format("Выпал снег"));
         }
     }
 }

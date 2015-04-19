@@ -13,24 +13,10 @@
       <s:element name="LandingRequestResponse">
         <s:complexType>
           <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="LandingRequestResult" type="tns:MapObject" />
+            <s:element minOccurs="1" maxOccurs="1" name="LandingRequestResult" type="s:boolean" />
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:complexType name="MapObject">
-        <s:sequence>
-          <s:element minOccurs="1" maxOccurs="1" name="MapObjectType" type="tns:MapObjectType" />
-          <s:element minOccurs="1" maxOccurs="1" name="Number" type="s:int" />
-        </s:sequence>
-      </s:complexType>
-      <s:simpleType name="MapObjectType">
-        <s:restriction base="s:string">
-          <s:enumeration value="Runway" />
-          <s:enumeration value="Garage" />
-          <s:enumeration value="ServiceArea" />
-          <s:enumeration value="Airport" />
-        </s:restriction>
-      </s:simpleType>
     </s:schema>
     <s:schema elementFormDefault="qualified" targetNamespace="http://microsoft.com/wsdl/types/">
       <s:simpleType name="guid">

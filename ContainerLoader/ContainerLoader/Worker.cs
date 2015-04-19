@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.Remoting.Messaging;
+using System.Linq;
 using ContainerLoader.CheckinVS;
 using ContainerLoader.GscVS;
 using MapObject = ContainerLoader.GmcVS.MapObject;
@@ -10,14 +10,14 @@ namespace ContainerLoader
 {
     public static class Worker
     {
-        private static List<Tuple<Guid, MapObject>> WhoWhere; //список, чтоб запоминать, где какой погрузчик находится (используется для возврата в гараж)
-
+        private const string ComponentName = "ContainerLoader";
+        private static SynchronizedCollection<Tuple<Guid, MapObject>> WhoWhere; //список, чтоб запоминать, где какой погрузчик находится (используется для возврата в гараж)
         private static readonly MapObject Garage;
 
         static Worker()
         {
             Garage = new MapObject {MapObjectType = MapObjectType.Garage};
-            WhoWhere = new List<Tuple<Guid, MapObject>>();
+            WhoWhere = new SynchronizedCollection<Tuple<Guid, MapObject>>();
         }
 
         /// <summary>
@@ -29,13 +29,24 @@ namespace ContainerLoader
         /// <returns></returns>
         public static void GoToServiceZone(MapObject serviceZone, Guid flightNumber, ServiceTaskId taskId)
         {
-            var countOfBaggage = new WebServiceCheckIn().GetBaggage(flightNumber);
-            if (countOfBaggage > 0) //если багаж вообще есть, что-то делаем
-            {
+            Logger.SendMessage(0, ComponentName, String.Format("Задание получено: подогнать погрузчик багажа на площадку номер {0}", serviceZone.Number));
+
+//            var countOfBaggage = new WebServiceCheckIn().GetBaggage(flightNumber);
+//            Logger.SendMessage(0, ComponentName, String.Format("Получена информация о {0} кг багажа на рейс номер {1}", countOfBaggage, flightNumber));
+//            if (countOfBaggage > 0) //если багаж вообще есть, что-то делаем
+//            {
+//                Logger.SendMessage(0, ComponentName, String.Format("Погрузчик багажа выехал на площадку обслуживания номер {0}", serviceZone.Number));
+
                 var car = new Car();
                 car.GoTo(Garage, serviceZone);
+
+                Logger.SendMessage(1, ComponentName, String.Format("Погрузчик багажа прибыл на площадку обслуживания номер {0}", serviceZone.Number));
+
                 WhoWhere.Add(new Tuple<Guid, MapObject>(car.Id, serviceZone)); //запоминаем, что на этой площадке находится погрузчик с некоторым идентификатором
-            } //если нет багажа, считаем, что все сделано
+//            } //если нет багажа, считаем, что все сделано
+
+            Logger.SendMessage(0, ComponentName, 
+                String.Format("Задание выполнено: подогнать погрузчик багажа на площадку номер {0}", serviceZone.Number));
 
             new GSC().Done(taskId); //сообщаем Управлению Наземным Обслуживанием, что задание выполнено
         }
@@ -47,29 +58,37 @@ namespace ContainerLoader
         /// <returns></returns>
         public static void GoToGarage(MapObject serviceZone)
         {
+            Logger.SendMessage(0, ComponentName, String.Format("Задание получено: вернуть погрузчик багажа с площадки номер {0} в гараж", serviceZone.Number));
+
             //пытаемся найти машину на стоянке в списке и достать ее id
             Guid id = Guid.Empty;
             foreach (var tuple in WhoWhere)
             {
-                if (tuple.Item2 == serviceZone)
+                if (tuple.Item2.Number == serviceZone.Number)
                 {
                     id = tuple.Item1;
                     break;
                 }
             }
 
-            //если машины не было на площадке - ничего не делаем
             if (id == Guid.Empty)
+            {
+                Logger.SendMessage(0, ComponentName, String.Format("Погрузчик не найден на площадке. Задание считается выполненым", serviceZone.Number));
                 return;
+            }
 
             //если была - создаем с тем же айди
             Car car = new Car(id);
 
             //удаляем машину из списка 
-            WhoWhere.Remove(new Tuple<Guid, MapObject>(id, serviceZone));
+            WhoWhere.Remove(WhoWhere.First(x => x.Item1 == id));
+
+            Logger.SendMessage(0, ComponentName, String.Format("Погрузчик багажа выехал с площадки номер {0} в гараж", serviceZone.Number));
 
             //возвращаем машину в гараж
             car.GoTo(serviceZone, Garage);
+
+            Logger.SendMessage(1, ComponentName, String.Format("Погрузчик вернулся с площадки номер {0} в гараж", serviceZone.Number));
         }
     }
 }

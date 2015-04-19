@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Threading;
+using WeatherGUI.Weather;
 
 namespace WeatherGUI
 {
@@ -24,6 +25,7 @@ namespace WeatherGUI
             this.Text = "WeatherGUI";
             button1.Text = "Set";
             button2.Text = "Let it snow";
+            button3.Text = "Reset monitor";
             checkBox1.Text = "below zero";
             label1.Text = "Enter temperature:";
             label2.Text = "degrees";
@@ -37,7 +39,7 @@ namespace WeatherGUI
                 {
                     try
                     {
-                        label5.Invoke(new rename((b) => label5.Text = w.GetTemperature().ToString()), w.GetTemperature().ToString());
+                        label5.Invoke(new rename((b) => label5.Text = b), w.GetTemperature(true).ToString());
 
                     }
                     catch
@@ -100,6 +102,28 @@ namespace WeatherGUI
         private void Form1_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            new Thread(() =>
+            {
+                while (true)
+                {
+                    try
+                    {
+                        label5.Invoke(new rename((b) => label5.Text = b), w.GetTemperature(true).ToString());
+
+                    }
+                    catch
+                    {
+                        break;
+                    }
+                    Thread.Sleep(3000);
+
+                }
+                //label5.Text = w.GetTemperature().ToString();
+            }).Start();
         }
     }
 }

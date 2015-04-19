@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using PassengerStairs.GmcVS;
 
 namespace PassengerStairs
@@ -10,6 +9,7 @@ namespace PassengerStairs
     {
         private readonly Guid _id; //идентификатор машины, чтобы ее могли отличить среди других Управление Наземным Движением и Визуализатор
         private readonly MoveObjectType _type;
+        private const int Speed = 10000;
 
         public Guid Id { get { return _id; } }
 
@@ -51,7 +51,7 @@ namespace PassengerStairs
                 route = gmc.GetRoute(from, to).ToList(); //УНД возвращает список координат, по которым надо проехать
                 if (route.Count == 0) //если маршрут вернулся пустым - ехать пока что нельзя (уборка снега) - через некоторое время повторяем запрос
                 {
-                    Thread.Sleep(100000);
+                     SpecialThead.Sleep(100000);
                 }
                 else
                 {
@@ -73,12 +73,12 @@ namespace PassengerStairs
             int stepNumber = 0;
             while (stepNumber < route.Count) //пока не дойдем до конца массива, содержащего маршрут
             {
-                if (gmc.Step(route[stepNumber], _type, _id)) //УНД возвращает разрешение на движение на переданную координату или запрет 
+                if (gmc.Step(route[stepNumber], _type, _id, Speed * Metrological.Instance.CurrentCoef)) //УНД возвращает разрешение на движение на переданную координату или запрет 
                 {
                     //если шаг сделать удалось - передвигаемся на следующий индекс массива, содержащего маршрут
                     stepNumber++;
-                    //TODO: между интервалами посылки таких запросов необходимо делать Sleep(N/Speed), где N-число, полученное от Метрологической службы(Время)
                 }
+                SpecialThead.Sleep(Speed);//делаем задержку, специально написанный метод Sleep внутри себя учитывает коэффициент метрологической службы
             }
         }
     }

@@ -9,16 +9,16 @@ namespace Refueler
     public class Car
     {
         private readonly Guid _id;
-        private readonly Int32 _capacity;
+        private const Int32 _capacity = 100;
         private readonly MoveObjectType _type;
+        private const int Speed = 20000;
 
         public Int32 Capacity { get { return _capacity; } }
 
         public Car()
         {
             _id = Guid.NewGuid();
-            _capacity = 100;
-            _type = MoveObjectType.None; //TODO:ЗАМЕНИТЬ
+            _type = MoveObjectType.Refueler;
         }
 
         /// <summary>
@@ -48,7 +48,7 @@ namespace Refueler
                 route = gmc.GetRoute(from, to).ToList(); //УНД возвращает список координат, по которым надо проехать
                 if (route.Count == 0) //если маршрут вернулся пустым - ехать пока что нельзя (уборка снега) - через некоторое время повторяем запрос
                 {
-                    Thread.Sleep(100000);
+                    SpecialThead.Sleep(100000);
                 }
                 else
                 {
@@ -70,12 +70,13 @@ namespace Refueler
             int stepNumber = 0;
             while (stepNumber < route.Count) //пока не дойдем до конца массива, содержащего маршрут
             {
-                if (gmc.Step(route[stepNumber], _type, _id)) //УНД возвращает разрешение на движение на переданную координату или запрет 
+                if (gmc.Step(route[stepNumber], _type, _id, Speed * Metrological.Instance.CurrentCoef))
+                    //УНД возвращает разрешение на движение на переданную координату или запрет 
                 {
                     //если шаг сделать удалось - передвигаемся на следующий индекс массива, содержащего маршрут
                     stepNumber++;
-                    //TODO: между интервалами посылки таких запросов необходимо делать Sleep(N/Speed), где N-число, полученное от Метрологической службы(Время)
                 }
+                SpecialThead.Sleep(Speed);
             }
         }
     }

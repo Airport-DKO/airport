@@ -8,5 +8,8 @@
     <Setting Name="Deicer_AircraftGeneratorVS_AircraftGenerator" Type="(Web Service URL)" Scope="Application">
       <Value Profile="(Default)">http://airport-dko-aircraft-generator.azurewebsites.net/AircraftGenerator.asmx</Value>
     </Setting>
+    <Setting Name="Deicer_MetrologServiceVS_MetrologService" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://airport-dko-metrological.azurewebsites.net/MetrologService.asmx</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

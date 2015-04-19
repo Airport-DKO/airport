@@ -47,6 +47,12 @@ namespace Ground_Service_Control.WebServiceInformationPanel {
         
         private System.Threading.SendOrPostCallback ResetOperationCompleted;
         
+        private System.Threading.SendOrPostCallback GetFlightsListOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetStatusOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback CanReturnTicketOperationCompleted;
+        
         private bool useDefaultCredentialsSetExplicitly;
         
         /// <remarks/>
@@ -111,6 +117,15 @@ namespace Ground_Service_Control.WebServiceInformationPanel {
         
         /// <remarks/>
         public event ResetCompletedEventHandler ResetCompleted;
+        
+        /// <remarks/>
+        public event GetFlightsListCompletedEventHandler GetFlightsListCompleted;
+        
+        /// <remarks/>
+        public event GetStatusCompletedEventHandler GetStatusCompleted;
+        
+        /// <remarks/>
+        public event CanReturnTicketCompletedEventHandler CanReturnTicketCompleted;
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/GetFlightsForRegistration", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
@@ -226,8 +241,9 @@ namespace Ground_Service_Control.WebServiceInformationPanel {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/CreateFlight", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public void CreateFlight(System.DateTime takeoffTime, Cities city, int economPassengers, int vipPassengers) {
+        public void CreateFlight(System.DateTime arrivalTime, System.DateTime takeoffTime, Cities city, int economPassengers, int vipPassengers) {
             this.Invoke("CreateFlight", new object[] {
+                        arrivalTime,
                         takeoffTime,
                         city,
                         economPassengers,
@@ -235,16 +251,17 @@ namespace Ground_Service_Control.WebServiceInformationPanel {
         }
         
         /// <remarks/>
-        public void CreateFlightAsync(System.DateTime takeoffTime, Cities city, int economPassengers, int vipPassengers) {
-            this.CreateFlightAsync(takeoffTime, city, economPassengers, vipPassengers, null);
+        public void CreateFlightAsync(System.DateTime arrivalTime, System.DateTime takeoffTime, Cities city, int economPassengers, int vipPassengers) {
+            this.CreateFlightAsync(arrivalTime, takeoffTime, city, economPassengers, vipPassengers, null);
         }
         
         /// <remarks/>
-        public void CreateFlightAsync(System.DateTime takeoffTime, Cities city, int economPassengers, int vipPassengers, object userState) {
+        public void CreateFlightAsync(System.DateTime arrivalTime, System.DateTime takeoffTime, Cities city, int economPassengers, int vipPassengers, object userState) {
             if ((this.CreateFlightOperationCompleted == null)) {
                 this.CreateFlightOperationCompleted = new System.Threading.SendOrPostCallback(this.OnCreateFlightOperationCompleted);
             }
             this.InvokeAsync("CreateFlight", new object[] {
+                        arrivalTime,
                         takeoffTime,
                         city,
                         economPassengers,
@@ -287,11 +304,11 @@ namespace Ground_Service_Control.WebServiceInformationPanel {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/RegisterPlaneToFlight", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public bool RegisterPlaneToFlight(System.Guid planeid, System.Guid FlightId) {
+        public Flight RegisterPlaneToFlight(System.Guid planeid, System.Guid FlightId) {
             object[] results = this.Invoke("RegisterPlaneToFlight", new object[] {
                         planeid,
                         FlightId});
-            return ((bool)(results[0]));
+            return ((Flight)(results[0]));
         }
         
         /// <remarks/>
@@ -368,6 +385,91 @@ namespace Ground_Service_Control.WebServiceInformationPanel {
             if ((this.ResetCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.ResetCompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/GetFlightsList", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public Flight[] GetFlightsList() {
+            object[] results = this.Invoke("GetFlightsList", new object[0]);
+            return ((Flight[])(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetFlightsListAsync() {
+            this.GetFlightsListAsync(null);
+        }
+        
+        /// <remarks/>
+        public void GetFlightsListAsync(object userState) {
+            if ((this.GetFlightsListOperationCompleted == null)) {
+                this.GetFlightsListOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetFlightsListOperationCompleted);
+            }
+            this.InvokeAsync("GetFlightsList", new object[0], this.GetFlightsListOperationCompleted, userState);
+        }
+        
+        private void OnGetFlightsListOperationCompleted(object arg) {
+            if ((this.GetFlightsListCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetFlightsListCompleted(this, new GetFlightsListCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/GetStatus", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public string GetStatus(System.Guid flightNumber) {
+            object[] results = this.Invoke("GetStatus", new object[] {
+                        flightNumber});
+            return ((string)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetStatusAsync(System.Guid flightNumber) {
+            this.GetStatusAsync(flightNumber, null);
+        }
+        
+        /// <remarks/>
+        public void GetStatusAsync(System.Guid flightNumber, object userState) {
+            if ((this.GetStatusOperationCompleted == null)) {
+                this.GetStatusOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetStatusOperationCompleted);
+            }
+            this.InvokeAsync("GetStatus", new object[] {
+                        flightNumber}, this.GetStatusOperationCompleted, userState);
+        }
+        
+        private void OnGetStatusOperationCompleted(object arg) {
+            if ((this.GetStatusCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetStatusCompleted(this, new GetStatusCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/CanReturnTicket", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public bool CanReturnTicket(System.Guid flightNumber) {
+            object[] results = this.Invoke("CanReturnTicket", new object[] {
+                        flightNumber});
+            return ((bool)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void CanReturnTicketAsync(System.Guid flightNumber) {
+            this.CanReturnTicketAsync(flightNumber, null);
+        }
+        
+        /// <remarks/>
+        public void CanReturnTicketAsync(System.Guid flightNumber, object userState) {
+            if ((this.CanReturnTicketOperationCompleted == null)) {
+                this.CanReturnTicketOperationCompleted = new System.Threading.SendOrPostCallback(this.OnCanReturnTicketOperationCompleted);
+            }
+            this.InvokeAsync("CanReturnTicket", new object[] {
+                        flightNumber}, this.CanReturnTicketOperationCompleted, userState);
+        }
+        
+        private void OnCanReturnTicketOperationCompleted(object arg) {
+            if ((this.CanReturnTicketCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.CanReturnTicketCompleted(this, new CanReturnTicketCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -530,22 +632,22 @@ namespace Ground_Service_Control.WebServiceInformationPanel {
         Tokyo,
         
         /// <remarks/>
-        Paris,
+        Kyiv,
         
         /// <remarks/>
-        Rome,
+        Whitecourt,
         
         /// <remarks/>
-        NewYork,
+        Roma,
         
         /// <remarks/>
-        Sydney,
+        Washington,
         
         /// <remarks/>
-        Brasilia,
+        Minsk,
         
         /// <remarks/>
-        Antananarivo,
+        Almaty,
     }
     
     /// <remarks/>
@@ -700,10 +802,10 @@ namespace Ground_Service_Control.WebServiceInformationPanel {
         }
         
         /// <remarks/>
-        public bool Result {
+        public Flight Result {
             get {
                 this.RaiseExceptionIfNecessary();
-                return ((bool)(this.results[0]));
+                return ((Flight)(this.results[0]));
             }
         }
     }
@@ -737,6 +839,84 @@ namespace Ground_Service_Control.WebServiceInformationPanel {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.34209")]
     public delegate void ResetCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.34209")]
+    public delegate void GetFlightsListCompletedEventHandler(object sender, GetFlightsListCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.34209")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetFlightsListCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetFlightsListCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public Flight[] Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((Flight[])(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.34209")]
+    public delegate void GetStatusCompletedEventHandler(object sender, GetStatusCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.34209")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetStatusCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetStatusCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public string Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.34209")]
+    public delegate void CanReturnTicketCompletedEventHandler(object sender, CanReturnTicketCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.34209")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class CanReturnTicketCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal CanReturnTicketCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public bool Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((bool)(this.results[0]));
+            }
+        }
+    }
 }
 
 #pragma warning restore 1591

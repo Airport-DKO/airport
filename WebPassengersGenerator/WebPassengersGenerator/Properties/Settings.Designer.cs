@@ -26,7 +26,7 @@ namespace WebPassengersGenerator.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://localhost:22401/WebServiceTicketSales.asmx")]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://airport-dko-passengers.azurewebsites.net/WebServiceTicketSales.asmx")]
         public string WebPassengersGenerator_TicketSalesService_WebServiceTicketSales {
             get {
                 return ((string)(this["WebPassengersGenerator_TicketSalesService_WebServiceTicketSales"]));
@@ -36,10 +36,20 @@ namespace WebPassengersGenerator.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://localhost:22542/WebServiceCheckIn.asmx")]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://airport-dko-passengers.azurewebsites.net/WebServiceCheckIn.asmx")]
         public string WebPassengersGenerator_CheckInService_WebServiceCheckIn {
             get {
                 return ((string)(this["WebPassengersGenerator_CheckInService_WebServiceCheckIn"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://airport-dko-metrological.azurewebsites.net/MetrologService.asmx")]
+        public string WebPassengersGenerator_MetrologService_MetrologService {
+            get {
+                return ((string)(this["WebPassengersGenerator_MetrologService_MetrologService"]));
             }
         }
     }

@@ -39,6 +39,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="RabbitMQ.Client">
+      <HintPath>..\packages\RabbitMQ.Client.3.5.1\lib\net40\RabbitMQ.Client.dll</HintPath>
+    </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Web.DynamicData" />
@@ -59,21 +62,28 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="packages.config" />
+    <None Include="Properties\PublishProfiles\airport-dko-passengers.pubxml" />
     <Content Include="Web References\InformationPanelService\Flight.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </Content>
-    <Content Include="Web References\InformationPanelService\Reference.map">
+    <None Include="Web References\InformationPanelService\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
-    </Content>
-    <None Include="Properties\PublishProfiles\airport-dko-passengers.pubxml" />
+    </None>
     <None Include="Web References\InformationPanelService\WebServiceInformationPanel.wsdl" />
-    <Content Include="Web References\TicketSalesService\Reference.map">
+    <None Include="Web References\MetrologService\MetrologService.disco" />
+    <None Include="Web References\TicketSalesService\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
-    </Content>
+    </None>
     <Content Include="Web References\TicketSalesService\Ticket.datasource">
       <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <None Include="Web References\MetrologService\MetrologService.wsdl" />
+    <Content Include="Web References\MetrologService\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
     </Content>
     <None Include="Web References\TicketSalesService\WebServiceTicketSales.wsdl" />
     <None Include="Web.Debug.config">
@@ -95,6 +105,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CheckIn.cs" />
+    <Compile Include="MqSender.cs" />
     <Compile Include="Passenger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
@@ -103,6 +114,11 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="Web References\InformationPanelService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\MetrologService\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.map</DependentUpon>
@@ -124,10 +140,21 @@
     <WebReferences Include="Web References\" />
   </ItemGroup>
   <ItemGroup>
-    <WebReferenceUrl Include="http://localhost:14069/WebServiceInformationPanel.asmx">
+    <WebReferenceUrl Include="http://airport-dko-metrological.azurewebsites.net/MetrologService.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\MetrologService\</RelPath>
+      <UpdateFromURL>http://airport-dko-metrological.azurewebsites.net/MetrologService.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>WebCheckIn_MetrologService_MetrologService</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://airport-dko-passengers.azurewebsites.net/WebServiceInformationPanel.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\InformationPanelService\</RelPath>
-      <UpdateFromURL>http://localhost:14069/WebServiceInformationPanel.asmx</UpdateFromURL>
+      <UpdateFromURL>http://airport-dko-passengers.azurewebsites.net/WebServiceInformationPanel.asmx</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>
@@ -135,10 +162,10 @@
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>WebCheckIn_InformationPanelService_WebServiceInformationPanel</CachedSettingsPropName>
     </WebReferenceUrl>
-    <WebReferenceUrl Include="http://localhost:22401/WebServiceTicketSales.asmx">
+    <WebReferenceUrl Include="http://airport-dko-passengers.azurewebsites.net/WebServiceTicketSales.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\TicketSalesService\</RelPath>
-      <UpdateFromURL>http://localhost:22401/WebServiceTicketSales.asmx</UpdateFromURL>
+      <UpdateFromURL>http://airport-dko-passengers.azurewebsites.net/WebServiceTicketSales.asmx</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>

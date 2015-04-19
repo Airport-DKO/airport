@@ -36,9 +36,9 @@ namespace Ground_Movement_Control
         /// <param name="id">GUID объекта</param>
         /// <returns>true - если УВД разрешает, false - если нет</returns>
         [WebMethod]
-        public bool Step(CoordinateTuple coordinate, MoveObjectType type, Guid id)
+        public bool Step(CoordinateTuple coordinate, MoveObjectType type, Guid id, double speed)
         {
-            return Core.Instance.Step(coordinate.X, coordinate.Y, type, id);
+            return Core.Instance.Step(coordinate.X, coordinate.Y, type, id, speed);
         }
 
         /// <summary>
@@ -47,7 +47,7 @@ namespace Ground_Movement_Control
         /// <param name="planeGuid">Guid самолета, который хочет сесть</param>
         /// <returns>null - если запрет, MapObject полосы в положительном случае</returns>
         [WebMethod]
-        public MapObject CheckRunwayAwailability(Guid planeGuid)
+        public bool CheckRunwayAwailability(Guid planeGuid)
         {
             return Core.Instance.CheckRunwayAwailability(planeGuid);
         }
@@ -67,9 +67,42 @@ namespace Ground_Movement_Control
         ///     Освобождаем впп
         /// </summary>
         [WebMethod]
-        public void RunwayRelease()
+        public void RunwayRelease(MapPoint additionalPoint = null)
         {
-            Core.Instance.RunwayRelease();
+            Core.Instance.RunwayRelease(additionalPoint);
+        }
+
+       /// <summary>
+       ///      Метод возвращает рабочую впп
+       /// </summary>
+       /// <returns>Впп</returns>
+        [WebMethod]
+        public MapObject GetRunway()
+        {
+            return Core.Instance.GetRunway();
+        }
+
+
+        /// <summary>
+        ///     Возвращает список всех зон обслуживания
+        /// </summary>
+        /// <returns>Список MapObject ServiceZone</returns>
+        [WebMethod]
+        public List<MapObject> GetServiceZones()
+        {
+            return Core.Instance.GetServiceZones();
+        }
+
+        [WebMethod]
+        public void SnowCleanFinished()
+        {
+            Core.Instance.SnowCleanFinished();
+        }
+
+        [WebMethod]
+        public void Reset()
+        {
+            Core.Instance.Reset();
         }
     }
 }

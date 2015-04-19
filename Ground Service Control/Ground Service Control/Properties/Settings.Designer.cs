@@ -122,5 +122,15 @@ namespace Ground_Service_Control.Properties {
                 return ((string)(this["Ground_Service_Control_BaggageTractor_BaggageTractor"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://airport-dko-metrological.azurewebsites.net/MetrologService.asmx")]
+        public string Ground_Service_Control_MetrologService_MetrologService {
+            get {
+                return ((string)(this["Ground_Service_Control_MetrologService_MetrologService"]));
+            }
+        }
     }
 }

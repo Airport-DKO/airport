@@ -36,41 +36,52 @@ namespace Ground_Service_Control
         //    3. Заправка.
         //       4. Принять пассажиров.
         //5. Все операции завершены:
-        //    взлёт.
+        //    Убрать трапы и взлёт.
         static public PlaneTask generateListOfTasksForPlane(PlaneNeeds plane)
         {
             var factory = new ServiceTaskFactory(plane);
 
             var task = new PlaneTask(plane);
 
-            //TODO: ещё один трап для погрузки
-            var luggageTrap = factory.createContainerLoader(false);
-            var luggageUnload = factory.createBaggageTractor(false);
-            var luggageLoad = factory.createBaggageTractor(true);
+            var luggageTrapOut = factory.createContainerLoader(ServiceTaskRole.UnloadPlane);
+            var luggageUnload = factory.createBaggageTractor(ServiceTaskRole.UnloadPlane);
+            var luggageTrapIn = factory.createContainerLoader(ServiceTaskRole.LoadPlane);
+            var luggageLoad = factory.createBaggageTractor(ServiceTaskRole.LoadPlane);
+            var luggageTrapToGarage = factory.createContainerLoader(ServiceTaskRole.MoveToGarage);
 
-            luggageUnload.nextTasks.Add(luggageLoad);
-            luggageTrap.nextTasks.Add(luggageUnload);
+            luggageLoad.nextTasks.Add(luggageTrapToGarage);
+            luggageTrapIn.nextTasks.Add(luggageLoad);
+            luggageUnload.nextTasks.Add(luggageTrapIn);
+            luggageTrapOut.nextTasks.Add(luggageUnload);
 
-            //TODO: ...
-            var trap = factory.createPassengerStairs(false);
-            var vipPassangersOut = factory.createVIPShuttle(false);
-            var passangersOut = factory.createPassengerBus(false);
+            var trapOut = factory.createPassengerStairs(ServiceTaskRole.UnloadPlane);
+            var vipPassangersOut = factory.createVIPShuttle(ServiceTaskRole.UnloadPlane);
+            var passangersOut = factory.createPassengerBus(ServiceTaskRole.UnloadPlane);
             var food = factory.createCateringTruck();
             var fuel = factory.createRefueler();
-            var vipPassangersIn = factory.createVIPShuttle(true);
-            var passangersIn = factory.createPassengerBus(true);
+            var trapIn = factory.createPassengerStairs(ServiceTaskRole.LoadPlane);
+            var vipPassangersIn = factory.createVIPShuttle(ServiceTaskRole.LoadPlane);
+            var passangersIn = factory.createPassengerBus(ServiceTaskRole.LoadPlane);
+            var trapToGarage = factory.createPassengerStairs(ServiceTaskRole.MoveToGarage);
 
-            fuel.nextTasks.Add(vipPassangersIn);
-            fuel.nextTasks.Add(passangersIn);
+            passangersIn.nextTasks.Add(trapToGarage);
+
+            fuel.nextTasks.Add(trapIn);
+            trapIn.nextTasks.Add(vipPassangersIn);
+            trapIn.nextTasks.Add(passangersIn);
 
             passangersOut.nextTasks.Add(food);
             passangersOut.nextTasks.Add(fuel);
 
-            trap.nextTasks.Add(vipPassangersOut);
-            trap.nextTasks.Add(passangersOut);
+            trapOut.nextTasks.Add(vipPassangersOut);
+            trapOut.nextTasks.Add(passangersOut);
 
-            task.AddTask(luggageTrap);
-            task.AddTask(trap);
+
+            var initTask = factory.createInitialTask();
+            initTask.nextTasks.Add(trapOut);
+            initTask.nextTasks.Add(luggageTrapOut);
+
+            task.AddTask(initTask);
 
             return task;
         }
@@ -111,8 +122,18 @@ namespace Ground_Service_Control
                 return true;
             }
 
-            Debug.Assert(false);
-            return false;
+            Utils.self().warning("Завершилось задание для неизвестного самолёта! " + previousTask.type + " самолёт: " + previousTask.plane.GetHashCode());
+            Utils.self().warning("Доступные самолёты: ");
+            foreach(var task in m_tasks){
+                Utils.self().warning(task.plane.GetHashCode().ToString());
+            }
+
+            return true;
+        }
+
+        public void Reset()
+        {
+            m_tasks.Clear();
         }
 
         /// <summary>

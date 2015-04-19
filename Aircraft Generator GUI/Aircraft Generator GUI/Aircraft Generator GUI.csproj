@@ -41,8 +41,10 @@
     <Reference Include="DevExpress.XtraPrinting.v14.1, Version=14.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.EnterpriseServices" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Web.Services" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -53,6 +55,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BindPlane.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BindPlane.Designer.cs">
+      <DependentUpon>BindPlane.cs</DependentUpon>
+    </Compile>
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -61,11 +69,29 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Service References\WSAircraftGenerator\Reference.cs">
+    <Compile Include="Web References\AircraftGeneratorWs\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Reference.svcmap</DependentUpon>
+      <DependentUpon>Reference.map</DependentUpon>
     </Compile>
+    <Compile Include="Web References\GmcVs\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\GscVs\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\InformationPanelWs\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="BindPlane.resx">
+      <DependentUpon>BindPlane.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -88,16 +114,41 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <None Include="Service References\WSAircraftGenerator\aircraftgenerator.wsdl" />
-    <None Include="Service References\WSAircraftGenerator\Aircraft_Generator_GUI.WSAircraftGenerator.CreateNewPlaneResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
+    <None Include="Web References\AircraftGeneratorWs\AircraftGenerator.wsdl" />
+    <None Include="Web References\AircraftGeneratorWs\Plane.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
     </None>
-    <None Include="Service References\WSAircraftGenerator\Aircraft_Generator_GUI.WSAircraftGenerator.GetAllPlanesResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
+    <None Include="Web References\AircraftGeneratorWs\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
-    <None Include="Service References\WSAircraftGenerator\Aircraft_Generator_GUI.WSAircraftGenerator.Plane.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
+    <None Include="Web References\GmcVs\CoordinateTuple.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
     </None>
+    <None Include="Web References\GmcVs\gmc.wsdl" />
+    <None Include="Web References\GmcVs\MapObject.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\GmcVs\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\GscVs\gsc.wsdl" />
+    <None Include="Web References\GscVs\MapObject.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\GscVs\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\InformationPanelWs\Flight.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\InformationPanelWs\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\InformationPanelWs\WebServiceInformationPanel.wsdl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -106,22 +157,65 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
-    <WCFMetadataStorage Include="Service References\WSAircraftGenerator\" />
+    <WebReferences Include="Web References\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Service References\WSAircraftGenerator\aircraftgenerator.disco" />
+    <WebReferenceUrl Include="http://airport-dko-aircraft-generator.azurewebsites.net/AircraftGenerator.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\AircraftGeneratorWs\</RelPath>
+      <UpdateFromURL>http://airport-dko-aircraft-generator.azurewebsites.net/AircraftGenerator.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Aircraft_Generator_GUI_AircraftGeneratorWs_AircraftGenerator</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://airport-dko-gmc.azurewebsites.net/gmc.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\GmcVs\</RelPath>
+      <UpdateFromURL>http://airport-dko-gmc.azurewebsites.net/gmc.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Aircraft_Generator_GUI_GmcVs_GMC</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://airport-dko-gsc.azurewebsites.net/gsc.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\GscVs\</RelPath>
+      <UpdateFromURL>http://airport-dko-gsc.azurewebsites.net/gsc.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Aircraft_Generator_GUI_GscVs_GSC</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://airport-dko-passengers.azurewebsites.net/WebServiceInformationPanel.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\InformationPanelWs\</RelPath>
+      <UpdateFromURL>http://airport-dko-passengers.azurewebsites.net/WebServiceInformationPanel.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Aircraft_Generator_GUI_InformationPanelWs_WebServiceInformationPanel</CachedSettingsPropName>
+    </WebReferenceUrl>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Service References\WSAircraftGenerator\configuration91.svcinfo" />
+    <None Include="Web References\AircraftGeneratorWs\AircraftGenerator.disco" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Service References\WSAircraftGenerator\configuration.svcinfo" />
+    <None Include="Web References\InformationPanelWs\WebServiceInformationPanel.disco" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Service References\WSAircraftGenerator\Reference.svcmap">
-      <Generator>WCF Proxy Generator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
+    <None Include="Web References\GmcVs\gmc.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Web References\GscVs\gsc.disco" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

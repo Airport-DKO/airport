@@ -79,25 +79,27 @@ namespace Ground_Service_Control.PassengerStairs {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/ToServiceZone", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public bool ToServiceZone(MapObject serviceZone, ServiceTaskId taskId) {
+        public bool ToServiceZone(MapObject serviceZone, System.Guid flightNumber, ServiceTaskId taskId) {
             object[] results = this.Invoke("ToServiceZone", new object[] {
                         serviceZone,
+                        flightNumber,
                         taskId});
             return ((bool)(results[0]));
         }
         
         /// <remarks/>
-        public void ToServiceZoneAsync(MapObject serviceZone, ServiceTaskId taskId) {
-            this.ToServiceZoneAsync(serviceZone, taskId, null);
+        public void ToServiceZoneAsync(MapObject serviceZone, System.Guid flightNumber, ServiceTaskId taskId) {
+            this.ToServiceZoneAsync(serviceZone, flightNumber, taskId, null);
         }
         
         /// <remarks/>
-        public void ToServiceZoneAsync(MapObject serviceZone, ServiceTaskId taskId, object userState) {
+        public void ToServiceZoneAsync(MapObject serviceZone, System.Guid flightNumber, ServiceTaskId taskId, object userState) {
             if ((this.ToServiceZoneOperationCompleted == null)) {
                 this.ToServiceZoneOperationCompleted = new System.Threading.SendOrPostCallback(this.OnToServiceZoneOperationCompleted);
             }
             this.InvokeAsync("ToServiceZone", new object[] {
                         serviceZone,
+                        flightNumber,
                         taskId}, this.ToServiceZoneOperationCompleted, userState);
         }
         
@@ -161,7 +163,7 @@ namespace Ground_Service_Control.PassengerStairs {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="DKO-Airport-Ground-Movement-Control")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="Airport")]
     public partial class MapObject {
         
         private MapObjectType mapObjectTypeField;
@@ -192,7 +194,7 @@ namespace Ground_Service_Control.PassengerStairs {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.0.30319.34209")]
     [System.SerializableAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="DKO-Airport-Ground-Movement-Control")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="Airport")]
     public enum MapObjectType {
         
         /// <remarks/>
@@ -215,6 +217,61 @@ namespace Ground_Service_Control.PassengerStairs {
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="DKO-Airport-Ground-Service-Control")]
     public partial class ServiceTaskId {
+        
+        private System.Guid planeField;
+        
+        private ServiceTaskType typeField;
+        
+        /// <remarks/>
+        public System.Guid plane {
+            get {
+                return this.planeField;
+            }
+            set {
+                this.planeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public ServiceTaskType type {
+            get {
+                return this.typeField;
+            }
+            set {
+                this.typeField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.0.30319.34209")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="DKO-Airport-Ground-Service-Control")]
+    public enum ServiceTaskType {
+        
+        /// <remarks/>
+        None,
+        
+        /// <remarks/>
+        BaggageTractor,
+        
+        /// <remarks/>
+        CateringTruck,
+        
+        /// <remarks/>
+        ContainerLoader,
+        
+        /// <remarks/>
+        PassengerBus,
+        
+        /// <remarks/>
+        PassengerStairs,
+        
+        /// <remarks/>
+        Refueler,
+        
+        /// <remarks/>
+        VIPShuttle,
     }
     
     /// <remarks/>

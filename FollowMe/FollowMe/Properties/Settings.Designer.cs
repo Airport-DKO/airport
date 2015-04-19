@@ -42,5 +42,15 @@ namespace FollowMe.Properties {
                 return ((string)(this["FollowMe_AircraftGeneratorVS_AircraftGenerator"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://airport-dko-metrological.azurewebsites.net/MetrologService.asmx")]
+        public string FollowMe_MetrologServiceVS_MetrologService {
+            get {
+                return ((string)(this["FollowMe_MetrologServiceVS_MetrologService"]));
+            }
+        }
     }
 }

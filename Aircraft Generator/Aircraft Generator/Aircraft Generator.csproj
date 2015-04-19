@@ -39,6 +39,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="RabbitMQ.Client">
+      <HintPath>..\packages\RabbitMQ.Client.3.5.1\lib\net40\RabbitMQ.Client.dll</HintPath>
+    </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Web.DynamicData" />
@@ -59,38 +62,54 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="packages.config" />
     <None Include="Properties\PublishProfiles\airport-dko-aircraft-generator.pubxml" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <None Include="Web References\DeicerVs\Deicer.wsdl" />
+    <None Include="Web References\DeicerVs\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\FollowMeWs\FollowMe.disco" />
+    <None Include="Web References\DeicerVs\Deicer.disco" />
     <Content Include="Web References\GmcVs\CoordinateTuple.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </Content>
+    <None Include="Web References\FollowMeWs\FollowMe.wsdl" />
+    <None Include="Web References\FollowMeWs\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
     <None Include="Web References\GmcVs\gmc.wsdl" />
     <Content Include="Web References\GmcVs\MapObject.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </Content>
-    <Content Include="Web References\GmcVs\Reference.map">
+    <None Include="Web References\GmcVs\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
-    </Content>
+    </None>
     <None Include="Web References\GscWs2\gsc.disco" />
     <Content Include="Web References\InformationPanelWS\Flight.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </Content>
-    <Content Include="Web References\InformationPanelWS\Reference.map">
+    <None Include="Web References\InformationPanelWS\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
-    </Content>
+    </None>
     <None Include="Web References\InformationPanelWS\WebServiceInformationPanel.disco" />
-    <Content Include="Web References\TowerService\MapObject.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </Content>
-    <Content Include="Web References\TowerService\Reference.map">
+    <None Include="Web References\MetrologicalService\MetrologService.disco" />
+    <None Include="Web References\MetrologicalService\MetrologService.wsdl" />
+    <None Include="Web References\MetrologicalService\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
-    </Content>
+    </None>
+    <None Include="Web References\TowerService\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
     <None Include="Web References\GscWs2\gsc.wsdl" />
     <Content Include="Web References\GscWs2\MapObject.datasource">
       <DependentUpon>Reference.map</DependentUpon>
@@ -121,17 +140,32 @@
       <DependentUpon>AircraftGenerator.asmx</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Commons\Catering.cs" />
     <Compile Include="Commons\City.cs" />
     <Compile Include="Commons\Plane.cs" />
     <Compile Include="Commons\PlaneState.cs" />
     <Compile Include="Commons\PlaneType.cs" />
     <Compile Include="Conversions\Flight.cs" />
+    <Compile Include="Conversions\MapObject.cs" />
+    <Compile Include="Conversions\MapObject2.cs" />
     <Compile Include="Core.cs" />
+    <Compile Include="Logger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Rabbit.cs" />
+    <Compile Include="Web References\DeicerVs\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\FollowMeWs\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
     </Compile>
     <Compile Include="Web References\GmcVs\Reference.cs">
       <AutoGen>True</AutoGen>
@@ -144,6 +178,11 @@
       <DependentUpon>Reference.map</DependentUpon>
     </Compile>
     <Compile Include="Web References\InformationPanelWS\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\MetrologicalService\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.map</DependentUpon>
@@ -191,6 +230,17 @@
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>Aircraft_Generator_GscWs2_GSC</CachedSettingsPropName>
     </WebReferenceUrl>
+    <WebReferenceUrl Include="http://airport-dko-metrological.azurewebsites.net/MetrologService.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\MetrologicalService\</RelPath>
+      <UpdateFromURL>http://airport-dko-metrological.azurewebsites.net/MetrologService.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Aircraft_Generator_MetrologicalService_MetrologService</CachedSettingsPropName>
+    </WebReferenceUrl>
     <WebReferenceUrl Include="http://airport-dko-passengers.azurewebsites.net/WebServiceInformationPanel.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\InformationPanelWS\</RelPath>
@@ -201,6 +251,28 @@
       </CachedDynamicPropName>
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>Aircraft_Generator_InformationPanelWS_WebServiceInformationPanel</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://airport-dko-services.azurewebsites.net/Deicer.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\DeicerVs\</RelPath>
+      <UpdateFromURL>http://airport-dko-services.azurewebsites.net/Deicer.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Aircraft_Generator_DeicerVs_Deicer</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://airport-dko-services.azurewebsites.net/FollowMe.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\FollowMeWs\</RelPath>
+      <UpdateFromURL>http://airport-dko-services.azurewebsites.net/FollowMe.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Aircraft_Generator_FollowMeWs_FollowMe</CachedSettingsPropName>
     </WebReferenceUrl>
   </ItemGroup>
   <ItemGroup>

@@ -34,5 +34,11 @@ namespace WebTicketSales
         {
             return ticketseSales.CheckTicket(passengerid, fligthid);
         }
+
+        [WebMethod]
+        public void Reset()
+        {
+            ticketseSales.Reset();
+        }
     }
 }
