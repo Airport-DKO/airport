@@ -67,9 +67,9 @@ namespace Ground_Movement_Control
         ///     Освобождаем впп
         /// </summary>
         [WebMethod]
-        public void RunwayRelease(MapPoint additionalPoint = null)
+        public void RunwayRelease(Int32 additionalX, Int32 additionalY)
         {
-            Core.Instance.RunwayRelease(additionalPoint);
+            Core.Instance.RunwayRelease(additionalX, additionalY);
         }
 
        /// <summary>

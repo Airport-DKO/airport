@@ -75,23 +75,24 @@
     </None>
     <None Include="Web References\FollowMeWs\FollowMe.disco" />
     <None Include="Web References\DeicerVs\Deicer.disco" />
-    <Content Include="Web References\GmcVs\CoordinateTuple.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </Content>
     <None Include="Web References\FollowMeWs\FollowMe.wsdl" />
     <None Include="Web References\FollowMeWs\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
+    <Content Include="Web References\GmcVs\CoordinateTuple.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
     <None Include="Web References\GmcVs\gmc.wsdl" />
     <Content Include="Web References\GmcVs\MapObject.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </Content>
-    <None Include="Web References\GmcVs\Reference.map">
+    <Content Include="Web References\GmcVs\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
+    </Content>
     <None Include="Web References\GscWs2\gsc.disco" />
+    <None Include="Web References\GmcVs\gmc.disco" />
     <Content Include="Web References\InformationPanelWS\Flight.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </Content>
@@ -129,7 +130,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="AircraftGenerator.asmx" />
-    <None Include="Web References\GmcVs\gmc.disco" />
     <None Include="Web References\TowerService\Tower.disco" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>

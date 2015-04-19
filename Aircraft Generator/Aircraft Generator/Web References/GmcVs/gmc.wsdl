@@ -105,7 +105,12 @@
         </s:complexType>
       </s:element>
       <s:element name="RunwayRelease">
-        <s:complexType />
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="additionalX" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="additionalY" type="s:int" />
+          </s:sequence>
+        </s:complexType>
       </s:element>
       <s:element name="RunwayReleaseResponse">
         <s:complexType />

@@ -225,6 +225,8 @@ namespace Aircraft_Generator
                 }
                 Sleep(5000);
             }
+
+            var coordinateTuple = new CoordinateTuple();
             foreach (CoordinateTuple coordinate in route)
             {
                 bool result;
@@ -233,6 +235,7 @@ namespace Aircraft_Generator
                     result = _gmc.Step(coordinate, MoveObjectType.Plane, plane.Id, 4000*Rabbit.Instance.CurrentCoef);
                     if (result)
                     {
+                        coordinateTuple = coordinate;
                         break;
                     }
                     Sleep(2000);
@@ -243,7 +246,7 @@ namespace Aircraft_Generator
                 String.Format("Самолет {0} вылетел", plane.Name),
                 _metrolog.GetCurrentTime());
             Sleep(3000);
-            _gmc.RunwayRelease();
+            _gmc.RunwayRelease(coordinateTuple.X, coordinateTuple.Y);
         }
 
         private void Sleep(int time)
@@ -319,7 +322,7 @@ namespace Aircraft_Generator
         {
             Plane plane = _createdPlanes.First(p => p.Id == planeGuid);
             plane.State = PlaneState.TaxingToRunway;
-            _gmc.RunwayRelease();
+            _gmc.RunwayRelease(0,0);
         }
 
         private void PlaneIsReadyToService(Guid planeGuid)

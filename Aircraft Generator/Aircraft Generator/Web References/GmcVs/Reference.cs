@@ -238,21 +238,25 @@ namespace Aircraft_Generator.GmcVs {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("Airport/RunwayRelease", RequestNamespace="Airport", ResponseNamespace="Airport", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public void RunwayRelease() {
-            this.Invoke("RunwayRelease", new object[0]);
+        public void RunwayRelease(int additionalX, int additionalY) {
+            this.Invoke("RunwayRelease", new object[] {
+                        additionalX,
+                        additionalY});
         }
         
         /// <remarks/>
-        public void RunwayReleaseAsync() {
-            this.RunwayReleaseAsync(null);
+        public void RunwayReleaseAsync(int additionalX, int additionalY) {
+            this.RunwayReleaseAsync(additionalX, additionalY, null);
         }
         
         /// <remarks/>
-        public void RunwayReleaseAsync(object userState) {
+        public void RunwayReleaseAsync(int additionalX, int additionalY, object userState) {
             if ((this.RunwayReleaseOperationCompleted == null)) {
                 this.RunwayReleaseOperationCompleted = new System.Threading.SendOrPostCallback(this.OnRunwayReleaseOperationCompleted);
             }
-            this.InvokeAsync("RunwayRelease", new object[0], this.RunwayReleaseOperationCompleted, userState);
+            this.InvokeAsync("RunwayRelease", new object[] {
+                        additionalX,
+                        additionalY}, this.RunwayReleaseOperationCompleted, userState);
         }
         
         private void OnRunwayReleaseOperationCompleted(object arg) {
