@@ -31,7 +31,7 @@ namespace WebInformationPanel
         /// <param name="vipPassengers">количество випов</param>
         public void CreateFlight(DateTime arrivalTime, DateTime takeoffTime, Cities city, int economPassengers, int vipPassengers)
         {
-            Flight f = new Flight();
+             Flight f = new Flight();
             f.number = Guid.NewGuid();
             f.takeoffTime = takeoffTime;
             f.city = city;
@@ -126,6 +126,7 @@ namespace WebInformationPanel
                 var time = metrolog.GetCurrentTime();
                 var t = FlightsBase.Where(s => time <= s.EndRegistrationTime                     //допустим, что мы можем продовать билеты до окончания регистрации
                     && (s.VipPassengersCount > 0 || s.EconomPassengersCount > 0)).ToList();         //и на которых есть хоть какие-то места
+                SendMsgToLogger(1, string.Format("доступно {0} рейсов для продажи билетов", t.Count));
                 return t;
             }
             catch (Exception)
