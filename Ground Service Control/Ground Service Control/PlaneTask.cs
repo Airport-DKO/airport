@@ -62,7 +62,7 @@ namespace Ground_Service_Control
 
             foreach (var task in finishedTask.nextTasks)
             {
-                Utils.self().log("Begin: " + task.taskId.type + " самолёт: " + task.taskId.plane);
+                //Utils.self().log("Begin: " + task.taskId.type + " самолёт: " + task.taskId.plane);
                 task.execute();
                 m_tasks.Add(task);
             }

@@ -90,7 +90,7 @@ namespace Ground_Service_Control
         {
             lock (m_lock)
             {
-                Utils.self().log("End: " + TaskNumber.type + " самолёт: "  + TaskNumber.plane);
+                //Utils.self().log("End: " + TaskNumber.type + " самолёт: "  + TaskNumber.plane);
                 if (!m_taskScheduler.nextTask(TaskNumber))
                 {
                     Utils.self().warning("Обслуживание завершено: " + TaskNumber.plane);
