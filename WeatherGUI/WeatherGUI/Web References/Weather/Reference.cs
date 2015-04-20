@@ -37,6 +37,8 @@ namespace WeatherGUI.Weather {
         
         private System.Threading.SendOrPostCallback GetWindFromCityOperationCompleted;
         
+        private System.Threading.SendOrPostCallback SetWindOperationCompleted;
+        
         private System.Threading.SendOrPostCallback CrapSnowOperationCompleted;
         
         private bool useDefaultCredentialsSetExplicitly;
@@ -88,6 +90,9 @@ namespace WeatherGUI.Weather {
         
         /// <remarks/>
         public event GetWindFromCityCompletedEventHandler GetWindFromCityCompleted;
+        
+        /// <remarks/>
+        public event SetWindCompletedEventHandler SetWindCompleted;
         
         /// <remarks/>
         public event CrapSnowCompletedEventHandler CrapSnowCompleted;
@@ -204,6 +209,36 @@ namespace WeatherGUI.Weather {
             if ((this.GetWindFromCityCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.GetWindFromCityCompleted(this, new GetWindFromCityCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/SetWind", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public void SetWind(string city, int wind) {
+            this.Invoke("SetWind", new object[] {
+                        city,
+                        wind});
+        }
+        
+        /// <remarks/>
+        public void SetWindAsync(string city, int wind) {
+            this.SetWindAsync(city, wind, null);
+        }
+        
+        /// <remarks/>
+        public void SetWindAsync(string city, int wind, object userState) {
+            if ((this.SetWindOperationCompleted == null)) {
+                this.SetWindOperationCompleted = new System.Threading.SendOrPostCallback(this.OnSetWindOperationCompleted);
+            }
+            this.InvokeAsync("SetWind", new object[] {
+                        city,
+                        wind}, this.SetWindOperationCompleted, userState);
+        }
+        
+        private void OnSetWindOperationCompleted(object arg) {
+            if ((this.SetWindCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.SetWindCompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -333,6 +368,10 @@ namespace WeatherGUI.Weather {
             }
         }
     }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.34209")]
+    public delegate void SetWindCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.34209")]
