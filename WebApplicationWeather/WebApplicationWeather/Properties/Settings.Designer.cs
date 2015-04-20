@@ -32,5 +32,25 @@ namespace WebApplicationWeather.Properties {
                 return ((string)(this["WebApplicationWeather_MetrologServiceVS_MetrologService"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://airport-dko-gmc.azurewebsites.net/gmc.asmx")]
+        public string WebApplicationWeather_GMC_GMC {
+            get {
+                return ((string)(this["WebApplicationWeather_GMC_GMC"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://www.webservicex.net/globalweather.asmx")]
+        public string WebApplicationWeather_WSGW_GlobalWeather {
+            get {
+                return ((string)(this["WebApplicationWeather_WSGW_GlobalWeather"]));
+            }
+        }
     }
 }
