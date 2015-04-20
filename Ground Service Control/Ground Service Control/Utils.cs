@@ -51,7 +51,7 @@ namespace Ground_Service_Control
             {
                 Thread.Sleep(Utils.self().systemTime(1000));
             }
-            Utils.self().log("Регистрация закончена на: " + plane.GetHashCode());
+            Utils.self().log("Регистрация закончена на: " + plane);
         }
 
         public void log(string message)

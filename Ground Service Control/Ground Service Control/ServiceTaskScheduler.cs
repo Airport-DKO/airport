@@ -122,10 +122,10 @@ namespace Ground_Service_Control
                 return true;
             }
 
-            Utils.self().warning("Завершилось задание для неизвестного самолёта! " + previousTask.type + " самолёт: " + previousTask.plane.GetHashCode());
+            Utils.self().warning("Завершилось задание для неизвестного самолёта! " + previousTask.type + " самолёт: " + previousTask.plane);
             Utils.self().warning("Доступные самолёты: ");
             foreach(var task in m_tasks){
-                Utils.self().warning(task.plane.GetHashCode().ToString());
+                Utils.self().warning(task.plane.ToString());
             }
 
             return true;
