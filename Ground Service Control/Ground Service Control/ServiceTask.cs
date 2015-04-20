@@ -127,7 +127,10 @@ namespace Ground_Service_Control
                 var baggage = new BaggageTractor.BaggageTractor();
 
                 if(baggage.ToPlain(context.flight.number)){
-                    cl.ToServiceZone(context.serviceZone, context.flight.number, taskId);
+                    if (context.baggage <= 0)
+                    {
+                        cl.ToServiceZone(context.serviceZone, context.flight.number, taskId);
+                    }
                 } else {
                     cl.ToGarage(context.serviceZone);
                     GSC_impl.self().Done(taskId);
@@ -203,7 +206,10 @@ namespace Ground_Service_Control
                 var needTrap = vip.ToPlain(context.flight.number) || bus.ToPlain(context.flight.number);
                 if (needTrap)
                 {
-                    ps.ToServiceZone(context.serviceZone, context.flight.number, taskId);
+                    if (context.economPassengers + context.VIPPassengers <= 0 && !context.ladder)
+                    {
+                        ps.ToServiceZone(context.serviceZone, context.flight.number, taskId);
+                    }
                 } else {
                     ps.ToGarage(context.serviceZone);
                     GSC_impl.self().Done(taskId);
