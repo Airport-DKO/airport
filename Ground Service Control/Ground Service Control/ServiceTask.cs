@@ -131,6 +131,10 @@ namespace Ground_Service_Control
                     {
                         cl.ToServiceZone(context.serviceZone, context.flight.number, taskId);
                     }
+                    else
+                    {
+                        GSC_impl.self().Done(taskId);
+                    }
                 } else {
                     cl.ToGarage(context.serviceZone);
                     GSC_impl.self().Done(taskId);
@@ -209,6 +213,10 @@ namespace Ground_Service_Control
                     if (context.economPassengers + context.VIPPassengers <= 0 && !context.ladder)
                     {
                         ps.ToServiceZone(context.serviceZone, context.flight.number, taskId);
+                    }
+                    else
+                    {
+                        GSC_impl.self().Done(taskId);
                     }
                 } else {
                     ps.ToGarage(context.serviceZone);
