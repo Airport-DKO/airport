@@ -28,6 +28,10 @@ namespace FollowMe
         public void GoTo(MapObject from, MapObject to)
         {
             var route = getRoute(from, to);
+
+            if (from.MapObjectType == GmcVS.MapObjectType.Runway) 
+                route.RemoveAt(route.Count-1);
+
             go(route);
         }
 
@@ -69,7 +73,7 @@ namespace FollowMe
             int stepNumber = 0;
             while (stepNumber < route.Count) //пока не дойдем до конца массива, содержащего маршрут
             {
-                if (gmc.Step(route[stepNumber], _type, _id)) //УНД возвращает разрешение на движение на переданную координату или запрет 
+                if (gmc.Step(route[stepNumber], _type, _id, Speed * Metrological.Instance.CurrentCoef)) //УНД возвращает разрешение на движение на переданную координату или запрет 
                 {
                     //если шаг сделать удалось - передвигаемся на следующий индекс массива, содержащего маршрут
                     stepNumber++;
@@ -102,7 +106,7 @@ namespace FollowMe
             int stepNumber = 0;
             while (stepNumber < route.Count) //пока не дойдем до конца массива, содержащего маршрут
             {
-                if (gmc.Step(route[stepNumber], _type, _id)) //УНД возвращает разрешение на движение на переданную координату или запрет 
+                if (gmc.Step(route[stepNumber], _type, _id, Speed*Metrological.Instance.CurrentCoef)) //УНД возвращает разрешение на движение на переданную координату или запрет 
                 {
                     if (stepNumber > 0)
                     {

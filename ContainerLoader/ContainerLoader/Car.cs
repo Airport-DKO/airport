@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using ContainerLoader.GmcVS;
 
 namespace ContainerLoader
@@ -10,7 +9,7 @@ namespace ContainerLoader
     {
         private readonly Guid _id; //идентификатор машины, чтобы ее могли отличить среди других Управление Наземным Движением и Визуализатор
         private readonly MoveObjectType _type;
-        private const int Speed = 10000;
+        private const int Speed = 3000;
 
         public Guid Id { get { return _id; } }
 
@@ -75,7 +74,7 @@ namespace ContainerLoader
             int stepNumber = 0;
             while (stepNumber < route.Count) //пока не дойдем до конца массива, содержащего маршрут
             {
-                if (gmc.Step(route[stepNumber], _type, _id))
+                if (gmc.Step(route[stepNumber], _type, _id, Speed * Metrological.Instance.CurrentCoef))
                     //УНД возвращает разрешение на движение на переданную координату или запрет 
                 {
                     //если шаг сделать удалось - передвигаемся на следующий индекс массива, содержащего маршрут

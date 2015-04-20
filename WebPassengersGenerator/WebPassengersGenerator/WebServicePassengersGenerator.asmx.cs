@@ -38,15 +38,9 @@ namespace WebPassengersGenerator
         }
 
         [WebMethod]
-        public bool onPlane(Guid passengerId)
+        public bool onPlane(List<Guid> passengerId)
         {
             return passengersGenerator.onPlane(passengerId);
-        }
-
-        [WebMethod]
-        public PassengersStatistic GetPassengersInfo()
-        {
-            return passengersGenerator.GetPassengersInfo();
         }
 
         [WebMethod]

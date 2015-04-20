@@ -59,6 +59,8 @@ namespace Aircraft_Generator_GUI.AircraftGeneratorWs {
         
         private System.Threading.SendOrPostCallback ResetOperationCompleted;
         
+        private System.Threading.SendOrPostCallback ServiceCompleteOperationCompleted;
+        
         private bool useDefaultCredentialsSetExplicitly;
         
         /// <remarks/>
@@ -141,6 +143,9 @@ namespace Aircraft_Generator_GUI.AircraftGeneratorWs {
         
         /// <remarks/>
         public event ResetCompletedEventHandler ResetCompleted;
+        
+        /// <remarks/>
+        public event ServiceCompleteCompletedEventHandler ServiceCompleteCompleted;
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("DKO-Ariport-Aircraft-Generator/CreateNewPlane", RequestNamespace="DKO-Ariport-Aircraft-Generator", ResponseNamespace="DKO-Ariport-Aircraft-Generator", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
@@ -602,6 +607,34 @@ namespace Aircraft_Generator_GUI.AircraftGeneratorWs {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("DKO-Ariport-Aircraft-Generator/ServiceComplete", RequestNamespace="DKO-Ariport-Aircraft-Generator", ResponseNamespace="DKO-Ariport-Aircraft-Generator", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public void ServiceComplete(System.Guid planeId) {
+            this.Invoke("ServiceComplete", new object[] {
+                        planeId});
+        }
+        
+        /// <remarks/>
+        public void ServiceCompleteAsync(System.Guid planeId) {
+            this.ServiceCompleteAsync(planeId, null);
+        }
+        
+        /// <remarks/>
+        public void ServiceCompleteAsync(System.Guid planeId, object userState) {
+            if ((this.ServiceCompleteOperationCompleted == null)) {
+                this.ServiceCompleteOperationCompleted = new System.Threading.SendOrPostCallback(this.OnServiceCompleteOperationCompleted);
+            }
+            this.InvokeAsync("ServiceComplete", new object[] {
+                        planeId}, this.ServiceCompleteOperationCompleted, userState);
+        }
+        
+        private void OnServiceCompleteOperationCompleted(object arg) {
+            if ((this.ServiceCompleteCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.ServiceCompleteCompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
         public new void CancelAsync(object userState) {
             base.CancelAsync(userState);
         }
@@ -802,6 +835,8 @@ namespace Aircraft_Generator_GUI.AircraftGeneratorWs {
         
         private System.DateTime takeoffTimeField;
         
+        private string fligthNameField;
+        
         private System.DateTime startRegistrationTimeField;
         
         private System.DateTime endRegistrationTimeField;
@@ -851,6 +886,16 @@ namespace Aircraft_Generator_GUI.AircraftGeneratorWs {
             }
             set {
                 this.takeoffTimeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string FligthName {
+            get {
+                return this.fligthNameField;
+            }
+            set {
+                this.fligthNameField = value;
             }
         }
         
@@ -1468,6 +1513,10 @@ namespace Aircraft_Generator_GUI.AircraftGeneratorWs {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.34209")]
     public delegate void ResetCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.34209")]
+    public delegate void ServiceCompleteCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
 }
 
 #pragma warning restore 1591

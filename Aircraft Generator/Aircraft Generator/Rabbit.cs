@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.Text;
 using System.Threading.Tasks;
+using Aircraft_Generator.MetrologicalService;
 using RabbitMQ.Client;
 
 namespace Aircraft_Generator
@@ -23,11 +24,13 @@ namespace Aircraft_Generator
         private readonly QueueingBasicConsumer _consumer;
 
         public event EventHandler<MetrologicalEventArgs> MessageReceived;
-        public float CurrentCoef { get; private set; }
+        public double CurrentCoef { get; private set; }
 
         private Rabbit()
         {
-            CurrentCoef = 1;
+            MetrologicalService.MetrologService m = new MetrologService();
+
+            CurrentCoef = m.GetCurrentTick();
             var factory = new ConnectionFactory
             {
                 UserName = "tester",

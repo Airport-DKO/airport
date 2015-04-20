@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using PassengerStairs.CheckinVS;
 using PassengerStairs.GscVS;
 using MapObject = PassengerStairs.GmcVS.MapObject;
@@ -9,7 +10,7 @@ namespace PassengerStairs
 {
     public static class Worker
     {
-        private const string ComponentName = "PassengerStairs";
+        public const string ComponentName = "PassengerStairs";
         private static SynchronizedCollection<Tuple<Guid, MapObject>> WhoWhere; //список, чтоб запоминать, где какой трап находится (используется для возврата в гараж)
         private static readonly MapObject Garage;
 
@@ -30,24 +31,15 @@ namespace PassengerStairs
         {
             Logger.SendMessage(0, ComponentName, String.Format("Задание получено: подогнать трап на площадку номер {0}", serviceZone.Number));
 
-//            var passangersCount =
-//                new WebServiceCheckIn().GetSimplePassengers(flightNumber).Length +
-//                new WebServiceCheckIn().GetVips(flightNumber).Length;
-//
-//            Logger.SendMessage(0, ComponentName, String.Format("Получена информация о {0} пассажирах на рейс номер {1}", passangersCount, flightNumber));
-//
-//            if (passangersCount > 0) //если пассажиры есть - что-то делаем !!!
-//            {
-                Logger.SendMessage(0, ComponentName, String.Format("Трап выехал на площадку обслуживания номер {0}", serviceZone.Number));
+            Logger.SendMessage(0, ComponentName, String.Format("Трап выехал на площадку обслуживания номер {0}", serviceZone.Number));
 
-                var car = new Car();
-                car.GoTo(Garage, serviceZone);
+            var car = new Car();
+            car.GoTo(Garage, serviceZone);
 
-                Logger.SendMessage(1, ComponentName, String.Format("Трап прибыл на площадку обслуживания номер {0}", serviceZone.Number));
+            Logger.SendMessage(1, ComponentName, String.Format("Трап прибыл на площадку обслуживания номер {0}", serviceZone.Number));
 
-                WhoWhere.Add(new Tuple<Guid, MapObject>(car.Id, serviceZone)); //запоминаем, что на этой площадке находится погрузчик с некоторым идентификатором
-//            } //если пассажиров нет - считаем, что все сделано
-
+            WhoWhere.Add(new Tuple<Guid, MapObject>(car.Id, serviceZone)); //запоминаем, что на этой площадке находится погрузчик с некоторым идентификатором
+            
             Logger.SendMessage(0, ComponentName, 
                 String.Format("Задание выполнено: подогнать трап на площадку номер {0}", serviceZone.Number));
 
@@ -67,7 +59,7 @@ namespace PassengerStairs
             Guid id = Guid.Empty;
             foreach (var tuple in WhoWhere)
             {
-                if (tuple.Item2 == serviceZone)
+                if (tuple.Item2.Number == serviceZone.Number)
                 {
                     id = tuple.Item1;
                     break;
@@ -85,7 +77,7 @@ namespace PassengerStairs
             Car car = new Car(id);
 
             //удаляем машину из списка 
-            WhoWhere.Remove(new Tuple<Guid, MapObject>(id, serviceZone));
+            WhoWhere.Remove(WhoWhere.First(x=>x.Item1==id));
 
             Logger.SendMessage(0, ComponentName, String.Format("Трап выехал с площадки номер {0} в гараж", serviceZone.Number));
                 

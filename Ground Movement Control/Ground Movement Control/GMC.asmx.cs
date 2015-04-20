@@ -36,9 +36,9 @@ namespace Ground_Movement_Control
         /// <param name="id">GUID объекта</param>
         /// <returns>true - если УВД разрешает, false - если нет</returns>
         [WebMethod]
-        public bool Step(CoordinateTuple coordinate, MoveObjectType type, Guid id)
+        public bool Step(CoordinateTuple coordinate, MoveObjectType type, Guid id, double speed)
         {
-            return Core.Instance.Step(coordinate.X, coordinate.Y, type, id);
+            return Core.Instance.Step(coordinate.X, coordinate.Y, type, id, speed);
         }
 
         /// <summary>
@@ -67,9 +67,9 @@ namespace Ground_Movement_Control
         ///     Освобождаем впп
         /// </summary>
         [WebMethod]
-        public void RunwayRelease()
+        public void RunwayRelease(Int32 additionalX, Int32 additionalY)
         {
-            Core.Instance.RunwayRelease();
+            Core.Instance.RunwayRelease(additionalX, additionalY);
         }
 
        /// <summary>
@@ -91,6 +91,18 @@ namespace Ground_Movement_Control
         public List<MapObject> GetServiceZones()
         {
             return Core.Instance.GetServiceZones();
+        }
+
+        [WebMethod]
+        public void SnowCleanFinished()
+        {
+            Core.Instance.SnowCleanFinished();
+        }
+
+        [WebMethod]
+        public void Reset()
+        {
+            Core.Instance.Reset();
         }
     }
 }

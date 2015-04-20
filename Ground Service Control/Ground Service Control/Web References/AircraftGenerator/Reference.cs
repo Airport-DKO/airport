@@ -59,8 +59,6 @@ namespace Ground_Service_Control.AircraftGenerator {
         
         private System.Threading.SendOrPostCallback ResetOperationCompleted;
         
-        private System.Threading.SendOrPostCallback SnowCleanFinishedOperationCompleted;
-        
         private System.Threading.SendOrPostCallback ServiceCompleteOperationCompleted;
         
         private bool useDefaultCredentialsSetExplicitly;
@@ -145,9 +143,6 @@ namespace Ground_Service_Control.AircraftGenerator {
         
         /// <remarks/>
         public event ResetCompletedEventHandler ResetCompleted;
-        
-        /// <remarks/>
-        public event SnowCleanFinishedCompletedEventHandler SnowCleanFinishedCompleted;
         
         /// <remarks/>
         public event ServiceCompleteCompletedEventHandler ServiceCompleteCompleted;
@@ -608,32 +603,6 @@ namespace Ground_Service_Control.AircraftGenerator {
             if ((this.ResetCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.ResetCompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
-            }
-        }
-        
-        /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("DKO-Ariport-Aircraft-Generator/SnowCleanFinished", RequestNamespace="DKO-Ariport-Aircraft-Generator", ResponseNamespace="DKO-Ariport-Aircraft-Generator", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public void SnowCleanFinished() {
-            this.Invoke("SnowCleanFinished", new object[0]);
-        }
-        
-        /// <remarks/>
-        public void SnowCleanFinishedAsync() {
-            this.SnowCleanFinishedAsync(null);
-        }
-        
-        /// <remarks/>
-        public void SnowCleanFinishedAsync(object userState) {
-            if ((this.SnowCleanFinishedOperationCompleted == null)) {
-                this.SnowCleanFinishedOperationCompleted = new System.Threading.SendOrPostCallback(this.OnSnowCleanFinishedOperationCompleted);
-            }
-            this.InvokeAsync("SnowCleanFinished", new object[0], this.SnowCleanFinishedOperationCompleted, userState);
-        }
-        
-        private void OnSnowCleanFinishedOperationCompleted(object arg) {
-            if ((this.SnowCleanFinishedCompleted != null)) {
-                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
-                this.SnowCleanFinishedCompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -1532,10 +1501,6 @@ namespace Ground_Service_Control.AircraftGenerator {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.34209")]
     public delegate void ResetCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.34209")]
-    public delegate void SnowCleanFinishedCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.34209")]

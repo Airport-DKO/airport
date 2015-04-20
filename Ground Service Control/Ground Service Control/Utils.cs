@@ -51,11 +51,17 @@ namespace Ground_Service_Control
             {
                 Thread.Sleep(Utils.self().systemTime(1000));
             }
+            Utils.self().log("Регистрация закончена на: " + plane);
         }
 
         public void log(string message)
         {
-            Logger.SendMessage(message);
+            Logger.SendMessage(message, 0);
+        }
+
+        public void warning(string message)
+        {
+            Logger.SendMessage(message, 1);
         }
     }
 }

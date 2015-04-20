@@ -13,6 +13,30 @@ namespace Ground_Service_Control
         public Guid plane;
         public ServiceTaskType type;
 
+        public static bool operator ==(ServiceTaskId a, ServiceTaskId b)
+        {
+            if (a.plane == b.plane && a.type == b.type)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public static bool operator !=(ServiceTaskId a, ServiceTaskId b)
+        {
+            if (a.plane == b.plane && a.type == b.type)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
         public static implicit operator BaggageTractor.ServiceTaskId(ServiceTaskId d)
         {
             return new BaggageTractor.ServiceTaskId() { plane = d.plane, type = (BaggageTractor.ServiceTaskType)d.type };

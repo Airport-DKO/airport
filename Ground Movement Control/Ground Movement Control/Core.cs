@@ -69,17 +69,22 @@ namespace Ground_Movement_Control
             return foundRoute.Points;
         }
 
-        public bool Step(Int32 x, Int32 y, MoveObjectType type, Guid id)
+        public bool Step(Int32 x, Int32 y, MoveObjectType type, Guid id, double speed)
         {
-            return CheckVacantPosition(x, y, type, id);
+            return CheckVacantPosition(x, y, type, id, speed);
         }
 
-        public void RunwayRelease()
+        public void RunwayRelease(Int32 additionalX, Int32 additionalY)
         {
             Location runwayLocation = GetActualRunway();
             MapPoint runwayMapPoint =
                 _map.First(m => m.X == runwayLocation.Position.X && m.Y == runwayLocation.Position.Y);
             runwayMapPoint.MakeVacant();
+            var additionalMapPoint = _map.FirstOrDefault(m => m.X == additionalX && m.Y == additionalY);
+            if(additionalMapPoint!=null)
+            {
+                additionalMapPoint.MakeVacant();
+            }
             Debug.WriteLine("Runway released");
         }
 
@@ -105,7 +110,7 @@ namespace Ground_Movement_Control
             }
 
             bool result = CheckVacantPosition(runwayLocation.Position.X, runwayLocation.Position.Y, MoveObjectType.Plane,
-                planeGuid, true);
+                planeGuid, 1000,  true);
             if (!result)
             {
                 Debug.WriteLine("Declined to land plane {0} - runway is hold", planeGuid);
@@ -119,7 +124,7 @@ namespace Ground_Movement_Control
             }
             _planesServiceZones.Add(new Tuple<Guid, MapObject>(planeGuid, serviceZone));
             result = CheckVacantPosition(runwayLocation.Position.X, runwayLocation.Position.Y, MoveObjectType.Plane,
-                planeGuid);
+                planeGuid,1000);
             if (result)
             {
                 Debug.WriteLine("Accepted to land plane {0}", planeGuid);
@@ -166,7 +171,7 @@ namespace Ground_Movement_Control
             foreach (VizualizatorWs.Location location in locationsFromVisual)
             {
                 if (location.MapObj.Type == MapObjectType.Garage ||
-                    location.MapObj.Type == MapObjectType.ServiceArea)
+                    location.MapObj.Type == MapObjectType.ServiceArea || location.MapObj.Type== MapObjectType.Airport)
                 {
                     MapPoint mapPoint = _map.First(m => m.X == location.Position.X && m.Y == location.Position.Y);
                     mapPoint.IsPublicPlace = true;
@@ -204,7 +209,7 @@ namespace Ground_Movement_Control
         }
 
 
-        private bool CheckVacantPosition(Int32 x, Int32 y, MoveObjectType type, Guid id, bool justTry = false)
+        private bool CheckVacantPosition(Int32 x, Int32 y, MoveObjectType type, Guid id, double speed,bool justTry = false)
         {
             MapPoint mapPoint = _map.FirstOrDefault(m => m.X == x && m.Y == y);
             if (mapPoint == null)
@@ -216,7 +221,7 @@ namespace Ground_Movement_Control
             {
                 Debug.WriteLine("Move object {0} to {1} {2} PUBLIC PLACE BECOUSE HUESOS", type, x, y);
                 _visualisator.MoveObject((VizualizatorWs.MoveObjectType) type, id,
-                    new VizualizatorWs.CoordinateTuple {X = x, Y = y}, 10);
+                    new VizualizatorWs.CoordinateTuple { X = x, Y = y }, Convert.ToInt32(speed));
                 MapPoint oldPoint =
                         _map.FirstOrDefault(m => m.OwnerGuid == id && (m.X != mapPoint.X || m.Y != mapPoint.Y));
                 if (oldPoint != null)
@@ -240,7 +245,7 @@ namespace Ground_Movement_Control
                     if (!justTry)
                     {
                         _visualisator.MoveObject((VizualizatorWs.MoveObjectType) type, id,
-                            new VizualizatorWs.CoordinateTuple {X = x, Y = y}, 10);
+                            new VizualizatorWs.CoordinateTuple {X = x, Y = y}, Convert.ToInt32(speed));
                     }
                     return true;
                 }
@@ -255,7 +260,7 @@ namespace Ground_Movement_Control
             {
                 Debug.WriteLine("Move object {0} to {1} {2} THIS IS FOLLOW ME INDA PLANE", type, x, y);
                 _visualisator.MoveObject((VizualizatorWs.MoveObjectType) type, id,
-                    new VizualizatorWs.CoordinateTuple {X = x, Y = y}, 10);
+                    new VizualizatorWs.CoordinateTuple { X = x, Y = y }, Convert.ToInt32(speed));
                 MapPoint oldPoint =
                         _map.FirstOrDefault(m => m.OwnerGuid == id && (m.X != mapPoint.X || m.Y != mapPoint.Y));
                 if (oldPoint != null)
@@ -266,6 +271,19 @@ namespace Ground_Movement_Control
             }
             Debug.WriteLine("Declined to move object {0} to {1} {2} - HOLD POINT", type, x, y);
             return false;
+        }
+
+        public void SnowCleanFinished()
+        {
+            return;
+        }
+
+        public void Reset()
+        {
+            foreach (var mapPoint in _map)
+            {
+                mapPoint.MakeVacant();
+            }
         }
     }
 }

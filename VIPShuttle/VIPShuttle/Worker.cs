@@ -14,7 +14,7 @@ namespace VIPShuttle
     {
         private static readonly MapObject Garage;
         private static readonly MapObject Airport;
-        private const string ComponentName = "VIPShuttle";
+        public const string ComponentName = "VIPShuttle";
 
         static Worker()
         {
@@ -59,7 +59,7 @@ namespace VIPShuttle
             Task.WaitAll(tasks.ToArray());
 
             Logger.SendMessage(0, ComponentName,
-                String.Format("Задание выполнено: забрать {1} пассажиров VIP-класса с борта на площадке номер {0}", serviceZone.Number, countOfPassengers));
+                String.Format("Задание выполнено: забрать пассажиров VIP-класса с борта на площадке номер {0}", serviceZone.Number, countOfPassengers));
 
             new GSC().Done(taskId);//сообщаем Управлению Наземным Обслуживанием, что задание выполнено
 
@@ -88,11 +88,12 @@ namespace VIPShuttle
                 var car = new Car();
                 cars.Add(car);
 
+                int localCopyOfIndex = i;
                 var t = new Task(() =>
                 {
                     car.GoTo(Garage,Airport);
                     car.GoTo(Airport,serviceZone);
-                    new AircraftGenerator().LoadVipPassengers(serviceZone, (new List<Guid> {passengers[i]}).ToArray());//сажаем пассажира в Генератор Самолетов 
+                    new AircraftGenerator().LoadVipPassengers(serviceZone, (new List<Guid> {passengers[localCopyOfIndex]}).ToArray());//сажаем пассажира в Генератор Самолетов 
                     Logger.SendMessage(1, ComponentName,
                         String.Format("1 пассажир доставлен на борт на площадке {0}.", serviceZone.Number));
                 });
@@ -123,9 +124,9 @@ namespace VIPShuttle
         /// <returns></returns>
         public static List<Guid> GetPassengers(Guid flightNumber)
         {
-            var countOfPassengers = new WebServiceCheckIn().GetVips(flightNumber).ToList(); //запросить пассажиров у Регистрации
-            Logger.SendMessage(1, ComponentName, String.Format("Получена информация, что на рейс {0} зарегистрированно {1} пассажиров VIP-класса.", flightNumber, countOfPassengers));
-            return countOfPassengers;
+            var passengers = new WebServiceCheckIn().GetVips(flightNumber).ToList(); //запросить пассажиров у Регистрации
+            Logger.SendMessage(1, ComponentName, String.Format("Получена информация, что на рейс {0} зарегистрированно {1} пассажиров VIP-класса.", flightNumber, passengers.Count));
+            return passengers;
         }
     }
 }

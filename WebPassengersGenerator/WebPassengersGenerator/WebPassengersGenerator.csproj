@@ -63,6 +63,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+    <None Include="Properties\PublishProfiles\airport-dko-passengers %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\airport-dko-passengers.pubxml" />
     <Content Include="Web References\CheckInService\Catering.datasource">
       <DependentUpon>Reference.map</DependentUpon>
@@ -72,6 +73,7 @@
       <LastGenOutput>Reference.cs</LastGenOutput>
     </Content>
     <None Include="Web References\CheckInService\WebServiceCheckIn.disco" />
+    <None Include="Web References\MetrologService\MetrologService.disco" />
     <Content Include="Web References\TicketSalesService\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
@@ -80,6 +82,11 @@
       <DependentUpon>Reference.map</DependentUpon>
     </Content>
     <None Include="Web References\CheckInService\WebServiceCheckIn.wsdl" />
+    <None Include="Web References\MetrologService\MetrologService.wsdl" />
+    <Content Include="Web References\MetrologService\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </Content>
     <None Include="Web References\TicketSalesService\WebServiceTicketSales.wsdl" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -111,6 +118,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.map</DependentUpon>
     </Compile>
+    <Compile Include="Web References\MetrologService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
     <Compile Include="Web References\TicketSalesService\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -128,6 +140,17 @@
     <WebReferences Include="Web References\" />
   </ItemGroup>
   <ItemGroup>
+    <WebReferenceUrl Include="http://airport-dko-metrological.azurewebsites.net/MetrologService.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\MetrologService\</RelPath>
+      <UpdateFromURL>http://airport-dko-metrological.azurewebsites.net/MetrologService.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>WebPassengersGenerator_MetrologService_MetrologService</CachedSettingsPropName>
+    </WebReferenceUrl>
     <WebReferenceUrl Include="http://airport-dko-passengers.azurewebsites.net/WebServiceCheckIn.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\CheckInService\</RelPath>

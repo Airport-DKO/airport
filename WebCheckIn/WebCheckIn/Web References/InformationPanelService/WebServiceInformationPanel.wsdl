@@ -24,6 +24,7 @@
           <s:element minOccurs="1" maxOccurs="1" name="city" type="tns:Cities" />
           <s:element minOccurs="1" maxOccurs="1" name="arrivalTime" type="s:dateTime" />
           <s:element minOccurs="1" maxOccurs="1" name="takeoffTime" type="s:dateTime" />
+          <s:element minOccurs="0" maxOccurs="1" name="FligthName" type="s:string" />
           <s:element minOccurs="1" maxOccurs="1" name="StartRegistrationTime" type="s:dateTime" />
           <s:element minOccurs="1" maxOccurs="1" name="EndRegistrationTime" type="s:dateTime" />
           <s:element minOccurs="1" maxOccurs="1" name="EconomPassengersCount" type="s:int" />
@@ -35,12 +36,12 @@
       <s:simpleType name="Cities">
         <s:restriction base="s:string">
           <s:enumeration value="Tokyo" />
-          <s:enumeration value="Paris" />
-          <s:enumeration value="Rome" />
-          <s:enumeration value="NewYork" />
-          <s:enumeration value="Sydney" />
-          <s:enumeration value="Brasilia" />
-          <s:enumeration value="Antananarivo" />
+          <s:enumeration value="Kyiv" />
+          <s:enumeration value="Whitecourt" />
+          <s:enumeration value="Roma" />
+          <s:enumeration value="Washington" />
+          <s:enumeration value="Minsk" />
+          <s:enumeration value="Almaty" />
         </s:restriction>
       </s:simpleType>
       <s:element name="GetFlightsForSales">
@@ -84,8 +85,9 @@
       <s:element name="CreateFlight">
         <s:complexType>
           <s:sequence>
-            <s:element minOccurs="1" maxOccurs="1" name="arrivalTime" type="s:dateTime" />
-            <s:element minOccurs="1" maxOccurs="1" name="takeoffTime" type="s:dateTime" />
+            <s:element minOccurs="0" maxOccurs="1" name="fligthName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="arrivalTime" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="takeoffTime" type="s:string" />
             <s:element minOccurs="1" maxOccurs="1" name="city" type="tns:Cities" />
             <s:element minOccurs="1" maxOccurs="1" name="economPassengers" type="s:int" />
             <s:element minOccurs="1" maxOccurs="1" name="vipPassengers" type="s:int" />
@@ -117,6 +119,20 @@
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="0" maxOccurs="1" name="RegisterPlaneToFlightResult" type="tns:Flight" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="IsFlightRightNow">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="flightNumber" type="s1:guid" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="IsFlightRightNowResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="IsFlightRightNowResult" type="s:boolean" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -229,6 +245,12 @@
   <wsdl:message name="RegisterPlaneToFlightSoapOut">
     <wsdl:part name="parameters" element="tns:RegisterPlaneToFlightResponse" />
   </wsdl:message>
+  <wsdl:message name="IsFlightRightNowSoapIn">
+    <wsdl:part name="parameters" element="tns:IsFlightRightNow" />
+  </wsdl:message>
+  <wsdl:message name="IsFlightRightNowSoapOut">
+    <wsdl:part name="parameters" element="tns:IsFlightRightNowResponse" />
+  </wsdl:message>
   <wsdl:message name="ReadyToTakeOffSoapIn">
     <wsdl:part name="parameters" element="tns:ReadyToTakeOff" />
   </wsdl:message>
@@ -287,6 +309,10 @@
     <wsdl:operation name="RegisterPlaneToFlight">
       <wsdl:input message="tns:RegisterPlaneToFlightSoapIn" />
       <wsdl:output message="tns:RegisterPlaneToFlightSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="IsFlightRightNow">
+      <wsdl:input message="tns:IsFlightRightNowSoapIn" />
+      <wsdl:output message="tns:IsFlightRightNowSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="ReadyToTakeOff">
       <wsdl:input message="tns:ReadyToTakeOffSoapIn" />
@@ -367,6 +393,15 @@
     </wsdl:operation>
     <wsdl:operation name="RegisterPlaneToFlight">
       <soap:operation soapAction="http://tempuri.org/RegisterPlaneToFlight" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="IsFlightRightNow">
+      <soap:operation soapAction="http://tempuri.org/IsFlightRightNow" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -478,6 +513,15 @@
     </wsdl:operation>
     <wsdl:operation name="RegisterPlaneToFlight">
       <soap12:operation soapAction="http://tempuri.org/RegisterPlaneToFlight" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="IsFlightRightNow">
+      <soap12:operation soapAction="http://tempuri.org/IsFlightRightNow" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

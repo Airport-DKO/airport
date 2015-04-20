@@ -27,14 +27,18 @@ namespace WebPassengersGenerator
         WebServiceCheckIn CheckIn= new WebServiceCheckIn();
         TicketSalesService.WebServiceTicketSales ticketSales = new WebServiceTicketSales();
         private static Random random = new Random();
-        public List<Passenger> passengers = new List<Passenger>();   //база активных пассажиров (тех, которые уже созданы и ещё находятся в нашем аэропорту)
+        public List<Passenger> passengers = new List<Passenger>();          //база пассажиров 
         private PassengersStatistic statistic = new PassengersStatistic();
-        public int generateSleep = 300;                                //интервал при генерации
+        public int generateSleep = 50;                                      //интервал при генерации
         private MqSender Logger = new MqSender("LoggerQueue");
+        private MqSender Dashboard = new MqSender("StatusQueue");
+        private MetrologService.MetrologService metrolog = new MetrologService.MetrologService();
+
 
         public PassengersGenerator()
         {
             Logger.Connect();
+            Dashboard.Connect();
         }
 
         /// <summary>
@@ -53,6 +57,8 @@ namespace WebPassengersGenerator
                     State = PassengerState.Created
                 });
                 statistic.Created++;
+                SendInformation(1,statistic.Created);
+                SendMsgToLogger(0,"Создан пассажир "+passengers.Last().ID);
                 Thread.Sleep(generateSleep);
             }
         }
@@ -72,6 +78,8 @@ namespace WebPassengersGenerator
                 Ticket = null,
                 WeightBaggage = baggage});
             statistic.Created++;
+            SendInformation(1, statistic.Created);
+            SendMsgToLogger(0, "Создан пассажир " + passengers.Last().ID);
         }
 
         /// <summary>
@@ -82,7 +90,7 @@ namespace WebPassengersGenerator
             var p = passengers.Where(s => s.State != PassengerState.Onboard&&s.State != PassengerState.Registered).ToArray();
             foreach (var passenger in p)
             {
-                int behavior = random.Next(0, 3);
+                int behavior = random.Next(0,3);
                 switch (behavior)
                 {
                     case 0: //купиь билет
@@ -90,9 +98,10 @@ namespace WebPassengersGenerator
                         if (ticket != null)
                         {
                             passenger.Ticket = ticket;
-
                             passenger.State = PassengerState.Buy;
                             statistic.Buy++;
+                            SendInformation(2, statistic.Buy);
+                            SendMsgToLogger(0, string.Format("Пассажир {0} купил билет на рейс{1}", passenger.ID,ticket.FlightID));
                         }
                         break;
                     case 1: //вернуть билет
@@ -101,6 +110,8 @@ namespace WebPassengersGenerator
                             passenger.Ticket = null;
                             passenger.State = PassengerState.Created;
                             statistic.Return++;
+                            SendInformation(4, statistic.Return);
+                            SendMsgToLogger(0, string.Format("Пассажир {0} вернул билет", passenger.ID));
                         }
                         break;
                     case 2: //зарегестрироваться
@@ -108,6 +119,9 @@ namespace WebPassengersGenerator
                         {
                             passenger.State = PassengerState.Registered;
                             statistic.Registred++;
+                            SendInformation(3, statistic.Registred);
+                            SendMsgToLogger(0, string.Format("Пассажир {0} зарегистрировался", passenger.ID));
+                            sendCateringStatistic(passenger.PreferFood);
                         }
                         break;
                     default:
@@ -122,25 +136,20 @@ namespace WebPassengersGenerator
         /// </summary>
         /// <param name="passengerId">id пассажира</param>
         /// <returns>папал ли пассажир на борт</returns>
-        public bool onPlane(Guid passengerId)
+        public bool onPlane(List<Guid> passengersidGuids)
         {
-            var passenger = passengers.FirstOrDefault(s => s.ID == passengerId);
-            if (passenger != null)
+            foreach (var passengersidGuid in passengersidGuids)
             {
-                passenger.State = PassengerState.Onboard;
-                statistic.OnBoard++;
-                return true;
+                var passenger = passengers.FirstOrDefault(s => s.ID == passengersidGuid);
+                if (passenger != null)
+                {
+                    passenger.State = PassengerState.Onboard;
+                    statistic.OnBoard++;
+                    SendMsgToLogger(0, string.Format("Пассажир {0} на борту", passenger.ID));
+                }
             }
-            return false;
-        }
-
-        /// <summary>
-        /// получение информации для дашборда
-        /// </summary>
-        /// <returns>статистика генератора </returns>
-        public PassengersStatistic GetPassengersInfo()
-        {
-            return statistic;
+            SendInformation(5, statistic.OnBoard);
+            return true;
         }
 
         public List<Passenger> GetPassengersList()
@@ -151,6 +160,72 @@ namespace WebPassengersGenerator
         public void Reset()
         {
             passengers.Clear();
+        }
+
+        private void SendMsgToLogger(int status, string text)
+        {
+            try
+            {
+                DateTime t = metrolog.GetCurrentTime();
+                Logger.SendMsg(string.Format("{0}_{1}_{2}_PassengersGenerator_{3}",
+                    t.ToString("dd.MM.yyyy"), t.ToString("HH:mm:ss"), status, text));
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+
+        /// <summary>
+        /// отправка сообщения на дашборд
+        /// </summary>
+        /// <param name="status">тип сообщения</param>
+        /// <param name="newCount"> количество</param>
+        private void SendInformation(int status, int newCount)
+        {
+            try
+            {
+                Dashboard.SendMsg(string.Format("PS_{0}_{1}",status,newCount)); 
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+
+        private void sendCateringStatistic(Food f)
+        {
+            try
+            {
+                int y = 0, z = 0; //y - тип сообщения. z - количество
+                var p = passengers.Where(s => s.State == PassengerState.Registered || s.State == PassengerState.Onboard);
+                switch (f)
+                {
+                    case Food.Children:
+                        z = p.Count(s => s.PreferFood == Food.Children);
+                        y = 5;
+                        break;
+                    case Food.Default:
+                        z = p.Count(s => s.PreferFood == Food.Default);
+                        y = 2;
+                        break;
+                    case Food.Diabetic:
+                        z = p.Count(s => s.PreferFood == Food.Diabetic);
+                        y = 3;
+                        break;
+                    case Food.LowCalorie:
+                        z = p.Count(s => s.PreferFood == Food.LowCalorie);
+                        y = 6;
+                        break;
+                    case Food.Vegetarian:
+                        z = p.Count(s => s.PreferFood == Food.Vegetarian);
+                        y = 4;
+                        break;
+                }
+                Dashboard.SendMsg(string.Format("FD_{0}_{1}", 1, p.Count()));
+                Dashboard.SendMsg(string.Format("FD_{0}_{1}", y, z));
+            }
+            catch (Exception)
+            {
+            }
         }
     }
 }

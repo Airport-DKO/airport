@@ -46,6 +46,8 @@
             this.baggageTextEdit = new DevExpress.XtraEditors.TextEdit();
             this.bindPlaneToFlightButton = new DevExpress.XtraEditors.SimpleButton();
             this.resetButton = new DevExpress.XtraEditors.SimpleButton();
+            this.simpleButton1 = new DevExpress.XtraEditors.SimpleButton();
+            this.simpleButton2 = new DevExpress.XtraEditors.SimpleButton();
             ((System.ComponentModel.ISupportInitialize)(this.planesGridControl)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nameTextEdit.Properties)).BeginInit();
@@ -213,14 +215,34 @@
             this.resetButton.Name = "resetButton";
             this.resetButton.Size = new System.Drawing.Size(118, 27);
             this.resetButton.TabIndex = 17;
-            this.resetButton.Text = "Reset";
+            this.resetButton.Text = "Reset ГС";
             this.resetButton.Click += new System.EventHandler(this.resetButton_Click);
+            // 
+            // simpleButton1
+            // 
+            this.simpleButton1.Location = new System.Drawing.Point(141, 414);
+            this.simpleButton1.Name = "simpleButton1";
+            this.simpleButton1.Size = new System.Drawing.Size(118, 27);
+            this.simpleButton1.TabIndex = 18;
+            this.simpleButton1.Text = "Reset УНД";
+            this.simpleButton1.Click += new System.EventHandler(this.simpleButton1_Click);
+            // 
+            // simpleButton2
+            // 
+            this.simpleButton2.Location = new System.Drawing.Point(265, 415);
+            this.simpleButton2.Name = "simpleButton2";
+            this.simpleButton2.Size = new System.Drawing.Size(118, 26);
+            this.simpleButton2.TabIndex = 19;
+            this.simpleButton2.Text = "Reset УНО";
+            this.simpleButton2.Click += new System.EventHandler(this.simpleButton2_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(890, 514);
+            this.Controls.Add(this.simpleButton2);
+            this.Controls.Add(this.simpleButton1);
             this.Controls.Add(this.resetButton);
             this.Controls.Add(this.bindPlaneToFlightButton);
             this.Controls.Add(this.label6);
@@ -273,6 +295,8 @@
         private DevExpress.XtraEditors.TextEdit baggageTextEdit;
         private DevExpress.XtraEditors.SimpleButton bindPlaneToFlightButton;
         private DevExpress.XtraEditors.SimpleButton resetButton;
+        private DevExpress.XtraEditors.SimpleButton simpleButton1;
+        private DevExpress.XtraEditors.SimpleButton simpleButton2;
     }
 }
 

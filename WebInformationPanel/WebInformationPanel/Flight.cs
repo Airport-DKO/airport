@@ -23,6 +23,8 @@ namespace WebInformationPanel
         public DateTime arrivalTime { get; set; }           //время прилёта
         public DateTime takeoffTime { get; set; }           //время отправления
 
+        public string FligthName { get; set; }              //имя рейса
+
         public DateTime StartRegistrationTime { get; set; } //начало регистрации
         public DateTime EndRegistrationTime { get; set; }   //конец регистрации
 

@@ -43,9 +43,9 @@ namespace WebInformationPanel
         }
 
         [WebMethod]
-        public void CreateFlight(DateTime arrivalTime, DateTime takeoffTime, Cities city, int economPassengers, int vipPassengers)
+        public void CreateFlight(string fligthName, string arrivalTime, string takeoffTime, Cities city, int economPassengers, int vipPassengers)
         {
-            infpanel.CreateFlight(arrivalTime, takeoffTime, city, economPassengers, vipPassengers);
+            infpanel.CreateFlight(fligthName, arrivalTime, takeoffTime, city, economPassengers, vipPassengers);
         }
 
         [WebMethod]
@@ -58,6 +58,12 @@ namespace WebInformationPanel
         public Flight RegisterPlaneToFlight(Guid planeid, Guid FlightId)
         {
             return infpanel.RegisterPlaneToFlight(planeid, FlightId);
+        }
+
+        [WebMethod]
+        public bool IsFlightRightNow(Guid flightNumber)
+        {
+            return infpanel.IsFlightRightNow(flightNumber);
         }
 
 

@@ -8,7 +8,7 @@ namespace Deicer
     public class Worker
     {
         private static readonly MapObject Garage;
-        private const string ComponentName = "Deicer";
+        public const string ComponentName = "Deicer";
 
         static Worker()
         {

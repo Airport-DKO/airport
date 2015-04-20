@@ -11,7 +11,7 @@ namespace PassengerBus
         private readonly Guid _id; //идентификатор машины, чтобы ее могли отличить среди других Управление Наземным Движением и Визуализатор
         private const Int32 _capacity = 100; //вместительность машины - сколько кг она может поднять
         private readonly MoveObjectType _type;
-        private const int Speed = 10000;
+        private const int Speed = 3000;
 
         public Int32 Capacity { get { return _capacity; } }
 
@@ -70,7 +70,7 @@ namespace PassengerBus
             int stepNumber = 0;
             while (stepNumber < route.Count) //пока не дойдем до конца массива, содержащего маршрут
             {
-                if (gmc.Step(route[stepNumber], _type, _id)) //УНД возвращает разрешение на движение на переданную координату или запрет 
+                if (gmc.Step(route[stepNumber], _type, _id, Speed*Metrological.Instance.CurrentCoef)) //УНД возвращает разрешение на движение на переданную координату или запрет 
                 {
                     //если шаг сделать удалось - передвигаемся на следующий индекс массива, содержащего маршрут
                     stepNumber++;

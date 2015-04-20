@@ -10,7 +10,7 @@ namespace Refueler
     public static class Worker
     {
         private static readonly MapObject Garage;
-        private const string ComponentName = "Deicer";
+        public const string ComponentName = "Refueler";
 
         static Worker()
         {
@@ -49,7 +49,7 @@ namespace Refueler
             Task.WaitAll(tasks.ToArray());
 
             Logger.SendMessage(0, ComponentName,
-                String.Format("Выполнено задание: заправить самолет на площадке номер {0} на {1} литров", serviceZone.Number, litersOfFuel));
+                String.Format("Выполнено задание: заправить самолет на площадке номер {0}", serviceZone.Number));
 
 
             new GSC().Done(taskId);//сообщаем Управлению Наземным Обслуживанием, что задание выполнено

@@ -36,16 +36,6 @@ namespace Aircraft_Generator.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://airport-dko-gmc.azurewebsites.net/gmc.asmx")]
-        public string Aircraft_Generator_GmcVs_GMC {
-            get {
-                return ((string)(this["Aircraft_Generator_GmcVs_GMC"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
         [global::System.Configuration.DefaultSettingValueAttribute("http://airport-dko-gmc.azurewebsites.net/Tower.asmx")]
         public string Aircraft_Generator_TowerService_Tower {
             get {
@@ -90,6 +80,37 @@ namespace Aircraft_Generator.Properties {
         public string Aircraft_Generator_FollowMeWs_FollowMe {
             get {
                 return ((string)(this["Aircraft_Generator_FollowMeWs_FollowMe"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://airport-dko-services.azurewebsites.net/Deicer.asmx")]
+        public string Aircraft_Generator_DeicerVs_Deicer {
+            get {
+                return ((string)(this["Aircraft_Generator_DeicerVs_Deicer"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://airport-dko-gmc.azurewebsites.net/gmc.asmx")]
+        public string Aircraft_Generator_GmcVs_GMC {
+            get {
+                return ((string)(this["Aircraft_Generator_GmcVs_GMC"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://airport-dko-passengers.azurewebsites.net/WebServicePassengersGenerator.asm" +
+            "x")]
+        public string Aircraft_Generator_PassengersWs_WebServicePassengersGenerator {
+            get {
+                return ((string)(this["Aircraft_Generator_PassengersWs_WebServicePassengersGenerator"]));
             }
         }
     }

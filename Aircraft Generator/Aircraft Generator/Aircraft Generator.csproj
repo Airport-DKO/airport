@@ -68,24 +68,31 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <None Include="Web References\DeicerVs\Deicer.wsdl" />
+    <None Include="Web References\DeicerVs\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
     <None Include="Web References\FollowMeWs\FollowMe.disco" />
-    <Content Include="Web References\GmcVs\CoordinateTuple.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </Content>
+    <None Include="Web References\DeicerVs\Deicer.disco" />
     <None Include="Web References\FollowMeWs\FollowMe.wsdl" />
     <None Include="Web References\FollowMeWs\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
+    <Content Include="Web References\GmcVs\CoordinateTuple.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
     <None Include="Web References\GmcVs\gmc.wsdl" />
     <Content Include="Web References\GmcVs\MapObject.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </Content>
-    <None Include="Web References\GmcVs\Reference.map">
+    <Content Include="Web References\GmcVs\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
+    </Content>
     <None Include="Web References\GscWs2\gsc.disco" />
+    <None Include="Web References\GmcVs\gmc.disco" />
     <Content Include="Web References\InformationPanelWS\Flight.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </Content>
@@ -100,6 +107,14 @@
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
+    <Content Include="Web References\PassengersWs\Passenger.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <None Include="Web References\PassengersWs\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\PassengersWs\WebServicePassengersGenerator.wsdl" />
     <None Include="Web References\TowerService\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
@@ -123,8 +138,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="AircraftGenerator.asmx" />
-    <None Include="Web References\GmcVs\gmc.disco" />
     <None Include="Web References\TowerService\Tower.disco" />
+    <None Include="Web References\PassengersWs\WebServicePassengersGenerator.disco" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -141,6 +156,7 @@
     <Compile Include="Commons\PlaneType.cs" />
     <Compile Include="Conversions\Flight.cs" />
     <Compile Include="Conversions\MapObject.cs" />
+    <Compile Include="Conversions\MapObject2.cs" />
     <Compile Include="Core.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -150,6 +166,11 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="Rabbit.cs" />
+    <Compile Include="Web References\DeicerVs\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
     <Compile Include="Web References\FollowMeWs\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -171,6 +192,11 @@
       <DependentUpon>Reference.map</DependentUpon>
     </Compile>
     <Compile Include="Web References\MetrologicalService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\PassengersWs\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.map</DependentUpon>
@@ -239,6 +265,28 @@
       </CachedDynamicPropName>
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>Aircraft_Generator_InformationPanelWS_WebServiceInformationPanel</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://airport-dko-passengers.azurewebsites.net/WebServicePassengersGenerator.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\PassengersWs\</RelPath>
+      <UpdateFromURL>http://airport-dko-passengers.azurewebsites.net/WebServicePassengersGenerator.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Aircraft_Generator_PassengersWs_WebServicePassengersGenerator</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://airport-dko-services.azurewebsites.net/Deicer.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\DeicerVs\</RelPath>
+      <UpdateFromURL>http://airport-dko-services.azurewebsites.net/Deicer.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Aircraft_Generator_DeicerVs_Deicer</CachedSettingsPropName>
     </WebReferenceUrl>
     <WebReferenceUrl Include="http://airport-dko-services.azurewebsites.net/FollowMe.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>

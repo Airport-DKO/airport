@@ -69,15 +69,12 @@ namespace WebTicketSales
                 }
                 ticketsBase.Add(t);
                 var time = metrolog.GetCurrentTime();
-                Logger.SendMsg(string.Format("{0}_{1}_1_TicketSales_Пассажир {2} купил билет на рейс {3} {4} класса",
-                    time.Date, time.TimeOfDay, t.PassengerID, t.FlightID, t.TicketClass));
+                SendMsgToLogger(0,string.Format("Пассажир {0} купил билет {1} класса на рейс {2}",t.PassengerID,t.TicketClass,t.FlightID));
                 return t;
             }
             catch (Exception ex)
             {
-                var time = metrolog.GetCurrentTime();
-                Logger.SendMsg(string.Format("{0}_{1}_0_TicketSales_Error {2}",
-                    time.Date, time.TimeOfDay, ex.Message));
+                SendMsgToLogger(0,"Error " + ex.Message);
                 return null;
             }
         }
@@ -98,18 +95,14 @@ namespace WebTicketSales
                     {
                         var time = metrolog.GetCurrentTime();
                         ticketsBase.Remove(ticket);
-                        Logger.SendMsg(
-                            string.Format("{0}_{1}_1_TicketSales_Пассажир {2} вернул билет на рейс {3} {4} класса",
-                                time.Date, time.TimeOfDay, ticket.PassengerID, ticket.FlightID, ticket.TicketClass));
+                        SendMsgToLogger(0,"Пассажир вернул билет" + passengerId);
                         return true;
                     }
                 }
             }
             catch (Exception ex)
             {
-                var time = metrolog.GetCurrentTime();
-                Logger.SendMsg(string.Format("{0}_{1}_0_TicketSales_Error {2}",
-                    time.Date, time.TimeOfDay, ex.Message));
+                SendMsgToLogger(0, "Error " + ex.Message);
                 return false;
             }
             return false;
@@ -129,6 +122,20 @@ namespace WebTicketSales
         public void Reset()
         {
             ticketsBase.Clear();
+        }
+
+        private void SendMsgToLogger(int status, string text)
+        {
+            try
+            {
+                DateTime t = metrolog.GetCurrentTime();
+                Logger.SendMsg(string.Format("{0}_{1}_{2}_TicketSales_{3}",
+                    t.ToString("dd.MM.yyyy"), t.ToString("HH:mm:ss"), status, text));
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
     }
 }

@@ -42,5 +42,15 @@ namespace WebCheckIn.Properties {
                 return ((string)(this["WebCheckIn_TicketSalesService_WebServiceTicketSales"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://airport-dko-metrological.azurewebsites.net/MetrologService.asmx")]
+        public string WebCheckIn_MetrologService_MetrologService {
+            get {
+                return ((string)(this["WebCheckIn_MetrologService_MetrologService"]));
+            }
+        }
     }
 }

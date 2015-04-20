@@ -10,7 +10,7 @@ namespace CateringTruck
     public static class Worker
     {
         private static readonly MapObject Garage;
-        private const string ComponentName = "CateringTruck";
+        public const string ComponentName = "CateringTruck";
 
         static Worker()
         {
@@ -30,8 +30,8 @@ namespace CateringTruck
                 String.Format("Получено задание доставить питание на площадку {0} на рейс {1}", serviseZone.Number, flightNumber));
             
             var catering = new WebServiceCheckIn().GetCatering(flightNumber); //запрашиваем питание у Регистрации
-
-            if (catering != null) //проверить, что вернулся не пустой объект, т.е. что питание есть
+            
+            if (catering.Children + catering.Default + catering.Diabetic + catering.LowCalorie + catering.Vegetarian > 0) //проверить, что вернулся не пустой объект, т.е. что питание есть
             {
                 Logger.SendMessage(0, ComponentName,
                     String.Format("Машина с питанием выехала для доставки его на площадку {0} на рейс {1}", serviseZone.Number, flightNumber));

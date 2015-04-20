@@ -43,6 +43,8 @@ namespace InformationPanelGUI.InformationPanelWs {
         
         private System.Threading.SendOrPostCallback RegisterPlaneToFlightOperationCompleted;
         
+        private System.Threading.SendOrPostCallback IsFlightRightNowOperationCompleted;
+        
         private System.Threading.SendOrPostCallback ReadyToTakeOffOperationCompleted;
         
         private System.Threading.SendOrPostCallback ResetOperationCompleted;
@@ -111,6 +113,9 @@ namespace InformationPanelGUI.InformationPanelWs {
         
         /// <remarks/>
         public event RegisterPlaneToFlightCompletedEventHandler RegisterPlaneToFlightCompleted;
+        
+        /// <remarks/>
+        public event IsFlightRightNowCompletedEventHandler IsFlightRightNowCompleted;
         
         /// <remarks/>
         public event ReadyToTakeOffCompletedEventHandler ReadyToTakeOffCompleted;
@@ -241,8 +246,9 @@ namespace InformationPanelGUI.InformationPanelWs {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/CreateFlight", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public void CreateFlight(System.DateTime arrivalTime, System.DateTime takeoffTime, Cities city, int economPassengers, int vipPassengers) {
+        public void CreateFlight(string fligthName, string arrivalTime, string takeoffTime, Cities city, int economPassengers, int vipPassengers) {
             this.Invoke("CreateFlight", new object[] {
+                        fligthName,
                         arrivalTime,
                         takeoffTime,
                         city,
@@ -251,16 +257,17 @@ namespace InformationPanelGUI.InformationPanelWs {
         }
         
         /// <remarks/>
-        public void CreateFlightAsync(System.DateTime arrivalTime, System.DateTime takeoffTime, Cities city, int economPassengers, int vipPassengers) {
-            this.CreateFlightAsync(arrivalTime, takeoffTime, city, economPassengers, vipPassengers, null);
+        public void CreateFlightAsync(string fligthName, string arrivalTime, string takeoffTime, Cities city, int economPassengers, int vipPassengers) {
+            this.CreateFlightAsync(fligthName, arrivalTime, takeoffTime, city, economPassengers, vipPassengers, null);
         }
         
         /// <remarks/>
-        public void CreateFlightAsync(System.DateTime arrivalTime, System.DateTime takeoffTime, Cities city, int economPassengers, int vipPassengers, object userState) {
+        public void CreateFlightAsync(string fligthName, string arrivalTime, string takeoffTime, Cities city, int economPassengers, int vipPassengers, object userState) {
             if ((this.CreateFlightOperationCompleted == null)) {
                 this.CreateFlightOperationCompleted = new System.Threading.SendOrPostCallback(this.OnCreateFlightOperationCompleted);
             }
             this.InvokeAsync("CreateFlight", new object[] {
+                        fligthName,
                         arrivalTime,
                         takeoffTime,
                         city,
@@ -330,6 +337,35 @@ namespace InformationPanelGUI.InformationPanelWs {
             if ((this.RegisterPlaneToFlightCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.RegisterPlaneToFlightCompleted(this, new RegisterPlaneToFlightCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/IsFlightRightNow", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public bool IsFlightRightNow(System.Guid flightNumber) {
+            object[] results = this.Invoke("IsFlightRightNow", new object[] {
+                        flightNumber});
+            return ((bool)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void IsFlightRightNowAsync(System.Guid flightNumber) {
+            this.IsFlightRightNowAsync(flightNumber, null);
+        }
+        
+        /// <remarks/>
+        public void IsFlightRightNowAsync(System.Guid flightNumber, object userState) {
+            if ((this.IsFlightRightNowOperationCompleted == null)) {
+                this.IsFlightRightNowOperationCompleted = new System.Threading.SendOrPostCallback(this.OnIsFlightRightNowOperationCompleted);
+            }
+            this.InvokeAsync("IsFlightRightNow", new object[] {
+                        flightNumber}, this.IsFlightRightNowOperationCompleted, userState);
+        }
+        
+        private void OnIsFlightRightNowOperationCompleted(object arg) {
+            if ((this.IsFlightRightNowCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.IsFlightRightNowCompleted(this, new IsFlightRightNowCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -508,6 +544,8 @@ namespace InformationPanelGUI.InformationPanelWs {
         
         private System.DateTime takeoffTimeField;
         
+        private string fligthNameField;
+        
         private System.DateTime startRegistrationTimeField;
         
         private System.DateTime endRegistrationTimeField;
@@ -557,6 +595,16 @@ namespace InformationPanelGUI.InformationPanelWs {
             }
             set {
                 this.takeoffTimeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string FligthName {
+            get {
+                return this.fligthNameField;
+            }
+            set {
+                this.fligthNameField = value;
             }
         }
         
@@ -806,6 +854,32 @@ namespace InformationPanelGUI.InformationPanelWs {
             get {
                 this.RaiseExceptionIfNecessary();
                 return ((Flight)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.34209")]
+    public delegate void IsFlightRightNowCompletedEventHandler(object sender, IsFlightRightNowCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.34209")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class IsFlightRightNowCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal IsFlightRightNowCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public bool Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((bool)(this.results[0]));
             }
         }
     }

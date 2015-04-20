@@ -65,7 +65,7 @@ namespace Ground_Service_Control
 
                 if (role == ServiceTaskRole.LoadPlane)
                 {
-                    bt.LoadBaggage(context.serviceZone, context.plane, taskId);
+                    bt.LoadBaggage(context.serviceZone, context.flight.number, taskId);
                     return;
                 }
 
@@ -88,8 +88,10 @@ namespace Ground_Service_Control
         {
             var t = new Task(() =>
             {
+                Utils.self().waitTillCheckInFinished(context.flight.number);
+
                 var ct = new CateringTruck.CateringTruck();
-                ct.LoadFood(context.serviceZone, context.plane, taskId);
+                ct.LoadFood(context.serviceZone, context.flight.number, taskId);
             });
 
             t.Start();
@@ -113,20 +115,29 @@ namespace Ground_Service_Control
                 var cl = new ContainerLoader.ContainerLoader();
                 if(role == ServiceTaskRole.MoveToGarage){
                     cl.ToGarage(context.serviceZone);
+                    GSC_impl.self().Done(taskId);
                     return;
                 } else if (role == ServiceTaskRole.UnloadPlane){
-                    cl.ToServiceZone(context.serviceZone, context.plane, taskId);
+                    cl.ToServiceZone(context.serviceZone, context.flight.number, taskId);
                     return;
                 }
 
-                Utils.self().waitTillCheckInFinished(context.plane);
+                Utils.self().waitTillCheckInFinished(context.flight.number);
 
                 var baggage = new BaggageTractor.BaggageTractor();
 
-                if(baggage.ToPlain(context.plane)){
-                    cl.ToServiceZone(context.serviceZone, context.plane, taskId);
+                if(baggage.ToPlain(context.flight.number)){
+                    if (context.baggage <= 0)
+                    {
+                        cl.ToServiceZone(context.serviceZone, context.flight.number, taskId);
+                    }
+                    else
+                    {
+                        GSC_impl.self().Done(taskId);
+                    }
                 } else {
                     cl.ToGarage(context.serviceZone);
+                    GSC_impl.self().Done(taskId);
                 }
             });
 
@@ -151,9 +162,8 @@ namespace Ground_Service_Control
 
                 if (role == ServiceTaskRole.LoadPlane)
                 {
-                    Utils.self().waitTillCheckInFinished(context.plane);
-                    Utils.self().sleep(5000);
-                    pb.LoadPassengers(context.serviceZone, context.plane, taskId);
+                    Utils.self().waitTillCheckInFinished(context.flight.number);
+                    pb.LoadPassengers(context.serviceZone, context.flight.number, taskId);
                     return;
                 }
 
@@ -183,25 +193,34 @@ namespace Ground_Service_Control
                 if (role == ServiceTaskRole.MoveToGarage)
                 {
                     ps.ToGarage(context.serviceZone);
+                    GSC_impl.self().Done(taskId);
                     return;
                 }
                 else if (role == ServiceTaskRole.UnloadPlane)
                 {
-                    ps.ToServiceZone(context.serviceZone, context.plane, taskId);
+                    ps.ToServiceZone(context.serviceZone, context.flight.number, taskId);
                     return;
                 }
 
-                Utils.self().waitTillCheckInFinished(context.plane);
+                Utils.self().waitTillCheckInFinished(context.flight.number);
 
                 var vip = new VIPShuttle.VIPShuttle();
                 var bus = new PassengerBus.PassengerBus();
 
-                var needTrap = vip.ToPlain(context.plane) || bus.ToPlain(context.plane);
+                var needTrap = vip.ToPlain(context.flight.number) || bus.ToPlain(context.flight.number);
                 if (needTrap)
                 {
-                    ps.ToServiceZone(context.serviceZone, context.plane, taskId);
+                    if (context.economPassengers + context.VIPPassengers <= 0 && !context.ladder)
+                    {
+                        ps.ToServiceZone(context.serviceZone, context.flight.number, taskId);
+                    }
+                    else
+                    {
+                        GSC_impl.self().Done(taskId);
+                    }
                 } else {
                     ps.ToGarage(context.serviceZone);
+                    GSC_impl.self().Done(taskId);
                 }
             });
 
@@ -244,8 +263,8 @@ namespace Ground_Service_Control
                 var vip = new VIPShuttle.VIPShuttle();
                 if (role == ServiceTaskRole.LoadPlane)
                 {
-                    Utils.self().waitTillCheckInFinished(context.plane);
-                    vip.LoadPassengers(context.serviceZone, context.plane, taskId);
+                    Utils.self().waitTillCheckInFinished(context.flight.number);
+                    vip.LoadPassengers(context.serviceZone, context.flight.number, taskId);
                     return;
                 }
                 vip.UnloadPassengers(context.serviceZone, context.VIPPassengers, taskId);

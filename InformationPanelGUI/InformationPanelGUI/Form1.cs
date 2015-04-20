@@ -1,89 +1,88 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Reflection;
-using System.Runtime.InteropServices;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using DevExpress.Utils;
-using DevExpress.Utils.Implementation;
-using DevExpress.XtraEditors.Mask;
 using InformationPanelGUI.InformationPanelWs;
+using InformationPanelGUI.TimeService;
 
 namespace InformationPanelGUI
 {
     public partial class Form1 : Form
     {
-        private readonly WebServiceInformationPanel _informationPanel;
+        private WebServiceInformationPanel _informationPanel;
+        private MetrologService _timeService;
+
         public Form1()
         {
             InitializeComponent();
-            _informationPanel=new WebServiceInformationPanel();
-            cityComboBox.Properties.Items.AddRange(Enum.GetNames(typeof(Cities)));
-            var flightsList=_informationPanel.GetFlightsList();
-            flightsGridControl.DataSource = flightsList;
-            flightsGridControl.RefreshDataSource();
-            arrivalDateEdit.Properties.VistaDisplayMode=DefaultBoolean.True;
+            _informationPanel = new WebServiceInformationPanel();
+            _timeService = new MetrologService();
+            cityComboBox.Properties.Items.AddRange(Enum.GetNames(typeof (Cities)));
+            arrivalDateEdit.Properties.VistaDisplayMode = DefaultBoolean.True;
             arrivalDateEdit.Properties.VistaEditTime = DefaultBoolean.True;
-            arrivalDateEdit.Properties.DisplayFormat.FormatString = "hh:mm";
+            arrivalDateEdit.Properties.DisplayFormat.FormatString = "dd MMM HH:mm";
             departureDateEdit.Properties.VistaDisplayMode = DefaultBoolean.True;
             departureDateEdit.Properties.VistaEditTime = DefaultBoolean.True;
-            departureDateEdit.Properties.DisplayFormat.FormatString = "hh:mm";
-            var t = new Task(TaskMethod);
+            departureDateEdit.Properties.DisplayFormat.FormatString = "dd MMM HH:mm";
+            var t = new Task(RefreshGridAsync);
             t.Start();
         }
 
-        private void TaskMethod()
+        private void RefreshGridAsync()
         {
             while (true)
             {
-                RefreshGrid();
-                Thread.Sleep(5000);
+                if (flightsGridControl.IsHandleCreated)
+                {RefreshGrid();
+                    Thread.Sleep(3000);
+                }
             }
         }
 
         private void RefreshGrid()
-        {
-            SetControlPropertyThreadSafe(flightsGridControl,"DataSource",new object());
-        }
 
-        private delegate void SetControlPropertyThreadSafeDelegate(
-    Control control,
-    string propertyName,
-    object propertyValue);
-
-        public void SetControlPropertyThreadSafe(
-            Control control,
-            string propertyName,
-            object propertyValue)
         {
-            var actualFlights = _informationPanel.GetFlightsList();
-            if (flightsGridControl.InvokeRequired)
+            try
             {
-                flightsGridControl.Invoke(new SetControlPropertyThreadSafeDelegate(SetControlPropertyThreadSafe),
-                    new object[]
+                Flight[] flights = _informationPanel.GetFlightsList();
+                var flightList = new List<FlightGuiClass>();
+                foreach (Flight flight in flights)
+                {
+                    var newFlight = new FlightGuiClass
                     {
-                        flightsGridControl,
-                        "DataSource", actualFlights
-                    });
+                        FlightNumber = flight.FligthName,
+                        ArriavalTime = flight.arrivalTime,
+                        DepartureTime = flight.takeoffTime,
+                        City = flight.city,
+                        StartRegistration = flight.StartRegistrationTime,
+                        EndRegistration = flight.EndRegistrationTime,
+                        PassengersStandart = flight.EconomPassengersCount,
+                        PassengersVip = flight.VipPassengersCount,
+                        Status = _informationPanel.GetStatus(flight.number)
+                    };
+                    flightList.Add(newFlight);
+                }
+                flightsGridControl.BeginInvoke((Action) (() => flightsGridControl.DataSource = flightList));
+                flightsGridControl.BeginInvoke((Action) (() => flightsGridControl.RefreshDataSource()));
+
+                timeLabel.BeginInvoke(
+                    (Action)
+                        (() =>
+                            timeLabel.Text = "Текущее время: " + _timeService.GetCurrentTime().ToString("dd MMM HH:mm")));
             }
-            else
+            catch
             {
-                flightsGridControl.GetType()
-                    .InvokeMember("DataSource", BindingFlags.SetProperty, null, flightsGridControl,
-                        new object[] {actualFlights});
+                _informationPanel = new WebServiceInformationPanel();
+                _timeService = new MetrologService();
             }
         }
-
 
         private void createFlightButton_Click(object sender, EventArgs e)
         {
-            if (cityComboBox.SelectedItem.ToString() == "Город" || economTextEdit.Text=="" || vipTextEdit.Text=="")
+            if (cityComboBox.SelectedItem.ToString() == "Город" || economTextEdit.Text == "" || vipTextEdit.Text == "" ||
+                flightNameTextEdit.Text == "")
                 return;
             if (arrivalDateEdit.DateTime == DateTime.MinValue)
             {
@@ -95,8 +94,11 @@ namespace InformationPanelGUI
             }
             string cityString = cityComboBox.SelectedItem.ToString();
             Cities city;
-            Cities.TryParse(cityString, out city);
-            _informationPanel.CreateFlight(arrivalDateEdit.DateTime, departureDateEdit.DateTime, city, Int32.Parse(economTextEdit.Text), Int32.Parse(vipTextEdit.Text));
+            Enum.TryParse(cityString, out city);
+            _informationPanel.CreateFlight(flightNameTextEdit.Text,
+                arrivalDateEdit.DateTime.ToString("yyyy-MM-dd HH:mm"),
+                departureDateEdit.DateTime.ToString("yyyy-MM-dd HH:mm"), city, Int32.Parse(economTextEdit.Text),
+                Int32.Parse(vipTextEdit.Text));
             RefreshGrid();
         }
 
