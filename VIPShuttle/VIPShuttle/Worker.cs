@@ -88,11 +88,12 @@ namespace VIPShuttle
                 var car = new Car();
                 cars.Add(car);
 
+                int localCopyOfIndex = i;
                 var t = new Task(() =>
                 {
                     car.GoTo(Garage,Airport);
                     car.GoTo(Airport,serviceZone);
-                    new AircraftGenerator().LoadVipPassengers(serviceZone, (new List<Guid> {passengers[i]}).ToArray());//сажаем пассажира в Генератор Самолетов 
+                    new AircraftGenerator().LoadVipPassengers(serviceZone, (new List<Guid> {passengers[localCopyOfIndex]}).ToArray());//сажаем пассажира в Генератор Самолетов 
                     Logger.SendMessage(1, ComponentName,
                         String.Format("1 пассажир доставлен на борт на площадке {0}.", serviceZone.Number));
                 });
