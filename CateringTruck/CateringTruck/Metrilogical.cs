@@ -63,6 +63,8 @@ namespace CateringTruck
                             MessageReceived(this, new MetrologicalEventArgs() {NewCoef = newCoef});
                         }
                         CurrentCoef = newCoef;
+
+                        Logger.SendMessage(0, Worker.ComponentName, "Новый коэффициент скорости " + newCoef.ToString());
                     }
                 }
             }

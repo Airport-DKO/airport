@@ -10,7 +10,7 @@ namespace Refueler
     public static class Worker
     {
         private static readonly MapObject Garage;
-        private const string ComponentName = "Refueler";
+        public const string ComponentName = "Refueler";
 
         static Worker()
         {

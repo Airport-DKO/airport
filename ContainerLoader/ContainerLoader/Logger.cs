@@ -7,9 +7,11 @@ namespace ContainerLoader
 {
     public static class Logger
     {
+        private static readonly object _lockObject = new object();
+
         public static void SendMessage(int level, string componentName, string message)
         {
-            try
+            lock (_lockObject)
             {
                 var factory = new ConnectionFactory
                 {
@@ -41,14 +43,6 @@ namespace ContainerLoader
                 //передача сообщения в очередь
                 var body = Encoding.UTF8.GetBytes(logMessage); // декодируем в UTF8
                 Channel.BasicPublish("", QueueName, null, body);
-
-
-            }
-            catch (Exception)
-            {
-                var i = 0;
-                i++;
-                return;
             }
         }
     }

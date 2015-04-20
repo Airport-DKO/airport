@@ -8,7 +8,7 @@ namespace FollowMe
     public static class Worker
     {
         private static readonly MapObject Garage;
-        private const string ComponentName = "FollowMe";
+        public const string ComponentName = "FollowMe";
 
         static Worker()
         {

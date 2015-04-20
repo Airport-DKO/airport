@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Web;
 using FollowMe.MetrologServiceVS;
 using RabbitMQ.Client;
 
@@ -59,7 +56,7 @@ namespace FollowMe
                 var ea = _consumer.Queue.Dequeue();
                 var body = ea.Body;
                 var message = Encoding.UTF8.GetString(body);
-                var newCoef = double.Parse(message, CultureInfo.InvariantCulture);
+                var newCoef = float.Parse(message, CultureInfo.InvariantCulture);
                 if (newCoef != CurrentCoef)
                 {
                     if (MessageReceived != null)
@@ -67,6 +64,8 @@ namespace FollowMe
                         MessageReceived(this, new MetrologicalEventArgs() {NewCoef = newCoef});
                     }
                     CurrentCoef = newCoef;
+
+                    Logger.SendMessage(0, Worker.ComponentName, "Новый коэффициент скорости " + newCoef.ToString());
                 }
             }
         }

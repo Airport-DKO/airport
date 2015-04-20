@@ -58,11 +58,13 @@ namespace VIPShuttle
                 var newCoef = float.Parse(message, CultureInfo.InvariantCulture);
                 if (newCoef != CurrentCoef)
                 {
-                    if (MessageReceived != null) // Вот здесь
+                    if (MessageReceived != null)
                     {
-                        MessageReceived(this, new MetrologicalEventArgs() {NewCoef = newCoef});
+                        MessageReceived(this, new MetrologicalEventArgs() { NewCoef = newCoef });
                     }
+
                     CurrentCoef = newCoef;
+                    Logger.SendMessage(0, Worker.ComponentName, "Новый коэффициент скорости " + newCoef.ToString());
                 }
             }
         }

@@ -10,7 +10,7 @@ namespace ContainerLoader
 {
     public static class Worker
     {
-        private const string ComponentName = "ContainerLoader";
+        public const string ComponentName = "ContainerLoader";
         private static SynchronizedCollection<Tuple<Guid, MapObject>> WhoWhere; //список, чтоб запоминать, где какой погрузчик находится (используется для возврата в гараж)
         private static readonly MapObject Garage;
 

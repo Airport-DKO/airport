@@ -10,7 +10,7 @@ namespace PassengerStairs
 {
     public static class Worker
     {
-        private const string ComponentName = "PassengerStairs";
+        public const string ComponentName = "PassengerStairs";
         private static SynchronizedCollection<Tuple<Guid, MapObject>> WhoWhere; //список, чтоб запоминать, где какой трап находится (используется для возврата в гараж)
         private static readonly MapObject Garage;
 
