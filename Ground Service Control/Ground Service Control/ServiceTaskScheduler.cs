@@ -64,11 +64,11 @@ namespace Ground_Service_Control
             var passangersIn = factory.createPassengerBus(ServiceTaskRole.LoadPlane);
             var trapToGarage = factory.createPassengerStairs(ServiceTaskRole.MoveToGarage);
 
-            passangersIn.nextTasks.Add(trapToGarage);
+            vipPassangersIn.nextTasks.Add(trapToGarage);
 
             fuel.nextTasks.Add(trapIn);
-            trapIn.nextTasks.Add(vipPassangersIn);
             trapIn.nextTasks.Add(passangersIn);
+            passangersIn.nextTasks.Add(vipPassangersIn);
 
             passangersOut.nextTasks.Add(food);
             passangersOut.nextTasks.Add(fuel);

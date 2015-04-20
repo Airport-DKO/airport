@@ -156,7 +156,6 @@ namespace Ground_Service_Control
                 if (role == ServiceTaskRole.LoadPlane)
                 {
                     Utils.self().waitTillCheckInFinished(context.flight.number);
-                    Utils.self().sleep(5000);
                     pb.LoadPassengers(context.serviceZone, context.flight.number, taskId);
                     return;
                 }
