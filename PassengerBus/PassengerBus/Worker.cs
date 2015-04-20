@@ -257,7 +257,7 @@ namespace PassengerBus
             {
                 //возвращаем автобусы в гараж
                 Bus localCopyOfBus = bus;
-                var t = new Task(() => localCopyOfBus.GoTo(Airport, Garage));
+                var t = new Task(() => localCopyOfBus.GoTo(serviceZone, Garage));
                 t.Start();
             }
         }
