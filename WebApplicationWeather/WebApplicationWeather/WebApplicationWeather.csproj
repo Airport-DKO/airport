@@ -64,6 +64,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+    <None Include="Properties\PublishProfiles\airport-dko-weather %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\airport-dko-weather.pubxml">
       <SubType>Designer</SubType>
     </None>

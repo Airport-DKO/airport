@@ -63,6 +63,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+    <None Include="Properties\PublishProfiles\airport-dko-gsc %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\airport-dko-gsc.pubxml" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
