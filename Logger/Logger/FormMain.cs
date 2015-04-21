@@ -235,7 +235,7 @@ namespace Logger
                 }
                 catch
                 {
-                    _dataTable.Rows.Add("", "", "", "",  "Нераспознанная строка");
+                    _dataTable.Rows.Add("", "", "", "Нераспознанная строка", s);
                 }
             }
         }
