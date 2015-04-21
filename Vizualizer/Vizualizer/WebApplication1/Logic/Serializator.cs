@@ -11,36 +11,51 @@ namespace WebApplication1.Logic
     {
         public List<CoordinateTuple> DeserializeMap(string xmlPath)
         {
-            var rez = new List<CoordinateTuple>();
-            XmlSerializer deserializer = new XmlSerializer(typeof(List<CoordinateTuple>));
-            StreamReader reader = new StreamReader(xmlPath);
-
+            List<CoordinateTuple> rez;
+            var deserializer = new XmlSerializer(typeof(List<CoordinateTuple>));
+            var reader = new StreamReader(xmlPath);
             try
             {
                 rez = (List<CoordinateTuple>)deserializer.Deserialize(reader);
             }
-            catch
+            catch (Exception e)
             {
-                rez[0] = new CoordinateTuple { X = 0, Y = 0 };
+                throw new Exception(e.Message);
             }
+            reader.Close();
+            return rez;
+        }
+        public List<Route> DeserializeRoute(string xmlPath)
+        {
+            List<Route> rez;
+            var deserializer = new XmlSerializer(typeof(List<Route>));
+            var reader = new StreamReader(xmlPath);
 
+            try
+            {
+                rez = (List<Route>)deserializer.Deserialize(reader);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
             reader.Close();
             return rez;
         }
 
         public List<Location> DesrrializeMapObject(string xmlPath)
         {
-            var list = new List<Location>();
-            XmlSerializer deserializer = new XmlSerializer(typeof(List<Location>));
-            StreamReader reader = new StreamReader(xmlPath);
+            List<Location> list;
+            var deserializer = new XmlSerializer(typeof(List<Location>));
+            var reader = new StreamReader(xmlPath);
             try
             {
                 list = (List<Location>)deserializer.Deserialize(reader);
 
             }
-            catch
+            catch (Exception e)
             {
-                list[0] = new Location { MapObj = new MapObject { Type = MapObjectType.Airport, number = 1 }, Position = new CoordinateTuple { X = 1, Y = 1 } };
+                throw new Exception(e.Message);
             }
             reader.Close();
             return list;

@@ -1,1 +1,1 @@
-﻿<%@ WebService Language="C#" CodeBehind="visualisator.asmx.cs" Class="WebApplication1.visualisator" %>
+﻿<%@ WebService Language="C#" CodeBehind="Visualisator.asmx.cs" Class="WebApplication1.Visualisator" %>

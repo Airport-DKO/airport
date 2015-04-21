@@ -32,24 +32,24 @@ namespace WebApplication1.Logic
         [XmlElement("Type")]
         public MapObjectType Type { get; set; }
         [XmlElement("number")]
-        public int number { get; set; }
+        public int Number { get; set; }
     }
 
     [Serializable()]
     public class CoordinateTuple
     {
-        private int x;
+        private int _x;
         [XmlElement("X")]
         public int X
         {
-            get { return x; } set { if (value > 0) x = value; }
+            get { return _x; } set { if (value > 0) _x = value; }
         }
 
-        private int y;
+        private int _y;
         [XmlElement("Y")]
         public int Y
         {
-            get { return y; } set { if (value > 0) y = value; }
+            get { return _y; } set { if (value > 0) _y = value; }
         }
 
     }
@@ -66,7 +66,8 @@ namespace WebApplication1.Logic
         PassengerStairs,
         PassengerBus,
         VipShuttle,
-        SnowRemovalVehicle
+        SnowRemovalVehicle,
+        Refueler
     }
 
     public enum MapObjectType

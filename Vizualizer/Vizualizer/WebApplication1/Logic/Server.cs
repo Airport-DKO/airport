@@ -17,46 +17,54 @@ namespace WebApplication1.Logic
         private static readonly Lazy<Server> _instance =
             new Lazy<Server>(() => new Server());
 
-        public static Server Instance
-        {
-            get { return _instance.Value; }
-        }
+        public static Server Instance => _instance.Value;
 
         #endregion
 
-        public List<TcpClient> clients;
+        public List<TcpClient> Clients;
         public void SendMessage(string message)
         {
-            Thread thread = new Thread(new ParameterizedThreadStart(SendThread));
-            thread.Start(message);
+            new Thread(SendThread).Start(message);
         }
         private Server()
         {
-            clients = new List<TcpClient>();
-            Thread listern = new Thread(new ParameterizedThreadStart(ListernerThread));
-            listern.Start(9050);
+            Clients = new List<TcpClient>();
+            new Thread(ListernerThread).Start(9050);
+            new Thread(SupportThread).Start();
         }
-        static void ListernerThread(Object Port)
+
+        static void SupportThread()
         {
-            TcpListener Listener;
-            Listener = new TcpListener(IPAddress.Any, (int)Port);
-            Listener.Start();
-            string map = MyMap.GetStringMap();
-            byte[] buffer = Encoding.ASCII.GetBytes(map);
             while (true)
             {
-                TcpClient Client = Listener.AcceptTcpClient();
-                Thread clientThread = new Thread(new ParameterizedThreadStart(ClientThread));
-                clientThread.Start(Client);
+                Instance.SendMessage("1.");
+                Thread.Sleep(10000);
             }
         }
 
-        static void ClientThread(Object client)
+        static void ListernerThread(object port)
         {
+            if (port == null) return;
+            var listener = new TcpListener(IPAddress.Any, (int)port);
+            listener.Start();
+            while (true)
+            {
+                var client = listener.AcceptTcpClient();
+                new Thread(ClientThread).Start(client);
+            }
+        }
+
+        static void ClientThread(object client)
+        {
+            if (client == null) return;
             var Client = (TcpClient)client;
-            Encoding enc = Encoding.GetEncoding("us-ascii");
-            string map = MyMap.GetStringMap();
-            byte[] buffer = Encoding.ASCII.GetBytes(map);
+            var enc = Encoding.GetEncoding("us-ascii");
+
+            #region Удалить перед релизом
+            Data.Data.Instance.RefreshMapString();
+            #endregion
+
+            var buffer = Encoding.ASCII.GetBytes(Data.Data.Instance.MapString);
             while (true)
             {
                 var recieve = new byte[1000];
@@ -69,8 +77,7 @@ namespace WebApplication1.Logic
                     Client.Close();
                     break;
                 }
-                var str = enc.GetString(recieve);
-                str = str.Trim('\0');
+                var str = enc.GetString(recieve).Trim('\0');
                 if (str == "200")
                 {
                     try
@@ -84,40 +91,34 @@ namespace WebApplication1.Logic
                     }
                 }
                 else if(str == "201")
-                    lock (Server.Instance.clients)
+                    lock (Instance.Clients)
                     {
-                        Server.Instance.clients.Add(Client);
+                        Instance.Clients.Add(Client);
                     }
             }
         }
 
-        static void SendThread(Object Msg)
+        static void SendThread(object msg)
         {
-            string message = Msg.ToString();
-            byte[] buffer = Encoding.ASCII.GetBytes(message);
+            var buffer = Encoding.ASCII.GetBytes(msg.ToString());
 
-            lock (Server.Instance.clients)
+            lock (Instance.Clients)
             {
-                for(var i = 0; i < Instance.clients.Count; i++)
+                for(var i = 0; i < Instance.Clients.Count; i++)
                 {
                     try
                     {
-                        Instance.clients[i].GetStream().Write(buffer, 0, buffer.Length);
+                        Instance.Clients[i].GetStream().Write(buffer, 0, buffer.Length);
                     }
                     catch
                     {
-                        Instance.clients[i].Close();
-                        Instance.clients.Remove(Instance.clients[i]);
+                        Instance.Clients[i].Close();
+                        Instance.Clients.Remove(Instance.Clients[i]);
                     }
                 }
                 
             }
         }
 
-
-        
-
-        
     }
-
 }
