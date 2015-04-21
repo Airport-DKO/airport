@@ -9,6 +9,8 @@ namespace Aircraft_Generator
         private static  string QueueName;
         private static  IModel Channel;
 
+        private static object _lockObject = new object();
+
         static Logger()
         {
 
@@ -16,36 +18,39 @@ namespace Aircraft_Generator
 
         public static void SendMessage(int level, string componentName, string message, DateTime dateTime)
         {
-            var factory = new ConnectionFactory
+            lock (_lockObject)
             {
-                UserName = "tester",
-                Password = "tester",
-                VirtualHost = "/",
-                HostName = "airport-dko-1.cloudapp.net",
-                Port = 5672
-            };
+                var factory = new ConnectionFactory
+                {
+                    UserName = "tester",
+                    Password = "tester",
+                    VirtualHost = "/",
+                    HostName = "airport-dko-1.cloudapp.net",
+                    Port = 5672
+                };
 
-            Channel = factory.CreateConnection().CreateModel();
+                Channel = factory.CreateConnection().CreateModel();
 
-            QueueName = "LoggerQueue";
+                QueueName = "LoggerQueue";
 
-            //декларируем имя очереди
-            Channel.QueueDeclare(QueueName, false, false, false, null);
+                //декларируем имя очереди
+                Channel.QueueDeclare(QueueName, false, false, false, null);
 
-            DateTime dt = dateTime; //узнаем время у метрологической службы
+                DateTime dt = dateTime; //узнаем время у метрологической службы
 
-            /*Кладем сообщения строго в очередь LoggerQueue сторого в указанном ниже формате:
+                /*Кладем сообщения строго в очередь LoggerQueue сторого в указанном ниже формате:
             07.04.2015_23:28:22_1_TestMQ_Hello World!*/
-            string logMessage = String.Format("{0}_{1}_{2}_{3}_{4}",
-                dt.ToString("dd.MM.yyyy"),
-                dt.ToString("HH:mm:ss"),
-                level,
-                componentName,
-                message);
+                string logMessage = String.Format("{0}_{1}_{2}_{3}_{4}",
+                    dt.ToString("dd.MM.yyyy"),
+                    dt.ToString("HH:mm:ss"),
+                    level,
+                    componentName,
+                    message);
 
-            //передача сообщения в очередь
-            var body = Encoding.UTF8.GetBytes(logMessage); // декодируем в UTF8
-            Channel.BasicPublish("", QueueName, null, body);
+                //передача сообщения в очередь
+                var body = Encoding.UTF8.GetBytes(logMessage); // декодируем в UTF8
+                Channel.BasicPublish("", QueueName, null, body);
+            }
         }
     }
 }

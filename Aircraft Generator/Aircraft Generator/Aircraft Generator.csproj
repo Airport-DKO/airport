@@ -64,6 +64,8 @@
   <ItemGroup>
     <Content Include="packages.config" />
     <None Include="Properties\PublishProfiles\airport-dko-aircraft-generator.pubxml" />
+    <None Include="Properties\PublishProfiles\airport-portable-test %282%29.pubxml" />
+    <None Include="Properties\PublishProfiles\airport-portable-test.pubxml" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
