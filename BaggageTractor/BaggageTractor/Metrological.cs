@@ -34,6 +34,7 @@ namespace BaggageTractor
                 Password = "tester",
                 VirtualHost = "/",
                 HostName = "airport-dko-1.cloudapp.net",
+                AutomaticRecoveryEnabled = true,
                 Port = 5672
             };
 

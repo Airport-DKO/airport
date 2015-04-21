@@ -61,6 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+    <None Include="Properties\PublishProfiles\airport-dko-services %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\airport-dko-services.pubxml" />
     <None Include="Web References\MetrologService\MetrologService.wsdl" />
     <Content Include="Web References\MetrologService\Reference.map">
@@ -161,7 +162,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>5230</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
