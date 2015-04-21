@@ -138,7 +138,7 @@ namespace Ground_Movement_Control
             {
                 bool result = CheckVacantPosition(runwayLocation.Position.X, runwayLocation.Position.Y,
                     MoveObjectType.Plane,
-                    planeGuid, 1000, true);
+                    planeGuid, 150, true);
                 if (!result)
                 {
                     Debug.WriteLine("Declined to land plane {0} - runway is hold", planeGuid);
@@ -154,7 +154,7 @@ namespace Ground_Movement_Control
 
                 _planesServiceZones.Add(new Tuple<Guid, MapObject>(planeGuid, serviceZone));
                 result = CheckVacantPosition(runwayLocation.Position.X, runwayLocation.Position.Y, MoveObjectType.Plane,
-                    planeGuid, 1000);
+                    planeGuid, 150);
                 if (result)
                 {
                     Debug.WriteLine("Accepted to land plane {0}", planeGuid);

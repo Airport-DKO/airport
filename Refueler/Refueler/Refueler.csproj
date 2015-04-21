@@ -64,6 +64,7 @@
   <ItemGroup>
     <Content Include="packages.config" />
     <None Include="Properties\PublishProfiles\airport-dko-services %282%29.pubxml" />
+    <None Include="Properties\PublishProfiles\airport-dko-services %283%29.pubxml" />
     <None Include="Properties\PublishProfiles\airport-dko-services.pubxml" />
     <Content Include="Web References\GmcVS\MapObject.datasource">
       <DependentUpon>Reference.map</DependentUpon>
@@ -191,7 +192,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>3202</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>

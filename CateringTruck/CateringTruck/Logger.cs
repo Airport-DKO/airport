@@ -21,6 +21,7 @@ namespace CateringTruck
                     Password = "tester1",
                     VirtualHost = "/",
                     HostName = "airport-dko-1.cloudapp.net",
+                    AutomaticRecoveryEnabled = true,
                     Port = 5672
                 };
 

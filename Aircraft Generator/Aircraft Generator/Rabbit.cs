@@ -36,6 +36,7 @@ namespace Aircraft_Generator
                 Password = "tester",
                 VirtualHost = "/",
                 HostName = "airport-dko-1.cloudapp.net",
+                AutomaticRecoveryEnabled = true,
                 Port = 5672
             };
 
@@ -70,6 +71,8 @@ namespace Aircraft_Generator
                             MessageReceived(this, new MetrologicalEventArgs {NewCoef = newCoef});
                         }
                         CurrentCoef = newCoef;
+                        Logger.SendMessage(0, "AircraftGenerator", String.Format("Получили новый коэффициент скорости {0}", newCoef),
+                    DateTime.MinValue);
                     }
                 }
             }
@@ -85,6 +88,7 @@ namespace Aircraft_Generator
                     Password = "tester",
                     VirtualHost = "/",
                     HostName = "airport-dko-1.cloudapp.net",
+                    AutomaticRecoveryEnabled = true,
                     Port = 5672
                 };
 
