@@ -25,7 +25,7 @@ namespace Tower_Control
 
         public bool LandingRequest(Guid planeId)
         {
-            return _groundMovementControl.CheckRunwayAwailability(planeId);
+            return _groundMovementControl.CheckRunwayAwailability(planeId, true);
         }
     }
 }

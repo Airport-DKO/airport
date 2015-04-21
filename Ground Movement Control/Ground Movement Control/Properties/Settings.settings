@@ -5,8 +5,14 @@
     <Setting Name="Ground_Movement_Control_GscWs_GSC" Type="(Web Service URL)" Scope="Application">
       <Value Profile="(Default)">http://airport-dko-gsc.azurewebsites.net/gsc.asmx</Value>
     </Setting>
-    <Setting Name="Ground_Movement_Control_VizualizatorWs_visualisator" Type="(Web Service URL)" Scope="Application">
-      <Value Profile="(Default)">http://airport-dko-1.cloudapp.net/visualisator.asmx</Value>
+    <Setting Name="Ground_Movement_Control_VizualizatorWs_Visualisator" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://airport-dko-1.cloudapp.net/Visualisator.asmx</Value>
+    </Setting>
+    <Setting Name="Ground_Movement_Control_SnowPlugWs_Snowplug" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://airport-dko-services.azurewebsites.net/snowplug.asmx</Value>
+    </Setting>
+    <Setting Name="Ground_Movement_Control_MetrologWs_MetrologService" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://airport-dko-metrological.azurewebsites.net/MetrologService.asmx</Value>
     </Setting>
   </Settings>
 </SettingsFile>

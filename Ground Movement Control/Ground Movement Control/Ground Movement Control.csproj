@@ -70,6 +70,17 @@
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
+    <None Include="Web References\MetrologWs\MetrologService.disco" />
+    <Content Include="Web References\SnowPlugWs\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </Content>
+    <None Include="Web References\MetrologWs\MetrologService.wsdl" />
+    <Content Include="Web References\MetrologWs\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </Content>
+    <None Include="Web References\SnowPlugWs\snowplug.disco" />
     <Content Include="Web References\VizualizatorWs\CoordinateTuple.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </Content>
@@ -83,7 +94,8 @@
     <Content Include="Web References\VizualizatorWs\Route.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </Content>
-    <None Include="Web References\VizualizatorWs\visualisator.wsdl" />
+    <None Include="Web References\SnowPlugWs\snowplug.wsdl" />
+    <None Include="Web References\VizualizatorWs\Visualisator.wsdl" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -94,7 +106,7 @@
   <ItemGroup>
     <Content Include="GMC.asmx" />
     <None Include="Web References\GscWs\gsc.disco" />
-    <None Include="Web References\VizualizatorWs\visualisator.disco" />
+    <None Include="Web References\VizualizatorWs\Visualisator.disco" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -124,6 +136,16 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.map</DependentUpon>
     </Compile>
+    <Compile Include="Web References\MetrologWs\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\SnowPlugWs\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
     <Compile Include="Web References\VizualizatorWs\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -137,16 +159,16 @@
     <WebReferences Include="Web References\" />
   </ItemGroup>
   <ItemGroup>
-    <WebReferenceUrl Include="http://airport-dko-1.cloudapp.net/visualisator.asmx">
+    <WebReferenceUrl Include="http://airport-dko-1.cloudapp.net/Visualisator.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\VizualizatorWs\</RelPath>
-      <UpdateFromURL>http://airport-dko-1.cloudapp.net/visualisator.asmx</UpdateFromURL>
+      <UpdateFromURL>http://airport-dko-1.cloudapp.net/Visualisator.asmx</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>
       </CachedDynamicPropName>
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
-      <CachedSettingsPropName>Ground_Movement_Control_VizualizatorWs_visualisator</CachedSettingsPropName>
+      <CachedSettingsPropName>Ground_Movement_Control_VizualizatorWs_Visualisator</CachedSettingsPropName>
     </WebReferenceUrl>
     <WebReferenceUrl Include="http://airport-dko-gsc.azurewebsites.net/gsc.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
@@ -158,6 +180,28 @@
       </CachedDynamicPropName>
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>Ground_Movement_Control_GscWs_GSC</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://airport-dko-metrological.azurewebsites.net/MetrologService.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\MetrologWs\</RelPath>
+      <UpdateFromURL>http://airport-dko-metrological.azurewebsites.net/MetrologService.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Ground_Movement_Control_MetrologWs_MetrologService</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://airport-dko-services.azurewebsites.net/snowplug.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\SnowPlugWs\</RelPath>
+      <UpdateFromURL>http://airport-dko-services.azurewebsites.net/snowplug.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Ground_Movement_Control_SnowPlugWs_Snowplug</CachedSettingsPropName>
     </WebReferenceUrl>
   </ItemGroup>
   <ItemGroup>

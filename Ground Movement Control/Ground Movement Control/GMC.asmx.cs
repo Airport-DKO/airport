@@ -47,9 +47,9 @@ namespace Ground_Movement_Control
         /// <param name="planeGuid">Guid самолета, который хочет сесть</param>
         /// <returns>null - если запрет, MapObject полосы в положительном случае</returns>
         [WebMethod]
-        public bool CheckRunwayAwailability(Guid planeGuid)
+        public bool CheckRunwayAwailability(Guid planeGuid, bool isArrival)
         {
-            return Core.Instance.CheckRunwayAwailability(planeGuid);
+            return Core.Instance.CheckRunwayAwailability(planeGuid, isArrival);
         }
 
         /// <summary>
@@ -92,6 +92,13 @@ namespace Ground_Movement_Control
         {
             return Core.Instance.GetServiceZones();
         }
+
+        [WebMethod]
+        public void LetitSnow()
+        {
+            Core.Instance.LetItSnow();
+        }
+
 
         [WebMethod]
         public void SnowCleanFinished()

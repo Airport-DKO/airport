@@ -211,7 +211,7 @@ namespace Aircraft_Generator
         {
             while (true)
             {
-                if (_gmc.CheckRunwayAwailability(plane.Id))
+                if (_gmc.CheckRunwayAwailability(plane.Id, false))
                 {
                     _panel.ReadyToTakeOff(plane.Flight.number);
                     break;
@@ -243,7 +243,7 @@ namespace Aircraft_Generator
                         coordinateTuple = coordinate;
                         break;
                     }
-                    Sleep(2000);
+                    Sleep(5000);
                 }
             }
 

@@ -26,8 +26,8 @@ namespace Ground_Movement_Control.VizualizatorWs {
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.34209")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Web.Services.WebServiceBindingAttribute(Name="visualisatorSoap", Namespace="http://airport-dko-1.cloudapp.net/")]
-    public partial class visualisator : System.Web.Services.Protocols.SoapHttpClientProtocol {
+    [System.Web.Services.WebServiceBindingAttribute(Name="VisualisatorSoap", Namespace="http://airport-dko-1.cloudapp.net/")]
+    public partial class Visualisator : System.Web.Services.Protocols.SoapHttpClientProtocol {
         
         private System.Threading.SendOrPostCallback GetMapOperationCompleted;
         
@@ -44,8 +44,8 @@ namespace Ground_Movement_Control.VizualizatorWs {
         private bool useDefaultCredentialsSetExplicitly;
         
         /// <remarks/>
-        public visualisator() {
-            this.Url = global::Ground_Movement_Control.Properties.Settings.Default.Ground_Movement_Control_VizualizatorWs_visualisator;
+        public Visualisator() {
+            this.Url = global::Ground_Movement_Control.Properties.Settings.Default.Ground_Movement_Control_VizualizatorWs_Visualisator;
             if ((this.IsLocalFileSystemWebService(this.Url) == true)) {
                 this.UseDefaultCredentials = true;
                 this.useDefaultCredentialsSetExplicitly = false;
@@ -180,27 +180,27 @@ namespace Ground_Movement_Control.VizualizatorWs {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://airport-dko-1.cloudapp.net/MoveObject", RequestNamespace="http://airport-dko-1.cloudapp.net/", ResponseNamespace="http://airport-dko-1.cloudapp.net/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public void MoveObject(MoveObjectType type, System.Guid objectID, CoordinateTuple newPosition, int speed) {
+        public void MoveObject(MoveObjectType type, System.Guid objectId, CoordinateTuple newPosition, int speed) {
             this.Invoke("MoveObject", new object[] {
                         type,
-                        objectID,
+                        objectId,
                         newPosition,
                         speed});
         }
         
         /// <remarks/>
-        public void MoveObjectAsync(MoveObjectType type, System.Guid objectID, CoordinateTuple newPosition, int speed) {
-            this.MoveObjectAsync(type, objectID, newPosition, speed, null);
+        public void MoveObjectAsync(MoveObjectType type, System.Guid objectId, CoordinateTuple newPosition, int speed) {
+            this.MoveObjectAsync(type, objectId, newPosition, speed, null);
         }
         
         /// <remarks/>
-        public void MoveObjectAsync(MoveObjectType type, System.Guid objectID, CoordinateTuple newPosition, int speed, object userState) {
+        public void MoveObjectAsync(MoveObjectType type, System.Guid objectId, CoordinateTuple newPosition, int speed, object userState) {
             if ((this.MoveObjectOperationCompleted == null)) {
                 this.MoveObjectOperationCompleted = new System.Threading.SendOrPostCallback(this.OnMoveObjectOperationCompleted);
             }
             this.InvokeAsync("MoveObject", new object[] {
                         type,
-                        objectID,
+                        objectId,
                         newPosition,
                         speed}, this.MoveObjectOperationCompleted, userState);
         }

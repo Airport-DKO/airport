@@ -80,6 +80,7 @@
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="1" maxOccurs="1" name="planeGuid" type="s1:guid" />
+            <s:element minOccurs="1" maxOccurs="1" name="isArrival" type="s:boolean" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -140,6 +141,12 @@
           <s:element minOccurs="0" maxOccurs="unbounded" name="MapObject" nillable="true" type="tns:MapObject" />
         </s:sequence>
       </s:complexType>
+      <s:element name="LetitSnow">
+        <s:complexType />
+      </s:element>
+      <s:element name="LetitSnowResponse">
+        <s:complexType />
+      </s:element>
       <s:element name="SnowCleanFinished">
         <s:complexType />
       </s:element>
@@ -203,6 +210,12 @@
   <wsdl:message name="GetServiceZonesSoapOut">
     <wsdl:part name="parameters" element="tns:GetServiceZonesResponse" />
   </wsdl:message>
+  <wsdl:message name="LetitSnowSoapIn">
+    <wsdl:part name="parameters" element="tns:LetitSnow" />
+  </wsdl:message>
+  <wsdl:message name="LetitSnowSoapOut">
+    <wsdl:part name="parameters" element="tns:LetitSnowResponse" />
+  </wsdl:message>
   <wsdl:message name="SnowCleanFinishedSoapIn">
     <wsdl:part name="parameters" element="tns:SnowCleanFinished" />
   </wsdl:message>
@@ -243,6 +256,10 @@
     <wsdl:operation name="GetServiceZones">
       <wsdl:input message="tns:GetServiceZonesSoapIn" />
       <wsdl:output message="tns:GetServiceZonesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="LetitSnow">
+      <wsdl:input message="tns:LetitSnowSoapIn" />
+      <wsdl:output message="tns:LetitSnowSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="SnowCleanFinished">
       <wsdl:input message="tns:SnowCleanFinishedSoapIn" />
@@ -311,6 +328,15 @@
     </wsdl:operation>
     <wsdl:operation name="GetServiceZones">
       <soap:operation soapAction="Airport/GetServiceZones" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LetitSnow">
+      <soap:operation soapAction="Airport/LetitSnow" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -395,6 +421,15 @@
     </wsdl:operation>
     <wsdl:operation name="GetServiceZones">
       <soap12:operation soapAction="Airport/GetServiceZones" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LetitSnow">
+      <soap12:operation soapAction="Airport/LetitSnow" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

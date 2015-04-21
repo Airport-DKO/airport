@@ -85,7 +85,7 @@
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="1" maxOccurs="1" name="type" type="tns:MoveObjectType" />
-            <s:element minOccurs="1" maxOccurs="1" name="objectID" type="s1:guid" />
+            <s:element minOccurs="1" maxOccurs="1" name="objectId" type="s1:guid" />
             <s:element minOccurs="0" maxOccurs="1" name="newPosition" type="tns:CoordinateTuple" />
             <s:element minOccurs="1" maxOccurs="1" name="speed" type="s:int" />
           </s:sequence>
@@ -167,7 +167,7 @@
   <wsdl:message name="ResetSoapOut">
     <wsdl:part name="parameters" element="tns:ResetResponse" />
   </wsdl:message>
-  <wsdl:portType name="visualisatorSoap">
+  <wsdl:portType name="VisualisatorSoap">
     <wsdl:operation name="GetMap">
       <wsdl:input message="tns:GetMapSoapIn" />
       <wsdl:output message="tns:GetMapSoapOut" />
@@ -193,7 +193,7 @@
       <wsdl:output message="tns:ResetSoapOut" />
     </wsdl:operation>
   </wsdl:portType>
-  <wsdl:binding name="visualisatorSoap" type="tns:visualisatorSoap">
+  <wsdl:binding name="VisualisatorSoap" type="tns:VisualisatorSoap">
     <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
     <wsdl:operation name="GetMap">
       <soap:operation soapAction="http://airport-dko-1.cloudapp.net/GetMap" style="document" />
@@ -250,7 +250,7 @@
       </wsdl:output>
     </wsdl:operation>
   </wsdl:binding>
-  <wsdl:binding name="visualisatorSoap12" type="tns:visualisatorSoap">
+  <wsdl:binding name="VisualisatorSoap12" type="tns:VisualisatorSoap">
     <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
     <wsdl:operation name="GetMap">
       <soap12:operation soapAction="http://airport-dko-1.cloudapp.net/GetMap" style="document" />
@@ -307,12 +307,12 @@
       </wsdl:output>
     </wsdl:operation>
   </wsdl:binding>
-  <wsdl:service name="visualisator">
-    <wsdl:port name="visualisatorSoap" binding="tns:visualisatorSoap">
-      <soap:address location="http://airport-dko-1.cloudapp.net/visualisator.asmx" />
+  <wsdl:service name="Visualisator">
+    <wsdl:port name="VisualisatorSoap" binding="tns:VisualisatorSoap">
+      <soap:address location="http://airport-dko-1.cloudapp.net/Visualisator.asmx" />
     </wsdl:port>
-    <wsdl:port name="visualisatorSoap12" binding="tns:visualisatorSoap12">
-      <soap12:address location="http://airport-dko-1.cloudapp.net/visualisator.asmx" />
+    <wsdl:port name="VisualisatorSoap12" binding="tns:VisualisatorSoap12">
+      <soap12:address location="http://airport-dko-1.cloudapp.net/Visualisator.asmx" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

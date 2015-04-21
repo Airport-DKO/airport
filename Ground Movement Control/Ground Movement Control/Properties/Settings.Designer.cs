@@ -36,10 +36,30 @@ namespace Ground_Movement_Control.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://airport-dko-1.cloudapp.net/visualisator.asmx")]
-        public string Ground_Movement_Control_VizualizatorWs_visualisator {
+        [global::System.Configuration.DefaultSettingValueAttribute("http://airport-dko-1.cloudapp.net/Visualisator.asmx")]
+        public string Ground_Movement_Control_VizualizatorWs_Visualisator {
             get {
-                return ((string)(this["Ground_Movement_Control_VizualizatorWs_visualisator"]));
+                return ((string)(this["Ground_Movement_Control_VizualizatorWs_Visualisator"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://airport-dko-services.azurewebsites.net/snowplug.asmx")]
+        public string Ground_Movement_Control_SnowPlugWs_Snowplug {
+            get {
+                return ((string)(this["Ground_Movement_Control_SnowPlugWs_Snowplug"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://airport-dko-metrological.azurewebsites.net/MetrologService.asmx")]
+        public string Ground_Movement_Control_MetrologWs_MetrologService {
+            get {
+                return ((string)(this["Ground_Movement_Control_MetrologWs_MetrologService"]));
             }
         }
     }
