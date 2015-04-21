@@ -43,6 +43,8 @@ namespace Aircraft_Generator.GmcVs {
         
         private System.Threading.SendOrPostCallback GetServiceZonesOperationCompleted;
         
+        private System.Threading.SendOrPostCallback LetitSnowOperationCompleted;
+        
         private System.Threading.SendOrPostCallback SnowCleanFinishedOperationCompleted;
         
         private System.Threading.SendOrPostCallback ResetOperationCompleted;
@@ -105,6 +107,9 @@ namespace Aircraft_Generator.GmcVs {
         
         /// <remarks/>
         public event GetServiceZonesCompletedEventHandler GetServiceZonesCompleted;
+        
+        /// <remarks/>
+        public event LetitSnowCompletedEventHandler LetitSnowCompleted;
         
         /// <remarks/>
         public event SnowCleanFinishedCompletedEventHandler SnowCleanFinishedCompleted;
@@ -180,24 +185,26 @@ namespace Aircraft_Generator.GmcVs {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("Airport/CheckRunwayAwailability", RequestNamespace="Airport", ResponseNamespace="Airport", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public bool CheckRunwayAwailability(System.Guid planeGuid) {
+        public bool CheckRunwayAwailability(System.Guid planeGuid, bool isArrival) {
             object[] results = this.Invoke("CheckRunwayAwailability", new object[] {
-                        planeGuid});
+                        planeGuid,
+                        isArrival});
             return ((bool)(results[0]));
         }
         
         /// <remarks/>
-        public void CheckRunwayAwailabilityAsync(System.Guid planeGuid) {
-            this.CheckRunwayAwailabilityAsync(planeGuid, null);
+        public void CheckRunwayAwailabilityAsync(System.Guid planeGuid, bool isArrival) {
+            this.CheckRunwayAwailabilityAsync(planeGuid, isArrival, null);
         }
         
         /// <remarks/>
-        public void CheckRunwayAwailabilityAsync(System.Guid planeGuid, object userState) {
+        public void CheckRunwayAwailabilityAsync(System.Guid planeGuid, bool isArrival, object userState) {
             if ((this.CheckRunwayAwailabilityOperationCompleted == null)) {
                 this.CheckRunwayAwailabilityOperationCompleted = new System.Threading.SendOrPostCallback(this.OnCheckRunwayAwailabilityOperationCompleted);
             }
             this.InvokeAsync("CheckRunwayAwailability", new object[] {
-                        planeGuid}, this.CheckRunwayAwailabilityOperationCompleted, userState);
+                        planeGuid,
+                        isArrival}, this.CheckRunwayAwailabilityOperationCompleted, userState);
         }
         
         private void OnCheckRunwayAwailabilityOperationCompleted(object arg) {
@@ -317,6 +324,32 @@ namespace Aircraft_Generator.GmcVs {
             if ((this.GetServiceZonesCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.GetServiceZonesCompleted(this, new GetServiceZonesCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("Airport/LetitSnow", RequestNamespace="Airport", ResponseNamespace="Airport", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public void LetitSnow() {
+            this.Invoke("LetitSnow", new object[0]);
+        }
+        
+        /// <remarks/>
+        public void LetitSnowAsync() {
+            this.LetitSnowAsync(null);
+        }
+        
+        /// <remarks/>
+        public void LetitSnowAsync(object userState) {
+            if ((this.LetitSnowOperationCompleted == null)) {
+                this.LetitSnowOperationCompleted = new System.Threading.SendOrPostCallback(this.OnLetitSnowOperationCompleted);
+            }
+            this.InvokeAsync("LetitSnow", new object[0], this.LetitSnowOperationCompleted, userState);
+        }
+        
+        private void OnLetitSnowOperationCompleted(object arg) {
+            if ((this.LetitSnowCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.LetitSnowCompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -678,6 +711,10 @@ namespace Aircraft_Generator.GmcVs {
             }
         }
     }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.34209")]
+    public delegate void LetitSnowCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.34209")]

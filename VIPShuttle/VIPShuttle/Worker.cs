@@ -14,7 +14,7 @@ namespace VIPShuttle
     {
         private static readonly MapObject Garage;
         private static readonly MapObject Airport;
-        private const string ComponentName = "VIPShuttle";
+        public const string ComponentName = "VIPShuttle";
 
         static Worker()
         {

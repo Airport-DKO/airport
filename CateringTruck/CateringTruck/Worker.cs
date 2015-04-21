@@ -10,7 +10,7 @@ namespace CateringTruck
     public static class Worker
     {
         private static readonly MapObject Garage;
-        private const string ComponentName = "CateringTruck";
+        public const string ComponentName = "CateringTruck";
 
         static Worker()
         {

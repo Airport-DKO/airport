@@ -48,6 +48,11 @@ namespace Snowplug
             channel.BasicConsume("TC_SnowremovalVehicle", true, _consumer);
             var listenTask = new Task(ListenQueue);
             listenTask.Start();
+
+            var ea = _consumer.Queue.Dequeue();
+            var body = ea.Body;
+            var message = Encoding.UTF8.GetString(body);
+            CurrentCoef = float.Parse(message, CultureInfo.InvariantCulture);
         }
 
         private void ListenQueue()

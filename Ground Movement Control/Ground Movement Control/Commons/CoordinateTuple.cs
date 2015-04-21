@@ -33,6 +33,21 @@ namespace Ground_Movement_Control.Commons
             return tuple;
         }
 
+        public static implicit operator CoordinateTuple(SnowPlugWs.CoordinateTuple t)
+        {
+            var tuple = new CoordinateTuple(t.X, t.Y);
+            return tuple;
+        }
+
+
+
+        public static implicit operator SnowPlugWs.CoordinateTuple(CoordinateTuple t)
+        {
+            var tuple = new SnowPlugWs.CoordinateTuple();
+            tuple.X = t.X;
+            tuple.Y = t.Y;
+            return tuple;
+        }
 
     }
 }

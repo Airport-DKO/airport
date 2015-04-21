@@ -10,6 +10,8 @@ using System.Windows.Forms;
 using System.Threading;
 using WeatherGUI.Weather;
 
+
+
 namespace WeatherGUI
 {
     public partial class Form1 : Form
@@ -17,6 +19,8 @@ namespace WeatherGUI
         private Weather.WebServiceWeather w = new Weather.WebServiceWeather();
         delegate void enbl(bool b);
         delegate void rename(string s);
+
+        const int TIME = 60000;
 
         public Form1()
         {
@@ -32,6 +36,33 @@ namespace WeatherGUI
             label3.Text = "Cover snow:";
             label4.Text = "Current temp:";
             label5.Text = "getting...";
+            label6.Text = "getting...";
+            comboBox1.Items.Add("Tokyo");
+            comboBox1.Items.Add("Kyiv");
+            comboBox1.Items.Add("Whitecourt");
+            comboBox1.Items.Add("Roma");
+            comboBox1.Items.Add("Washington");
+            comboBox1.Items.Add("Minsk");
+            comboBox1.Items.Add("Almaty");
+            comboBox1.SelectedIndex = 1;
+
+            //new Thread(() =>
+            //{
+            //    while (true)
+            //    {
+            //        try
+            //        {
+            //            label6.Invoke(new rename((b) => label6.Text = b), w.GetWindFromCity(comboBox1.SelectedItem.ToString()).ToString());
+
+            //        }
+            //        catch
+            //        {
+            //            break;
+            //        }
+            //        Thread.Sleep(1000);
+
+            //    }
+            //}).Start();
 
             new Thread(() =>
             {
@@ -46,11 +77,11 @@ namespace WeatherGUI
                     {
                         break;
                     }
-                    Thread.Sleep(3000);
+                    Thread.Sleep(TIME);
                     
                 }
-                    //label5.Text = w.GetTemperature().ToString();
             }).Start();
+            
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -101,7 +132,6 @@ namespace WeatherGUI
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -119,11 +149,15 @@ namespace WeatherGUI
                     {
                         break;
                     }
-                    Thread.Sleep(3000);
+                    Thread.Sleep(TIME);
 
                 }
-                //label5.Text = w.GetTemperature().ToString();
             }).Start();
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            w.SetWind(comboBox1.SelectedItem.ToString(), Int32.Parse(textBox2.Text));
         }
     }
 }

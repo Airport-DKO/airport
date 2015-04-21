@@ -63,7 +63,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
-    <None Include="Properties\PublishProfiles\airport-dko-passengers %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\airport-dko-passengers.pubxml" />
     <Content Include="Web References\CheckInService\Catering.datasource">
       <DependentUpon>Reference.map</DependentUpon>
@@ -185,7 +184,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>23098</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>

@@ -87,10 +87,10 @@
     <Content Include="Web References\GmcVs\MapObject.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </Content>
-    <Content Include="Web References\GmcVs\Reference.map">
+    <None Include="Web References\GmcVs\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
-    </Content>
+    </None>
     <None Include="Web References\GscWs2\gsc.disco" />
     <None Include="Web References\GmcVs\gmc.disco" />
     <Content Include="Web References\InformationPanelWS\Flight.datasource">

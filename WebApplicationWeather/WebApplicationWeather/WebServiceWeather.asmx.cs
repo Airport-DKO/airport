@@ -24,8 +24,10 @@ namespace WebApplicationWeather
 
     public class WebServiceWeather : System.Web.Services.WebService
     {
-        static double AirportTemperature = 4;
+        static double AirportTemperature = 5;
         private const string ComponentName = "Weather";
+        GMC.GMC gmc = new GMC.GMC();
+        CityWind Wind = new CityWind();
 
         [WebMethod]
         public double GetTemperature(bool gui)
@@ -51,7 +53,7 @@ namespace WebApplicationWeather
             Logger.SendMessage(0, ComponentName, String.Format("Запрос температуры из города {0}", city));
             System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US");
             if (city.Length == 0) return 0;
-            WebServiceGlobalWeather.GlobalWeatherSoap ws = new WebServiceGlobalWeather.GlobalWeatherSoapClient();
+            WSGW.GlobalWeather ws = new WSGW.GlobalWeather();
             string xmlCodeString;
             while (true)
             {
@@ -92,46 +94,21 @@ namespace WebApplicationWeather
         [WebMethod]
         public int GetWindFromCity(string city)
         {
-            Logger.SendMessage(0, ComponentName, String.Format("Запрос ветра из города {0}", city));
-            if (city.Length == 0) return 0;
-            WebServiceGlobalWeather.GlobalWeatherSoap ws = new WebServiceGlobalWeather.GlobalWeatherSoapClient();
-            string xmlCodeString;
-            while (true)
-            {
-                try
-                {
-                    xmlCodeString = ws.GetWeather(city, "");
-                    break;
-                }
-                catch
-                {
-                    continue;
-                }
-            }
-
-            if (xmlCodeString == "Data Not Found")
-                return 0;
-            XDocument xmlCode = XDocument.Parse(xmlCodeString);
-            XElement valueElement = xmlCode.Element("CurrentWeather").Element("Wind");
-            string valueString = valueElement.Value;
-            string pattern = @"[-,0-9,.]+ MPH";
-            string text = valueString;
-            RegexOptions option = RegexOptions.Singleline;
-            Regex newReg = new Regex(pattern, option);
-            Match match = newReg.Match(text);
-            pattern = @"[-,0-9,.]+";
-            text = match.ToString();
-            newReg = new Regex(pattern, option);
-            match = newReg.Match(text);
-            int wind = (int)Math.Round(Double.Parse(match.Value) * 0.45);
-            Logger.SendMessage(1, ComponentName, String.Format("Город {0}, ветер {1} м/с", city, wind));
-            return wind;
+            return Wind.GetWindFromCity(city);
         }
-        
+
+        [WebMethod]
+        public void SetWind(string city, int wind)
+        {
+            Wind.ForceSetWind(city, wind);
+
+            //Logger.SendMessage(1, ComponentName, String.Format("Aэропорт, установлена температура {0} С", AirportTemperature));
+        }
         [WebMethod]
         public void CrapSnow()
         {
             Logger.SendMessage(1, ComponentName, String.Format("Выпал снег"));
+            gmc.LetitSnow();
         }
     }
 }

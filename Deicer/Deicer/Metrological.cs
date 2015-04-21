@@ -61,8 +61,10 @@ namespace Deicer
                     if (MessageReceived != null)
                     {
                         MessageReceived(this, new MetrologicalEventArgs() {NewCoef = newCoef});
-                        CurrentCoef = newCoef;
                     }
+
+                    CurrentCoef = newCoef;
+                    Logger.SendMessage(0, Worker.ComponentName, "Новый коэффициент скорости " + newCoef.ToString());
                 }
             }
         }

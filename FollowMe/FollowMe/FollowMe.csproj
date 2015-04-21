@@ -63,6 +63,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+    <None Include="Properties\PublishProfiles\airport-dko-services %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\airport-dko-services.pubxml" />
     <None Include="Web References\AircraftGeneratorVS\AircraftGenerator.wsdl" />
     <Content Include="Web References\AircraftGeneratorVS\Plane.datasource">

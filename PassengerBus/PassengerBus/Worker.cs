@@ -14,7 +14,7 @@ namespace PassengerBus
     {
         private static readonly MapObject Garage;
         private static readonly MapObject Airport;
-        private const string ComponentName = "PassengerBus";
+        public const string ComponentName = "PassengerBus";
 
         static Worker()
         {
@@ -34,9 +34,61 @@ namespace PassengerBus
             Logger.SendMessage(0, ComponentName, 
                 String.Format("Задание получено: забрать {1} пассажиров эконом-класса с борта на площадке номер {0}", serviceZone.Number, countOfPassengers));
 
+            #region new version
             var buses = new List<Bus>();
             var tasks = new List<Task>();
+            while (countOfPassengers > 0 && buses.Count<5) //генерируем столько автобусов, сколько нам нужно, чтоб увезти пассажиров
+            {
+                //сохраняем коллекцию автобусов, чтоб потом их можно было вернуть в гараж
+                var bus = new Bus();
+                buses.Add(bus);
 
+                //запускаем для каждой машинки асинхронно задание "езжай к самолету(чтоб забрать пассажиров), затем езжай в аэропорт(чтоб доставить пассажиров)"
+                var t = new Task(() =>
+                {
+                    bus.GoTo(Garage, serviceZone);
+                    SpecialThead.Sleep(50000);//изображаем деятельность
+                    new AircraftGenerator().UnloadStandartPassengers(serviceZone, bus.Capacity);  //забираем пассажиров у Генератора Самолетов 
+                    bus.GoTo(serviceZone, Airport);
+                    SpecialThead.Sleep(50000);//изображаем деятельность
+                    Logger.SendMessage(1, ComponentName,
+                        String.Format("{1} или меньше(остаток) пассажиров вывезено с борта на площадке {0}", serviceZone.Number, bus.Capacity));
+                });
+                t.Start();
+
+                //храним коллекцию тасков, чтоб в дальнейшем отслеживать их выполнение
+                tasks.Add(t);
+
+                //уменьшаем количество оставшихся пассажиров(автобус увез сколько смог)
+                countOfPassengers -= bus.Capacity;
+            }
+
+            while (countOfPassengers > 0) 
+            {
+                int indexOfFreeCar = Task.WaitAny(tasks.ToArray());
+                //запускаем для каждой машинки асинхронно задание "езжай к самолету(чтоб забрать пассажиров), затем езжай в аэропорт(чтоб доставить пассажиров)"
+                tasks[indexOfFreeCar] = new Task(() =>
+                {
+                    buses[indexOfFreeCar].GoTo(Airport, serviceZone);
+                    SpecialThead.Sleep(50000);//изображаем деятельность
+                    new AircraftGenerator().UnloadStandartPassengers(serviceZone, buses[indexOfFreeCar].Capacity);  //забираем пассажиров у Генератора  Самолетов 
+                    SpecialThead.Sleep(50000);//изображаем деятельность
+                    buses[indexOfFreeCar].GoTo(serviceZone, Airport);
+                    Logger.SendMessage(1, ComponentName,
+                        String.Format("{1} или меньше(остаток) пассажиров вывезено с борта на площадке {0}", serviceZone.Number, buses[indexOfFreeCar].Capacity));
+                });
+                tasks[indexOfFreeCar].Start();
+
+                //уменьшаем количество оставшихся пассажиров(автобус увез сколько смог)
+                countOfPassengers -= buses[indexOfFreeCar].Capacity;
+            }
+
+            Task.WaitAll(tasks.ToArray());
+            #endregion
+
+            #region old version
+            /*var buses = new List<Bus>();
+            var tasks = new List<Task>();
             while (countOfPassengers > 0) //генерируем столько автобусов, сколько нам нужно, чтоб увезти пассажиров
             {
                 //сохраняем коллекцию автобусов, чтоб потом их можно было вернуть в гараж
@@ -61,7 +113,8 @@ namespace PassengerBus
                 countOfPassengers -= bus.Capacity;
             }
 
-            Task.WaitAll(tasks.ToArray());
+            Task.WaitAll(tasks.ToArray());*/
+            #endregion
 
             Logger.SendMessage(0, ComponentName, 
                 String.Format("Задание выполнено: забрать пассажиров с борта на площадке номер {0}", serviceZone.Number));
@@ -94,10 +147,72 @@ namespace PassengerBus
 
             var passengers = GetPassengers(flightNumber);
 
-
+            #region new version
             var buses = new List<Bus>();
             var tasks = new List<Task>();
+            while (passengers.Count > 0 && buses.Count<5) //генерируем столько автобусов, сколько нам нужно, чтоб увезти пассажиров
+            {
+                //сохраняем коллекцию автобусов, чтоб потом их можно было вернуть в гараж
+                var bus = new Bus();
+                buses.Add(bus);
 
+                var passengersCount = passengers.Count >= 100 ? 100 : passengers.Count;
+                var passengersForBus = passengers.GetRange(0, passengersCount);
+                passengers.RemoveRange(0, passengersCount);
+
+                //запускаем для каждой машинки асинхронно задание "езжай к самолету(чтоб забрать пассажиров), затем езжай в аэропорт(чтоб доставить пассажиров)"
+
+                var t = new Task(() =>
+                {
+                    var localCopyOfPassengers = passengersForBus;
+                    bus.GoTo(Garage, Airport);
+                    bus.GoTo(Airport, serviceZone);
+                    new AircraftGenerator().LoadStandartPassengers(serviceZone,
+                        localCopyOfPassengers.ToArray()); //загружаем пассажиров в Генератору Самолетов 
+                    SpecialThead.Sleep(50000);//изображаем деятельность
+                    Logger.SendMessage(1, ComponentName,
+                        String.Format("{1} или меньше(остаток) пассажиров доставлено на борт на площадке {0}", serviceZone.Number, bus.Capacity));
+                });
+                t.Start();
+
+                //храним коллекцию тасков, чтоб в дальнейшем отслеживать их выполнение
+                tasks.Add(t);
+            }
+
+            while (passengers.Count > 0) //генерируем столько автобусов, сколько нам нужно, чтоб увезти пассажиров
+            {
+                int indexOfFreeCar = Task.WaitAny(tasks.ToArray());
+
+                var passengersCount = passengers.Count >= 100 ? 100 : passengers.Count;
+                var passengersForBus = passengers.GetRange(0, passengersCount);
+                passengers.RemoveRange(0, passengersCount);
+
+                //запускаем для каждой машинки асинхронно задание "езжай к самолету(чтоб забрать пассажиров), затем езжай в аэропорт(чтоб доставить пассажиров)"
+                var t = new Task(() =>
+                {
+                    var localCopyOfPassengers = passengersForBus;
+                    buses[indexOfFreeCar].GoTo(serviceZone, Airport);
+                    SpecialThead.Sleep(50000);//изображаем деятельность
+                    buses[indexOfFreeCar].GoTo(Airport, serviceZone);
+                    SpecialThead.Sleep(50000);//изображаем деятельность
+                    new AircraftGenerator().LoadStandartPassengers(serviceZone,
+                        localCopyOfPassengers.ToArray()); //загружаем пассажиров в Генератору Самолетов 
+                    Logger.SendMessage(1, ComponentName,
+                        String.Format("{1} или меньше(остаток) пассажиров доставлено на борт на площадке {0}", serviceZone.Number, buses[indexOfFreeCar].Capacity));
+                });
+                t.Start();
+
+                //храним коллекцию тасков, чтоб в дальнейшем отслеживать их выполнение
+                tasks.Add(t);
+            }
+
+            //ждем, когда все пассажиры будут поставлены на самолет(все розданные таски выполнятся)
+            Task.WaitAll(tasks.ToArray());
+            #endregion
+
+            #region old version
+            /*var buses = new List<Bus>();
+            var tasks = new List<Task>();
             while (passengers.Count > 0) //генерируем столько автобусов, сколько нам нужно, чтоб увезти пассажиров
             {
                 //сохраняем коллекцию автобусов, чтоб потом их можно было вернуть в гараж
@@ -129,6 +244,8 @@ namespace PassengerBus
 
             //ждем, когда все пассажиры будут поставлены на самолет(все розданные таски выполнятся)
             Task.WaitAll(tasks.ToArray());
+            */
+            #endregion
 
             Logger.SendMessage(0, ComponentName, String.Format("Задание выполнено: доставить пассажиров на борт на площадке номер {0}", serviceZone.Number));
 
@@ -140,7 +257,7 @@ namespace PassengerBus
             {
                 //возвращаем автобусы в гараж
                 Bus localCopyOfBus = bus;
-                var t = new Task(() => localCopyOfBus.GoTo(Airport, Garage));
+                var t = new Task(() => localCopyOfBus.GoTo(serviceZone, Garage));
                 t.Start();
             }
         }

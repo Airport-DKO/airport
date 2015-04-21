@@ -33,7 +33,7 @@ namespace Ground_Service_Control
                 {
                     Debug.Assert(!zone.free);
 
-                    Utils.self().log("Самолёт улетел: " + plane.GetHashCode() + " с: " + zone.zone.Number);
+                    Utils.self().log("Самолёт улетел: " + plane + " с: " + zone.zone.Number);
 
                     zone.free = true;
                     zone.plane = Guid.Empty;
@@ -53,7 +53,7 @@ namespace Ground_Service_Control
             {
                 foreach (var zone in m_serviceZones.Where(zone => zone.free))
                 {
-                    Utils.self().log("Самолёт собирается зайти на посадку: " + plane.GetHashCode() + " на: " + zone.zone.Number);
+                    Utils.self().log("Самолёт собирается зайти на посадку: " + plane + " на: " + zone.zone.Number);
 
                     zone.free = false;
                     zone.plane = plane;
@@ -65,7 +65,7 @@ namespace Ground_Service_Control
             }
         }
 
-        public bool SetNeeds(Guid plane, Flight flight, bool ladder, int economPassengers, int VIPPassengers,
+        public bool SetNeeds(Guid plane, Flight flight, bool _ladder, int economPassengers, int VIPPassengers,
            int baggage, int fuelingNeeds)
         {
             lock (m_lock)
@@ -78,9 +78,9 @@ namespace Ground_Service_Control
 
                 Debug.Assert(!zone.free);
 
-                Utils.self().log("Самолёт приземлился: " + plane.GetHashCode() + " на: " + zone.zone.Number + " начато обслуживание");
+                Utils.self().log("Самолёт прибыл на обслуживание: " + plane + " зона: " + zone.zone.Number + " начато обслуживание");
 
-                m_taskScheduler.servicePlane(new PlaneNeeds{ plane = plane, flight = flight, baggage = baggage, economPassengers = economPassengers, fuelingNeeds = fuelingNeeds, ladder = ladder, VIPPassengers = VIPPassengers, serviceZone =  zone.zone});
+                m_taskScheduler.servicePlane(new PlaneNeeds{ plane = plane, flight = flight, baggage = baggage, economPassengers = economPassengers, fuelingNeeds = fuelingNeeds, ladder = _ladder, VIPPassengers = VIPPassengers, serviceZone =  zone.zone});
 
                 return true;
             }
@@ -90,10 +90,10 @@ namespace Ground_Service_Control
         {
             lock (m_lock)
             {
-                Utils.self().log("End: " + TaskNumber.type + " самолёт: "  + TaskNumber.plane.GetHashCode());
+                //Utils.self().log("End: " + TaskNumber.type + " самолёт: "  + TaskNumber.plane);
                 if (!m_taskScheduler.nextTask(TaskNumber))
                 {
-                    Utils.self().warning("Обслуживание завершено: " + TaskNumber.plane.GetHashCode());
+                    Utils.self().warning("Обслуживание завершено: " + TaskNumber.plane);
 
                     new AircraftGenerator.AircraftGenerator().ServiceComplete(TaskNumber.plane);
                 }

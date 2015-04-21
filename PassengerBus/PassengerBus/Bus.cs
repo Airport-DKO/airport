@@ -11,7 +11,7 @@ namespace PassengerBus
         private readonly Guid _id; //идентификатор машины, чтобы ее могли отличить среди других Управление Наземным Движением и Визуализатор
         private const Int32 _capacity = 100; //вместительность машины - сколько кг она может поднять
         private readonly MoveObjectType _type;
-        private const int Speed = 10000;
+        private const int Speed = 3000;
 
         public Int32 Capacity { get { return _capacity; } }
 

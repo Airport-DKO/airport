@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Globalization;
 using System.Text;
 using System.Threading.Tasks;
 using Aircraft_Generator.MetrologicalService;
 using RabbitMQ.Client;
+using RabbitMQ.Client.Events;
 
 namespace Aircraft_Generator
 {
@@ -21,14 +23,11 @@ namespace Aircraft_Generator
 
         #endregion
 
-        private readonly QueueingBasicConsumer _consumer;
-
-        public event EventHandler<MetrologicalEventArgs> MessageReceived;
-        public double CurrentCoef { get; private set; }
+        private QueueingBasicConsumer _consumer;
 
         private Rabbit()
         {
-            MetrologicalService.MetrologService m = new MetrologService();
+            var m = new MetrologService();
 
             CurrentCoef = m.GetCurrentTick();
             var factory = new ConnectionFactory
@@ -51,19 +50,53 @@ namespace Aircraft_Generator
             listenTask.Start();
         }
 
+        public double CurrentCoef { get; private set; }
+        public event EventHandler<MetrologicalEventArgs> MessageReceived;
+
         private void ListenQueue()
         {
-            while (true)
+            try
             {
-                var ea = _consumer.Queue.Dequeue();
-                var body = ea.Body;
-                var message = Encoding.UTF8.GetString(body);
-                var newCoef = float.Parse(message,CultureInfo.InvariantCulture);
-                if (newCoef != CurrentCoef)
+                while (true)
                 {
-                    MessageReceived(this, new MetrologicalEventArgs() {NewCoef = newCoef});
-                    CurrentCoef = newCoef;
+                    BasicDeliverEventArgs ea = _consumer.Queue.Dequeue();
+                    byte[] body = ea.Body;
+                    string message = Encoding.UTF8.GetString(body);
+                    float newCoef = float.Parse(message, CultureInfo.InvariantCulture);
+                    if (newCoef != CurrentCoef)
+                    {
+                        if (MessageReceived != null)
+                        {
+                            MessageReceived(this, new MetrologicalEventArgs {NewCoef = newCoef});
+                        }
+                        CurrentCoef = newCoef;
+                    }
                 }
+            }
+            catch (Exception exception)
+            {
+                Debug.WriteLine("Exception {0} in Rabbit class",exception.Message);
+                var m = new MetrologService();
+
+                CurrentCoef = m.GetCurrentTick();
+                var factory = new ConnectionFactory
+                {
+                    UserName = "tester",
+                    Password = "tester",
+                    VirtualHost = "/",
+                    HostName = "airport-dko-1.cloudapp.net",
+                    Port = 5672
+                };
+
+                IConnection connection = factory.CreateConnection();
+                IModel channel = connection.CreateModel();
+
+                channel.QueueDeclare("TC_AircraftGenerator", true, false, false, null);
+
+                _consumer = new QueueingBasicConsumer(channel);
+                channel.BasicConsume("TC_AircraftGenerator", true, _consumer);
+                var listenTask = new Task(ListenQueue);
+                listenTask.Start();
             }
         }
     }
@@ -73,4 +106,3 @@ namespace Aircraft_Generator
         public float NewCoef { get; set; }
     }
 }
-

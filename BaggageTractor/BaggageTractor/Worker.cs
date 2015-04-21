@@ -13,7 +13,7 @@ namespace BaggageTractor
     {
         private static readonly MapObject Garage;
         private static readonly MapObject Airport;
-        private const string ComponentName = "BaggageTractor";
+        public const string ComponentName = "BaggageTractor";
 
         static Worker()
         {
@@ -32,9 +32,59 @@ namespace BaggageTractor
         {
             Logger.SendMessage(0, ComponentName, String.Format("Задание получено: забрать {1} кг багажа с борта на площадке номер {0}", serviceZone.Number, weightOfBaggage));
 
+            #region new version
             var cars = new List<Car>();
             var tasks = new List<Task>();
+            while (weightOfBaggage > 0 && cars.Count<3) //генерируем столько машинок, сколько нам нужно, чтоб увезти багаж
+            {                                           //но не больше трех - хотелка Чапкина
+                //сохраняем коллекцию машинок, чтоб потом их можно было вернуть в гараж
+                var car = new Car();
+                cars.Add(car);
 
+                //запускаем для каждой машинки асинхронно задание "езжай к самолету(чтоб забрать багаж), затем езжай в аэропорт(чтоб доставить багаж)"
+                var t = new Task(() =>
+                {
+                    car.GoTo(Garage, serviceZone);
+                    SpecialThead.Sleep(50000);//изображаем деятельность
+                    new AircraftGenerator().UnloadBaggage(serviceZone, car.Capacity);//забираем багаж у Генератора Самолетов
+                    car.GoTo(serviceZone, Airport);
+                    Logger.SendMessage(1, ComponentName,
+                        String.Format("{1} или меньше(остаток) килограмм багажа вывезено с борта на площадке {0}.", serviceZone.Number, car.Capacity));
+                });
+                t.Start();
+
+                //храним коллекцию тасков, чтоб в дальнейшем отслеживать их выполнение
+                tasks.Add(t);
+
+                //уменьшаем количество оставшегося багажа(считаем, что машинка, сгенерированная на этой итерации, увезла столько, сколько смогла погрузить)
+                weightOfBaggage -= car.Capacity;
+            }
+
+            while (weightOfBaggage > 0)
+            {
+                int indexOfFreeCar = Task.WaitAny(tasks.ToArray());
+                tasks[indexOfFreeCar] = new Task(() =>
+                {
+                    cars[indexOfFreeCar].GoTo(Airport, serviceZone);
+                    SpecialThead.Sleep(50000);//изображаем деятельность
+                    new AircraftGenerator().UnloadBaggage(serviceZone, cars[indexOfFreeCar].Capacity);//забираем багаж у Генератора Самолетов
+                    cars[indexOfFreeCar].GoTo(serviceZone, Airport);
+                    Logger.SendMessage(1, ComponentName,
+                        String.Format("{1} или меньше(остаток) килограмм багажа вывезено с борта на площадке {0}.", serviceZone.Number, cars[indexOfFreeCar].Capacity));
+                });
+                tasks[indexOfFreeCar].Start();
+                weightOfBaggage -= cars[indexOfFreeCar].Capacity;
+            }
+
+            Task.WaitAll(tasks.ToArray());
+
+            #endregion
+
+
+            #region old version
+            /*
+            var cars = new List<Car>();
+            var tasks = new List<Task>();
             while (weightOfBaggage > 0) //генерируем столько машинок, сколько нам нужно, чтоб увезти багаж
             {
                 //сохраняем коллекцию машинок, чтоб потом их можно было вернуть в гараж
@@ -59,7 +109,10 @@ namespace BaggageTractor
                 weightOfBaggage -= car.Capacity;
             }
 
-            Task.WaitAll(tasks.ToArray());
+            Task.WaitAll(tasks.ToArray());*/
+            #endregion
+
+
 
             Logger.SendMessage(0, ComponentName, String.Format("Задание выполнено: забрать багаж с борта на площадке номер {0}.", serviceZone.Number));
 
@@ -70,7 +123,7 @@ namespace BaggageTractor
             foreach (var car in cars)
             {
                 //возвращаем машинки в гараж
-                var t = new Task(() => car.GoTo(serviceZone, Garage));
+                var t = new Task(() => car.GoTo(Airport, Garage));
                 t.Start();
             }
         }
@@ -86,12 +139,61 @@ namespace BaggageTractor
         {
             Logger.SendMessage(0, ComponentName, String.Format("Задание получено: загрузить багаж на борт на площадке номер {0}", serviceZone.Number));
 
-            var cars = new List<Car>();
-            var tasks = new List<Task>();
-
             //узнаем вес багажа
             var weightOfBaggage = GetWeightOfBaggage(flightNumber);
 
+            #region new version
+            var cars = new List<Car>();
+            var tasks = new List<Task>();
+            while (weightOfBaggage > 0 && cars.Count < 3) //генерируем столько машинок, сколько нам нужно, чтоб увезти багаж
+            {                                           //но не больше трех - хотелка Чапкина
+                //сохраняем коллекцию машинок, чтоб потом их можно было вернуть в гараж
+                var car = new Car();
+                cars.Add(car);
+
+                //запускаем для каждой машинки асинхронно задание "езжай в аэропорт(чтоб забрать багаж), затем езжай к самолету(чтоб доставить багаж)"
+                var t = new Task(() =>
+                {
+                    car.GoTo(Garage, Airport);
+                    SpecialThead.Sleep(10000);//изображаем деятельность
+                    car.GoTo(Airport, serviceZone);
+                    SpecialThead.Sleep(10000);//изображаем деятельность
+                    new AircraftGenerator().LoadBaggage(serviceZone, car.Capacity);//загружаем багаж в Генератору Самолетов
+                    Logger.SendMessage(1, ComponentName,
+                        String.Format("{1} или меньше(остаток) килограмм багажа погружено на борт на площадке {0}.", serviceZone.Number, car.Capacity));
+                });
+                t.Start();
+                tasks.Add(t); //храним коллекцию тасков, чтоб в дальнейшем отслеживать их выполнение
+
+                //уменьшаем количество оставшегося багажа(считаем, что машинка, сгенерированная на этой итерации, увезла столько, сколько смогла погрузить)
+                weightOfBaggage -= car.Capacity;
+            }
+
+            while (weightOfBaggage > 0)
+            {
+                int indexOfFreeCar = Task.WaitAny(tasks.ToArray());
+                tasks[indexOfFreeCar] = new Task(() =>
+                {
+                    cars[indexOfFreeCar].GoTo(serviceZone, Airport);
+                    SpecialThead.Sleep(10000);//изображаем деятельность
+                    cars[indexOfFreeCar].GoTo(Airport, serviceZone);
+                    SpecialThead.Sleep(10000);//изображаем деятельность
+                    new AircraftGenerator().LoadBaggage(serviceZone, cars[indexOfFreeCar].Capacity);//загружаем багаж в Генератору Самолетов
+                    Logger.SendMessage(1, ComponentName,
+                        String.Format("{1} или меньше(остаток) килограмм багажа погружено на борт на площадке {0}.", serviceZone.Number, cars[indexOfFreeCar].Capacity));
+                });
+                tasks[indexOfFreeCar].Start();
+                weightOfBaggage -= cars[indexOfFreeCar].Capacity;
+            }
+
+            Task.WaitAll(tasks.ToArray());
+            #endregion
+
+            #region old version
+            /*
+            var cars = new List<Car>();
+            var tasks = new List<Task>();
+            
             while (weightOfBaggage > 0) //генерируем столько машинок, сколько нам нужно, чтоб увезти багаж
             {
                 //сохраняем коллекцию машинок, чтоб потом их можно было вернуть в гараж
@@ -117,7 +219,8 @@ namespace BaggageTractor
                 weightOfBaggage -= car.Capacity;
             }
 
-            Task.WaitAll(tasks.ToArray());
+            Task.WaitAll(tasks.ToArray());*/
+            #endregion
 
             Logger.SendMessage(0, ComponentName, String.Format("Задание выполнено: загрузить багаж на борт на площадке номер {0}", serviceZone.Number));
 

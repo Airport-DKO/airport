@@ -64,11 +64,11 @@ namespace Ground_Service_Control
             var passangersIn = factory.createPassengerBus(ServiceTaskRole.LoadPlane);
             var trapToGarage = factory.createPassengerStairs(ServiceTaskRole.MoveToGarage);
 
-            passangersIn.nextTasks.Add(trapToGarage);
+            vipPassangersIn.nextTasks.Add(trapToGarage);
 
             fuel.nextTasks.Add(trapIn);
-            trapIn.nextTasks.Add(vipPassangersIn);
             trapIn.nextTasks.Add(passangersIn);
+            passangersIn.nextTasks.Add(vipPassangersIn);
 
             passangersOut.nextTasks.Add(food);
             passangersOut.nextTasks.Add(fuel);
@@ -122,10 +122,10 @@ namespace Ground_Service_Control
                 return true;
             }
 
-            Utils.self().warning("Завершилось задание для неизвестного самолёта! " + previousTask.type + " самолёт: " + previousTask.plane.GetHashCode());
+            Utils.self().warning("Завершилось задание для неизвестного самолёта! " + previousTask.type + " самолёт: " + previousTask.plane);
             Utils.self().warning("Доступные самолёты: ");
             foreach(var task in m_tasks){
-                Utils.self().warning(task.plane.GetHashCode().ToString());
+                Utils.self().warning(task.plane.ToString());
             }
 
             return true;

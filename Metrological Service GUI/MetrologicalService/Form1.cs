@@ -30,7 +30,8 @@ namespace MetrologicalService
             modTimer1.Elapsed += timer_Elapsed1;
             modTimer1.Start();
             timer = DateTime.UtcNow.AddHours(3);
-            a.RefreshTick(1);
+            ModelingSpeed = 1/(a.GetCurrentTick());
+            textBoxSpeed.Text = ModelingSpeed.ToString();
 
             timer = a.GetCurrentTime();
             timeLabel.Text = timer.ToString("HH:mm:ss");

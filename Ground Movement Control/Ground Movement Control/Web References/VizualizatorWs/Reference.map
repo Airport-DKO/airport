@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <DiscoveryClientResultsFile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Results>
-    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.DiscoveryDocumentReference" url="http://airport-dko-1.cloudapp.net/visualisator.asmx?disco" filename="visualisator.disco" />
-    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.ContractReference" url="http://airport-dko-1.cloudapp.net/visualisator.asmx?wsdl" filename="visualisator.wsdl" />
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.ContractReference" url="http://airport-dko-1.cloudapp.net/Visualisator.asmx?wsdl" filename="Visualisator.wsdl" />
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.DiscoveryDocumentReference" url="http://airport-dko-1.cloudapp.net/Visualisator.asmx?disco" filename="Visualisator.disco" />
   </Results>
 </DiscoveryClientResultsFile>
