@@ -113,5 +113,15 @@ namespace Aircraft_Generator.Properties {
                 return ((string)(this["Aircraft_Generator_PassengersWs_WebServicePassengersGenerator"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://airport-dko-weather.azurewebsites.net/WebServiceWeather.asmx")]
+        public string Aircraft_Generator_WeatherWs_WebServiceWeather {
+            get {
+                return ((string)(this["Aircraft_Generator_WeatherWs_WebServiceWeather"]));
+            }
+        }
     }
 }

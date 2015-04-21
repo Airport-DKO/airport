@@ -33,6 +33,7 @@ namespace Ground_Movement_Control
         #endregion
 
         private static readonly object _lockObject = new object();
+        private static readonly object _runwayLockObject = new object();
         private readonly GSC _gsc;
         private readonly List<Location> _locations;
         private readonly List<MapPoint> _map;
@@ -120,62 +121,62 @@ namespace Ground_Movement_Control
 
         public bool CheckRunwayAwailability(Guid planeGuid, bool isArrival)
         {
-            if (_isSnowNow)
-                return false;
-            Location runwayLocation = GetActualRunway();
-            if (runwayLocation == null)
+            lock (_runwayLockObject)
             {
-                Debug.WriteLine("Declined to land plane {0} - runway not found", planeGuid);
-                return false;
-            }
-
-            if (!WeatherCheck())
-            {
-                Debug.WriteLine("Declined to land plane {0} - bad weather", planeGuid);
-                return false;
-            }
-            if (isArrival)
-            {
-                bool result = CheckVacantPosition(runwayLocation.Position.X, runwayLocation.Position.Y,
-                    MoveObjectType.Plane,
-                    planeGuid, 150, true);
-                if (!result)
+                if (_isSnowNow)
+                    return false;
+                Location runwayLocation = GetActualRunway();
+                if (runwayLocation == null)
                 {
-                    Debug.WriteLine("Declined to land plane {0} - runway is hold", planeGuid);
+                    Debug.WriteLine("Declined to land plane {0} - runway not found", planeGuid);
                     return false;
                 }
 
-                GscWs.MapObject serviceZone = _gsc.GetFreePlace(planeGuid);
-                if (serviceZone == null)
+                if (isArrival)
                 {
-                    Debug.WriteLine("Declined to land plane {0} - runway no available service zones", planeGuid);
+                    bool result = CheckVacantPosition(runwayLocation.Position.X, runwayLocation.Position.Y,
+                        MoveObjectType.Plane,
+                        planeGuid, 150, true);
+                    if (!result)
+                    {
+                        Debug.WriteLine("Declined to land plane {0} - runway is hold", planeGuid);
+                        return false;
+                    }
+
+                    GscWs.MapObject serviceZone = _gsc.GetFreePlace(planeGuid);
+                    if (serviceZone == null)
+                    {
+                        Debug.WriteLine("Declined to land plane {0} - runway no available service zones", planeGuid);
+                        return false;
+                    }
+
+                    _planesServiceZones.Add(new Tuple<Guid, MapObject>(planeGuid, serviceZone));
+                    result = CheckVacantPosition(runwayLocation.Position.X, runwayLocation.Position.Y,
+                        MoveObjectType.Plane,
+                        planeGuid, 150);
+                    if (result)
+                    {
+                        Debug.WriteLine("Accepted to land plane {0}", planeGuid);
+                        return true;
+                    }
+                    Debug.WriteLine(
+                        "Declined to land plane {0} - runway is hold but service zone is ready already. fuck",
+                        planeGuid);
                     return false;
                 }
-
-                _planesServiceZones.Add(new Tuple<Guid, MapObject>(planeGuid, serviceZone));
-                result = CheckVacantPosition(runwayLocation.Position.X, runwayLocation.Position.Y, MoveObjectType.Plane,
-                    planeGuid, 150);
-                if (result)
+                else
                 {
-                    Debug.WriteLine("Accepted to land plane {0}", planeGuid);
-                    return true;
+                    bool result = CheckVacantPosition(runwayLocation.Position.X, runwayLocation.Position.Y,
+                        MoveObjectType.Plane,
+                        planeGuid, 1000);
+                    if (result)
+                    {
+                        Debug.WriteLine("Accepted to takeoff plane {0}", planeGuid);
+                        return true;
+                    }
+                    Debug.WriteLine("Declined to land plane {0}", planeGuid);
+                    return false;
                 }
-                Debug.WriteLine("Declined to land plane {0} - runway is hold but service zone is ready already. fuck",
-                    planeGuid);
-                return false;
-            }
-            else
-            {
-                bool result = CheckVacantPosition(runwayLocation.Position.X, runwayLocation.Position.Y,
-                    MoveObjectType.Plane,
-                    planeGuid, 1000);
-                if (result)
-                {
-                    Debug.WriteLine("Accepted to takeoff plane {0}", planeGuid);
-                    return true;
-                }
-                Debug.WriteLine("Declined to land plane {0}", planeGuid);
-                return false;
             }
         }
 

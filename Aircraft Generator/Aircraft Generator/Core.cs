@@ -13,6 +13,7 @@ using Aircraft_Generator.InformationPanelWS;
 using Aircraft_Generator.MetrologicalService;
 using Aircraft_Generator.PassengersWs;
 using Aircraft_Generator.TowerService;
+using Aircraft_Generator.WeatherWs;
 using MapObject = Aircraft_Generator.GmcVs.MapObject;
 
 namespace Aircraft_Generator
@@ -38,6 +39,7 @@ namespace Aircraft_Generator
         private readonly MetrologService _metrolog;
         private readonly WebServiceInformationPanel _panel;
         private readonly WebServicePassengersGenerator _passengersGenerator;
+        private readonly WeatherWs.WebServiceWeather _weather;
 
         private readonly SynchronizedCollection<CancellationTokenSource> _tokens;
         private readonly Tower _tower;
@@ -54,6 +56,7 @@ namespace Aircraft_Generator
             _metrolog = new MetrologService();
             _followMe = new FollowMe();
             _passengersGenerator = new WebServicePassengersGenerator();
+            _weather=new WebServiceWeather();
             _tokens = new SynchronizedCollection<CancellationTokenSource>();
             Rabbit.Instance.MessageReceived += CancelTasks;
             _token = new CancellationTokenSource();
@@ -92,12 +95,14 @@ namespace Aircraft_Generator
                     type,
                     fuelNeed, currentStandartPassengers, currentVipPassengers, currentBaggage),
                 _metrolog.GetCurrentTime());
+            DashboardSender.Total();
             return true;
         }
 
         public void BindPlaneToFlight(Guid planeId, Guid flightId)
         {
             Plane plane = Planes.First(p => p.Id == planeId);
+            DashboardSender.Arrival();
             plane.Flight = _panel.RegisterPlaneToFlight(planeId, flightId);
             var task = new Task(() => PlaneLanding(plane, _token.Token), _token.Token);
             Debug.WriteLine("Plane {0} binded to {1}", planeId, flightId);
@@ -166,7 +171,8 @@ namespace Aircraft_Generator
         public bool FollowMe(Guid planeId)
         {
             PlaneTaxingToServiceZone(planeId);
-            Debug.WriteLine("Plane {0} is now following", planeId);
+            
+            Debug.WriteLine("Самолет {0} вызван машиной Follow Me", planeId);
             Logger.SendMessage(0, "AircraftGenerator", String.Format("К самолету {0} приехал Follow me", planeId),
                 _metrolog.GetCurrentTime());
             return true;
@@ -204,7 +210,7 @@ namespace Aircraft_Generator
                     p.ServiceZone.MapObjectType == serviceZone.MapObjectType &&
                     p.ServiceZone.Number == serviceZone.Number);
             _panel.ReadyToTakeOff(plane.Flight.number);
-            Debug.WriteLine("Самолет {0} облитреагентом", plane.Name);
+            Debug.WriteLine("Самолет {0} облит реагентом", plane.Name);
             Logger.SendMessage(1, "AircraftGenerator", String.Format("Самолет {0} облит антиобледенителем", plane.Name),
                 _metrolog.GetCurrentTime());
             MoveToRunway(plane);
@@ -217,20 +223,47 @@ namespace Aircraft_Generator
             { // Проверяем время вылета
                 if (_panel.IsFlightRightNow(plane.Flight.number))
                 {
+                   
                     break;
                 }
                 Sleep(10000);
+                Debug.WriteLine("Самолет {0} время вылета еще не настало",plane.Name);
             }
 
+            while (true)
+            {
+                var windInCity = _weather.GetTempFromCity(plane.Flight.city.ToString());
+                if (windInCity < 10)
+                {
+                    Debug.WriteLine("Самолет {0} погода в пункте назначения хорошая", plane.Name);
+                    Logger.SendMessage(1, "AircraftGenerator",
+                        String.Format("Самолет {0} погода в пункте назначения хорошая", plane.Name),
+                        _metrolog.GetCurrentTime());
+                    break;
+                }
+                Debug.WriteLine("Самолет {0} не вылетает из за сильного ветра в пункте назначения", plane.Name);
+                Logger.SendMessage(1, "AircraftGenerator",
+                    String.Format("Самолет {0} не вылетает из за сильного ветра в пункте назначения", plane.Name),
+                    _metrolog.GetCurrentTime());
+                Sleep(100000); // оч долго
+            }
             plane.State = PlaneState.TaxingToRunway;
+            DashboardSender.Taxing();
+            
+
             while (true)
             {// Проверяем свободна ли полоса
                 if (_gmc.CheckRunwayAwailability(plane.Id, false))
                 {
                     _panel.ReadyToTakeOff(plane.Flight.number);
+                    _gsc.SetFreePlace(plane.Id); // Сообщаем УНО что освобождаем площадку
+                    Logger.SendMessage(1, "AircraftGenerator",
+            String.Format("Самолет {0} освободил площадку обслуживания", plane.Name),
+            _metrolog.GetCurrentTime());
                     break;
                 }
                 Sleep(40000);
+                Debug.WriteLine("Самолет {0} - полоса занята", plane.Name);
             }
 
             MapObject runway = _gmc.GetRunway();
@@ -267,7 +300,7 @@ namespace Aircraft_Generator
                 String.Format("Самолет {0} вылетел", plane.Name),
                 _metrolog.GetCurrentTime());
             plane.State = PlaneState.Departed;
-
+            DashboardSender.Departure();
             Sleep(30000); // Ждем 30 секунд и освобождаем полосу
             _gmc.RunwayRelease(coordinateTuple.X, coordinateTuple.Y);
             Logger.SendMessage(1, "AircraftGenerator",
@@ -317,6 +350,7 @@ namespace Aircraft_Generator
                     if (!landingRequest)
                     {
                         Sleep(10000);
+                        Debug.WriteLine("Самолет {0} - полоса занята", plane.Name);
                     }
                     else
                     {
@@ -327,9 +361,10 @@ namespace Aircraft_Generator
 
                 MapObject runway = _gmc.GetRunway();
                 plane.State = PlaneState.Landing;
+                DashboardSender.Landing();
                 plane.ServiceZone = _gmc.GetPlaneServiceZone(plane.Id);
                 _followMe.LeadPlane(runway, plane.ServiceZone, plane.Id);
-                Debug.WriteLine("Plane {0} landed!", plane.Name);
+                Debug.WriteLine("Самолет {0} Приземлился!", plane.Name);
                 Logger.SendMessage(1, "AircraftGenerator", String.Format("Самолет {0} приземлился!", plane.Name),
                     _metrolog.GetCurrentTime());
             }
@@ -349,7 +384,8 @@ namespace Aircraft_Generator
         private void PlaneTaxingToServiceZone(Guid planeGuid)
         {
             Plane plane = _createdPlanes.First(p => p.Id == planeGuid);
-            plane.State = PlaneState.TaxingToRunway;
+            plane.State = PlaneState.TaxingToServiceArea;
+
             new Task(() =>
             {
                 Sleep(20000);
@@ -362,6 +398,7 @@ namespace Aircraft_Generator
         {
             Plane plane = _createdPlanes.First(p => p.Id == planeGuid);
             plane.State = PlaneState.OnService;
+            DashboardSender.OnService();
             _gsc.SetNeeds(plane.Id, plane.Flight, plane.HasArrivalPassengers, plane.CurrentStandartPassengers,
                 plane.CurrentVipPassengers, plane.CurrentBaggage, plane.FuelNeed);
             Logger.SendMessage(0, "AircraftGenerator",
@@ -400,8 +437,12 @@ namespace Aircraft_Generator
                 String.Format("Самолет {0} по расписанию уже должен вылететь", plane.Name),
                 _metrolog.GetCurrentTime());
             Debug.WriteLine("Самолет {0} по расписанию уже должен вылететь", plane.Name);
-            if (true) // Weather check
+
+            double temperature = _weather.GetTemperature(false);
+            bool tempResult = (temperature > 4 || temperature < 0) ? true : false;
+            if (tempResult) // Weather check
             {
+                
                 var d = new Deicer();
                 d.DouchePlane(plane.ServiceZone);
                 Logger.SendMessage(0, "AircraftGenerator",
@@ -410,7 +451,11 @@ namespace Aircraft_Generator
                 Debug.WriteLine("Самолет {0} отправил заявку антиобледенителю", plane.Name);
             }
             else
-            {
+            { 
+                Logger.SendMessage(0, "AircraftGenerator",
+    String.Format("Самолету {0} антиобледенитель не требуется", plane.Name),
+    _metrolog.GetCurrentTime());
+                Debug.WriteLine("Самолету {0} антиобледенитель не требуется", plane.Name);
                 MoveToRunway(plane);
             }
         }
