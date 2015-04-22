@@ -185,24 +185,26 @@ namespace WebApplicationWeather.GMC {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("Airport/CheckRunwayAwailability", RequestNamespace="Airport", ResponseNamespace="Airport", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public bool CheckRunwayAwailability(System.Guid planeGuid) {
+        public bool CheckRunwayAwailability(System.Guid planeGuid, bool isArrival) {
             object[] results = this.Invoke("CheckRunwayAwailability", new object[] {
-                        planeGuid});
+                        planeGuid,
+                        isArrival});
             return ((bool)(results[0]));
         }
         
         /// <remarks/>
-        public void CheckRunwayAwailabilityAsync(System.Guid planeGuid) {
-            this.CheckRunwayAwailabilityAsync(planeGuid, null);
+        public void CheckRunwayAwailabilityAsync(System.Guid planeGuid, bool isArrival) {
+            this.CheckRunwayAwailabilityAsync(planeGuid, isArrival, null);
         }
         
         /// <remarks/>
-        public void CheckRunwayAwailabilityAsync(System.Guid planeGuid, object userState) {
+        public void CheckRunwayAwailabilityAsync(System.Guid planeGuid, bool isArrival, object userState) {
             if ((this.CheckRunwayAwailabilityOperationCompleted == null)) {
                 this.CheckRunwayAwailabilityOperationCompleted = new System.Threading.SendOrPostCallback(this.OnCheckRunwayAwailabilityOperationCompleted);
             }
             this.InvokeAsync("CheckRunwayAwailability", new object[] {
-                        planeGuid}, this.CheckRunwayAwailabilityOperationCompleted, userState);
+                        planeGuid,
+                        isArrival}, this.CheckRunwayAwailabilityOperationCompleted, userState);
         }
         
         private void OnCheckRunwayAwailabilityOperationCompleted(object arg) {

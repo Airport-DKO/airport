@@ -10,10 +10,10 @@ namespace WebApplicationWeather
 {
     public class CityWind
     {
-        public Dictionary<string, int> FakeWind = new Dictionary<string, int>();
+        public static Dictionary<string, int> FakeWind = new Dictionary<string, int>();
         private const string ComponentName = "Weather";
         private const int scw = -1;
-        public CityWind()
+        static CityWind()
         {
             FakeWind.Add("Tokyo", scw);
             FakeWind.Add("Kyiv", scw);
