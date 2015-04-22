@@ -20,7 +20,6 @@ namespace Aircraft_Generator_GUI
             _aircraftGeneratorWebService = new AircraftGenerator();
             new Task(Refresher).Start();
         }
-
         private void GetPlanesList()
         {
             while (planesGridControl.IsHandleCreated == false)
@@ -28,8 +27,16 @@ namespace Aircraft_Generator_GUI
             }
 
             Plane[] planesList = _aircraftGeneratorWebService.GetAllPlanes();
+            int oldSelectedIndex = 0;
+            if (gridView1.DataRowCount > 0)
+            {
+                oldSelectedIndex = gridView1.GetSelectedRows().First();
+            }
             planesGridControl.BeginInvoke((Action) (() => planesGridControl.DataSource = planesList));
             planesGridControl.BeginInvoke((Action) (() => planesGridControl.RefreshDataSource()));
+            if(gridView1.DataRowCount>0)
+            planesGridControl.BeginInvoke((Action)(() => gridView1.FocusedRowHandle=oldSelectedIndex));
+
         }
 
         private void CreateNewPlane(string name, PlaneType type, int fuelNeed, int currentStandartPassangers,

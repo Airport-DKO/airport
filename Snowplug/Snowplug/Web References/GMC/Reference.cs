@@ -43,6 +43,8 @@ namespace Snowplug.GMC {
         
         private System.Threading.SendOrPostCallback GetServiceZonesOperationCompleted;
         
+        private System.Threading.SendOrPostCallback LetitSnowOperationCompleted;
+        
         private System.Threading.SendOrPostCallback SnowCleanFinishedOperationCompleted;
         
         private System.Threading.SendOrPostCallback ResetOperationCompleted;
@@ -105,6 +107,9 @@ namespace Snowplug.GMC {
         
         /// <remarks/>
         public event GetServiceZonesCompletedEventHandler GetServiceZonesCompleted;
+        
+        /// <remarks/>
+        public event LetitSnowCompletedEventHandler LetitSnowCompleted;
         
         /// <remarks/>
         public event SnowCleanFinishedCompletedEventHandler SnowCleanFinishedCompleted;
@@ -180,24 +185,26 @@ namespace Snowplug.GMC {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("Airport/CheckRunwayAwailability", RequestNamespace="Airport", ResponseNamespace="Airport", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public bool CheckRunwayAwailability(System.Guid planeGuid) {
+        public bool CheckRunwayAwailability(System.Guid planeGuid, bool isArrival) {
             object[] results = this.Invoke("CheckRunwayAwailability", new object[] {
-                        planeGuid});
+                        planeGuid,
+                        isArrival});
             return ((bool)(results[0]));
         }
         
         /// <remarks/>
-        public void CheckRunwayAwailabilityAsync(System.Guid planeGuid) {
-            this.CheckRunwayAwailabilityAsync(planeGuid, null);
+        public void CheckRunwayAwailabilityAsync(System.Guid planeGuid, bool isArrival) {
+            this.CheckRunwayAwailabilityAsync(planeGuid, isArrival, null);
         }
         
         /// <remarks/>
-        public void CheckRunwayAwailabilityAsync(System.Guid planeGuid, object userState) {
+        public void CheckRunwayAwailabilityAsync(System.Guid planeGuid, bool isArrival, object userState) {
             if ((this.CheckRunwayAwailabilityOperationCompleted == null)) {
                 this.CheckRunwayAwailabilityOperationCompleted = new System.Threading.SendOrPostCallback(this.OnCheckRunwayAwailabilityOperationCompleted);
             }
             this.InvokeAsync("CheckRunwayAwailability", new object[] {
-                        planeGuid}, this.CheckRunwayAwailabilityOperationCompleted, userState);
+                        planeGuid,
+                        isArrival}, this.CheckRunwayAwailabilityOperationCompleted, userState);
         }
         
         private void OnCheckRunwayAwailabilityOperationCompleted(object arg) {
@@ -238,21 +245,25 @@ namespace Snowplug.GMC {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("Airport/RunwayRelease", RequestNamespace="Airport", ResponseNamespace="Airport", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public void RunwayRelease() {
-            this.Invoke("RunwayRelease", new object[0]);
+        public void RunwayRelease(int additionalX, int additionalY) {
+            this.Invoke("RunwayRelease", new object[] {
+                        additionalX,
+                        additionalY});
         }
         
         /// <remarks/>
-        public void RunwayReleaseAsync() {
-            this.RunwayReleaseAsync(null);
+        public void RunwayReleaseAsync(int additionalX, int additionalY) {
+            this.RunwayReleaseAsync(additionalX, additionalY, null);
         }
         
         /// <remarks/>
-        public void RunwayReleaseAsync(object userState) {
+        public void RunwayReleaseAsync(int additionalX, int additionalY, object userState) {
             if ((this.RunwayReleaseOperationCompleted == null)) {
                 this.RunwayReleaseOperationCompleted = new System.Threading.SendOrPostCallback(this.OnRunwayReleaseOperationCompleted);
             }
-            this.InvokeAsync("RunwayRelease", new object[0], this.RunwayReleaseOperationCompleted, userState);
+            this.InvokeAsync("RunwayRelease", new object[] {
+                        additionalX,
+                        additionalY}, this.RunwayReleaseOperationCompleted, userState);
         }
         
         private void OnRunwayReleaseOperationCompleted(object arg) {
@@ -313,6 +324,32 @@ namespace Snowplug.GMC {
             if ((this.GetServiceZonesCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.GetServiceZonesCompleted(this, new GetServiceZonesCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("Airport/LetitSnow", RequestNamespace="Airport", ResponseNamespace="Airport", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public void LetitSnow() {
+            this.Invoke("LetitSnow", new object[0]);
+        }
+        
+        /// <remarks/>
+        public void LetitSnowAsync() {
+            this.LetitSnowAsync(null);
+        }
+        
+        /// <remarks/>
+        public void LetitSnowAsync(object userState) {
+            if ((this.LetitSnowOperationCompleted == null)) {
+                this.LetitSnowOperationCompleted = new System.Threading.SendOrPostCallback(this.OnLetitSnowOperationCompleted);
+            }
+            this.InvokeAsync("LetitSnow", new object[0], this.LetitSnowOperationCompleted, userState);
+        }
+        
+        private void OnLetitSnowOperationCompleted(object arg) {
+            if ((this.LetitSnowCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.LetitSnowCompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -388,7 +425,7 @@ namespace Snowplug.GMC {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.0.30319.34209")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.0.30319.34230")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -421,7 +458,7 @@ namespace Snowplug.GMC {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.0.30319.34209")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.0.30319.34230")]
     [System.SerializableAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="Airport")]
     public enum MapObjectType {
@@ -440,7 +477,7 @@ namespace Snowplug.GMC {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.0.30319.34209")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.0.30319.34230")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -473,7 +510,7 @@ namespace Snowplug.GMC {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.0.30319.34209")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.0.30319.34230")]
     [System.SerializableAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="Airport")]
     public enum MoveObjectType {
@@ -674,6 +711,10 @@ namespace Snowplug.GMC {
             }
         }
     }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.34209")]
+    public delegate void LetitSnowCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.34209")]
