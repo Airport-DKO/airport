@@ -19,6 +19,7 @@ namespace WeatherGUI
         private Weather.WebServiceWeather w = new Weather.WebServiceWeather();
         delegate void enbl(bool b);
         delegate void rename(string s);
+        delegate string getcity();
 
         const int TIME = 60000;
 
@@ -26,17 +27,8 @@ namespace WeatherGUI
         {
             InitializeComponent();
             textBox1.MaxLength = 2;
-            this.Text = "WeatherGUI";
-            button1.Text = "Set";
-            button2.Text = "Let it snow";
-            button3.Text = "Reset monitor";
-            checkBox1.Text = "below zero";
-            label1.Text = "Enter temperature:";
-            label2.Text = "degrees";
-            label3.Text = "Cover snow:";
-            label4.Text = "Current temp:";
-            label5.Text = "getting...";
-            label6.Text = "getting...";
+            textBox2.MaxLength = 2;
+            comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBox1.Items.Add("Tokyo");
             comboBox1.Items.Add("Kyiv");
             comboBox1.Items.Add("Whitecourt");
@@ -44,7 +36,7 @@ namespace WeatherGUI
             comboBox1.Items.Add("Washington");
             comboBox1.Items.Add("Minsk");
             comboBox1.Items.Add("Almaty");
-            comboBox1.SelectedIndex = 1;
+            comboBox1.SelectedIndex = 0;
 
             //new Thread(() =>
             //{
@@ -157,7 +149,61 @@ namespace WeatherGUI
 
         private void button4_Click(object sender, EventArgs e)
         {
-            w.SetWind(comboBox1.SelectedItem.ToString(), Int32.Parse(textBox2.Text));
+            if (textBox2.Text.Length == 0)
+            {
+                MessageBox.Show("Empty value");
+                return;
+            }
+            new Thread(() =>
+            {
+                string city = "";
+                button4.Invoke(new enbl((b) => button4.Enabled = b), false);
+                button5.Invoke(new enbl((b) => button5.Enabled = b), false);
+                textBox2.Invoke(new enbl((b) => textBox2.Enabled = b), false);
+                comboBox1.Invoke(new enbl((b) => comboBox1.Enabled = b), false);
+                button4.Invoke(new rename((s) => button4.Text = s), "Setting...");
+                comboBox1.Invoke(new getcity(() => city = comboBox1.SelectedItem.ToString()));
+                w.SetWind(city, Int32.Parse(textBox2.Text)); 
+                button4.Invoke(new rename((s) => button4.Text = s), "Set");
+                comboBox1.Invoke(new enbl((b) => comboBox1.Enabled = b), true);
+                textBox2.Invoke(new enbl((b) => textBox2.Enabled = b), true);
+                button5.Invoke(new enbl((b) => button5.Enabled = b), true);
+                button4.Invoke(new enbl((b) => button4.Enabled = b), true);
+            }).Start();
         }
+
+        
+
+        private void button5_Click_1(object sender, EventArgs e)
+        {
+            new Thread(() =>
+            {
+                string city = "";
+                button4.Invoke(new enbl((b) => button4.Enabled = b), false);
+                button5.Invoke(new enbl((b) => button5.Enabled = b), false);
+                textBox2.Invoke(new enbl((b) => textBox2.Enabled = b), false);
+                comboBox1.Invoke(new enbl((b) => comboBox1.Enabled = b), false);
+                button4.Invoke(new rename((s) => button4.Text = s), "Setting...");
+                comboBox1.Invoke(new getcity(() => city = comboBox1.SelectedItem.ToString()));
+                w.SetWind(city, -1);
+                button4.Invoke(new rename((s) => button4.Text = s), "Set");
+                comboBox1.Invoke(new enbl((b) => comboBox1.Enabled = b), true);
+                textBox2.Invoke(new enbl((b) => textBox2.Enabled = b), true);
+                button5.Invoke(new enbl((b) => button5.Enabled = b), true);
+                button4.Invoke(new enbl((b) => button4.Enabled = b), true);
+            }).Start();
+        }
+
+        private void textBox2_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!(Char.IsDigit(e.KeyChar)))
+            {
+                if (e.KeyChar != (char)Keys.Back)
+                {
+                    e.Handled = true;
+                }
+            }
+        }
+
     }
 }
