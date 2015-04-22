@@ -4,6 +4,7 @@ using System.Text;
 using System.Threading.Tasks;
 using PassengerStairs.MetrologServiceVS;
 using RabbitMQ.Client;
+using RabbitMQ.Client.Events;
 
 namespace PassengerStairs
 {
@@ -50,25 +51,33 @@ namespace PassengerStairs
         }
 
         private void ListenQueue()
+        {
+            while (true)
             {
-                while (true)
+                BasicDeliverEventArgs ea;
+                if (_consumer.Queue.Dequeue(999999999, out ea))
                 {
-                    var ea = _consumer.Queue.Dequeue();
                     var body = ea.Body;
                     var message = Encoding.UTF8.GetString(body);
-                    var newCoef = double.Parse(message, CultureInfo.InvariantCulture);
+                    var newCoef = float.Parse(message, CultureInfo.InvariantCulture);
                     if (newCoef != CurrentCoef)
                     {
                         if (MessageReceived != null)
                         {
                             MessageReceived(this, new MetrologicalEventArgs() { NewCoef = newCoef });
                         }
-
                         CurrentCoef = newCoef;
+
                         Logger.SendMessage(0, Worker.ComponentName, "Новый коэффициент скорости " + newCoef.ToString());
                     }
                 }
+                else
+                {
+                    Logger.SendMessage(0, Worker.ComponentName, "Новый коэффициент скорости не приходил в таймаут");
+                }
+
             }
+        }
         }
 
     public class MetrologicalEventArgs : EventArgs
