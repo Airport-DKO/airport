@@ -34,17 +34,17 @@ namespace WebApplicationWeather
  
         public static void SendMessage(int level, string componentName, string message)
         {
-            //DateTime dt = new MetrologService().GetCurrentTime();
- 
-            //string logMessage = String.Format("{0}_{1}_{2}_{3}_{4}",
-            //    dt.ToString("dd.MM.yyyy"),
-            //    dt.ToString("HH:mm:ss"),
-            //    level,
-            //    componentName,
-            //    message);
- 
-            //var body = Encoding.UTF8.GetBytes(logMessage);
-            //Channel.BasicPublish("", QueueName, null, body);
+            DateTime dt = new MetrologService().GetCurrentTime();
+
+            string logMessage = String.Format("{0}_{1}_{2}_{3}_{4}",
+                dt.ToString("dd.MM.yyyy"),
+                dt.ToString("HH:mm:ss"),
+                level,
+                componentName,
+                message);
+
+            var body = Encoding.UTF8.GetBytes(logMessage);
+            Channel.BasicPublish("", QueueName, null, body);
         }
     }
 }

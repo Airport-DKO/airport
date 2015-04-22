@@ -33,10 +33,9 @@ namespace WebApplicationWeather
         [WebMethod]
         public double GetTemperature(bool gui)
         {
-            if (gui)
-                Logger.SendMessage(0, ComponentName, String.Format("Aэропорт, температура {0} С", AirportTemperature));
-            else
-                Logger.SendMessage(1, ComponentName, String.Format("Aэропорт, температура {0} С", AirportTemperature));
+            if (!gui)
+                Logger.SendMessage(1, ComponentName, String.Format
+                    ("Aэропорт, температура {0} С", AirportTemperature));
             return AirportTemperature;
         }
 
