@@ -21,7 +21,7 @@ namespace WeatherGUI
         delegate void rename(string s);
         delegate string getcity();
 
-        const int TIME = 60000;
+        const int TIME = 3000;
 
         public Form1()
         {
@@ -29,6 +29,7 @@ namespace WeatherGUI
             textBox1.MaxLength = 2;
             textBox2.MaxLength = 2;
             comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
+            button6.Visible = false;
             comboBox1.Items.Add("Tokyo");
             comboBox1.Items.Add("Kyiv");
             comboBox1.Items.Add("Whitecourt");
@@ -117,6 +118,12 @@ namespace WeatherGUI
                 button2.Invoke(new enbl((b) => button2.Enabled = b), false);
                 button2.Invoke(new rename((s) => button2.Text = s), "Snowing...");
                 w.CrapSnow();
+                button6.Invoke(new enbl((b) => button6.Visible = b), true);
+                while (!(w.GetFinishCondition()))
+                {
+                    Thread.Sleep(3000);
+                }
+                button6.Invoke(new enbl((b) => button6.Visible = b), false);
                 button2.Invoke(new rename((s) => button2.Text = s), "Let it snow");
                 button2.Invoke(new enbl((b) => button2.Enabled = b), true);
             }).Start();
@@ -203,6 +210,11 @@ namespace WeatherGUI
                     e.Handled = true;
                 }
             }
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            w.Finished();
         }
 
     }

@@ -37,6 +37,10 @@ namespace WeatherGUI.Weather {
         
         private System.Threading.SendOrPostCallback GetWindFromCityOperationCompleted;
         
+        private System.Threading.SendOrPostCallback GetFinishConditionOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback FinishedOperationCompleted;
+        
         private System.Threading.SendOrPostCallback SetWindOperationCompleted;
         
         private System.Threading.SendOrPostCallback CrapSnowOperationCompleted;
@@ -90,6 +94,12 @@ namespace WeatherGUI.Weather {
         
         /// <remarks/>
         public event GetWindFromCityCompletedEventHandler GetWindFromCityCompleted;
+        
+        /// <remarks/>
+        public event GetFinishConditionCompletedEventHandler GetFinishConditionCompleted;
+        
+        /// <remarks/>
+        public event FinishedCompletedEventHandler FinishedCompleted;
         
         /// <remarks/>
         public event SetWindCompletedEventHandler SetWindCompleted;
@@ -209,6 +219,59 @@ namespace WeatherGUI.Weather {
             if ((this.GetWindFromCityCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.GetWindFromCityCompleted(this, new GetWindFromCityCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/GetFinishCondition", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public bool GetFinishCondition() {
+            object[] results = this.Invoke("GetFinishCondition", new object[0]);
+            return ((bool)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetFinishConditionAsync() {
+            this.GetFinishConditionAsync(null);
+        }
+        
+        /// <remarks/>
+        public void GetFinishConditionAsync(object userState) {
+            if ((this.GetFinishConditionOperationCompleted == null)) {
+                this.GetFinishConditionOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetFinishConditionOperationCompleted);
+            }
+            this.InvokeAsync("GetFinishCondition", new object[0], this.GetFinishConditionOperationCompleted, userState);
+        }
+        
+        private void OnGetFinishConditionOperationCompleted(object arg) {
+            if ((this.GetFinishConditionCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetFinishConditionCompleted(this, new GetFinishConditionCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/Finished", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public void Finished() {
+            this.Invoke("Finished", new object[0]);
+        }
+        
+        /// <remarks/>
+        public void FinishedAsync() {
+            this.FinishedAsync(null);
+        }
+        
+        /// <remarks/>
+        public void FinishedAsync(object userState) {
+            if ((this.FinishedOperationCompleted == null)) {
+                this.FinishedOperationCompleted = new System.Threading.SendOrPostCallback(this.OnFinishedOperationCompleted);
+            }
+            this.InvokeAsync("Finished", new object[0], this.FinishedOperationCompleted, userState);
+        }
+        
+        private void OnFinishedOperationCompleted(object arg) {
+            if ((this.FinishedCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.FinishedCompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -368,6 +431,36 @@ namespace WeatherGUI.Weather {
             }
         }
     }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.34209")]
+    public delegate void GetFinishConditionCompletedEventHandler(object sender, GetFinishConditionCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.34209")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetFinishConditionCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetFinishConditionCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public bool Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((bool)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.34209")]
+    public delegate void FinishedCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.34209")]

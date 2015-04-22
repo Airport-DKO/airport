@@ -54,6 +54,22 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="GetFinishCondition">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetFinishConditionResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetFinishConditionResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Finished">
+        <s:complexType />
+      </s:element>
+      <s:element name="FinishedResponse">
+        <s:complexType />
+      </s:element>
       <s:element name="SetWind">
         <s:complexType>
           <s:sequence>
@@ -97,6 +113,18 @@
   <wsdl:message name="GetWindFromCitySoapOut">
     <wsdl:part name="parameters" element="tns:GetWindFromCityResponse" />
   </wsdl:message>
+  <wsdl:message name="GetFinishConditionSoapIn">
+    <wsdl:part name="parameters" element="tns:GetFinishCondition" />
+  </wsdl:message>
+  <wsdl:message name="GetFinishConditionSoapOut">
+    <wsdl:part name="parameters" element="tns:GetFinishConditionResponse" />
+  </wsdl:message>
+  <wsdl:message name="FinishedSoapIn">
+    <wsdl:part name="parameters" element="tns:Finished" />
+  </wsdl:message>
+  <wsdl:message name="FinishedSoapOut">
+    <wsdl:part name="parameters" element="tns:FinishedResponse" />
+  </wsdl:message>
   <wsdl:message name="SetWindSoapIn">
     <wsdl:part name="parameters" element="tns:SetWind" />
   </wsdl:message>
@@ -125,6 +153,14 @@
     <wsdl:operation name="GetWindFromCity">
       <wsdl:input message="tns:GetWindFromCitySoapIn" />
       <wsdl:output message="tns:GetWindFromCitySoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetFinishCondition">
+      <wsdl:input message="tns:GetFinishConditionSoapIn" />
+      <wsdl:output message="tns:GetFinishConditionSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Finished">
+      <wsdl:input message="tns:FinishedSoapIn" />
+      <wsdl:output message="tns:FinishedSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="SetWind">
       <wsdl:input message="tns:SetWindSoapIn" />
@@ -166,6 +202,24 @@
     </wsdl:operation>
     <wsdl:operation name="GetWindFromCity">
       <soap:operation soapAction="http://tempuri.org/GetWindFromCity" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFinishCondition">
+      <soap:operation soapAction="http://tempuri.org/GetFinishCondition" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Finished">
+      <soap:operation soapAction="http://tempuri.org/Finished" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -223,6 +277,24 @@
     </wsdl:operation>
     <wsdl:operation name="GetWindFromCity">
       <soap12:operation soapAction="http://tempuri.org/GetWindFromCity" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFinishCondition">
+      <soap12:operation soapAction="http://tempuri.org/GetFinishCondition" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Finished">
+      <soap12:operation soapAction="http://tempuri.org/Finished" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
