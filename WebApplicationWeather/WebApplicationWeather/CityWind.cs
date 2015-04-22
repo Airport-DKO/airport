@@ -46,12 +46,18 @@ namespace WebApplicationWeather
                 }
                 catch
                 {
+                    Logger.SendMessage(0, ComponentName, String.Format
+                        ("{0}, повтор запроса", city));
                     continue;
                 }
             }
 
             if (xmlCodeString == "Data Not Found")
+            {
+                Logger.SendMessage(0, ComponentName, String.Format
+                    ("Информация о погоде в городе {0} не предоставляется", city));
                 return 0;
+            }
             XDocument xmlCode = XDocument.Parse(xmlCodeString);
             XElement valueElement = xmlCode.Element("CurrentWeather").Element("Wind");
             string valueString = valueElement.Value;
@@ -65,7 +71,8 @@ namespace WebApplicationWeather
             newReg = new Regex(pattern, option);
             match = newReg.Match(text);
             int wind = (int)Math.Round(Double.Parse(match.Value) * 0.45);
-            Logger.SendMessage(1, ComponentName, String.Format("Город {0}, ветер {1} м/с", city, wind));
+            Logger.SendMessage(1, ComponentName, String.Format
+                ("Город {0}, скорость ветера {1} м/с", city, wind));
             return wind;
         }
     }

@@ -25,6 +25,7 @@ namespace WebApplicationWeather
     public class WebServiceWeather : System.Web.Services.WebService
     {
         static double AirportTemperature = 5;
+        static bool Finish = true;
         private const string ComponentName = "Weather";
         GMC.GMC gmc = new GMC.GMC();
         CityWind Wind = new CityWind();
@@ -94,21 +95,44 @@ namespace WebApplicationWeather
         [WebMethod]
         public int GetWindFromCity(string city)
         {
+            //Логгирование происходит внутри метода
             return Wind.GetWindFromCity(city);
+        }
+
+        [WebMethod]
+        public bool GetFinishCondition()
+        {
+            //Логгирование не требуется
+            return Finish;
+        }
+
+        [WebMethod]
+        public void Finished()
+        {
+            Finish = true;
+            Logger.SendMessage(0, ComponentName, String.Format
+                ("Сообщение об отчистки от снега получено"));
         }
 
         [WebMethod]
         public void SetWind(string city, int wind)
         {
             Wind.ForceSetWind(city, wind);
-
-            //Logger.SendMessage(1, ComponentName, String.Format("Aэропорт, установлена температура {0} С", AirportTemperature));
+            if (wind == -1)
+                Logger.SendMessage(1, ComponentName, String.Format
+                ("Город {0}, ложная скорость ветра сброшена", city));
+            else 
+                Logger.SendMessage(1, ComponentName, String.Format
+                ("Город {0}, установлена ложная скорость ветра: {1} м/с", city, wind));
         }
+
         [WebMethod]
         public void CrapSnow()
         {
-            Logger.SendMessage(1, ComponentName, String.Format("Выпал снег"));
+            //Logger.SendMessage(0, ComponentName, String.Format("Снег начинает падать"));
+            Finish = false;
             gmc.LetitSnow();
+            Logger.SendMessage(1, ComponentName, String.Format("Снег выпал"));
         }
     }
 }
