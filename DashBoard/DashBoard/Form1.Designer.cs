@@ -253,153 +253,153 @@
             this.label21.AutoSize = true;
             this.label21.Location = new System.Drawing.Point(162, 63);
             this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(40, 13);
+            this.label21.Size = new System.Drawing.Size(13, 13);
             this.label21.TabIndex = 20;
-            this.label21.Text = "Всего:";
+            this.label21.Text = "0";
             // 
             // label22
             // 
             this.label22.AutoSize = true;
             this.label22.Location = new System.Drawing.Point(162, 104);
             this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(40, 13);
+            this.label22.Size = new System.Drawing.Size(13, 13);
             this.label22.TabIndex = 21;
-            this.label22.Text = "Всего:";
+            this.label22.Text = "0";
             // 
             // label23
             // 
             this.label23.AutoSize = true;
             this.label23.Location = new System.Drawing.Point(162, 152);
             this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(40, 13);
+            this.label23.Size = new System.Drawing.Size(13, 13);
             this.label23.TabIndex = 22;
-            this.label23.Text = "Всего:";
+            this.label23.Text = "0";
             // 
             // label24
             // 
             this.label24.AutoSize = true;
             this.label24.Location = new System.Drawing.Point(162, 204);
             this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(40, 13);
+            this.label24.Size = new System.Drawing.Size(13, 13);
             this.label24.TabIndex = 23;
-            this.label24.Text = "Всего:";
+            this.label24.Text = "0";
             // 
             // label25
             // 
             this.label25.AutoSize = true;
             this.label25.Location = new System.Drawing.Point(162, 247);
             this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(40, 13);
+            this.label25.Size = new System.Drawing.Size(13, 13);
             this.label25.TabIndex = 24;
-            this.label25.Text = "Всего:";
+            this.label25.Text = "0";
             // 
             // label26
             // 
             this.label26.AutoSize = true;
             this.label26.Location = new System.Drawing.Point(162, 298);
             this.label26.Name = "label26";
-            this.label26.Size = new System.Drawing.Size(40, 13);
+            this.label26.Size = new System.Drawing.Size(13, 13);
             this.label26.TabIndex = 25;
-            this.label26.Text = "Всего:";
+            this.label26.Text = "0";
             // 
             // label27
             // 
             this.label27.AutoSize = true;
             this.label27.Location = new System.Drawing.Point(490, 63);
             this.label27.Name = "label27";
-            this.label27.Size = new System.Drawing.Size(40, 13);
+            this.label27.Size = new System.Drawing.Size(13, 13);
             this.label27.TabIndex = 26;
-            this.label27.Text = "Всего:";
+            this.label27.Text = "0";
             // 
             // label28
             // 
             this.label28.AutoSize = true;
             this.label28.Location = new System.Drawing.Point(490, 104);
             this.label28.Name = "label28";
-            this.label28.Size = new System.Drawing.Size(40, 13);
+            this.label28.Size = new System.Drawing.Size(13, 13);
             this.label28.TabIndex = 27;
-            this.label28.Text = "Всего:";
+            this.label28.Text = "0";
             // 
             // label29
             // 
             this.label29.AutoSize = true;
             this.label29.Location = new System.Drawing.Point(490, 152);
             this.label29.Name = "label29";
-            this.label29.Size = new System.Drawing.Size(40, 13);
+            this.label29.Size = new System.Drawing.Size(13, 13);
             this.label29.TabIndex = 28;
-            this.label29.Text = "Всего:";
+            this.label29.Text = "0";
             // 
             // label30
             // 
             this.label30.AutoSize = true;
             this.label30.Location = new System.Drawing.Point(490, 204);
             this.label30.Name = "label30";
-            this.label30.Size = new System.Drawing.Size(40, 13);
+            this.label30.Size = new System.Drawing.Size(13, 13);
             this.label30.TabIndex = 29;
-            this.label30.Text = "Всего:";
+            this.label30.Text = "0";
             // 
             // label31
             // 
             this.label31.AutoSize = true;
             this.label31.Location = new System.Drawing.Point(490, 247);
             this.label31.Name = "label31";
-            this.label31.Size = new System.Drawing.Size(40, 13);
+            this.label31.Size = new System.Drawing.Size(13, 13);
             this.label31.TabIndex = 30;
-            this.label31.Text = "Всего:";
+            this.label31.Text = "0";
             // 
             // label32
             // 
             this.label32.AutoSize = true;
             this.label32.Location = new System.Drawing.Point(789, 63);
             this.label32.Name = "label32";
-            this.label32.Size = new System.Drawing.Size(40, 13);
+            this.label32.Size = new System.Drawing.Size(13, 13);
             this.label32.TabIndex = 31;
-            this.label32.Text = "Всего:";
+            this.label32.Text = "0";
             // 
             // label33
             // 
             this.label33.AutoSize = true;
             this.label33.Location = new System.Drawing.Point(789, 104);
             this.label33.Name = "label33";
-            this.label33.Size = new System.Drawing.Size(40, 13);
+            this.label33.Size = new System.Drawing.Size(13, 13);
             this.label33.TabIndex = 32;
-            this.label33.Text = "Всего:";
+            this.label33.Text = "0";
             // 
             // label34
             // 
             this.label34.AutoSize = true;
             this.label34.Location = new System.Drawing.Point(789, 152);
             this.label34.Name = "label34";
-            this.label34.Size = new System.Drawing.Size(40, 13);
+            this.label34.Size = new System.Drawing.Size(13, 13);
             this.label34.TabIndex = 33;
-            this.label34.Text = "Всего:";
+            this.label34.Text = "0";
             // 
             // label35
             // 
             this.label35.AutoSize = true;
             this.label35.Location = new System.Drawing.Point(789, 204);
             this.label35.Name = "label35";
-            this.label35.Size = new System.Drawing.Size(40, 13);
+            this.label35.Size = new System.Drawing.Size(13, 13);
             this.label35.TabIndex = 34;
-            this.label35.Text = "Всего:";
+            this.label35.Text = "0";
             // 
             // label36
             // 
             this.label36.AutoSize = true;
             this.label36.Location = new System.Drawing.Point(789, 247);
             this.label36.Name = "label36";
-            this.label36.Size = new System.Drawing.Size(40, 13);
+            this.label36.Size = new System.Drawing.Size(13, 13);
             this.label36.TabIndex = 35;
-            this.label36.Text = "Всего:";
+            this.label36.Text = "0";
             // 
             // label37
             // 
             this.label37.AutoSize = true;
             this.label37.Location = new System.Drawing.Point(789, 298);
             this.label37.Name = "label37";
-            this.label37.Size = new System.Drawing.Size(40, 13);
+            this.label37.Size = new System.Drawing.Size(13, 13);
             this.label37.TabIndex = 36;
-            this.label37.Text = "Всего:";
+            this.label37.Text = "0";
             // 
             // Form1
             // 
