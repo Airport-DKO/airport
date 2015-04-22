@@ -89,10 +89,10 @@
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
     <None Include="Web References\WSGW\globalweather.wsdl" />
-    <None Include="Web References\WSGW\Reference.map">
+    <Content Include="Web References\WSGW\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
+    </Content>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
