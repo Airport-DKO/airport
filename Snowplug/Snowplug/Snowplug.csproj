@@ -62,6 +62,7 @@
   <ItemGroup>
     <Content Include="packages.config" />
     <None Include="Properties\PublishProfiles\airport-dko-services %282%29.pubxml" />
+    <None Include="Properties\PublishProfiles\airport-dko-services %283%29.pubxml" />
     <None Include="Properties\PublishProfiles\airport-dko-services.pubxml" />
     <None Include="Web References\MetrologService\MetrologService.wsdl" />
     <None Include="Web References\MetrologService\Reference.map">

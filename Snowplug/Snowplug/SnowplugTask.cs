@@ -19,12 +19,13 @@ namespace Snowplug
 
             foreach (var coordinate in coordinates)
             {
-                while (!gmc.Step(coordinate, MoveObjectType.SnowRemovalVehicle, id, speed * (int)Metrological.Instance.CurrentCoef))
+                var newSpeed = speed*Metrological.Instance.CurrentCoef;
+                while (!gmc.Step(coordinate, MoveObjectType.SnowRemovalVehicle, id, newSpeed))
                 {
                     if(token.IsCancellationRequested){
                         return true;
                     }
-                    Thread.Sleep(speed * (int)Metrological.Instance.CurrentCoef);
+                    Thread.Sleep(Convert.ToInt32(newSpeed)); // todo po chelovecheski sdelat
                 }
             }
 

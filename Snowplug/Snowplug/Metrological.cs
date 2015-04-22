@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using RabbitMQ.Client;
+using RabbitMQ.Client.Events;
 
 namespace Snowplug
 {
@@ -25,11 +26,11 @@ namespace Snowplug
         private readonly QueueingBasicConsumer _consumer;
 
         public event EventHandler<MetrologicalEventArgs> MessageReceived;
-        public float CurrentCoef { get; private set; }
+        public double CurrentCoef { get; private set; }
 
         private Metrological()
         {
-            CurrentCoef = 1;
+            CurrentCoef = new MetrologService.MetrologService().GetCurrentTick();
             var factory = new ConnectionFactory
             {
                 UserName = "tester",
@@ -49,28 +50,26 @@ namespace Snowplug
             channel.BasicConsume("TC_SnowremovalVehicle", true, _consumer);
             var listenTask = new Task(ListenQueue);
             listenTask.Start();
-
-            var ea = _consumer.Queue.Dequeue();
-            var body = ea.Body;
-            var message = Encoding.UTF8.GetString(body);
-            CurrentCoef = float.Parse(message, CultureInfo.InvariantCulture);
         }
 
         private void ListenQueue()
         {
             while (true)
             {
-                var ea = _consumer.Queue.Dequeue();
-                var body = ea.Body;
-                var message = Encoding.UTF8.GetString(body);
-                var newCoef = float.Parse(message, CultureInfo.InvariantCulture);
-                if (newCoef != CurrentCoef)
+                BasicDeliverEventArgs ea;
+                if (_consumer.Queue.Dequeue(999999999, out ea))
                 {
-                    if (MessageReceived != null)
+                    var body = ea.Body;
+                    var message = Encoding.UTF8.GetString(body);
+                    var newCoef = float.Parse(message, CultureInfo.InvariantCulture);
+                    if (newCoef != CurrentCoef)
                     {
-                        MessageReceived(this, new MetrologicalEventArgs() {NewCoef = newCoef});
+                        if (MessageReceived != null)
+                        {
+                            MessageReceived(this, new MetrologicalEventArgs() { NewCoef = newCoef });
+                        }
+                        CurrentCoef = newCoef;
                     }
-                    CurrentCoef = newCoef;
                 }
             }
         }
