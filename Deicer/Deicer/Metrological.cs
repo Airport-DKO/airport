@@ -60,27 +60,32 @@ namespace Deicer
 
                 _consumer = new QueueingBasicConsumer(channel);
                 channel.BasicConsume("TC_Deicer", true, _consumer);
-                if (_consumer.Queue.Dequeue(999999999, out ea))
-                {
-                    var body = ea.Body;
-                    var message = Encoding.UTF8.GetString(body);
-                    var newCoef = float.Parse(message, CultureInfo.InvariantCulture);
-                    if (newCoef != CurrentCoef)
+                    while (true)
                     {
-                        if (MessageReceived != null)
+                        if (_consumer.Queue.Dequeue(999999999, out ea))
                         {
-                            MessageReceived(this, new MetrologicalEventArgs() { NewCoef = newCoef });
-                        }
-                        CurrentCoef = newCoef;
+                            var body = ea.Body;
+                            var message = Encoding.UTF8.GetString(body);
+                            var newCoef = float.Parse(message, CultureInfo.InvariantCulture);
+                            if (newCoef != CurrentCoef)
+                            {
+                                if (MessageReceived != null)
+                                {
+                                    MessageReceived(this, new MetrologicalEventArgs() {NewCoef = newCoef});
+                                }
+                                CurrentCoef = newCoef;
 
-                        Logger.SendMessage(0, Worker.ComponentName, "Новый коэффициент скорости " + newCoef.ToString());
+                                Logger.SendMessage(0, Worker.ComponentName,
+                                    "Новый коэффициент скорости " + newCoef.ToString());
+                            }
+                        }
+                        else
+                        {
+                            Logger.SendMessage(0, Worker.ComponentName,
+                                "Новый коэффициент скорости не приходил в таймаут");
+                        }
                     }
-                }
-                else
-                {
-                    Logger.SendMessage(0, Worker.ComponentName, "Новый коэффициент скорости не приходил в таймаут");
-                }
-                channel.Close();
+                    channel.Close();
                 connection.Close();
                 }
                 catch (Exception)

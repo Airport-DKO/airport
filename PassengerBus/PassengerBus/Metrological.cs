@@ -58,26 +58,30 @@ namespace PassengerBus
 
                     _consumer = new QueueingBasicConsumer(channel);
                     channel.BasicConsume("TC_PassengerBus", true, _consumer);
-                    if (_consumer.Queue.Dequeue(999999999, out ea))
+                    while (true)
                     {
-                        var body = ea.Body;
-                        var message = Encoding.UTF8.GetString(body);
-                        var newCoef = float.Parse(message, CultureInfo.InvariantCulture);
-                        if (newCoef != CurrentCoef)
+                        if (_consumer.Queue.Dequeue(999999999, out ea))
                         {
-                            if (MessageReceived != null)
+                            var body = ea.Body;
+                            var message = Encoding.UTF8.GetString(body);
+                            var newCoef = float.Parse(message, CultureInfo.InvariantCulture);
+                            if (newCoef != CurrentCoef)
                             {
-                                MessageReceived(this, new MetrologicalEventArgs() {NewCoef = newCoef});
-                            }
-                            CurrentCoef = newCoef;
+                                if (MessageReceived != null)
+                                {
+                                    MessageReceived(this, new MetrologicalEventArgs() {NewCoef = newCoef});
+                                }
+                                CurrentCoef = newCoef;
 
-                            Logger.SendMessage(0, Worker.ComponentName,
-                                "Новый коэффициент скорости " + newCoef.ToString());
+                                Logger.SendMessage(0, Worker.ComponentName,
+                                    "Новый коэффициент скорости " + newCoef.ToString());
+                            }
                         }
-                    }
-                    else
-                    {
-                        Logger.SendMessage(0, Worker.ComponentName, "Новый коэффициент скорости не приходил в таймаут");
+                        else
+                        {
+                            Logger.SendMessage(0, Worker.ComponentName,
+                                "Новый коэффициент скорости не приходил в таймаут");
+                        }
                     }
                     channel.Close();
                     connection.Close();

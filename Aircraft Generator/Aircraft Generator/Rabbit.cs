@@ -43,7 +43,7 @@ namespace Aircraft_Generator
             {
                 try
                 {
-                    BasicDeliverEventArgs ea = _consumer.Queue.Dequeue();
+                    BasicDeliverEventArgs ea;
                     var factory = new ConnectionFactory
                     {
                         UserName = "tester",
@@ -61,19 +61,32 @@ namespace Aircraft_Generator
 
                     _consumer = new QueueingBasicConsumer(channel);
                     channel.BasicConsume("TC_AircraftGenerator", true, _consumer);
-                    byte[] body = ea.Body;
-                    string message = Encoding.UTF8.GetString(body);
-                    float newCoef = float.Parse(message, CultureInfo.InvariantCulture);
-                    if (newCoef != CurrentCoef)
+                    while (true)
                     {
-                        if (MessageReceived != null)
+                        if (_consumer.Queue.Dequeue(999999999, out ea))
                         {
-                            MessageReceived(this, new MetrologicalEventArgs {NewCoef = newCoef});
+                            byte[] body = ea.Body;
+                            string message = Encoding.UTF8.GetString(body);
+                            float newCoef = float.Parse(message, CultureInfo.InvariantCulture);
+                            if (newCoef != CurrentCoef)
+                            {
+                                if (MessageReceived != null)
+                                {
+                                    MessageReceived(this, new MetrologicalEventArgs());
+                                    ;
+                                }
+                                CurrentCoef = newCoef;
+
+                                Logger.SendMessage(0, "AircraftGenerator", "Новый коэффициент скорости " + newCoef,
+                                    DateTime.MinValue);
+                            }
                         }
-                        CurrentCoef = newCoef;
-                        Logger.SendMessage(0, "AircraftGenerator",
-                            String.Format("Получили новый коэффициент скорости {0}", newCoef),
-                            DateTime.MinValue);
+
+                        else
+                        {
+                            Logger.SendMessage(0, "AircraftGenerator",
+                                "Новый коэффициент скорости не приходил в таймаут", DateTime.MinValue);
+                        }
                     }
                     channel.Close();
                     connection.Close();
@@ -82,11 +95,12 @@ namespace Aircraft_Generator
                 {
                 }
             }
-         }
+        }
     }
+
 
     public class MetrologicalEventArgs : EventArgs
     {
         public float NewCoef { get; set; }
     }
-}
+} //TC_AircraftGenerator
