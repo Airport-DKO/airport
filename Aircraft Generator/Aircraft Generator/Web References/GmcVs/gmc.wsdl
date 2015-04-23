@@ -67,6 +67,7 @@
           <s:enumeration value="VipShuttle" />
           <s:enumeration value="SnowRemovalVehicle" />
           <s:enumeration value="Refueler" />
+          <s:enumeration value="Jet" />
         </s:restriction>
       </s:simpleType>
       <s:element name="StepResponse">
@@ -80,6 +81,7 @@
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="1" maxOccurs="1" name="planeGuid" type="s1:guid" />
+            <s:element minOccurs="1" maxOccurs="1" name="type" type="tns:MoveObjectType" />
             <s:element minOccurs="1" maxOccurs="1" name="isArrival" type="s:boolean" />
           </s:sequence>
         </s:complexType>

@@ -67,7 +67,8 @@ namespace WebApplication1.Logic
         PassengerBus,
         VipShuttle,
         SnowRemovalVehicle,
-        Refueler
+        Refueler,
+        Jet
     }
 
     public enum MapObjectType

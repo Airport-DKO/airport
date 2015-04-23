@@ -129,10 +129,10 @@
     </None>
     <None Include="Web References\InformationPanelWS\WebServiceInformationPanel.wsdl" />
     <None Include="Web References\TowerService\Tower.wsdl" />
-    <Content Include="Web References\WeatherWs\Reference.map">
+    <None Include="Web References\WeatherWs\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
-    </Content>
+    </None>
     <None Include="Web References\WeatherWs\WebServiceWeather.wsdl" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

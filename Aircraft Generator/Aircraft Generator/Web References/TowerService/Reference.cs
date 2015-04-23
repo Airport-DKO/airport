@@ -74,24 +74,26 @@ namespace Aircraft_Generator.TowerService {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("Airport/LandingRequest", RequestNamespace="Airport", ResponseNamespace="Airport", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public bool LandingRequest(System.Guid planeId) {
+        public bool LandingRequest(System.Guid planeId, MoveObjectType type) {
             object[] results = this.Invoke("LandingRequest", new object[] {
-                        planeId});
+                        planeId,
+                        type});
             return ((bool)(results[0]));
         }
         
         /// <remarks/>
-        public void LandingRequestAsync(System.Guid planeId) {
-            this.LandingRequestAsync(planeId, null);
+        public void LandingRequestAsync(System.Guid planeId, MoveObjectType type) {
+            this.LandingRequestAsync(planeId, type, null);
         }
         
         /// <remarks/>
-        public void LandingRequestAsync(System.Guid planeId, object userState) {
+        public void LandingRequestAsync(System.Guid planeId, MoveObjectType type, object userState) {
             if ((this.LandingRequestOperationCompleted == null)) {
                 this.LandingRequestOperationCompleted = new System.Threading.SendOrPostCallback(this.OnLandingRequestOperationCompleted);
             }
             this.InvokeAsync("LandingRequest", new object[] {
-                        planeId}, this.LandingRequestOperationCompleted, userState);
+                        planeId,
+                        type}, this.LandingRequestOperationCompleted, userState);
         }
         
         private void OnLandingRequestOperationCompleted(object arg) {
@@ -118,6 +120,52 @@ namespace Aircraft_Generator.TowerService {
             }
             return false;
         }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.0.30319.34230")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="Airport")]
+    public enum MoveObjectType {
+        
+        /// <remarks/>
+        None,
+        
+        /// <remarks/>
+        Plane,
+        
+        /// <remarks/>
+        FollowMeVan,
+        
+        /// <remarks/>
+        ContainerLoader,
+        
+        /// <remarks/>
+        BaggageTractor,
+        
+        /// <remarks/>
+        CateringTruck,
+        
+        /// <remarks/>
+        Deicer,
+        
+        /// <remarks/>
+        PassengerStairs,
+        
+        /// <remarks/>
+        PassengerBus,
+        
+        /// <remarks/>
+        VipShuttle,
+        
+        /// <remarks/>
+        SnowRemovalVehicle,
+        
+        /// <remarks/>
+        Refueler,
+        
+        /// <remarks/>
+        Jet,
     }
     
     /// <remarks/>

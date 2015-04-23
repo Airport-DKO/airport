@@ -13,6 +13,7 @@
         PassengerBus,
         VipShuttle,
         SnowRemovalVehicle,
-        Refueler
+        Refueler,
+        Jet
     }
 }

@@ -185,25 +185,27 @@ namespace Tower_Control.GmcWs {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("Airport/CheckRunwayAwailability", RequestNamespace="Airport", ResponseNamespace="Airport", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public bool CheckRunwayAwailability(System.Guid planeGuid, bool isArrival) {
+        public bool CheckRunwayAwailability(System.Guid planeGuid, MoveObjectType type, bool isArrival) {
             object[] results = this.Invoke("CheckRunwayAwailability", new object[] {
                         planeGuid,
+                        type,
                         isArrival});
             return ((bool)(results[0]));
         }
         
         /// <remarks/>
-        public void CheckRunwayAwailabilityAsync(System.Guid planeGuid, bool isArrival) {
-            this.CheckRunwayAwailabilityAsync(planeGuid, isArrival, null);
+        public void CheckRunwayAwailabilityAsync(System.Guid planeGuid, MoveObjectType type, bool isArrival) {
+            this.CheckRunwayAwailabilityAsync(planeGuid, type, isArrival, null);
         }
         
         /// <remarks/>
-        public void CheckRunwayAwailabilityAsync(System.Guid planeGuid, bool isArrival, object userState) {
+        public void CheckRunwayAwailabilityAsync(System.Guid planeGuid, MoveObjectType type, bool isArrival, object userState) {
             if ((this.CheckRunwayAwailabilityOperationCompleted == null)) {
                 this.CheckRunwayAwailabilityOperationCompleted = new System.Threading.SendOrPostCallback(this.OnCheckRunwayAwailabilityOperationCompleted);
             }
             this.InvokeAsync("CheckRunwayAwailability", new object[] {
                         planeGuid,
+                        type,
                         isArrival}, this.CheckRunwayAwailabilityOperationCompleted, userState);
         }
         
@@ -550,6 +552,9 @@ namespace Tower_Control.GmcWs {
         
         /// <remarks/>
         Refueler,
+        
+        /// <remarks/>
+        Jet,
     }
     
     /// <remarks/>

@@ -19,9 +19,9 @@ namespace Tower_Control
     {
 
         [WebMethod]
-        public bool LandingRequest(Guid planeId)
+        public bool LandingRequest(Guid planeId, MoveObjectType type)
         {
-            return Core.Instance.LandingRequest(planeId);
+            return Core.Instance.LandingRequest(planeId, type);
         }
     }
 }

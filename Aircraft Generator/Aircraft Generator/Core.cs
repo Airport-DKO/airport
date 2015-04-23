@@ -15,6 +15,7 @@ using Aircraft_Generator.PassengersWs;
 using Aircraft_Generator.TowerService;
 using Aircraft_Generator.WeatherWs;
 using MapObject = Aircraft_Generator.GmcVs.MapObject;
+using MoveObjectType = Aircraft_Generator.TowerService.MoveObjectType;
 
 namespace Aircraft_Generator
 {
@@ -204,9 +205,11 @@ namespace Aircraft_Generator
 
         public bool DoStep(Guid planeId, CoordinateTuple step)
         {
+            var plane=Planes.First(p => p.Id == planeId);
+            var type = plane.Type == PlaneType.Jet ? GmcVs.MoveObjectType.Jet : GmcVs.MoveObjectType.Plane;
             while (true)
             {
-                bool result = _gmc.Step(step, MoveObjectType.Plane, planeId, 1500*Rabbit.Instance.CurrentCoef);
+                bool result= _gmc.Step(step, type, planeId, 1500*Rabbit.Instance.CurrentCoef);
                 if (result)
                 {
                     break;
@@ -277,7 +280,7 @@ namespace Aircraft_Generator
 
             while (true)
             {// Проверяем свободна ли полоса
-                if (_gmc.CheckRunwayAwailability(plane.Id, false))
+                if (_gmc.CheckRunwayAwailability(plane.Id, plane.Type == PlaneType.Jet ?  GmcVs.MoveObjectType.Jet : GmcVs.MoveObjectType.Plane,false))
                 {
                     _panel.ReadyToTakeOff(plane.Flight.number);
                     _gsc.SetFreePlace(plane.Id); // Сообщаем УНО что освобождаем площадку
@@ -308,7 +311,14 @@ namespace Aircraft_Generator
                 bool result;
                 while (true)
                 {
-                    result = _gmc.Step(coordinate, MoveObjectType.Plane, plane.Id, 3000*Rabbit.Instance.CurrentCoef);
+                    if (plane.Type == PlaneType.Jet)
+                    {
+                        result = _gmc.Step(coordinate, GmcVs.MoveObjectType.Jet, plane.Id, 3000*Rabbit.Instance.CurrentCoef);
+                    }
+                    else
+                    {
+                        result = _gmc.Step(coordinate, GmcVs.MoveObjectType.Plane, plane.Id, 3000*Rabbit.Instance.CurrentCoef);
+                    }
                     if (result)
                     {
                         coordinateTuple = coordinate;
@@ -370,7 +380,7 @@ namespace Aircraft_Generator
                     {
                         return;
                     }
-                    bool landingRequest = _tower.LandingRequest(plane.Id);
+                    bool landingRequest = _tower.LandingRequest(plane.Id, plane.Type == PlaneType.Jet ? MoveObjectType.Jet : MoveObjectType.Plane);
                     if (!landingRequest)
                     {
                         Sleep(10000);

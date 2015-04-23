@@ -488,6 +488,9 @@ namespace Ground_Movement_Control.VizualizatorWs {
         
         /// <remarks/>
         Refueler,
+        
+        /// <remarks/>
+        Jet,
     }
     
     /// <remarks/>

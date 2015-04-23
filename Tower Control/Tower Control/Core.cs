@@ -23,9 +23,9 @@ namespace Tower_Control
             _groundMovementControl=new GMC();
         }
 
-        public bool LandingRequest(Guid planeId)
+        public bool LandingRequest(Guid planeId, MoveObjectType type)
         {
-            return _groundMovementControl.CheckRunwayAwailability(planeId, true);
+            return _groundMovementControl.CheckRunwayAwailability(planeId, type, true);
         }
     }
 }

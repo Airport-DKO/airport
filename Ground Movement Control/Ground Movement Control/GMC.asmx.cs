@@ -47,9 +47,9 @@ namespace Ground_Movement_Control
         /// <param name="planeGuid">Guid самолета, который хочет сесть</param>
         /// <returns>null - если запрет, MapObject полосы в положительном случае</returns>
         [WebMethod]
-        public bool CheckRunwayAwailability(Guid planeGuid, bool isArrival)
+        public bool CheckRunwayAwailability(Guid planeGuid, MoveObjectType type, bool isArrival)
         {
-            return Core.Instance.CheckRunwayAwailability(planeGuid, isArrival);
+            return Core.Instance.CheckRunwayAwailability(planeGuid,type, isArrival);
         }
 
         /// <summary>

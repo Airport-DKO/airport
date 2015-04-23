@@ -119,7 +119,7 @@ namespace Ground_Movement_Control
             return runwayLocation.MapObject;
         }
 
-        public bool CheckRunwayAwailability(Guid planeGuid, bool isArrival)
+        public bool CheckRunwayAwailability(Guid planeGuid, MoveObjectType type, bool isArrival)
         {
             lock (_runwayLockObject)
             {
@@ -135,7 +135,7 @@ namespace Ground_Movement_Control
                 if (isArrival)
                 {
                     bool result = CheckVacantPosition(runwayLocation.Position.X, runwayLocation.Position.Y,
-                        MoveObjectType.Plane,
+                        type,
                         planeGuid, 150, true);
                     if (!result)
                     {
@@ -152,7 +152,7 @@ namespace Ground_Movement_Control
 
                     _planesServiceZones.Add(new Tuple<Guid, MapObject>(planeGuid, serviceZone));
                     result = CheckVacantPosition(runwayLocation.Position.X, runwayLocation.Position.Y,
-                        MoveObjectType.Plane,
+                        type,
                         planeGuid, 150);
                     if (result)
                     {
@@ -167,7 +167,7 @@ namespace Ground_Movement_Control
                 else
                 {
                     bool result = CheckVacantPosition(runwayLocation.Position.X, runwayLocation.Position.Y,
-                        MoveObjectType.Plane,
+                        type,
                         planeGuid, 1000);
                     if (result)
                     {
@@ -303,7 +303,7 @@ namespace Ground_Movement_Control
             {
                 return true;
             }
-            if (mapPoint.OwnerType == MoveObjectType.Plane && type == MoveObjectType.FollowMeVan)
+            if ((mapPoint.OwnerType == MoveObjectType.Plane || mapPoint.OwnerType==MoveObjectType.Jet) && type == MoveObjectType.FollowMeVan)
             {
                 Debug.WriteLine("Move object {0} to {1} {2} THIS IS FOLLOW ME INDA PLANE", type, x, y);
                 _visualisator.MoveObject((VizualizatorWs.MoveObjectType) type, id,
