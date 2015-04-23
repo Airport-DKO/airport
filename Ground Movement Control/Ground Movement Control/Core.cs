@@ -288,7 +288,7 @@ namespace Ground_Movement_Control
                     {
                         oldPoint.MakeVacant();
                     }
-                    Debug.WriteLine("Move object {0} to {1} {2}", type, x, y);
+                    Debug.WriteLine("Move object {0} to {1} {2}. SPEED {3}", type, x, y, speed);
                     if (!justTry)
                     {
                         _visualisator.MoveObject((VizualizatorWs.MoveObjectType) type, id,

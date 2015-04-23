@@ -21,67 +21,75 @@ namespace BaggageTractor
 
         #endregion
 
-        private readonly QueueingBasicConsumer _consumer;
-
-        public event EventHandler<MetrologicalEventArgs> MessageReceived;
-        public double CurrentCoef { get; private set; }
+        private QueueingBasicConsumer _consumer;
 
         private Metrological()
         {
             CurrentCoef = new MetrologService().GetCurrentTick();
-            var factory = new ConnectionFactory
-            {
-                UserName = "tester",
-                Password = "tester",
-                VirtualHost = "/",
-                HostName = "airport-dko-1.cloudapp.net",
-                AutomaticRecoveryEnabled = true,
-                Port = 5672
-            };
-
-            IConnection connection = factory.CreateConnection();
-            IModel channel = connection.CreateModel();
-
-            channel.QueueDeclare("TC_BaggageTractor", true, false, false, null);
-
-            _consumer = new QueueingBasicConsumer(channel);
-            channel.BasicConsume("TC_BaggageTractor", true, _consumer);
             var listenTask = new Task(ListenQueue);
             listenTask.Start();
         }
+
+        public double CurrentCoef { get; private set; }
+        public event EventHandler<MetrologicalEventArgs> MessageReceived;
 
         private void ListenQueue()
         {
             while (true)
             {
-                BasicDeliverEventArgs ea;
-                if (_consumer.Queue.Dequeue(999999999, out ea))
+                try
                 {
-                    var body = ea.Body;
-                    var message = Encoding.UTF8.GetString(body);
-                    var newCoef = float.Parse(message, CultureInfo.InvariantCulture);
-                    if (newCoef != CurrentCoef)
+                    var factory = new ConnectionFactory
                     {
-                        if (MessageReceived != null)
-                        {
-                            MessageReceived(this, new MetrologicalEventArgs() {NewCoef = newCoef});
-                        }
-                        CurrentCoef = newCoef;
+                        UserName = "tester",
+                        Password = "tester",
+                        VirtualHost = "/",
+                        HostName = "airport-dko-1.cloudapp.net",
+                        AutomaticRecoveryEnabled = true,
+                        Port = 5672
+                    };
 
-                        Logger.SendMessage(0, Worker.ComponentName, "Новый коэффициент скорости " + newCoef.ToString());
+                    IConnection connection = factory.CreateConnection();
+                    IModel channel = connection.CreateModel();
+
+                    channel.QueueDeclare("TC_BaggageTractor", true, false, false, null);
+
+                    _consumer = new QueueingBasicConsumer(channel);
+                    channel.BasicConsume("TC_BaggageTractor", true, _consumer);
+                    BasicDeliverEventArgs ea;
+                    if (_consumer.Queue.Dequeue(999999999, out ea))
+                    {
+                        byte[] body = ea.Body;
+                        string message = Encoding.UTF8.GetString(body);
+                        float newCoef = float.Parse(message, CultureInfo.InvariantCulture);
+                        if (newCoef != CurrentCoef)
+                        {
+                            if (MessageReceived != null)
+                            {
+                                MessageReceived(this, new MetrologicalEventArgs {NewCoef = newCoef});
+                            }
+                            CurrentCoef = newCoef;
+
+                            Logger.SendMessage(0, Worker.ComponentName, "Новый коэффициент скорости " + newCoef);
+                        }
                     }
+                    else
+                    {
+                        Logger.SendMessage(0, Worker.ComponentName, "Новый коэффициент скорости не приходил в таймаут");
+                    }
+
+                    channel.Close();
+                    connection.Close();
                 }
-                else
+                catch
                 {
-                    Logger.SendMessage(0, Worker.ComponentName, "Новый коэффициент скорости не приходил в таймаут");
                 }
-                
             }
         }
     }
 
     public class MetrologicalEventArgs : EventArgs
-        {
-            public float NewCoef { get; set; }
-        }
+    {
+        public float NewCoef { get; set; }
+    }
 }

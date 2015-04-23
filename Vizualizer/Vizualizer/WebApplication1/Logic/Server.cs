@@ -17,14 +17,14 @@ namespace WebApplication1.Logic
         private static readonly Lazy<Server> _instance =
             new Lazy<Server>(() => new Server());
 
-        public static Server Instance => _instance.Value;
+        public static Server Instance { get { return _instance.Value; } }
 
         #endregion
 
         public List<TcpClient> Clients;
         public void SendMessage(string message)
         {
-            new Thread(SendThread).Start(message);
+            SendThread(message);
         }
         private Server()
         {

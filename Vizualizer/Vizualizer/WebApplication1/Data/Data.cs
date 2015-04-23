@@ -12,7 +12,7 @@ namespace WebApplication1.Data
         private static readonly Lazy<Data> _instance =
             new Lazy<Data>(() => new Data());
 
-        public static Data Instance => _instance.Value;
+        public static Data Instance { get { return _instance.Value; } }
 
         #endregion
 
