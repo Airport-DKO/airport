@@ -30,7 +30,8 @@ namespace Aircraft_Generator
                     Port = 5672
                 };
 
-                Channel = factory.CreateConnection().CreateModel();
+                var connection = factory.CreateConnection();
+                Channel = connection.CreateModel();
 
                 QueueName = "LoggerQueue";
 
@@ -51,6 +52,8 @@ namespace Aircraft_Generator
                 //передача сообщения в очередь
                 var body = Encoding.UTF8.GetBytes(logMessage); // декодируем в UTF8
                 Channel.BasicPublish("", QueueName, null, body);
+                Channel.Close();
+                connection.Close();
             }
         }
     }

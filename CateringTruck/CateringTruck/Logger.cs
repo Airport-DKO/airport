@@ -24,8 +24,8 @@ namespace CateringTruck
                     AutomaticRecoveryEnabled = true,
                     Port = 5672
                 };
-
-                IModel Channel = factory.CreateConnection().CreateModel();
+                var connection = factory.CreateConnection();
+                IModel Channel = connection.CreateModel();
 
                 string QueueName = "LoggerQueue";
 
@@ -46,6 +46,8 @@ namespace CateringTruck
                 //передача сообщения в очередь
                 var body = Encoding.UTF8.GetBytes(logMessage); // декодируем в UTF8
                 Channel.BasicPublish("", QueueName, null, body);
+                Channel.Close();
+                connection.Close();
             }
         }
     }

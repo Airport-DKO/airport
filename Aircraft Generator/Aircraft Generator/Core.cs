@@ -233,7 +233,7 @@ namespace Aircraft_Generator
             while (true)
             {
                 var windInCity = _weather.GetTempFromCity(plane.Flight.city.ToString());
-                if (windInCity < 10)
+                if (windInCity < 39)
                 {
                     Debug.WriteLine("Самолет {0} погода в пункте назначения хорошая", plane.Name);
                     Logger.SendMessage(1, "AircraftGenerator",

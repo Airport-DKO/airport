@@ -19,7 +19,8 @@ namespace Ground_Service_Control
                     Port = 5672
                 };
 
-                IModel Channel = factory.CreateConnection().CreateModel();
+                var connection = factory.CreateConnection();
+                IModel Channel = connection.CreateModel();
 
                 string QueueName = "LoggerQueue";
 
@@ -38,6 +39,8 @@ namespace Ground_Service_Control
 
                 var body = Encoding.UTF8.GetBytes(logMessage);
                 Channel.BasicPublish("", QueueName, null, body);
+                Channel.Close();
+                connection.Close();
             }
             catch(RabbitMQ.Client.Exceptions.BrokerUnreachableException)
             {
