@@ -21,7 +21,7 @@ namespace PassengerBus
 
         #endregion
 
-        private readonly QueueingBasicConsumer _consumer;
+        private  QueueingBasicConsumer _consumer;
 
         public event EventHandler<MetrologicalEventArgs> MessageReceived;
         public double CurrentCoef { get; private set; }
@@ -29,23 +29,7 @@ namespace PassengerBus
         private Metrological()
         {
             CurrentCoef = new MetrologService().GetCurrentTick();
-            var factory = new ConnectionFactory
-            {
-                UserName = "tester",
-                Password = "tester",
-                VirtualHost = "/",
-                HostName = "airport-dko-1.cloudapp.net",
-                AutomaticRecoveryEnabled = true,
-                Port = 5672
-            };
 
-            IConnection connection = factory.CreateConnection();
-            IModel channel = connection.CreateModel();
-
-            channel.QueueDeclare("TC_PassengerBus", true, false, false, null);
-
-            _consumer = new QueueingBasicConsumer(channel);
-            channel.BasicConsume("TC_PassengerBus", true, _consumer);
             var listenTask = new Task(ListenQueue);
             listenTask.Start();
         }
@@ -54,28 +38,54 @@ namespace PassengerBus
         {
             while (true)
             {
-                BasicDeliverEventArgs ea;
-                if (_consumer.Queue.Dequeue(999999999, out ea))
+                try
                 {
-                    var body = ea.Body;
-                    var message = Encoding.UTF8.GetString(body);
-                    var newCoef = float.Parse(message, CultureInfo.InvariantCulture);
-                    if (newCoef != CurrentCoef)
+                    BasicDeliverEventArgs ea;
+                    var factory = new ConnectionFactory
                     {
-                        if (MessageReceived != null)
+                        UserName = "tester",
+                        Password = "tester",
+                        VirtualHost = "/",
+                        HostName = "airport-dko-1.cloudapp.net",
+                        AutomaticRecoveryEnabled = true,
+                        Port = 5672
+                    };
+
+                    IConnection connection = factory.CreateConnection();
+                    IModel channel = connection.CreateModel();
+
+                    channel.QueueDeclare("TC_PassengerBus", true, false, false, null);
+
+                    _consumer = new QueueingBasicConsumer(channel);
+                    channel.BasicConsume("TC_PassengerBus", true, _consumer);
+                    if (_consumer.Queue.Dequeue(999999999, out ea))
+                    {
+                        var body = ea.Body;
+                        var message = Encoding.UTF8.GetString(body);
+                        var newCoef = float.Parse(message, CultureInfo.InvariantCulture);
+                        if (newCoef != CurrentCoef)
                         {
-                            MessageReceived(this, new MetrologicalEventArgs() { NewCoef = newCoef });
+                            if (MessageReceived != null)
+                            {
+                                MessageReceived(this, new MetrologicalEventArgs() {NewCoef = newCoef});
+                            }
+                            CurrentCoef = newCoef;
+
+                            Logger.SendMessage(0, Worker.ComponentName,
+                                "Новый коэффициент скорости " + newCoef.ToString());
                         }
-                        CurrentCoef = newCoef;
-
-                        Logger.SendMessage(0, Worker.ComponentName, "Новый коэффициент скорости " + newCoef.ToString());
                     }
+                    else
+                    {
+                        Logger.SendMessage(0, Worker.ComponentName, "Новый коэффициент скорости не приходил в таймаут");
+                    }
+                    channel.Close();
+                    connection.Close();
                 }
-                else
+                catch
                 {
-                    Logger.SendMessage(0, Worker.ComponentName, "Новый коэффициент скорости не приходил в таймаут");
+                    
                 }
-
             }
         }
     }

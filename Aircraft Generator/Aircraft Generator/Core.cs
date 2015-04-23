@@ -114,7 +114,11 @@ namespace Aircraft_Generator
 
         public bool LoadStandartPassangers(MapObject serviceZone, List<Guid> passengersGuids)
         {
-            Plane plane = Planes.First(p => p.ServiceZone.Number == serviceZone.Number);
+            Plane plane = Planes.FirstOrDefault(p => p.ServiceZone.Number == serviceZone.Number);
+            if (plane == null)
+            {
+                return true;
+            }
             plane.CurrentStandartPassengers += passengersGuids.Count;
             _passengersGenerator.onPlane(passengersGuids.ToArray());
             return true;
@@ -122,7 +126,11 @@ namespace Aircraft_Generator
 
         public bool LoadVipPassangers(MapObject serviceZone, List<Guid> passengersGuids)
         {
-            Plane plane = Planes.First(p => p.ServiceZone.Number == serviceZone.Number);
+            Plane plane = Planes.FirstOrDefault(p => p.ServiceZone.Number == serviceZone.Number);
+            if (plane == null)
+            {
+                return true;
+            }
             plane.CurrentVipPassengers += passengersGuids.Count;
             _passengersGenerator.onPlane(passengersGuids.ToArray());
             return true;
@@ -130,7 +138,11 @@ namespace Aircraft_Generator
 
         public bool UnloadStandartPassangers(MapObject serviceZone, int countOfPassengers)
         {
-            Plane plane = Planes.First(p => p.ServiceZone.Number == serviceZone.Number);
+            Plane plane = Planes.FirstOrDefault(p => p.ServiceZone.Number == serviceZone.Number);
+            if (plane == null)
+            {
+                return true;
+            }
             if (countOfPassengers >= plane.CurrentStandartPassengers)
             {
                 countOfPassengers = plane.CurrentStandartPassengers;
@@ -141,7 +153,11 @@ namespace Aircraft_Generator
 
         public bool UnloadVipPassangers(MapObject serviceZone, int countOfPassengers)
         {
-            Plane plane = Planes.First(p => p.ServiceZone.Number == serviceZone.Number);
+            Plane plane = Planes.FirstOrDefault(p => p.ServiceZone.Number == serviceZone.Number);
+            if (plane == null)
+            {
+                return true;
+            }
             if (countOfPassengers >= plane.CurrentVipPassengers)
             {
                 countOfPassengers = plane.CurrentVipPassengers;
@@ -152,14 +168,22 @@ namespace Aircraft_Generator
 
         public bool LoadBaggage(MapObject serviseZone, int weightOfBaggage)
         {
-            Plane plane = Planes.First(p => p.ServiceZone.Number == serviseZone.Number);
+            Plane plane = Planes.FirstOrDefault(p => p.ServiceZone.Number == serviseZone.Number);
+            if (plane == null)
+            {
+                return true;
+            }
             plane.CurrentBaggage += weightOfBaggage;
             return true;
         }
 
         public bool UnloadBaggage(MapObject serviseZone, int weightOfBaggage)
         {
-            Plane plane = Planes.First(p => p.ServiceZone.Number == serviseZone.Number);
+            Plane plane = Planes.FirstOrDefault(p => p.ServiceZone.Number == serviseZone.Number);
+            if (plane == null)
+            {
+                return true;
+            }
             if (weightOfBaggage >= plane.CurrentBaggage)
             {
                 weightOfBaggage = plane.CurrentBaggage;
@@ -182,7 +206,7 @@ namespace Aircraft_Generator
         {
             while (true)
             {
-                bool result = _gmc.Step(step, MoveObjectType.Plane, planeId, 1000*Rabbit.Instance.CurrentCoef);
+                bool result = _gmc.Step(step, MoveObjectType.Plane, planeId, 1500*Rabbit.Instance.CurrentCoef);
                 if (result)
                 {
                     break;
@@ -284,7 +308,7 @@ namespace Aircraft_Generator
                 bool result;
                 while (true)
                 {
-                    result = _gmc.Step(coordinate, MoveObjectType.Plane, plane.Id, 5000*Rabbit.Instance.CurrentCoef);
+                    result = _gmc.Step(coordinate, MoveObjectType.Plane, plane.Id, 3000*Rabbit.Instance.CurrentCoef);
                     if (result)
                     {
                         coordinateTuple = coordinate;
@@ -375,9 +399,9 @@ namespace Aircraft_Generator
 
         private void CancelTasks(object sender, MetrologicalEventArgs e)
         {
-            foreach (CancellationTokenSource cancellationTokenSource in _tokens)
+            for (int i = 0; i < _tokens.Count; i++)
             {
-                cancellationTokenSource.Cancel();
+                _tokens[i].Cancel();
             }
         }
 

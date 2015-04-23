@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Globalization;
 using System.Text;
 using System.Threading.Tasks;
@@ -30,23 +29,7 @@ namespace Aircraft_Generator
             var m = new MetrologService();
 
             CurrentCoef = m.GetCurrentTick();
-            var factory = new ConnectionFactory
-            {
-                UserName = "tester",
-                Password = "tester",
-                VirtualHost = "/",
-                HostName = "airport-dko-1.cloudapp.net",
-                AutomaticRecoveryEnabled = true,
-                Port = 5672
-            };
 
-            IConnection connection = factory.CreateConnection();
-            IModel channel = connection.CreateModel();
-
-            channel.QueueDeclare("TC_AircraftGenerator", true, false, false, null);
-
-            _consumer = new QueueingBasicConsumer(channel);
-            channel.BasicConsume("TC_AircraftGenerator", true, _consumer);
             var listenTask = new Task(ListenQueue);
             listenTask.Start();
         }
@@ -56,11 +39,28 @@ namespace Aircraft_Generator
 
         private void ListenQueue()
         {
-            try
+            while (true)
             {
-                while (true)
+                try
                 {
                     BasicDeliverEventArgs ea = _consumer.Queue.Dequeue();
+                    var factory = new ConnectionFactory
+                    {
+                        UserName = "tester",
+                        Password = "tester",
+                        VirtualHost = "/",
+                        HostName = "airport-dko-1.cloudapp.net",
+                        AutomaticRecoveryEnabled = true,
+                        Port = 5672
+                    };
+
+                    IConnection connection = factory.CreateConnection();
+                    IModel channel = connection.CreateModel();
+
+                    channel.QueueDeclare("TC_AircraftGenerator", true, false, false, null);
+
+                    _consumer = new QueueingBasicConsumer(channel);
+                    channel.BasicConsume("TC_AircraftGenerator", true, _consumer);
                     byte[] body = ea.Body;
                     string message = Encoding.UTF8.GetString(body);
                     float newCoef = float.Parse(message, CultureInfo.InvariantCulture);
@@ -71,38 +71,18 @@ namespace Aircraft_Generator
                             MessageReceived(this, new MetrologicalEventArgs {NewCoef = newCoef});
                         }
                         CurrentCoef = newCoef;
-                        Logger.SendMessage(0, "AircraftGenerator", String.Format("Получили новый коэффициент скорости {0}", newCoef),
-                    DateTime.MinValue);
+                        Logger.SendMessage(0, "AircraftGenerator",
+                            String.Format("Получили новый коэффициент скорости {0}", newCoef),
+                            DateTime.MinValue);
                     }
+                    channel.Close();
+                    connection.Close();
+                }
+                catch (Exception)
+                {
                 }
             }
-            catch (Exception exception)
-            {
-                Debug.WriteLine("Exception {0} in Rabbit class",exception.Message);
-                var m = new MetrologService();
-
-                CurrentCoef = m.GetCurrentTick();
-                var factory = new ConnectionFactory
-                {
-                    UserName = "tester",
-                    Password = "tester",
-                    VirtualHost = "/",
-                    HostName = "airport-dko-1.cloudapp.net",
-                    AutomaticRecoveryEnabled = true,
-                    Port = 5672
-                };
-
-                IConnection connection = factory.CreateConnection();
-                IModel channel = connection.CreateModel();
-
-                channel.QueueDeclare("TC_AircraftGenerator", true, false, false, null);
-
-                _consumer = new QueueingBasicConsumer(channel);
-                channel.BasicConsume("TC_AircraftGenerator", true, _consumer);
-                var listenTask = new Task(ListenQueue);
-                listenTask.Start();
-            }
-        }
+         }
     }
 
     public class MetrologicalEventArgs : EventArgs

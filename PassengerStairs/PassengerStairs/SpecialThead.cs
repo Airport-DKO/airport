@@ -17,9 +17,9 @@ namespace PassengerStairs
 
         private static void CancelTasks(object sender, MetrologicalEventArgs e)
         {
-            foreach (CancellationTokenSource cancellationTokenSource in _tokens)
+            for (int i = 0; i < _tokens.Count; i++)
             {
-                cancellationTokenSource.Cancel();
+                _tokens[i].Cancel();
             }
         }
 

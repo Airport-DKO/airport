@@ -21,7 +21,7 @@ namespace Refueler
 
         #endregion
 
-        private readonly QueueingBasicConsumer _consumer;
+        private QueueingBasicConsumer _consumer;
 
         public event EventHandler<MetrologicalEventArgs> MessageReceived;
         public double CurrentCoef { get; private set; }
@@ -29,23 +29,7 @@ namespace Refueler
         private Metrological()
         {
             CurrentCoef = new MetrologService().GetCurrentTick();
-            var factory = new ConnectionFactory
-            {
-                UserName = "tester",
-                Password = "tester",
-                VirtualHost = "/",
-                HostName = "airport-dko-1.cloudapp.net",
-                AutomaticRecoveryEnabled = true,
-                Port = 5672
-            };
 
-            IConnection connection = factory.CreateConnection();
-            IModel channel = connection.CreateModel();
-
-            channel.QueueDeclare("TC_Refueler", true, false, false, null);
-
-            _consumer = new QueueingBasicConsumer(channel);
-            channel.BasicConsume("TC_Refueler", true, _consumer);
             var listenTask = new Task(ListenQueue);
             listenTask.Start();
         }
@@ -54,7 +38,27 @@ namespace Refueler
         {
             while (true)
             {
+                try
+                {
+
                 BasicDeliverEventArgs ea;
+                var factory = new ConnectionFactory
+                {
+                    UserName = "tester",
+                    Password = "tester",
+                    VirtualHost = "/",
+                    HostName = "airport-dko-1.cloudapp.net",
+                    AutomaticRecoveryEnabled = true,
+                    Port = 5672
+                };
+
+                IConnection connection = factory.CreateConnection();
+                IModel channel = connection.CreateModel();
+
+                channel.QueueDeclare("TC_Refueler", true, false, false, null);
+
+                _consumer = new QueueingBasicConsumer(channel);
+                channel.BasicConsume("TC_Refueler", true, _consumer);
                 if (_consumer.Queue.Dequeue(999999999, out ea))
                 {
                     var body = ea.Body;
@@ -75,7 +79,13 @@ namespace Refueler
                 {
                     Logger.SendMessage(0, Worker.ComponentName, "Новый коэффициент скорости не приходил в таймаут");
                 }
+                channel.Close();
+                connection.Close();
 
+                }
+                catch (Exception)
+                {
+                }
             }
         }
     }
