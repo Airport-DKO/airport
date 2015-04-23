@@ -327,8 +327,12 @@ namespace Ground_Movement_Control
 
         public void LetItSnow()
         {
+            if (_isSnowNow)
+            {
+                return;
+            }
             _isSnowNow = true;
-            //_visualisator.LetItSnow();
+            _visualisator.LetItSnow();
             new Task(SnowTask).Start();
         }
 
