@@ -57,7 +57,7 @@ namespace DashBoard
 
 
         //
-
+/*
         public void Run()
         {
             ConnectionFactory factory = new ConnectionFactory();
@@ -83,15 +83,17 @@ namespace DashBoard
                               
             }       
         }
-
+        */
 
 
         private void AddString(String s)
         {
-                       
+            if (s != "-1")
+            {
+
                 String[] words = s.Split(new char[] { '_' }, StringSplitOptions.RemoveEmptyEntries);
 
-            // по присланным данным обновляются строки на панели
+                // по присланным данным обновляются строки на панели
                 switch (words[0])
                 {
 
@@ -100,34 +102,34 @@ namespace DashBoard
                         {
                             case "1":
                                 {
-                                    label21.Text = words[2];                                   
+                                    label21.Text = words[2];
                                 }
-                            return;
+                                return;
                             case "2":
-                            {
-                                label22.Text = words[2];  
-                            }
-                            return;
+                                {
+                                    label22.Text = words[2];
+                                }
+                                return;
                             case "3":
-                            {
-                                label23.Text = words[2];  
-                            }
-                            return;
+                                {
+                                    label23.Text = words[2];
+                                }
+                                return;
                             case "4":
-                            {
-                                label24.Text = words[2];  
-                            }
-                            return;
+                                {
+                                    label24.Text = words[2];
+                                }
+                                return;
                             case "5":
-                            {
-                                label25.Text = words[2];  
-                            }
-                            return;
+                                {
+                                    label25.Text = words[2];
+                                }
+                                return;
                             case "6":
-                            {
-                                label26.Text = words[2];  
-                            }
-                            return;
+                                {
+                                    label26.Text = words[2];
+                                }
+                                return;
 
                         }
                         return;
@@ -199,7 +201,8 @@ namespace DashBoard
 
                         }
                         return;
-                }   
+                }
+            }
         }
 
         private void WorkerThreadFunction()
