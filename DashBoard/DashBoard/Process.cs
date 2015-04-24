@@ -29,41 +29,57 @@ namespace DashBoard
 
         public void Run()
         {
-            ConnectionFactory factory = new ConnectionFactory();
-            factory.UserName = "tester";
-            factory.Password = "tester";
-            factory.VirtualHost = "/";
-            factory.HostName = "airport-dko-1.cloudapp.net";
-            factory.Port = 5672;
-
-            IConnection connection = factory.CreateConnection();
-            IModel channel = connection.CreateModel();
-
-            channel.QueueDeclare("StatusQueue", false, false, false, null);
-
-            var consumer = new QueueingBasicConsumer(channel);
-            channel.BasicConsume("StatusQueue", true, consumer);
-
             while (true)
             {
-                var ea = (BasicDeliverEventArgs)consumer.Queue.Dequeue();
-                var body_read = ea.Body;
-                var message_read = Encoding.UTF8.GetString(body_read);
-                Thread.Sleep(1);
-
-
-                m_form.Invoke(m_form.m_DelegateAddString, new Object[] { message_read });
-
-                if (m_EventStop.WaitOne(0, true))
+                try
                 {
-                    channel.Close();
-                    connection.Close();
-                    m_EventStopped.Set();
 
-                    return;
+                    BasicDeliverEventArgs ea;
+                    ConnectionFactory factory = new ConnectionFactory();
+                    factory.UserName = "tester";
+                    factory.Password = "tester";
+                    factory.VirtualHost = "/";
+                    factory.HostName = "airport-dko-1.cloudapp.net";
+                    factory.Port = 5672;
+
+                    IConnection connection = factory.CreateConnection();
+                    IModel channel = connection.CreateModel();
+
+                    channel.QueueDeclare("StatusQueue", false, false, false, null);
+
+                    var consumer = new QueueingBasicConsumer(channel);
+                    channel.BasicConsume("StatusQueue", true, consumer);
+
+                    while (true)
+                    {
+                        if (consumer.Queue.Dequeue(999999999, out ea))
+                        {
+                            // var ea = (BasicDeliverEventArgs)consumer.Queue.Dequeue();
+                            var body_read = ea.Body;
+                            var message_read = Encoding.UTF8.GetString(body_read);
+                            Thread.Sleep(1);
+
+
+                            m_form.Invoke(m_form.m_DelegateAddString, new Object[] { message_read });
+
+                            if (m_EventStop.WaitOne(0, true))
+                            {
+                                channel.Close();
+                                connection.Close();
+                                m_EventStopped.Set();
+
+                                return;
+                            }
+                        }
+                    }
+                    m_form.Invoke(m_form.m_DelegateThreadFinished, null);
+                }
+                catch
+                {
+
                 }
             }
-            m_form.Invoke(m_form.m_DelegateThreadFinished, null);
+
         }
     }
 }
