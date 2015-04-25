@@ -171,7 +171,7 @@ namespace WebInformationPanel
                 var f = FlightsBase.FirstOrDefault(s => s.number == flightNumber);
                 if (f == null) //это будет очень странно            
                     return false;
-                return time >= f.takeoffTime.AddMinutes(-5);
+                return time >= f.takeoffTime.AddMinutes(-15);
             }
             catch (Exception ex)
             {
@@ -189,7 +189,7 @@ namespace WebInformationPanel
                 var f = FlightsBase.FirstOrDefault(s => s.number == flightNumber);
                 if (f == null) //это будет очень странно            
                     return false;
-                if (time >= f.takeoffTime)
+                if (time >= f.takeoffTime.AddMinutes(-5))
                 {
                     SendMsgToLogger(1,"Рейс готов к вылету "+f.FligthName );
                     return true;
