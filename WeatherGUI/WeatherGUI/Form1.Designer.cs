@@ -44,6 +44,7 @@
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.button5 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
+            this.label6 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // button1
@@ -148,14 +149,14 @@
             // comboBox1
             // 
             this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(15, 187);
+            this.comboBox1.Location = new System.Drawing.Point(15, 201);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(67, 21);
             this.comboBox1.TabIndex = 10;
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(15, 214);
+            this.button4.Location = new System.Drawing.Point(15, 228);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(67, 23);
             this.button4.TabIndex = 11;
@@ -165,7 +166,7 @@
             // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(82, 187);
+            this.textBox2.Location = new System.Drawing.Point(82, 201);
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(23, 20);
             this.textBox2.TabIndex = 12;
@@ -173,7 +174,7 @@
             // 
             // button5
             // 
-            this.button5.Location = new System.Drawing.Point(82, 214);
+            this.button5.Location = new System.Drawing.Point(82, 228);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(23, 23);
             this.button5.TabIndex = 14;
@@ -183,13 +184,23 @@
             // 
             // button6
             // 
-            this.button6.Location = new System.Drawing.Point(184, 251);
+            this.button6.Location = new System.Drawing.Point(194, 251);
             this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(209, 23);
+            this.button6.Size = new System.Drawing.Size(199, 23);
             this.button6.TabIndex = 15;
-            this.button6.Text = "Форс разблокирование кнопки снега";
+            this.button6.Text = "Отправить СМС на короткий номер";
             this.button6.UseVisualStyleBackColor = true;
             this.button6.Click += new System.EventHandler(this.button6_Click);
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.BackColor = System.Drawing.Color.Transparent;
+            this.label6.Location = new System.Drawing.Point(12, 185);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(107, 13);
+            this.label6.TabIndex = 16;
+            this.label6.Text = "Set fake wind speed:";
             // 
             // Form1
             // 
@@ -197,6 +208,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.ClientSize = new System.Drawing.Size(392, 273);
+            this.Controls.Add(this.label6);
             this.Controls.Add(this.button6);
             this.Controls.Add(this.button5);
             this.Controls.Add(this.textBox2);
@@ -239,6 +251,7 @@
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.Label label6;
     }
 }
 
