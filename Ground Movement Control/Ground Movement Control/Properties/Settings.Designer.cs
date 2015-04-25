@@ -62,5 +62,15 @@ namespace Ground_Movement_Control.Properties {
                 return ((string)(this["Ground_Movement_Control_MetrologWs_MetrologService"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://airport-dko-weather.azurewebsites.net/WebServiceWeather.asmx")]
+        public string Ground_Movement_Control_WeatherWs_WebServiceWeather {
+            get {
+                return ((string)(this["Ground_Movement_Control_WeatherWs_WebServiceWeather"]));
+            }
+        }
     }
 }

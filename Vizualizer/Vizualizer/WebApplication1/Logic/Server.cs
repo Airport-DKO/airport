@@ -6,6 +6,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Web;
 
 namespace WebApplication1.Logic
@@ -24,7 +25,7 @@ namespace WebApplication1.Logic
         public List<TcpClient> Clients;
         public void SendMessage(string message)
         {
-            SendThread(message);
+            new Task(()=>SendThread(message)).Start();
         }
         private Server()
         {

@@ -14,11 +14,11 @@ namespace WebTicketSales
         MetrologService.MetrologService metrolog = new MetrologService.MetrologService();
         private Random random = new Random();
         private List<Ticket> ticketsBase = new List<Ticket>();
-        private MqSender Logger = new MqSender("LoggerQueue");
+
 
         public TicketSales()
         {
-            Logger.Connect();
+
         }
 
         /// <summary>
@@ -98,6 +98,10 @@ namespace WebTicketSales
                         SendMsgToLogger(0,"Пассажир вернул билет" + passengerId);
                         return true;
                     }
+                    else
+                    {
+                        SendMsgToLogger(0,"Пассажир не смог вернуть билет, он его не покупал "+ passengerId);
+                    }
                 }
             }
             catch (Exception ex)
@@ -129,8 +133,7 @@ namespace WebTicketSales
             try
             {
                 DateTime t = metrolog.GetCurrentTime();
-                Logger.SendMsg(string.Format("{0}_{1}_{2}_TicketSales_{3}",
-                    t.ToString("dd.MM.yyyy"), t.ToString("HH:mm:ss"), status, text));
+                Logger.SendMessage(text);
             }
             catch (Exception ex)
             {

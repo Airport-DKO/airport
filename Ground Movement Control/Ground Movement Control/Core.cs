@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Odbc;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
@@ -9,6 +10,7 @@ using Ground_Movement_Control.GscWs;
 using Ground_Movement_Control.MetrologWs;
 using Ground_Movement_Control.SnowPlugWs;
 using Ground_Movement_Control.VizualizatorWs;
+using Ground_Movement_Control.WeatherWs;
 using CoordinateTuple = Ground_Movement_Control.Commons.CoordinateTuple;
 using Location = Ground_Movement_Control.Commons.Location;
 using MapObject = Ground_Movement_Control.Commons.MapObject;
@@ -43,6 +45,7 @@ namespace Ground_Movement_Control
         private readonly List<Route> _routes;
         private readonly Snowplug _snowplug;
         private readonly Visualisator _visualisator;
+        private readonly WeatherWs.WebServiceWeather _weather;
 
         private bool _isSnowNow;
         private Int32 _snowCooldown;
@@ -53,6 +56,7 @@ namespace Ground_Movement_Control
             _visualisator = new Visualisator();
             _snowplug = new Snowplug();
             _metrolog = new MetrologService();
+            _weather=new WebServiceWeather();
             _planesServiceZones = new List<Tuple<Guid, MapObject>>();
             _map = new List<MapPoint>();
             _routes = new List<Route>();
@@ -168,7 +172,7 @@ namespace Ground_Movement_Control
                 {
                     bool result = CheckVacantPosition(runwayLocation.Position.X, runwayLocation.Position.Y,
                         type,
-                        planeGuid, 1000);
+                        planeGuid, 1000, true,true);
                     if (result)
                     {
                         Debug.WriteLine("Accepted to takeoff plane {0}", planeGuid);
@@ -256,7 +260,7 @@ namespace Ground_Movement_Control
 
 
         private bool CheckVacantPosition(Int32 x, Int32 y, MoveObjectType type, Guid id, double speed,
-            bool justTry = false)
+            bool justTry = false, bool doNotVisual=false)
         {
             MapPoint mapPoint = _map.FirstOrDefault(m => m.X == x && m.Y == y);
             if (mapPoint == null)
@@ -267,8 +271,11 @@ namespace Ground_Movement_Control
             if (mapPoint.IsPublicPlace)
             {
                 Debug.WriteLine("Move object {0} to {1} {2} PUBLIC PLACE BECOUSE HUESOS", type, x, y);
-                _visualisator.MoveObject((VizualizatorWs.MoveObjectType) type, id,
-                    new VizualizatorWs.CoordinateTuple {X = x, Y = y}, Convert.ToInt32(speed));
+                if (!doNotVisual)
+                {
+                    _visualisator.MoveObject((VizualizatorWs.MoveObjectType) type, id,
+                        new VizualizatorWs.CoordinateTuple {X = x, Y = y}, Convert.ToInt32(speed));
+                }
                 MapPoint oldPoint =
                     _map.FirstOrDefault(m => m.OwnerGuid == id && (m.X != mapPoint.X || m.Y != mapPoint.Y));
                 if (oldPoint != null)
@@ -291,8 +298,11 @@ namespace Ground_Movement_Control
                     Debug.WriteLine("Move object {0} to {1} {2}. SPEED {3}", type, x, y, speed);
                     if (!justTry)
                     {
-                        _visualisator.MoveObject((VizualizatorWs.MoveObjectType) type, id,
-                            new VizualizatorWs.CoordinateTuple {X = x, Y = y}, Convert.ToInt32(speed));
+                        if (!doNotVisual)
+                        {
+                            _visualisator.MoveObject((VizualizatorWs.MoveObjectType) type, id,
+                                new VizualizatorWs.CoordinateTuple {X = x, Y = y}, Convert.ToInt32(speed));
+                        }
                     }
                     return true;
                 }
@@ -306,8 +316,11 @@ namespace Ground_Movement_Control
             if ((mapPoint.OwnerType == MoveObjectType.Plane || mapPoint.OwnerType==MoveObjectType.Jet) && type == MoveObjectType.FollowMeVan)
             {
                 Debug.WriteLine("Move object {0} to {1} {2} THIS IS FOLLOW ME INDA PLANE", type, x, y);
-                _visualisator.MoveObject((VizualizatorWs.MoveObjectType) type, id,
-                    new VizualizatorWs.CoordinateTuple {X = x, Y = y}, Convert.ToInt32(speed));
+                if (!doNotVisual)
+                {
+                    _visualisator.MoveObject((VizualizatorWs.MoveObjectType) type, id,
+                        new VizualizatorWs.CoordinateTuple {X = x, Y = y}, Convert.ToInt32(speed));
+                }
                 MapPoint oldPoint =
                     _map.FirstOrDefault(m => m.OwnerGuid == id && (m.X != mapPoint.X || m.Y != mapPoint.Y));
                 if (oldPoint != null)
@@ -323,6 +336,8 @@ namespace Ground_Movement_Control
         public void SnowCleanFinished()
         {
             _isSnowNow = false;
+            _weather.Finished();
+            Logger.SendMessage(0, "GMC", "Снегоуборочная машинка отчиталась о завершении работы", _metrolog.GetCurrentTime());
         }
 
         public void LetItSnow()
@@ -334,6 +349,7 @@ namespace Ground_Movement_Control
             _isSnowNow = true;
             _visualisator.LetItSnow();
             new Task(SnowTask).Start();
+            Logger.SendMessage(0,"GMC","Выпал снег. Отправка снегоуборочной машины",_metrolog.GetCurrentTime());
         }
 
         private void SnowTask()

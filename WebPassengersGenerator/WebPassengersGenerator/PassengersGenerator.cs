@@ -30,15 +30,12 @@ namespace WebPassengersGenerator
         public List<Passenger> passengers = new List<Passenger>();          //база пассажиров 
         private PassengersStatistic statistic = new PassengersStatistic();
         public int generateSleep = 50;                                      //интервал при генерации
-        private MqSender Logger = new MqSender("LoggerQueue");
-        private MqSender Dashboard = new MqSender("StatusQueue");
         private MetrologService.MetrologService metrolog = new MetrologService.MetrologService();
 
 
         public PassengersGenerator()
         {
-            Logger.Connect();
-            Dashboard.Connect();
+
         }
 
         /// <summary>
@@ -167,8 +164,7 @@ namespace WebPassengersGenerator
             try
             {
                 DateTime t = metrolog.GetCurrentTime();
-                Logger.SendMsg(string.Format("{0}_{1}_{2}_PassengersGenerator_{3}",
-                    t.ToString("dd.MM.yyyy"), t.ToString("HH:mm:ss"), status, text));
+                Logger.SendMessage(text);
             }
             catch (Exception ex)
             {
@@ -184,7 +180,7 @@ namespace WebPassengersGenerator
         {
             try
             {
-                Dashboard.SendMsg(string.Format("PS_{0}_{1}",status,newCount)); 
+                Dashboard.SendMessage(string.Format("PS_{0}_{1}",status,newCount)); 
             }
             catch (Exception ex)
             {
@@ -220,8 +216,8 @@ namespace WebPassengersGenerator
                         y = 4;
                         break;
                 }
-                Dashboard.SendMsg(string.Format("FD_{0}_{1}", 1, p.Count()));
-                Dashboard.SendMsg(string.Format("FD_{0}_{1}", y, z));
+                Dashboard.SendMessage(string.Format("FD_{0}_{1}", 1, p.Count()));
+                Dashboard.SendMessage(string.Format("FD_{0}_{1}", y, z));
             }
             catch (Exception)
             {

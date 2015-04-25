@@ -80,6 +80,9 @@ namespace Aircraft_Generator_GUI
             int selectedRowNumber = gridView1.GetSelectedRows().First();
             object row = gridView1.GetRow(selectedRowNumber);
             var plane = row as Plane;
+            if (plane.Flight != null)
+            {
+                return;}
             var bp = new BindPlane(plane);
             bp.ShowDialog();
             if (bp.DialogResult == DialogResult.OK)
