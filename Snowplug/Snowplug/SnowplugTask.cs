@@ -13,7 +13,7 @@ namespace Snowplug
         {
             var gmc = new GMC.GMC();
             var id = Guid.NewGuid();
-            var speed = 500;
+            var speed = 5000;
 
             Logger.SendMessage("Начата очистка снега");
 
@@ -27,6 +27,7 @@ namespace Snowplug
                     }
                     Thread.Sleep(Convert.ToInt32(newSpeed)); // todo po chelovecheski sdelat
                 }
+                Thread.Sleep(Convert.ToInt32(newSpeed)); // todo po chelovecheski sdelat
             }
 
             gmc.SnowCleanFinished();
