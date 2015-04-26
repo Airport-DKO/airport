@@ -105,17 +105,31 @@ namespace Ground_Movement_Control
 
         public void RunwayRelease(Int32 additionalX, Int32 additionalY)
         {
-            Location runwayLocation = GetActualRunway();
-            runwayLock = false;
-            MapPoint runwayMapPoint =
-                _map.First(m => m.X == runwayLocation.Position.X && m.Y == runwayLocation.Position.Y);
-            runwayMapPoint.MakeVacant();
-            MapPoint additionalMapPoint = _map.FirstOrDefault(m => m.X == additionalX && m.Y == additionalY);
-            if (additionalMapPoint != null)
+            try
             {
-                additionalMapPoint.MakeVacant();
+                Location runwayLocation = GetActualRunway();
+                runwayLock = false;
+                MapPoint runwayMapPoint =
+                    _map.First(m => m.X == runwayLocation.Position.X && m.Y == runwayLocation.Position.Y);
+                runwayMapPoint.MakeVacant();
+                MapPoint additionalMapPoint = _map.FirstOrDefault(m => m.X == additionalX && m.Y == additionalY);
+                if (additionalMapPoint != null)
+                {
+                    additionalMapPoint.MakeVacant();
+                    Debug.WriteLine(String.Format("RunwayRelease Call: Number:{0}, X={1} Y={2} AX={3} AY={4}",
+                        runwayLocation.MapObject.Number, runwayLocation.Position.X, runwayLocation.Position.Y,
+                        additionalMapPoint.X, additionalMapPoint.Y));
+                }
+                else
+                {
+                    Debug.WriteLine(String.Format("RunwayRelease Call: Number:{0}, X={1} Y={2}",
+                        runwayLocation.MapObject.Number, runwayLocation.Position.X, runwayLocation.Position.Y));
+                }
             }
-            Debug.WriteLine("Runway released");
+            catch (Exception exception)
+            {
+                Debug.WriteLine(String.Format("FATAL ERROR: RUNWAYRELEASE: {0}", exception.Message));
+            }
         }
 
         public MapObject GetRunway()
@@ -128,8 +142,10 @@ namespace Ground_Movement_Control
         {
             lock (_runwayLockObject)
             {
+                var tread = Thread.CurrentThread.ManagedThreadId;
                 if (_isSnowNow)
                     return false;
+                
                 Location runwayLocation = GetActualRunway();
                 if (runwayLocation == null)
                 {
@@ -183,6 +199,7 @@ namespace Ground_Movement_Control
                     if (result)
                     {
                         Debug.WriteLine("Accepted to takeoff plane {0}", planeGuid);
+                        runwayLock = true;
                         return true;
                     }
                     Debug.WriteLine("Declined to land plane {0}", planeGuid);
@@ -256,7 +273,10 @@ namespace Ground_Movement_Control
         private Location GetActualRunway()
         {
             // TODO: Продумать реализацию нахождения рабочей взлетной полосы
-            return _locations.FirstOrDefault(l => l.MapObject.MapObjectType == MapObjectType.Runway);
+            Location runwayLocation = _locations.FirstOrDefault(l => l.MapObject.MapObjectType == MapObjectType.Runway);
+            Debug.WriteLine(String.Format("GetActuralRunway Call: Number {2}. X={0} Y={1}", runwayLocation.Position.X,
+                runwayLocation.Position.Y, runwayLocation.MapObject.Number));
+            return runwayLocation;
         }
 
         private bool WeatherCheck()
@@ -270,11 +290,15 @@ namespace Ground_Movement_Control
             bool justTry = false, bool doNotVisual = false)
         {
             MapPoint mapPoint = _map.FirstOrDefault(m => m.X == x && m.Y == y);
+            var testrunway = GetActualRunway();
             if (mapPoint == null)
             {
                 Debug.WriteLine("Declined to move object {0} to {1} {2} - NO MAP POINT FOUND", type, x, y);
                 return false;
             }
+            bool DEBUGFLAG = testrunway.Position.X == mapPoint.X && testrunway.Position.Y == mapPoint.Y;
+            bool debug = DEBUGFLAG;
+
             if (mapPoint.IsPublicPlace)
             {
                 Debug.WriteLine("Move object {0} to {1} {2} PUBLIC PLACE BECOUSE HUESOS", type, x, y);

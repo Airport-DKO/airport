@@ -346,15 +346,22 @@ namespace Aircraft_Generator
                 while (true)
                 {
 // Проверяем свободна ли полоса
-                    if (_gmc.CheckRunwayAwailability(plane.Id,
-                        plane.Type == PlaneType.Jet ? MoveObjectType.Jet : MoveObjectType.Plane, false))
+                    try
                     {
-                        Logger.SendMessage(1, "AircraftGenerator",
-                            String.Format("Самолет {0} освободил площадку обслуживания", plane.Name),
-                            _metrolog.GetCurrentTime());
-                        break;
+                        if (_gmc.CheckRunwayAwailability(plane.Id,
+                            plane.Type == PlaneType.Jet ? MoveObjectType.Jet : MoveObjectType.Plane, false))
+                        {
+                            Logger.SendMessage(1, "AircraftGenerator",
+                                String.Format("Самолет {0} получил добро на выезд на ВПП", plane.Name),
+                                _metrolog.GetCurrentTime());
+                            break;
+                        }
                     }
-                    Sleep(40000);
+                    catch (Exception exception)
+                    {
+                        Debug.WriteLine(String.Format("TIMEOUT ERROR запрос полосы для взлета {0}", exception.Message));
+                    }
+                    Sleep(10000);
                     Debug.WriteLine("Самолет {0} - полоса занята", plane.Name);
                 }
 
@@ -491,10 +498,20 @@ namespace Aircraft_Generator
                     {
                         return;
                     }
-                    bool landingRequest = _tower.LandingRequest(plane.Id,
-                        plane.Type == PlaneType.Jet
-                            ? TowerService.MoveObjectType.Jet
-                            : TowerService.MoveObjectType.Plane);
+                    bool landingRequest = false;
+                    try
+                    {
+                        landingRequest = _tower.LandingRequest(plane.Id,
+                            plane.Type == PlaneType.Jet
+                                ? TowerService.MoveObjectType.Jet
+                                : TowerService.MoveObjectType.Plane);
+
+                    }
+                    catch (Exception exception)
+                    {
+                        landingRequest = false;
+                        Debug.WriteLine(String.Format("TIMEOUT ERROR: при запросе на посадку {0}",exception.Message));
+                    }
                     if (!landingRequest)
                     {
                         Sleep(10000);
@@ -502,6 +519,8 @@ namespace Aircraft_Generator
                     }
                     else
                     {
+                        Logger.SendMessage(1, "AircraftGenerator", String.Format("Самолет {0} получил разрешение на посадку на ВПП", plane.Name),
+                   _metrolog.GetCurrentTime());
                         break;
                     }
                 }

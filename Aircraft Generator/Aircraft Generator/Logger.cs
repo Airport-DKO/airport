@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Text;
 using RabbitMQ.Client;
 
@@ -18,6 +19,9 @@ namespace Aircraft_Generator
 
         public static void SendMessage(int level, string componentName, string message, DateTime dateTime)
         {
+            try
+            {
+
             lock (_lockObject)
             {
                 var factory = new ConnectionFactory
@@ -54,6 +58,12 @@ namespace Aircraft_Generator
                 Channel.BasicPublish("", QueueName, null, body);
                 Channel.Close();
                 connection.Close();
+            }
+
+            }
+            catch (Exception exception)
+            {
+                Debug.WriteLine(String.Format("Error in Logger: {0}", exception.Message));
             }
         }
     }
