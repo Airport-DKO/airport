@@ -62,10 +62,10 @@ namespace FollowMe
 
                     _consumer = new QueueingBasicConsumer(channel);
 
-                    channel.BasicConsume("TC_FollowmeVan", true, _consumer);
                     while (true)
                     {
-                        if (_consumer.Queue.Dequeue(999999999, out ea))
+                        channel.BasicConsume("TC_FollowmeVan", true, _consumer);
+                        if (_consumer.Queue.Dequeue(30000, out ea))
                         {
                             var body = ea.Body;
                             var message = Encoding.UTF8.GetString(body);
@@ -78,13 +78,13 @@ namespace FollowMe
                                 }
                                 CurrentCoef = newCoef;
 
-                                Logger.SendMessage(0, Worker.ComponentName,
+                                Logger.SendMessage(3, Worker.ComponentName,
                                     "Новый коэффициент скорости " + newCoef.ToString());
                             }
                         }
                         else
                         {
-                            Logger.SendMessage(0, Worker.ComponentName,
+                            Logger.SendMessage(3, Worker.ComponentName,
                                 "Новый коэффициент скорости не приходил в таймаут");
                         }
                     }

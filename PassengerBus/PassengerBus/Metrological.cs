@@ -57,10 +57,11 @@ namespace PassengerBus
                     channel.QueueDeclare("TC_PassengerBus", true, false, false, null);
 
                     _consumer = new QueueingBasicConsumer(channel);
-                    channel.BasicConsume("TC_PassengerBus", true, _consumer);
+                    
                     while (true)
                     {
-                        if (_consumer.Queue.Dequeue(999999999, out ea))
+                        channel.BasicConsume("TC_PassengerBus", true, _consumer);
+                        if (_consumer.Queue.Dequeue(30000, out ea))
                         {
                             var body = ea.Body;
                             var message = Encoding.UTF8.GetString(body);
@@ -73,13 +74,13 @@ namespace PassengerBus
                                 }
                                 CurrentCoef = newCoef;
 
-                                Logger.SendMessage(0, Worker.ComponentName,
+                                Logger.SendMessage(3, Worker.ComponentName,
                                     "Новый коэффициент скорости " + newCoef.ToString());
                             }
                         }
                         else
                         {
-                            Logger.SendMessage(0, Worker.ComponentName,
+                            Logger.SendMessage(3, Worker.ComponentName,
                                 "Новый коэффициент скорости не приходил в таймаут");
                         }
                     }

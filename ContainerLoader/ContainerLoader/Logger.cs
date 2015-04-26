@@ -13,6 +13,8 @@ namespace ContainerLoader
         {
             lock (_lockObject)
             {
+                try
+                {
                 var factory = new ConnectionFactory
                 {
                     UserName = "tester1",
@@ -46,6 +48,12 @@ namespace ContainerLoader
                 Channel.BasicPublish("", QueueName, null, body);
                 Channel.Close();
                 connection.Close();
+
+
+                }
+                catch
+                {
+                }
             }
         }
     }

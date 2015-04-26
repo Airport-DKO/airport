@@ -41,28 +41,29 @@ namespace Deicer
                 try
                 {
 
-  
-                BasicDeliverEventArgs ea;
-                var factory = new ConnectionFactory
-                {
-                    UserName = "tester",
-                    Password = "tester",
-                    VirtualHost = "/",
-                    HostName = "airport-dko-1.cloudapp.net",
-                    AutomaticRecoveryEnabled = true,
-                    Port = 5672
-                };
 
-                IConnection connection = factory.CreateConnection();
-                IModel channel = connection.CreateModel();
+                    BasicDeliverEventArgs ea;
+                    var factory = new ConnectionFactory
+                    {
+                        UserName = "tester",
+                        Password = "tester",
+                        VirtualHost = "/",
+                        HostName = "airport-dko-1.cloudapp.net",
+                        AutomaticRecoveryEnabled = true,
+                        Port = 5672
+                    };
 
-                channel.QueueDeclare("TC_Deicer", true, false, false, null);
+                    IConnection connection = factory.CreateConnection();
+                    IModel channel = connection.CreateModel();
 
-                _consumer = new QueueingBasicConsumer(channel);
-                channel.BasicConsume("TC_Deicer", true, _consumer);
+                    channel.QueueDeclare("TC_Deicer", true, false, false, null);
+
+                    _consumer = new QueueingBasicConsumer(channel);
+
                     while (true)
                     {
-                        if (_consumer.Queue.Dequeue(999999999, out ea))
+                        channel.BasicConsume("TC_Deicer", true, _consumer);
+                        if (_consumer.Queue.Dequeue(30000, out ea))
                         {
                             var body = ea.Body;
                             var message = Encoding.UTF8.GetString(body);
@@ -75,18 +76,18 @@ namespace Deicer
                                 }
                                 CurrentCoef = newCoef;
 
-                                Logger.SendMessage(0, Worker.ComponentName,
+                                Logger.SendMessage(3, Worker.ComponentName,
                                     "Новый коэффициент скорости " + newCoef.ToString());
                             }
                         }
                         else
                         {
-                            Logger.SendMessage(0, Worker.ComponentName,
+                            Logger.SendMessage(3, Worker.ComponentName,
                                 "Новый коэффициент скорости не приходил в таймаут");
                         }
                     }
                     channel.Close();
-                connection.Close();
+                    connection.Close();
                 }
                 catch (Exception)
                 {

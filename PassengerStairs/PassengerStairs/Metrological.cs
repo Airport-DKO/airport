@@ -57,10 +57,11 @@ namespace PassengerStairs
                     channel.QueueDeclare("TC_PassengerStairs", true, false, false, null);
 
                     _consumer = new QueueingBasicConsumer(channel);
-                    channel.BasicConsume("TC_PassengerStairs", true, _consumer);
                     while (true)
                     {
-                        if (_consumer.Queue.Dequeue(999999999, out ea))
+
+                        channel.BasicConsume("TC_PassengerStairs", true, _consumer);
+                        if (_consumer.Queue.Dequeue(30000, out ea))
                         {
                             byte[] body = ea.Body;
                             string message = Encoding.UTF8.GetString(body);
@@ -73,12 +74,12 @@ namespace PassengerStairs
                                 }
                                 CurrentCoef = newCoef;
 
-                                Logger.SendMessage(0, Worker.ComponentName, "Новый коэффициент скорости " + newCoef);
+                                Logger.SendMessage(3, Worker.ComponentName, "Новый коэффициент скорости " + newCoef);
                             }
                         }
                         else
                         {
-                            Logger.SendMessage(0, Worker.ComponentName,
+                            Logger.SendMessage(3, Worker.ComponentName,
                                 "Новый коэффициент скорости не приходил в таймаут");
                         }
                     }
