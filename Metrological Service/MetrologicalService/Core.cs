@@ -65,6 +65,28 @@ namespace MetrologicalService
             connection.Close();
         }
 
+        public void Rabb_Test(double num)
+        {
+            ConnectionFactory factory = new ConnectionFactory();
+            factory.UserName = "tester";
+            factory.Password = "tester";
+            factory.VirtualHost = "/";
+            factory.HostName = "airport-dko-1.cloudapp.net";
+            factory.Port = 5672;
+
+            IConnection connection = factory.CreateConnection();
+            IModel channel = connection.CreateModel();
+
+            channel.QueueDeclare("TC_Test", true, false, false, null);
+
+            string message = num.ToString();
+            var body = Encoding.UTF8.GetBytes(message);
+            channel.BasicPublish("", "TC_Test", null, body);
+
+            channel.Close();
+            connection.Close();
+        }
+
         public void ClearAllQueues()
         {
             ConnectionFactory factory = new ConnectionFactory();

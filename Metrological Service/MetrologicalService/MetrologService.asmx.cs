@@ -27,7 +27,8 @@ namespace MetrologicalService
         [WebMethod]
         public void RefreshTick(double coeff)
         {
-            Core.Instance.Rabb(coeff);
+            Core.Instance.Rabb(coeff); 
+            Core.Instance.Rabb_Test(coeff);
             Core.Instance.ModelingSpeed = coeff;
         }
 
