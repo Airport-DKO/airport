@@ -17,6 +17,9 @@ namespace WebCheckIn
 
         public static void SendMessage(string message)
         {
+            try
+            {
+
             lock (_lockObject)
             {
                 var factory = new ConnectionFactory
@@ -56,6 +59,11 @@ namespace WebCheckIn
                 Channel.BasicPublish("", QueueName, null, body);
                 Channel.Close();
                 connection.Close();
+            }
+
+            }
+            catch (Exception)
+            {
             }
         }
     }

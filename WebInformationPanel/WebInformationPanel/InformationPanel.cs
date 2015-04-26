@@ -13,14 +13,13 @@ namespace WebInformationPanel
         private static Random random;
         private MetrologService.MetrologService metrolog = new MetrologService.MetrologService();
         private Thread thread;
-        private MqSender Logger = new MqSender("LoggerQueue");
+
 
         public InformationPanel()
         {
             thread = new Thread(makeFligthLater);
             thread.Start();
-            Logger.Connect();
-        }
+            }
 
         /// <summary>
         /// создаёт рейс, и кладёт его в список
@@ -299,9 +298,7 @@ namespace WebInformationPanel
         {
             try
             {
-                DateTime t = metrolog.GetCurrentTime();
-                Logger.SendMsg(string.Format("{0}_{1}_{2}_InformationPanel_{3}",
-                    t.ToString("dd.MM.yyyy"), t.ToString("HH:mm:ss"), status, text));
+                Logger.SendMessage(status,"InformationPanel", text);
             }
             catch (Exception ex)
             {

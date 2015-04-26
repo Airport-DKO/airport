@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Services.Configuration;
 using WebPassengersGenerator.CheckInService;
@@ -44,20 +45,7 @@ namespace WebPassengersGenerator
         /// <param name="count">количество</param>
         public void GenerateRandomPassengers(int count)
         {
-            for (int i = 0; i < count; i++)
-            {
-                passengers.Add(new Passenger()
-                {
-                    ID = Guid.NewGuid(),
-                    PreferFood = (Food)random.Next(0, 5),
-                    WeightBaggage = random.Next(0, 50),
-                    State = PassengerState.Created
-                });
-                statistic.Created++;
-                SendInformation(1,statistic.Created);
-                SendMsgToLogger(0,"Создан пассажир "+passengers.Last().ID);
-                Thread.Sleep(generateSleep);
-            }
+            new Task(()=>AsyncGenerateRandomPassengers(count)).Start();
         }
 
         /// <summary>
@@ -221,6 +209,24 @@ namespace WebPassengersGenerator
             }
             catch (Exception)
             {
+            }
+        }
+
+        private void AsyncGenerateRandomPassengers(int count)
+        {
+            for (int i = 0; i < count; i++)
+            {
+                passengers.Add(new Passenger()
+                {
+                    ID = Guid.NewGuid(),
+                    PreferFood = (Food)random.Next(0, 5),
+                    WeightBaggage = random.Next(0, 50),
+                    State = PassengerState.Created
+                });
+                statistic.Created++;
+                SendInformation(1, statistic.Created);
+                SendMsgToLogger(0, "Создан пассажир " + passengers.Last().ID);
+                Thread.Sleep(generateSleep);
             }
         }
     }
