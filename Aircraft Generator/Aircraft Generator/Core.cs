@@ -115,7 +115,10 @@ namespace Aircraft_Generator
 
         public bool LoadStandartPassangers(MapObject serviceZone, List<Guid> passengersGuids)
         {
-            Plane plane = Planes.FirstOrDefault(p => p.ServiceZone.Number == serviceZone.Number);
+            try
+            {
+
+                Plane plane = Planes.FirstOrDefault(p => p.ServiceZone.Number == serviceZone.Number);
             if (plane == null)
             {
                 return true;
@@ -123,10 +126,19 @@ namespace Aircraft_Generator
             plane.CurrentStandartPassengers += passengersGuids.Count;
             _passengersGenerator.onPlane(passengersGuids.ToArray());
             return true;
+
+            }
+            catch
+            {
+                return true;
+            }
+
         }
 
         public bool LoadVipPassangers(MapObject serviceZone, List<Guid> passengersGuids)
         {
+            try
+            {
             Plane plane = Planes.FirstOrDefault(p => p.ServiceZone.Number == serviceZone.Number);
             if (plane == null)
             {
@@ -135,10 +147,19 @@ namespace Aircraft_Generator
             plane.CurrentVipPassengers += passengersGuids.Count;
             _passengersGenerator.onPlane(passengersGuids.ToArray());
             return true;
+            }
+            catch (Exception)
+            {
+                return true;
+            }
         }
 
         public bool UnloadStandartPassangers(MapObject serviceZone, int countOfPassengers)
         {
+            try
+            {
+
+
             Plane plane = Planes.FirstOrDefault(p => p.ServiceZone.Number == serviceZone.Number);
             if (plane == null)
             {
@@ -150,10 +171,19 @@ namespace Aircraft_Generator
             }
             plane.CurrentStandartPassengers -= countOfPassengers;
             return true;
+            }
+            catch 
+            {
+
+                return true;
+            }
         }
 
         public bool UnloadVipPassangers(MapObject serviceZone, int countOfPassengers)
         {
+            try
+            {
+
             Plane plane = Planes.FirstOrDefault(p => p.ServiceZone.Number == serviceZone.Number);
             if (plane == null)
             {
@@ -165,10 +195,21 @@ namespace Aircraft_Generator
             }
             plane.CurrentVipPassengers -= countOfPassengers;
             return true;
+
+            }
+            catch
+            {
+
+                return true;
+            }
         }
 
         public bool LoadBaggage(MapObject serviseZone, int weightOfBaggage)
         {
+            try
+            {
+
+
             Plane plane = Planes.FirstOrDefault(p => p.ServiceZone.Number == serviseZone.Number);
             if (plane == null)
             {
@@ -176,10 +217,17 @@ namespace Aircraft_Generator
             }
             plane.CurrentBaggage += weightOfBaggage;
             return true;
+            }
+            catch 
+            {
+                return true;
+            }
         }
 
         public bool UnloadBaggage(MapObject serviseZone, int weightOfBaggage)
         {
+            try
+            {
             Plane plane = Planes.FirstOrDefault(p => p.ServiceZone.Number == serviseZone.Number);
             if (plane == null)
             {
@@ -191,6 +239,13 @@ namespace Aircraft_Generator
             }
             plane.CurrentBaggage -= weightOfBaggage;
             return true;
+
+
+            }
+            catch
+            {
+                return true;
+            }
         }
 
         public bool FollowMe(Guid planeId)

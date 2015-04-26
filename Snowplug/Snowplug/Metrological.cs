@@ -75,12 +75,11 @@ namespace Snowplug
                                     MessageReceived(this, new MetrologicalEventArgs() {NewCoef = newCoef});
                                 }
                                 CurrentCoef = newCoef;
-
+                                Logger.SendMessage(String.Format("Коэффициент изменился {0}", newCoef));
                             }
                         }
                     }
-                    channel.Close();
-                    connection.Close();
+
                 }
                 catch
                 {}

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Odbc;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
@@ -45,10 +44,11 @@ namespace Ground_Movement_Control
         private readonly List<Route> _routes;
         private readonly Snowplug _snowplug;
         private readonly Visualisator _visualisator;
-        private readonly WeatherWs.WebServiceWeather _weather;
+        private readonly WebServiceWeather _weather;
 
         private bool _isSnowNow;
         private Int32 _snowCooldown;
+        private bool runwayLock;
 
         private Core()
         {
@@ -56,7 +56,7 @@ namespace Ground_Movement_Control
             _visualisator = new Visualisator();
             _snowplug = new Snowplug();
             _metrolog = new MetrologService();
-            _weather=new WebServiceWeather();
+            _weather = new WebServiceWeather();
             _planesServiceZones = new List<Tuple<Guid, MapObject>>();
             _map = new List<MapPoint>();
             _routes = new List<Route>();
@@ -106,6 +106,7 @@ namespace Ground_Movement_Control
         public void RunwayRelease(Int32 additionalX, Int32 additionalY)
         {
             Location runwayLocation = GetActualRunway();
+            runwayLock = false;
             MapPoint runwayMapPoint =
                 _map.First(m => m.X == runwayLocation.Position.X && m.Y == runwayLocation.Position.Y);
             runwayMapPoint.MakeVacant();
@@ -136,6 +137,11 @@ namespace Ground_Movement_Control
                     return false;
                 }
 
+                if (runwayLock)
+                {
+                    return false;
+                }
+
                 if (isArrival)
                 {
                     bool result = CheckVacantPosition(runwayLocation.Position.X, runwayLocation.Position.Y,
@@ -161,6 +167,7 @@ namespace Ground_Movement_Control
                     if (result)
                     {
                         Debug.WriteLine("Accepted to land plane {0}", planeGuid);
+                        runwayLock = true;
                         return true;
                     }
                     Debug.WriteLine(
@@ -172,7 +179,7 @@ namespace Ground_Movement_Control
                 {
                     bool result = CheckVacantPosition(runwayLocation.Position.X, runwayLocation.Position.Y,
                         type,
-                        planeGuid, 1000, true,true);
+                        planeGuid, 1000, false, true);
                     if (result)
                     {
                         Debug.WriteLine("Accepted to takeoff plane {0}", planeGuid);
@@ -260,7 +267,7 @@ namespace Ground_Movement_Control
 
 
         private bool CheckVacantPosition(Int32 x, Int32 y, MoveObjectType type, Guid id, double speed,
-            bool justTry = false, bool doNotVisual=false)
+            bool justTry = false, bool doNotVisual = false)
         {
             MapPoint mapPoint = _map.FirstOrDefault(m => m.X == x && m.Y == y);
             if (mapPoint == null)
@@ -313,7 +320,10 @@ namespace Ground_Movement_Control
             {
                 return true;
             }
-            if ((mapPoint.OwnerType == MoveObjectType.Plane || mapPoint.OwnerType==MoveObjectType.Jet) && type == MoveObjectType.FollowMeVan)
+
+
+            if ((mapPoint.OwnerType == MoveObjectType.Plane || mapPoint.OwnerType == MoveObjectType.Jet) &&
+                type == MoveObjectType.FollowMeVan)
             {
                 Debug.WriteLine("Move object {0} to {1} {2} THIS IS FOLLOW ME INDA PLANE", type, x, y);
                 if (!doNotVisual)
@@ -325,6 +335,9 @@ namespace Ground_Movement_Control
                     _map.FirstOrDefault(m => m.OwnerGuid == id && (m.X != mapPoint.X || m.Y != mapPoint.Y));
                 if (oldPoint != null)
                 {
+                    Location runway = GetActualRunway();
+                    if (runway.Position.X == oldPoint.X && runway.Position.Y == oldPoint.Y)
+                        return true;
                     oldPoint.MakeVacant();
                 }
                 return true;
@@ -337,7 +350,8 @@ namespace Ground_Movement_Control
         {
             _isSnowNow = false;
             _weather.Finished();
-            Logger.SendMessage(0, "GMC", "Снегоуборочная машинка отчиталась о завершении работы", _metrolog.GetCurrentTime());
+            Logger.SendMessage(0, "GMC", "Снегоуборочная машинка отчиталась о завершении работы",
+                _metrolog.GetCurrentTime());
         }
 
         public void LetItSnow()
@@ -349,7 +363,7 @@ namespace Ground_Movement_Control
             _isSnowNow = true;
             _visualisator.LetItSnow();
             new Task(SnowTask).Start();
-            Logger.SendMessage(0,"GMC","Выпал снег. Отправка снегоуборочной машины",_metrolog.GetCurrentTime());
+            Logger.SendMessage(0, "GMC", "Выпал снег. Отправка снегоуборочной машины", _metrolog.GetCurrentTime());
         }
 
         private void SnowTask()
