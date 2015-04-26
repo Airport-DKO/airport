@@ -10,6 +10,9 @@ namespace Snowplug
 
         public static void SendMessage(string message)
         {
+            try
+            {
+
             lock (_lockObject)
             {
                 var factory = new ConnectionFactory
@@ -36,7 +39,7 @@ namespace Snowplug
                 string logMessage = String.Format("{0}_{1}_{2}_{3}_{4}",
                     dt.ToString("dd.MM.yyyy"),
                     dt.ToString("HH:mm:ss"),
-                    0,
+                    1,
                     "Snowremoval machine",
                     message);
 
@@ -45,6 +48,12 @@ namespace Snowplug
                 Channel.BasicPublish("", QueueName, null, body);
                 Channel.Close();
                 connection.Close();
+            }
+
+            }
+            catch (Exception)
+            {
+
             }
         }
     }

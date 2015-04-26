@@ -12,6 +12,10 @@ namespace VIPShuttle
 
         public static void SendMessage(int level, string componentName, string message)
         {
+            try
+            {
+
+  
             lock (_lockObject)
             {
                 var factory = new ConnectionFactory
@@ -47,6 +51,11 @@ namespace VIPShuttle
                 Channel.BasicPublish("", QueueName, null, body);
                 Channel.Close();
                 connection.Close();
+            }
+            }
+            catch (Exception)
+            {
+
             }
         }
     }

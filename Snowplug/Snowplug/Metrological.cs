@@ -60,10 +60,11 @@ namespace Snowplug
                     channel.QueueDeclare("TC_SnowremovalVehicle", true, false, false, null);
 
                     _consumer = new QueueingBasicConsumer(channel);
-                    channel.BasicConsume("TC_SnowremovalVehicle", true, _consumer);
+
                     while(true)
                     {
-                        if (_consumer.Queue.Dequeue(999999999, out ea))
+                        channel.BasicConsume("TC_SnowremovalVehicle", true, _consumer);
+                        if (_consumer.Queue.Dequeue(30000, out ea))
                         {
                             var body = ea.Body;
                             var message = Encoding.UTF8.GetString(body);
@@ -77,6 +78,10 @@ namespace Snowplug
                                 CurrentCoef = newCoef;
                                 Logger.SendMessage(String.Format("Коэффициент изменился {0}", newCoef));
                             }
+                        }
+                        else
+                        {
+                            Logger.SendMessage(String.Format("Коэффициент не изменился за 30 секунд"));
                         }
                     }
 

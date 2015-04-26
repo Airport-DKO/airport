@@ -12,6 +12,9 @@ namespace Refueler
         private static readonly object _lockObject = new object();
         public static void SendMessage(int level, string componentName, string message)
         {
+            try
+            {
+
             lock (_lockObject)
             {
                 var factory = new ConnectionFactory
@@ -47,6 +50,11 @@ namespace Refueler
                 Channel.BasicPublish("", QueueName, null, body);
                 Channel.Close();
                 connection.Close();
+            }
+
+            }
+            catch (Exception)
+            {
             }
         }
     }
