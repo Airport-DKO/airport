@@ -198,9 +198,9 @@
             this.label6.BackColor = System.Drawing.Color.Transparent;
             this.label6.Location = new System.Drawing.Point(12, 185);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(107, 13);
+            this.label6.Size = new System.Drawing.Size(83, 13);
             this.label6.TabIndex = 16;
-            this.label6.Text = "Set fake wind speed:";
+            this.label6.Text = "Set wind speed:";
             // 
             // Form1
             // 

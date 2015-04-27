@@ -21,7 +21,8 @@ namespace WeatherGUI
         delegate void rename(string s);
         delegate string getcity();
 
-        const int TIME = 3000;
+        const int TIME = 30000;
+        const bool WhithOutSpam = false;
 
         public Form1()
         {
@@ -63,12 +64,14 @@ namespace WeatherGUI
                 {
                     try
                     {
-                        label5.Invoke(new rename((b) => label5.Text = b), w.GetTemperature(true).ToString());
+                        label5.Invoke(new rename((b) => label5.Text = b), w.GetTemperature(WhithOutSpam).ToString());
 
                     }
                     catch
                     {
-                        break;
+                        //Console.Beep();
+                        label5.Invoke(new rename((b) => label5.Text = b), "retry...");
+                        continue;
                     }
                     Thread.Sleep(TIME);
                     
@@ -141,7 +144,7 @@ namespace WeatherGUI
                 {
                     try
                     {
-                        label5.Invoke(new rename((b) => label5.Text = b), w.GetTemperature(true).ToString());
+                        label5.Invoke(new rename((b) => label5.Text = b), w.GetTemperature(WhithOutSpam).ToString());
 
                     }
                     catch
