@@ -29,16 +29,25 @@ namespace DashBoard
 
             m_EventStopThread = new ManualResetEvent(false);
             m_EventThreadStopped = new ManualResetEvent(false);
-
-
             m_EventStopThread.Reset();
             m_EventThreadStopped.Reset();
 
             m_WorkerThread = new Thread(new ThreadStart(this.WorkerThreadFunction));
-
             m_WorkerThread.Name = "Status Thread";
-
             m_WorkerThread.Start();
+
+
+            m_EventStopThread2 = new ManualResetEvent(false);
+            m_EventThreadStopped2 = new ManualResetEvent(false);
+            m_EventStopThread2.Reset();
+            m_EventThreadStopped2.Reset();
+
+
+            m_RabbitWorkerThread = new Thread(new ThreadStart(this.RabbitWorkerThreadFunction));
+            m_RabbitWorkerThread.Name = "Rabbit Thread";
+            m_RabbitWorkerThread.Start();
+
+
         }
 
 
@@ -47,12 +56,18 @@ namespace DashBoard
         public delegate void DelegateThreadFinished();
 
         Thread m_WorkerThread;
+        Thread m_RabbitWorkerThread;
 
         ManualResetEvent m_EventStopThread;
         ManualResetEvent m_EventThreadStopped;
 
+
+        ManualResetEvent m_EventStopThread2;
+        ManualResetEvent m_EventThreadStopped2;
+
         public DelegateAddString m_DelegateAddString;
         public DelegateThreadFinished m_DelegateThreadFinished;
+        public DelegateThreadFinished m_DelegateThreadFinished2;
 
 
 
@@ -214,6 +229,15 @@ namespace DashBoard
             longProcess.Run();
         }
 
+        private void RabbitWorkerThreadFunction()
+        {
+            RabbitWorker longProcess;
+
+            longProcess = new RabbitWorker(m_EventStopThread2, m_EventThreadStopped2, this);
+
+            longProcess.Run();
+        }
+
         private void PutMinusOne()
         {
             ConnectionFactory factory = new ConnectionFactory();
@@ -264,10 +288,43 @@ namespace DashBoard
         }
 
 
+        private void StopWorkerThread()
+        {
+
+            PutMinusOne();
+
+            if (m_RabbitWorkerThread != null && m_RabbitWorkerThread.IsAlive)
+            {
+                m_EventStopThread2.Set();
+
+                while (m_RabbitWorkerThread.IsAlive)
+                {
+                    if (WaitHandle.WaitAll(
+                        (new ManualResetEvent[] { m_EventThreadStopped2 }),
+                        100,
+                        true))
+                    {
+                        break;
+                    }
+
+                    Application.DoEvents();
+                }
+            }
+
+
+        }
+
+
 
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
         {
             StopThread();
+            StopWorkerThread();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
         }
 
 

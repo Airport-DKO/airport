@@ -12,18 +12,18 @@ using RabbitMQ.Client.Events;
 
 namespace DashBoard
 {
-    class Process
+    class RabbitWorker
     {
-        ManualResetEvent m_EventStop;
-        ManualResetEvent m_EventStopped;
+        ManualResetEvent m_EventStop2;
+        ManualResetEvent m_EventStopped2;
         DashBoard.Form1 m_form;
 
-        public Process(ManualResetEvent eventStop,
+        public RabbitWorker(ManualResetEvent eventStop,
                            ManualResetEvent eventStopped,
                            DashBoard.Form1 form)
         {
-            m_EventStop = eventStop;
-            m_EventStopped = eventStopped;
+            m_EventStop2 = eventStop;
+            m_EventStopped2 = eventStopped;
             m_form = form;
         }
 
@@ -36,7 +36,7 @@ namespace DashBoard
 
                     while (true)
                     {
-                        BasicDeliverEventArgs ea;
+                        Thread.Sleep(5000);
                         ConnectionFactory factory = new ConnectionFactory();
                         factory.UserName = "tester";
                         factory.Password = "tester";
@@ -49,30 +49,19 @@ namespace DashBoard
 
                         channel.QueueDeclare("StatusQueue", false, false, false, null);
 
-                        var consumer = new QueueingBasicConsumer(channel);
-                        channel.BasicConsume("StatusQueue", true, consumer);
+                        string message = "-1";
+                        var body = Encoding.UTF8.GetBytes(message);
+                        channel.BasicPublish("", "StatusQueue", null, body);
 
-                        if (consumer.Queue.Dequeue(20000, out ea))
-                        {
-                            var body_read = ea.Body;
-                            var message_read = Encoding.UTF8.GetString(body_read);
-                            Thread.Sleep(1);
+                        channel.Close();
+                        connection.Close();
 
-
-                            m_form.Invoke(m_form.m_DelegateAddString, new Object[] { message_read });
-
-                            channel.Close();
-                            connection.Close();
-
-                        }
-
-                        if (m_EventStop.WaitOne(0, true))
-                        {
-                            m_EventStopped.Set();
-                            return;
-                        }
+                            if (m_EventStop2.WaitOne(0, true))
+                            {
+                                m_EventStopped2.Set();
+                                return;
+                            }
                     }
-                    m_form.Invoke(m_form.m_DelegateThreadFinished, null);
                 }
                 catch
                 {
