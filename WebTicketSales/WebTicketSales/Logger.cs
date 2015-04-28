@@ -22,6 +22,7 @@ namespace WebTicketSales
 
             lock (_lockObject)
             {
+                MetrologService.MetrologService metrolog = new MetrologService.MetrologService();
                 var factory = new ConnectionFactory
                 {
                     UserName = "tester",
@@ -40,7 +41,7 @@ namespace WebTicketSales
                 //декларируем имя очереди
                 Channel.QueueDeclare(QueueName, false, false, false, null);
 
-                MetrologService.MetrologService metrolog = new MetrologService.MetrologService();
+                
 
 
                 DateTime dt = metrolog.GetCurrentTime(); //узнаем время у метрологической службы

@@ -18,6 +18,7 @@ namespace VIPShuttle
   
             lock (_lockObject)
             {
+                var metrolog = new MetrologService();
                 var factory = new ConnectionFactory
                 {
                     UserName = "tester1",
@@ -35,7 +36,7 @@ namespace VIPShuttle
                 //декларируем имя очереди
                 Channel.QueueDeclare(QueueName, false, false, false, null);
 
-                DateTime dt = new MetrologService().GetCurrentTime(); //узнаем время у метрологической службы
+                DateTime dt = metrolog.GetCurrentTime(); //узнаем время у метрологической службы
 
                 /*Кладем сообщения строго в очередь LoggerQueue сторого в указанном ниже формате:
             07.04.2015_23:28:22_1_TestMQ_Hello World!*/

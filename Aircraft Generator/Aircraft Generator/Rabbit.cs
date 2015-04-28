@@ -77,15 +77,14 @@ namespace Aircraft_Generator
                                 }
                                 CurrentCoef = newCoef;
 
-                                Logger.SendMessage(0, "AircraftGenerator", "Новый коэффициент скорости " + newCoef,
-                                    DateTime.MinValue);
+                                Logger.SendMessage(0, "AircraftGenerator", "Новый коэффициент скорости " + newCoef);
                             }
                         }
 
                         else
                         {
                             Logger.SendMessage(0, "AircraftGenerator",
-                                "Новый коэффициент скорости не приходил в таймаут", DateTime.MinValue);
+                                "Новый коэффициент скорости не приходил в таймаут");
                         }
                     }
                     channel.Close();

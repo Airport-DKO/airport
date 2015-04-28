@@ -14,6 +14,7 @@ namespace WebInformationPanel
 
                 lock (_lockObject)
                 {
+                    var metrolog = new MetrologService.MetrologService();
                     var factory = new ConnectionFactory
                     {
                         UserName = "tester1",
@@ -31,7 +32,7 @@ namespace WebInformationPanel
                     //декларируем имя очереди
                     Channel.QueueDeclare(QueueName, false, false, false, null);
 
-                    DateTime dt = new MetrologService.MetrologService().GetCurrentTime(); //узнаем время у метрологической службы
+                    DateTime dt = metrolog.GetCurrentTime(); //узнаем время у метрологической службы
 
                     /*Кладем сообщения строго в очередь LoggerQueue сторого в указанном ниже формате:
                 07.04.2015_23:28:22_1_TestMQ_Hello World!*/

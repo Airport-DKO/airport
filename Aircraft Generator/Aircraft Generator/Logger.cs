@@ -17,13 +17,14 @@ namespace Aircraft_Generator
 
         }
 
-        public static void SendMessage(int level, string componentName, string message, DateTime dateTime)
+        public static void SendMessage(int level, string componentName, string message)
         {
             try
             {
 
             lock (_lockObject)
             {
+                var metrolog = new MetrologicalService.MetrologService();
                 var factory = new ConnectionFactory
                 {
                     UserName = "tester",
@@ -42,7 +43,7 @@ namespace Aircraft_Generator
                 //декларируем имя очереди
                 Channel.QueueDeclare(QueueName, false, false, false, null);
 
-                DateTime dt = dateTime; //узнаем время у метрологической службы
+                DateTime dt = metrolog.GetCurrentTime(); //узнаем время у метрологической службы
 
                 /*Кладем сообщения строго в очередь LoggerQueue сторого в указанном ниже формате:
             07.04.2015_23:28:22_1_TestMQ_Hello World!*/
