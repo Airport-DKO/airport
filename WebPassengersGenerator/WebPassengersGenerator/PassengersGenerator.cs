@@ -112,7 +112,7 @@ namespace WebPassengersGenerator
                     default:
                         break;
                 }
-                Thread.Sleep(generateSleep);
+                Thread.Sleep(100);
             }
         }
 
@@ -145,6 +145,7 @@ namespace WebPassengersGenerator
         public void Reset()
         {
             passengers.Clear();
+            statistic = new PassengersStatistic();
         }
 
         private void SendMsgToLogger(int status, string text)
@@ -175,6 +176,10 @@ namespace WebPassengersGenerator
             }
         }
 
+        /// <summary>
+        /// отправляет статистику о питании на дашборт
+        /// </summary>
+        /// <param name="f">тип еды</param>
         private void sendCateringStatistic(Food f)
         {
             try

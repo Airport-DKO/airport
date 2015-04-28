@@ -247,7 +247,7 @@ namespace WebInformationPanel
 
                 if (time < f.arrivalTime)
                     return "Ожидается";
-                if (time >= f.arrivalTime && f.BindPlaneID == null)
+                if (time >= f.arrivalTime && time <= f.StartRegistrationTime && f.BindPlaneID == null)
                     return "Задерживается";
                 if ((time >= f.StartRegistrationTime && time <= f.EndRegistrationTime) && f.BindPlaneID == null)
                     return "Регистрация началась (борт ожидается)";
@@ -286,7 +286,7 @@ namespace WebInformationPanel
                 var flights = FlightsBase.Where(s => time >= s.takeoffTime && s.IsReadyTakeOff == false);
                 foreach (var flight in flights)
                 {
-                    flight.takeoffTime = time.AddMinutes(20);
+                    flight.takeoffTime = time.AddMinutes(10);
                     SendMsgToLogger(1, "Вылет рейса перенесён " + flight.number);
                 }
                 Thread.Sleep(100);

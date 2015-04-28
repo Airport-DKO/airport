@@ -63,6 +63,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+    <None Include="Properties\PublishProfiles\airport-dko-passengers %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\airport-dko-passengers.pubxml" />
     <Content Include="Web References\CheckInService\Catering.datasource">
       <DependentUpon>Reference.map</DependentUpon>
